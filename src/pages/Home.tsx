@@ -1,9 +1,11 @@
 import { StatusCard } from '@/components/StatusCard';
 import { StatsDisplay } from '@/components/StatsDisplay';
+import { DemoLinkButton } from '@/components/DemoLinkButton';
 import { useApp } from '@/contexts/AppContext';
+import { Card } from '@/components/ui/card';
 
 export default function Home() {
-  const { t } = useApp();
+  const { t, state } = useApp();
   
   return (
     <div className="p-4 space-y-6 animate-fade-in">
@@ -24,6 +26,23 @@ export default function Home() {
       <section>
         <StatsDisplay />
       </section>
+
+      {/* Demo Section - only shown for testing */}
+      {state.isProtectionEnabled && (
+        <Card className="p-4 card-elevated">
+          <h3 className="font-medium text-foreground mb-3">
+            Test Protection
+          </h3>
+          <p className="text-sm text-muted-foreground mb-4">
+            Tap below to simulate receiving a suspicious link
+          </p>
+          <DemoLinkButton 
+            url="https://suspicious-site.example.com/claim-prize"
+            source="SMS"
+            label="Simulate Suspicious Link"
+          />
+        </Card>
+      )}
     </div>
   );
 }
