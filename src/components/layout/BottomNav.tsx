@@ -5,13 +5,13 @@ import { cn } from '@/lib/utils';
 
 interface NavItem {
   path: string;
-  labelKey: 'home' | 'protection' | 'settings';
+  labelKey: 'home' | 'safety' | 'settings';
   icon: React.ComponentType<{ className?: string }>;
 }
 
 const navItems: NavItem[] = [
   { path: '/', labelKey: 'home', icon: Home },
-  { path: '/protection', labelKey: 'protection', icon: Shield },
+  { path: '/protection', labelKey: 'safety', icon: Shield },
   { path: '/settings', labelKey: 'settings', icon: Settings },
 ];
 

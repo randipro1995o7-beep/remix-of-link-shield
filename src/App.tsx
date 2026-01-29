@@ -4,7 +4,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AppProvider } from "@/contexts/AppContext";
-import { PinProvider } from "@/contexts/PinContext";
+import { SafetyPinProvider } from "@/contexts/SafetyPinContext";
 import { LinkInterceptionProvider } from "@/contexts/LinkInterceptionContext";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { AppLayout } from "@/components/layout/AppLayout";
@@ -46,7 +46,7 @@ const App = () => (
   <ErrorBoundary>
     <QueryClientProvider client={queryClient}>
       <AppProvider>
-        <PinProvider>
+        <SafetyPinProvider>
           <LinkInterceptionProvider>
             <TooltipProvider>
               <Toaster />
@@ -56,7 +56,7 @@ const App = () => (
               </BrowserRouter>
             </TooltipProvider>
           </LinkInterceptionProvider>
-        </PinProvider>
+        </SafetyPinProvider>
       </AppProvider>
     </QueryClientProvider>
   </ErrorBoundary>

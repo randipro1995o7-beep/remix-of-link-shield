@@ -1,17 +1,22 @@
 import { useState, useEffect } from 'react';
 import { StopScreen } from './StopScreen';
-import { PinCreation } from './PinCreation';
-import { PinVerification } from './PinVerification';
+import { SafetyPinCreation } from './SafetyPinCreation';
+import { SafetyPinVerification } from './SafetyPinVerification';
+import { SafetyReviewScreen } from './SafetyReviewScreen';
+import { SkipConfirmationDialog } from './SkipConfirmationDialog';
 import { useLinkInterception } from '@/contexts/LinkInterceptionContext';
-import { usePin } from '@/contexts/PinContext';
+import { useSafetyPin } from '@/contexts/SafetyPinContext';
+import { useApp } from '@/contexts/AppContext';
 import { toast } from 'sonner';
 
-type FlowStep = 'stop' | 'pin-create' | 'pin-verify' | 'allowed' | 'blocked';
+type FlowStep = 'stop' | 'pin-create' | 'pin-verify' | 'safety-review' | 'allowed' | 'blocked';
 
 export function LinkInterceptionFlow() {
   const { currentLink, allowLink, blockLink } = useLinkInterception();
-  const { hasPin, resetVerification } = usePin();
+  const { hasSafetyPin, resetVerification, isLoading: pinLoading, error: pinError } = useSafetyPin();
+  const { t } = useApp();
   const [step, setStep] = useState<FlowStep>('stop');
+  const [showSkipConfirmation, setShowSkipConfirmation] = useState(false);
 
   // Reset flow when a new link comes in
   useEffect(() => {
@@ -21,22 +26,33 @@ export function LinkInterceptionFlow() {
     }
   }, [currentLink, resetVerification]);
 
-  if (!currentLink) return null;
+  // Fail-safe: if there's a PIN error, block the link
+  useEffect(() => {
+    if (pinError && currentLink) {
+      toast.error(t.errors.securityError);
+      blockLink();
+    }
+  }, [pinError, currentLink, blockLink, t]);
+
+  if (!currentLink || pinLoading) return null;
 
   const handleContinue = () => {
-    if (hasPin) {
+    if (hasSafetyPin) {
       setStep('pin-verify');
     } else {
       setStep('pin-create');
     }
   };
 
-  const handleSkip = () => {
-    // User chose to skip - allow the link but show a gentle reminder
-    toast.info("Stay safe! Consider using verification next time.", {
-      duration: 3000,
-    });
-    allowLink();
+  const handleSkipRequest = () => {
+    // Show confirmation dialog instead of immediately skipping
+    setShowSkipConfirmation(true);
+  };
+
+  const handleSkipConfirmed = () => {
+    setShowSkipConfirmation(false);
+    // User confirmed skip - show safety review without PIN
+    setStep('safety-review');
   };
 
   const handleCancel = () => {
@@ -44,40 +60,49 @@ export function LinkInterceptionFlow() {
   };
 
   const handlePinCreated = () => {
-    // PIN just created, user verified themselves in the process
-    toast.success("PIN created! Link opening...", {
-      duration: 2000,
-    });
-    allowLink();
+    // PIN just created, proceed to safety review
+    toast.success(t.safetyPin.created, { duration: 2000 });
+    setStep('safety-review');
   };
 
   const handlePinVerified = () => {
-    toast.success("Verified! Opening link...", {
-      duration: 2000,
-    });
-    allowLink();
+    toast.success(t.safetyPin.verified, { duration: 2000 });
+    setStep('safety-review');
   };
 
   const handlePinFailed = () => {
-    toast.error("Link blocked for your safety", {
-      duration: 3000,
-    });
+    toast.error(t.safetyPin.blocked, { duration: 3000 });
     blockLink();
+  };
+
+  const handleReviewCancel = () => {
+    blockLink();
+  };
+
+  const handleReviewProceed = () => {
+    allowLink();
   };
 
   switch (step) {
     case 'stop':
       return (
-        <StopScreen
-          onContinue={handleContinue}
-          onSkip={handleSkip}
-          onCancel={handleCancel}
-        />
+        <>
+          <StopScreen
+            onContinue={handleContinue}
+            onSkip={handleSkipRequest}
+            onCancel={handleCancel}
+          />
+          <SkipConfirmationDialog
+            open={showSkipConfirmation}
+            onOpenChange={setShowSkipConfirmation}
+            onConfirmSkip={handleSkipConfirmed}
+          />
+        </>
       );
 
     case 'pin-create':
       return (
-        <PinCreation
+        <SafetyPinCreation
           onComplete={handlePinCreated}
           onCancel={handleCancel}
         />
@@ -85,10 +110,19 @@ export function LinkInterceptionFlow() {
 
     case 'pin-verify':
       return (
-        <PinVerification
+        <SafetyPinVerification
           onSuccess={handlePinVerified}
           onCancel={handleCancel}
           onFail={handlePinFailed}
+        />
+      );
+
+    case 'safety-review':
+      return (
+        <SafetyReviewScreen
+          url={currentLink.url}
+          onCancel={handleReviewCancel}
+          onProceed={handleReviewProceed}
         />
       );
 

@@ -31,15 +31,15 @@ export default function Home() {
       {state.isProtectionEnabled && (
         <Card className="p-4 card-elevated">
           <h3 className="font-medium text-foreground mb-3">
-            Test Protection
+            {t.home.testSafety}
           </h3>
           <p className="text-sm text-muted-foreground mb-4">
-            Tap below to simulate receiving a suspicious link
+            {t.home.testSafetyDesc}
           </p>
           <DemoLinkButton 
             url="https://suspicious-site.example.com/claim-prize"
             source="SMS"
-            label="Simulate Suspicious Link"
+            label={t.home.simulateLink}
           />
         </Card>
       )}
