@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { Hand, ChevronRight, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useLinkInterception } from '@/contexts/LinkInterceptionContext';
+import { useApp } from '@/contexts/AppContext';
 import { cn } from '@/lib/utils';
 
 interface StopScreenProps {
@@ -16,6 +17,7 @@ export function StopScreen({ onContinue, onSkip, onCancel }: StopScreenProps) {
   const [countdown, setCountdown] = useState(COUNTDOWN_SECONDS);
   const [canContinue, setCanContinue] = useState(false);
   const { currentLink } = useLinkInterception();
+  const { t } = useApp();
 
   useEffect(() => {
     if (countdown <= 0) {
@@ -49,7 +51,7 @@ export function StopScreen({ onContinue, onSkip, onCancel }: StopScreenProps) {
         <button
           onClick={onCancel}
           className="w-12 h-12 flex items-center justify-center rounded-full hover:bg-muted transition-colors"
-          aria-label="Cancel"
+          aria-label={t.common.cancel}
         >
           <X className="w-6 h-6 text-muted-foreground" />
         </button>
@@ -70,22 +72,22 @@ export function StopScreen({ onContinue, onSkip, onCancel }: StopScreenProps) {
 
         {/* Main message */}
         <h1 className="text-display text-foreground mb-4">
-          Let's pause for a moment
+          {t.stopScreen.title}
         </h1>
 
         <p className="text-body-lg text-muted-foreground mb-6 max-w-sm">
-          You're about to open an external link. Take a moment to make sure it's safe.
+          {t.stopScreen.subtitle}
         </p>
 
         {/* Link preview */}
         <div className="w-full max-w-sm bg-muted/50 rounded-xl p-4 mb-8">
-          <p className="text-sm text-muted-foreground mb-1">Link destination:</p>
+          <p className="text-sm text-muted-foreground mb-1">{t.stopScreen.linkDestination}</p>
           <p className="text-foreground font-medium break-all">
             {getDomain(currentLink.url)}
           </p>
           {currentLink.source && (
             <p className="text-xs text-muted-foreground mt-2">
-              Shared from {currentLink.source}
+              {t.stopScreen.sharedFrom} {currentLink.source}
             </p>
           )}
         </div>
@@ -97,7 +99,7 @@ export function StopScreen({ onContinue, onSkip, onCancel }: StopScreenProps) {
               <span className="text-3xl font-bold text-primary">{countdown}</span>
             </div>
             <p className="text-muted-foreground">
-              Please wait {countdown} second{countdown !== 1 ? 's' : ''}
+              {t.stopScreen.pleaseWait} {countdown} {countdown !== 1 ? t.stopScreen.seconds : t.stopScreen.second}
             </p>
           </div>
         ) : (
@@ -106,7 +108,7 @@ export function StopScreen({ onContinue, onSkip, onCancel }: StopScreenProps) {
             size="lg"
             className="w-full max-w-sm h-14 text-lg gap-2"
           >
-            Continue to inspection
+            {t.stopScreen.continueToReview}
             <ChevronRight className="w-5 h-5" />
           </Button>
         )}
@@ -118,7 +120,7 @@ export function StopScreen({ onContinue, onSkip, onCancel }: StopScreenProps) {
           onClick={onSkip}
           className="w-full text-center text-sm text-muted-foreground/60 hover:text-muted-foreground transition-colors py-2"
         >
-          Skip verification (not recommended)
+          {t.stopScreen.skipNotRecommended}
         </button>
       </div>
     </div>

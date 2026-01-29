@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import { ArrowLeft, ShieldCheck } from 'lucide-react';
 import { PinPad } from './PinPad';
-import { usePin } from '@/contexts/PinContext';
+import { useSafetyPin } from '@/contexts/SafetyPinContext';
+import { useApp } from '@/contexts/AppContext';
 
-interface PinVerificationProps {
+interface SafetyPinVerificationProps {
   onSuccess: () => void;
   onCancel: () => void;
   onFail: () => void;
@@ -11,28 +12,39 @@ interface PinVerificationProps {
 
 const MAX_ATTEMPTS = 3;
 
-export function PinVerification({ onSuccess, onCancel, onFail }: PinVerificationProps) {
+export function SafetyPinVerification({ onSuccess, onCancel, onFail }: SafetyPinVerificationProps) {
   const [error, setError] = useState('');
   const [attempts, setAttempts] = useState(0);
-  const { verifyPin } = usePin();
+  const { verifySafetyPin } = useSafetyPin();
+  const { t } = useApp();
 
-  const handlePinComplete = (pin: string) => {
-    if (verifyPin(pin)) {
-      onSuccess();
-    } else {
-      const newAttempts = attempts + 1;
-      setAttempts(newAttempts);
+  const handlePinComplete = async (pin: string) => {
+    try {
+      const isCorrect = await verifySafetyPin(pin);
       
-      if (newAttempts >= MAX_ATTEMPTS) {
-        setError('Too many incorrect attempts');
-        // Delay before blocking
-        setTimeout(() => {
-          onFail();
-        }, 1500);
+      if (isCorrect) {
+        onSuccess();
       } else {
-        const remaining = MAX_ATTEMPTS - newAttempts;
-        setError(`Incorrect PIN. ${remaining} attempt${remaining !== 1 ? 's' : ''} remaining.`);
+        const newAttempts = attempts + 1;
+        setAttempts(newAttempts);
+        
+        if (newAttempts >= MAX_ATTEMPTS) {
+          setError(t.safetyPin.tooManyAttempts);
+          // Delay before blocking
+          setTimeout(() => {
+            onFail();
+          }, 1500);
+        } else {
+          const remaining = MAX_ATTEMPTS - newAttempts;
+          setError(`${t.safetyPin.incorrectError} ${remaining} ${t.safetyPin.attemptsRemaining}.`);
+        }
       }
+    } catch {
+      // Fail-safe: block on error
+      setError(t.errors.securityError);
+      setTimeout(() => {
+        onFail();
+      }, 1500);
     }
   };
 
@@ -43,7 +55,7 @@ export function PinVerification({ onSuccess, onCancel, onFail }: PinVerification
         <button
           onClick={onCancel}
           className="w-12 h-12 flex items-center justify-center rounded-full hover:bg-muted transition-colors"
-          aria-label="Cancel"
+          aria-label={t.common.cancel}
         >
           <ArrowLeft className="w-6 h-6 text-foreground" />
         </button>
@@ -61,8 +73,8 @@ export function PinVerification({ onSuccess, onCancel, onFail }: PinVerification
         <PinPad
           onComplete={handlePinComplete}
           onCancel={onCancel}
-          title="Enter your PIN"
-          subtitle="Confirm it's really you"
+          title={t.safetyPin.verifyTitle}
+          subtitle={t.safetyPin.verifySubtitle}
           error={error}
           showCancel={false}
         />

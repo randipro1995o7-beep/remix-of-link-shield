@@ -21,7 +21,7 @@ export function StatsDisplay() {
     {
       icon: Calendar,
       value: protectedSince ? format(protectedSince, 'MMM d, yyyy') : '—',
-      label: t.home.protectedSince,
+      label: t.home.safetyActiveSince,
     },
   ];
   

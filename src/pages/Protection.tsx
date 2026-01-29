@@ -13,12 +13,12 @@ export default function Protection() {
     state.permissions.overlay &&
     state.permissions.notifications;
   
-  const canEnableProtection = allPermissionsGranted;
+  const canEnableSafety = allPermissionsGranted;
   
-  const handleToggleProtection = () => {
+  const handleToggleSafety = () => {
     if (state.isProtectionEnabled) {
       setProtectionEnabled(false);
-    } else if (canEnableProtection) {
+    } else if (canEnableSafety) {
       setProtectionEnabled(true);
     }
   };
@@ -34,11 +34,11 @@ export default function Protection() {
       {/* Header */}
       <header className="pt-4 pb-2">
         <h1 className="text-display text-foreground">
-          {t.protection.title}
+          {t.safety.title}
         </h1>
       </header>
       
-      {/* Protection Toggle Card */}
+      {/* Safety Toggle Card */}
       <Card className="p-6 card-elevated">
         <div className="flex flex-col items-center text-center space-y-4">
           {/* Status Icon */}
@@ -61,21 +61,21 @@ export default function Protection() {
           <div>
             <h2 className="text-title text-foreground mb-1">
               {state.isProtectionEnabled
-                ? t.protection.enabled
-                : t.protection.disabled}
+                ? t.safety.enabled
+                : t.safety.disabled}
             </h2>
-            {!canEnableProtection && !state.isProtectionEnabled && (
+            {!canEnableSafety && !state.isProtectionEnabled && (
               <p className="text-sm text-warning">
-                {t.protection.permissionsNeeded}
+                {t.safety.permissionsNeeded}
               </p>
             )}
           </div>
           
           {/* Toggle Button */}
           <Button
-            onClick={handleToggleProtection}
+            onClick={handleToggleSafety}
             size="lg"
-            disabled={!canEnableProtection && !state.isProtectionEnabled}
+            disabled={!canEnableSafety && !state.isProtectionEnabled}
             className={cn(
               "w-full max-w-xs transition-all duration-300",
               state.isProtectionEnabled
@@ -84,8 +84,8 @@ export default function Protection() {
             )}
           >
             {state.isProtectionEnabled
-              ? t.protection.disableProtection
-              : t.protection.enableProtection}
+              ? t.safety.disableSafety
+              : t.safety.enableSafety}
           </Button>
         </div>
       </Card>
@@ -98,8 +98,8 @@ export default function Protection() {
         
         <PermissionItem
           icon={Eye}
-          title={t.permissions.accessibility}
-          description={t.permissions.accessibilityDesc}
+          title={t.permissions.linkDetection}
+          description={t.permissions.linkDetectionDesc}
           isGranted={state.permissions.accessibility}
           onGrant={() => handleGrantPermission('accessibility')}
           grantLabel={t.permissions.grant}
@@ -108,8 +108,8 @@ export default function Protection() {
         
         <PermissionItem
           icon={Layers}
-          title={t.permissions.overlay}
-          description={t.permissions.overlayDesc}
+          title={t.permissions.safetyScreen}
+          description={t.permissions.safetyScreenDesc}
           isGranted={state.permissions.overlay}
           onGrant={() => handleGrantPermission('overlay')}
           grantLabel={t.permissions.grant}
@@ -118,8 +118,8 @@ export default function Protection() {
         
         <PermissionItem
           icon={Bell}
-          title={t.permissions.notifications}
-          description={t.permissions.notificationsDesc}
+          title={t.permissions.safetyAlerts}
+          description={t.permissions.safetyAlertsDesc}
           isGranted={state.permissions.notifications}
           isRequired={false}
           onGrant={() => handleGrantPermission('notifications')}
