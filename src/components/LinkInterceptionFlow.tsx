@@ -121,6 +121,7 @@ export function LinkInterceptionFlow() {
       return (
         <SafetyReviewScreen
           url={currentLink.url}
+          source={currentLink.source}
           onCancel={handleReviewCancel}
           onProceed={handleReviewProceed}
         />

@@ -53,6 +53,12 @@ export interface TranslationKeys {
     version: string;
     resetSafetyPin: string;
     resetSafetyPinDesc: string;
+    safetyHistory: string;
+    safetyHistoryDesc: string;
+    familyMode: string;
+    familyModeDesc: string;
+    premium: string;
+    premiumDesc: string;
   };
   
   // Permissions
@@ -128,14 +134,75 @@ export interface TranslationKeys {
     skipAnyway: string;
   };
   
+  // High Risk confirmation
+  highRisk: {
+    title: string;
+    description: string;
+    acknowledgment: string;
+    cancel: string;
+    holdToOpen: string;
+    acknowledgeFirst: string;
+    holdInstruction: string;
+  };
+  
+  // Safety History
+  history: {
+    title: string;
+    empty: string;
+    emptyDesc: string;
+    insights: string;
+    recentLinks: string;
+    from: string;
+    dataNotice: string;
+    clearTitle: string;
+    clearDesc: string;
+    clearConfirm: string;
+    actions: {
+      cancelled: string;
+      opened: string;
+      blocked: string;
+    };
+  };
+  
+  // Family Mode
+  familyMode: {
+    title: string;
+    subtitle: string;
+    feature1Title: string;
+    feature1Desc: string;
+    feature2Title: string;
+    feature2Desc: string;
+    infoNotice: string;
+    setupButton: string;
+    createPinTitle: string;
+    createPinDesc: string;
+    confirmPinTitle: string;
+    confirmPinDesc: string;
+    successTitle: string;
+    successDesc: string;
+    enabled: string;
+    blocked: string;
+    blockedDesc: string;
+    guardianPinTitle: string;
+    guardianPinDesc: string;
+  };
+  
   // Errors
   errors: {
     generic: string;
+    genericDesc: string;
     networkError: string;
     securityError: string;
     tryAgain: string;
     goBack: string;
     linkBlocked: string;
+    linkBlockedSafety: string;
+    storageTitle: string;
+    storageDesc: string;
+    permissionTitle: string;
+    permissionDesc: string;
+    analysisTitle: string;
+    analysisDesc: string;
   };
   
   // Common
@@ -198,6 +265,12 @@ export const translations: Record<Language, TranslationKeys> = {
       version: 'Version',
       resetSafetyPin: 'Reset Safety PIN',
       resetSafetyPinDesc: 'Create a new 4-digit Safety PIN',
+      safetyHistory: 'Safety History',
+      safetyHistoryDesc: 'View your link checking activity',
+      familyMode: 'Family Mode',
+      familyModeDesc: 'Protect loved ones with Guardian PIN',
+      premium: 'Premium Features',
+      premiumDesc: 'Extended history, Family Mode & more',
     },
     
     permissions: {
@@ -268,13 +341,71 @@ export const translations: Record<Language, TranslationKeys> = {
       skipAnyway: 'Skip Anyway',
     },
     
+    highRisk: {
+      title: 'This Link Needs Extra Care',
+      description: 'Our checks found several concerns with this website. Please take a moment to consider before proceeding.',
+      acknowledgment: 'I understand this link may not be safe and I choose to continue',
+      cancel: 'Cancel & Stay Safe',
+      holdToOpen: 'Hold to Open Link',
+      acknowledgeFirst: 'Check the box above first',
+      holdInstruction: 'Hold the button for 1.5 seconds to open',
+    },
+    
+    history: {
+      title: 'Safety History',
+      empty: 'No links checked yet',
+      emptyDesc: 'Your link checking history will appear here',
+      insights: 'Your Safety Insights',
+      recentLinks: 'Recent Links',
+      from: 'from',
+      dataNotice: 'All data stays on your device and can be cleared anytime',
+      clearTitle: 'Clear History?',
+      clearDesc: 'This will remove all your link checking history. This cannot be undone.',
+      clearConfirm: 'Clear All History',
+      actions: {
+        cancelled: 'Cancelled',
+        opened: 'Opened',
+        blocked: 'Blocked',
+      },
+    },
+    
+    familyMode: {
+      title: 'Family Mode',
+      subtitle: 'Add extra protection for loved ones on this device',
+      feature1Title: 'Guardian PIN',
+      feature1Desc: 'A separate PIN that only guardians know, required for high-risk links',
+      feature2Title: 'Shared Protection',
+      feature2Desc: 'Perfect for children, elderly relatives, or shared devices',
+      infoNotice: 'Family Mode adds an extra layer of protection. High-risk links will require the Guardian PIN to open.',
+      setupButton: 'Set Up Family Mode',
+      createPinTitle: 'Create Guardian PIN',
+      createPinDesc: 'Choose a 4-digit PIN that only guardians will know',
+      confirmPinTitle: 'Confirm Guardian PIN',
+      confirmPinDesc: 'Enter the same 4 digits again',
+      successTitle: 'Family Mode Active',
+      successDesc: 'High-risk links now require Guardian PIN approval',
+      enabled: 'Family Mode enabled',
+      blocked: 'Access Blocked',
+      blockedDesc: 'Too many incorrect Guardian PIN attempts. Please try again later.',
+      guardianPinTitle: 'Guardian Approval Needed',
+      guardianPinDesc: 'Enter the Guardian PIN to open this high-risk link',
+    },
+    
     errors: {
       generic: 'Something went wrong',
+      genericDesc: 'We encountered an unexpected issue. For your safety, this link has been blocked.',
       networkError: 'No internet connection',
       securityError: 'Security check failed',
       tryAgain: 'Try Again',
       goBack: 'Go Back',
       linkBlocked: 'Link blocked for your safety',
+      linkBlockedSafety: 'For your safety, this link has been blocked. You can try again or go back.',
+      storageTitle: 'Unable to Access Storage',
+      storageDesc: 'We couldn\'t access secure storage on your device. For your safety, this link has been blocked.',
+      permissionTitle: 'Permission Required',
+      permissionDesc: 'Link Guardian needs permission to check this link. For your safety, it has been blocked.',
+      analysisTitle: 'Unable to Check Link',
+      analysisDesc: 'We couldn\'t complete the safety check for this link. For your safety, it has been blocked.',
     },
     
     common: {
