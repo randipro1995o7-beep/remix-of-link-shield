@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { SafetyPinStorage } from '@/lib/secureStorage';
+import { SafetyPinService } from '@/lib/storage';
 
 interface SafetyPinContextType {
   hasSafetyPin: boolean;
@@ -28,7 +28,7 @@ export function SafetyPinProvider({ children }: SafetyPinProviderProps) {
   useEffect(() => {
     const checkSafetyPin = async () => {
       try {
-        const exists = await SafetyPinStorage.exists();
+        const exists = await SafetyPinService.exists();
         setHasSafetyPin(exists);
       } catch (err) {
         console.error('Failed to check Safety PIN:', err);
@@ -49,7 +49,7 @@ export function SafetyPinProvider({ children }: SafetyPinProviderProps) {
     }
     
     try {
-      await SafetyPinStorage.save(pin);
+      await SafetyPinService.save(pin);
       setHasSafetyPin(true);
       setIsVerified(true);
       setError(null);
@@ -62,15 +62,7 @@ export function SafetyPinProvider({ children }: SafetyPinProviderProps) {
 
   const verifySafetyPin = async (pin: string): Promise<boolean> => {
     try {
-      const storedPin = await SafetyPinStorage.get();
-      
-      // Fail-safe: if we can't retrieve the PIN, block access
-      if (storedPin === null) {
-        setError('Unable to verify Safety PIN');
-        return false;
-      }
-      
-      const isCorrect = storedPin === pin;
+      const isCorrect = await SafetyPinService.verify(pin);
       if (isCorrect) {
         setIsVerified(true);
         setError(null);
@@ -91,7 +83,7 @@ export function SafetyPinProvider({ children }: SafetyPinProviderProps) {
 
   const clearSafetyPin = async () => {
     try {
-      await SafetyPinStorage.clear();
+      await SafetyPinService.clear();
       setHasSafetyPin(false);
       setIsVerified(false);
       setError(null);

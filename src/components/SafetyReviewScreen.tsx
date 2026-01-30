@@ -3,10 +3,14 @@ import { ArrowLeft, Shield, ShieldAlert, ShieldX, CheckCircle, AlertTriangle, XC
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { performSafetyReview, SafetyReviewResult, SafetyCheck, RiskLevel } from '@/lib/safetyReview';
+import { SafetyHistoryService, FamilyModeService } from '@/lib/storage';
 import { cn } from '@/lib/utils';
+import { HighRiskConfirmation } from './HighRiskConfirmation';
+import { GuardianPinVerification } from './GuardianPinVerification';
 
 interface SafetyReviewScreenProps {
   url: string;
+  source?: string;
   onCancel: () => void;
   onProceed: () => void;
 }
@@ -53,21 +57,84 @@ function CheckIcon({ check }: { check: SafetyCheck }) {
   return <AlertTriangle className="w-5 h-5 text-warning flex-shrink-0" />;
 }
 
-export function SafetyReviewScreen({ url, onCancel, onProceed }: SafetyReviewScreenProps) {
+export function SafetyReviewScreen({ url, source, onCancel, onProceed }: SafetyReviewScreenProps) {
   const [review, setReview] = useState<SafetyReviewResult | null>(null);
   const [isAnalyzing, setIsAnalyzing] = useState(true);
   const [showAllChecks, setShowAllChecks] = useState(false);
+  const [showHighRiskConfirm, setShowHighRiskConfirm] = useState(false);
+  const [showGuardianPin, setShowGuardianPin] = useState(false);
+  const [familyModeEnabled, setFamilyModeEnabled] = useState(false);
 
   useEffect(() => {
-    // Simulate brief analysis time for user experience
-    const timer = setTimeout(() => {
+    const init = async () => {
+      // Check family mode status
+      const isFamilyMode = await FamilyModeService.isEnabled();
+      setFamilyModeEnabled(isFamilyMode);
+      
+      // Simulate brief analysis time for user experience
+      await new Promise(resolve => setTimeout(resolve, 1200));
       const result = performSafetyReview(url);
       setReview(result);
       setIsAnalyzing(false);
-    }, 1200);
-
-    return () => clearTimeout(timer);
+    };
+    
+    init();
   }, [url]);
+
+  const handleCancel = async () => {
+    // Record cancelled decision
+    if (review) {
+      await SafetyHistoryService.recordDecision({
+        url,
+        domain: review.domain,
+        riskLevel: review.riskLevel,
+        action: 'cancelled',
+        source,
+      });
+    }
+    onCancel();
+  };
+
+  const handleProceed = async () => {
+    if (!review) return;
+    
+    // For HIGH risk links, require extra friction
+    if (review.riskLevel === 'high') {
+      // Check if family mode requires guardian approval
+      if (familyModeEnabled) {
+        setShowGuardianPin(true);
+      } else {
+        setShowHighRiskConfirm(true);
+      }
+      return;
+    }
+    
+    // Record and proceed for low/medium risk
+    await recordAndProceed();
+  };
+
+  const recordAndProceed = async () => {
+    if (review) {
+      await SafetyHistoryService.recordDecision({
+        url,
+        domain: review.domain,
+        riskLevel: review.riskLevel,
+        action: 'opened',
+        source,
+      });
+    }
+    onProceed();
+  };
+
+  const handleHighRiskConfirmed = async () => {
+    setShowHighRiskConfirm(false);
+    await recordAndProceed();
+  };
+
+  const handleGuardianVerified = async () => {
+    setShowGuardianPin(false);
+    await recordAndProceed();
+  };
 
   if (isAnalyzing || !review) {
     return (
@@ -78,6 +145,26 @@ export function SafetyReviewScreen({ url, onCancel, onProceed }: SafetyReviewScr
         <h2 className="text-title text-foreground mb-2">Checking this link...</h2>
         <p className="text-muted-foreground">This only takes a moment</p>
       </div>
+    );
+  }
+
+  // Show high-risk confirmation overlay
+  if (showHighRiskConfirm) {
+    return (
+      <HighRiskConfirmation
+        onConfirm={handleHighRiskConfirmed}
+        onCancel={() => setShowHighRiskConfirm(false)}
+      />
+    );
+  }
+
+  // Show guardian PIN verification for family mode
+  if (showGuardianPin) {
+    return (
+      <GuardianPinVerification
+        onSuccess={handleGuardianVerified}
+        onCancel={() => setShowGuardianPin(false)}
+      />
     );
   }
 
@@ -93,7 +180,7 @@ export function SafetyReviewScreen({ url, onCancel, onProceed }: SafetyReviewScr
       {/* Header */}
       <div className="flex items-center justify-between p-4 safe-area-top">
         <button
-          onClick={onCancel}
+          onClick={handleCancel}
           className="w-12 h-12 flex items-center justify-center rounded-full hover:bg-muted transition-colors"
           aria-label="Go back"
         >
@@ -216,7 +303,7 @@ export function SafetyReviewScreen({ url, onCancel, onProceed }: SafetyReviewScr
         <div className="space-y-3 max-w-md mx-auto">
           {/* Primary action - Cancel (recommended) */}
           <Button
-            onClick={onCancel}
+            onClick={handleCancel}
             size="lg"
             className="w-full h-14 text-lg gap-2"
           >
@@ -226,7 +313,7 @@ export function SafetyReviewScreen({ url, onCancel, onProceed }: SafetyReviewScr
           
           {/* Secondary action - Proceed anyway */}
           <button
-            onClick={onProceed}
+            onClick={handleProceed}
             className={cn(
               "w-full flex items-center justify-center gap-2 py-3 rounded-xl",
               "text-muted-foreground hover:text-foreground transition-colors",

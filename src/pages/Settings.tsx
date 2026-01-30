@@ -1,8 +1,11 @@
-import { ChevronRight, Globe, Bell, HelpCircle, Shield, FileText } from 'lucide-react';
+import { useState } from 'react';
+import { ChevronRight, Globe, Bell, HelpCircle, Shield, FileText, History, Users, Crown } from 'lucide-react';
 import { useApp } from '@/contexts/AppContext';
 import { Card } from '@/components/ui/card';
 import { Switch } from '@/components/ui/switch';
 import { Language } from '@/i18n/translations';
+import { SafetyHistoryScreen } from '@/components/SafetyHistoryScreen';
+import { FamilyModeSetup } from '@/components/FamilyModeSetup';
 
 const languages: { code: Language; label: string }[] = [
   { code: 'en', label: 'English' },
@@ -21,9 +24,10 @@ interface SettingsItemProps {
   subtitle?: string;
   onClick?: () => void;
   rightElement?: React.ReactNode;
+  badge?: 'premium' | 'new';
 }
 
-function SettingsItem({ icon: Icon, title, subtitle, onClick, rightElement }: SettingsItemProps) {
+function SettingsItem({ icon: Icon, title, subtitle, onClick, rightElement, badge }: SettingsItemProps) {
   const isClickable = Boolean(onClick);
   
   return (
@@ -37,7 +41,19 @@ function SettingsItem({ icon: Icon, title, subtitle, onClick, rightElement }: Se
       </div>
       
       <div className="flex-1 min-w-0">
-        <p className="font-medium text-foreground">{title}</p>
+        <div className="flex items-center gap-2">
+          <p className="font-medium text-foreground">{title}</p>
+          {badge === 'premium' && (
+            <span className="px-2 py-0.5 text-xs font-medium bg-primary/10 text-primary rounded-full">
+              Premium
+            </span>
+          )}
+          {badge === 'new' && (
+            <span className="px-2 py-0.5 text-xs font-medium bg-success/10 text-success rounded-full">
+              New
+            </span>
+          )}
+        </div>
         {subtitle && (
           <p className="text-sm text-muted-foreground truncate">{subtitle}</p>
         )}
@@ -52,6 +68,8 @@ function SettingsItem({ icon: Icon, title, subtitle, onClick, rightElement }: Se
 
 export default function Settings() {
   const { state, t, setLanguage, dispatch } = useApp();
+  const [showHistory, setShowHistory] = useState(false);
+  const [showFamilyMode, setShowFamilyMode] = useState(false);
   
   const currentLanguage = languages.find(l => l.code === state.language)?.label || 'English';
   
@@ -66,6 +84,20 @@ export default function Settings() {
     const nextIndex = (currentIndex + 1) % languages.length;
     setLanguage(languages[nextIndex].code);
   };
+
+  // Show full-screen overlays
+  if (showHistory) {
+    return <SafetyHistoryScreen onBack={() => setShowHistory(false)} />;
+  }
+
+  if (showFamilyMode) {
+    return (
+      <FamilyModeSetup 
+        onComplete={() => setShowFamilyMode(false)}
+        onCancel={() => setShowFamilyMode(false)}
+      />
+    );
+  }
   
   return (
     <div className="p-4 space-y-6 animate-fade-in">
@@ -75,6 +107,32 @@ export default function Settings() {
           {t.settings.title}
         </h1>
       </header>
+      
+      {/* Safety Features */}
+      <Card className="overflow-hidden card-elevated divide-y divide-border">
+        <SettingsItem
+          icon={History}
+          title={t.settings.safetyHistory}
+          subtitle={t.settings.safetyHistoryDesc}
+          onClick={() => setShowHistory(true)}
+        />
+        
+        <SettingsItem
+          icon={Users}
+          title={t.settings.familyMode}
+          subtitle={t.settings.familyModeDesc}
+          onClick={() => setShowFamilyMode(true)}
+          badge="premium"
+        />
+        
+        <SettingsItem
+          icon={Crown}
+          title={t.settings.premium}
+          subtitle={t.settings.premiumDesc}
+          onClick={() => {}}
+          badge="new"
+        />
+      </Card>
       
       {/* General Settings */}
       <Card className="overflow-hidden card-elevated divide-y divide-border">
