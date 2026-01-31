@@ -11,6 +11,12 @@ interface SafetyPinCreationProps {
 
 type CreationStep = 'create' | 'confirm';
 
+/**
+ * Safety PIN Creation Component
+ * 
+ * Creates a 4-digit behavioral PIN.
+ * Includes accessible labels and purpose explanation.
+ */
 export function SafetyPinCreation({ onComplete, onCancel }: SafetyPinCreationProps) {
   const [step, setStep] = useState<CreationStep>('create');
   const [firstPin, setFirstPin] = useState('');
@@ -53,12 +59,17 @@ export function SafetyPinCreation({ onComplete, onCancel }: SafetyPinCreationPro
   };
 
   return (
-    <div className="fixed inset-0 z-50 bg-background flex flex-col animate-fade-in">
+    <div 
+      className="fixed inset-0 z-50 bg-background flex flex-col animate-fade-in"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="pin-creation-title"
+    >
       {/* Header */}
       <div className="flex items-center p-4 safe-area-top">
         <button
           onClick={handleBack}
-          className="w-12 h-12 flex items-center justify-center rounded-full hover:bg-muted transition-colors"
+          className="w-12 h-12 flex items-center justify-center rounded-full hover:bg-muted transition-colors focus:outline-none focus:ring-2 focus:ring-primary"
           aria-label={t.common.back}
         >
           <ArrowLeft className="w-6 h-6 text-foreground" />
@@ -67,7 +78,7 @@ export function SafetyPinCreation({ onComplete, onCancel }: SafetyPinCreationPro
 
       {/* Icon */}
       <div className="flex justify-center pt-8">
-        <div className="w-20 h-20 rounded-full bg-primary/10 flex items-center justify-center">
+        <div className="w-20 h-20 rounded-full bg-primary/10 flex items-center justify-center" aria-hidden="true">
           <KeyRound className="w-10 h-10 text-primary" />
         </div>
       </div>
@@ -80,6 +91,7 @@ export function SafetyPinCreation({ onComplete, onCancel }: SafetyPinCreationPro
             onCancel={onCancel}
             title={t.safetyPin.createTitle}
             subtitle={t.safetyPin.createSubtitle}
+            purposeText={t.safetyPin.purpose}
             error={error}
             showCancel={false}
           />

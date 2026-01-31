@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Shield, Eye, Layers, Bell, ChevronRight, CheckCircle } from 'lucide-react';
+import { Shield, Eye, Layers, Bell, ChevronRight, CheckCircle, XCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { useApp } from '@/contexts/AppContext';
@@ -20,40 +20,48 @@ interface PermissionStep {
   isRequired: boolean;
 }
 
-const permissionSteps: PermissionStep[] = [
-  {
-    id: 'accessibility',
-    icon: Eye,
-    title: 'Link Detection',
-    shortDesc: 'Know when you tap a link',
-    longDesc: 'This allows Link Guardian to notice when you\'re about to open a link from messages, emails, or other apps.',
-    whyNeeded: 'Without this, we can\'t help protect you from harmful links.',
-    isRequired: true,
-  },
-  {
-    id: 'overlay',
-    icon: Layers,
-    title: 'Safety Screen',
-    shortDesc: 'Show safety warnings',
-    longDesc: 'This lets Link Guardian show a helpful safety check before you visit a website.',
-    whyNeeded: 'This is how we pause and help you think before clicking.',
-    isRequired: true,
-  },
-  {
-    id: 'notifications',
-    icon: Bell,
-    title: 'Safety Alerts',
-    shortDesc: 'Get notified about threats',
-    longDesc: 'Receive gentle notifications when we block a potentially harmful link.',
-    whyNeeded: 'Helps keep you informed, but you can skip this if you prefer.',
-    isRequired: false,
-  },
-];
-
+/**
+ * Permission Explanation Screen
+ * 
+ * Shows user-friendly explanations BEFORE requesting system permissions.
+ * Uses calm, non-technical language.
+ * Clearly explains what we do NOT do.
+ */
 export function PermissionExplanationScreen({ onComplete, onSkip }: PermissionExplanationScreenProps) {
-  const { state, grantPermission } = useApp();
+  const { state, t, grantPermission } = useApp();
   const [currentStep, setCurrentStep] = useState(0);
   const [isExpanded, setIsExpanded] = useState(false);
+  const [showDeniedMessage, setShowDeniedMessage] = useState(false);
+
+  const permissionSteps: PermissionStep[] = [
+    {
+      id: 'accessibility',
+      icon: Eye,
+      title: t.permissions.linkDetection,
+      shortDesc: t.permissions.linkDetectionDesc,
+      longDesc: 'This lets Link Guardian notice when you tap a link from messages, emails, or other apps.',
+      whyNeeded: 'Without this, we cannot help you pause before opening links.',
+      isRequired: true,
+    },
+    {
+      id: 'overlay',
+      icon: Layers,
+      title: t.permissions.safetyScreen,
+      shortDesc: t.permissions.safetyScreenDesc,
+      longDesc: 'This lets us show a helpful screen before you visit a website.',
+      whyNeeded: 'This is how we help you pause and think before clicking.',
+      isRequired: true,
+    },
+    {
+      id: 'notifications',
+      icon: Bell,
+      title: t.permissions.safetyAlerts,
+      shortDesc: t.permissions.safetyAlertsDesc,
+      longDesc: 'Receive gentle reminders about your link activity.',
+      whyNeeded: 'This is optional - you can skip if you prefer.',
+      isRequired: false,
+    },
+  ];
 
   const currentPermission = permissionSteps[currentStep];
   const isGranted = state.permissions[currentPermission.id];
@@ -61,8 +69,9 @@ export function PermissionExplanationScreen({ onComplete, onSkip }: PermissionEx
 
   const handleGrant = () => {
     // In a real Android app, this would open system settings
-    // For now, we simulate granting
+    // For demo, we simulate granting
     grantPermission(currentPermission.id);
+    setShowDeniedMessage(false);
     
     // Auto-advance after a short delay
     setTimeout(() => {
@@ -83,6 +92,9 @@ export function PermissionExplanationScreen({ onComplete, onSkip }: PermissionEx
       } else {
         onComplete();
       }
+    } else {
+      // Show denied message for required permissions
+      setShowDeniedMessage(true);
     }
   };
 
@@ -91,20 +103,27 @@ export function PermissionExplanationScreen({ onComplete, onSkip }: PermissionEx
     state.permissions.overlay;
 
   return (
-    <div className="fixed inset-0 z-50 bg-background flex flex-col animate-fade-in">
+    <div 
+      className="fixed inset-0 z-50 bg-background flex flex-col animate-fade-in"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="permission-title"
+    >
       {/* Header */}
       <div className="p-4 pt-8 safe-area-top">
         <div className="flex items-center justify-center mb-2">
-          <Shield className="w-8 h-8 text-primary mr-2" />
-          <h1 className="text-xl font-bold text-foreground">Setting Up Safety</h1>
+          <Shield className="w-8 h-8 text-primary mr-2" aria-hidden="true" />
+          <h1 id="permission-title" className="text-xl font-bold text-foreground">
+            {t.permissions.title}
+          </h1>
         </div>
         <p className="text-center text-muted-foreground">
-          We need a few permissions to keep you safe
+          {t.permissions.description}
         </p>
       </div>
 
       {/* Progress Indicators */}
-      <div className="flex justify-center gap-2 px-4 py-4">
+      <div className="flex justify-center gap-2 px-4 py-4" role="progressbar" aria-valuenow={currentStep + 1} aria-valuemax={permissionSteps.length}>
         {permissionSteps.map((step, index) => (
           <div
             key={step.id}
@@ -115,6 +134,7 @@ export function PermissionExplanationScreen({ onComplete, onSkip }: PermissionEx
                 ? "bg-primary" 
                 : "bg-muted"
             )}
+            aria-hidden="true"
           />
         ))}
       </div>
@@ -127,9 +147,9 @@ export function PermissionExplanationScreen({ onComplete, onSkip }: PermissionEx
           isGranted ? "bg-success/10" : "bg-primary/10"
         )}>
           {isGranted ? (
-            <CheckCircle className="w-12 h-12 text-success" />
+            <CheckCircle className="w-12 h-12 text-success" aria-hidden="true" />
           ) : (
-            <Icon className="w-12 h-12 text-primary" />
+            <Icon className="w-12 h-12 text-primary" aria-hidden="true" />
           )}
         </div>
 
@@ -142,10 +162,11 @@ export function PermissionExplanationScreen({ onComplete, onSkip }: PermissionEx
         </p>
 
         {/* Expandable Details */}
-        <Card className="w-full max-w-sm p-4 mb-6">
+        <Card className="w-full max-w-sm p-4 mb-4">
           <button
             onClick={() => setIsExpanded(!isExpanded)}
             className="w-full flex items-center justify-between"
+            aria-expanded={isExpanded}
           >
             <span className="font-medium text-foreground">
               {isExpanded ? 'Less details' : 'Why is this needed?'}
@@ -153,7 +174,7 @@ export function PermissionExplanationScreen({ onComplete, onSkip }: PermissionEx
             <ChevronRight className={cn(
               "w-5 h-5 text-muted-foreground transition-transform",
               isExpanded && "rotate-90"
-            )} />
+            )} aria-hidden="true" />
           </button>
           
           {isExpanded && (
@@ -164,9 +185,36 @@ export function PermissionExplanationScreen({ onComplete, onSkip }: PermissionEx
           )}
         </Card>
 
+        {/* What we do NOT do - Transparency */}
+        <Card className="w-full max-w-sm p-4 bg-muted/30 mb-4">
+          <p className="text-sm font-medium text-foreground mb-2">{t.permissions.whatWeDoNot}</p>
+          <ul className="space-y-1.5 text-sm text-muted-foreground">
+            <li className="flex items-center gap-2">
+              <XCircle className="w-4 h-4 text-muted-foreground flex-shrink-0" aria-hidden="true" />
+              <span>{t.permissions.doesNotSpy}</span>
+            </li>
+            <li className="flex items-center gap-2">
+              <XCircle className="w-4 h-4 text-muted-foreground flex-shrink-0" aria-hidden="true" />
+              <span>{t.permissions.doesNotCollect}</span>
+            </li>
+            <li className="flex items-center gap-2">
+              <XCircle className="w-4 h-4 text-muted-foreground flex-shrink-0" aria-hidden="true" />
+              <span>{t.permissions.doesNotShare}</span>
+            </li>
+          </ul>
+        </Card>
+
+        {/* Denied Message */}
+        {showDeniedMessage && (
+          <Card className="w-full max-w-sm p-4 bg-warning/10 border-warning/30 mb-4 animate-fade-in">
+            <h3 className="font-medium text-foreground mb-1">{t.permissions.deniedTitle}</h3>
+            <p className="text-sm text-muted-foreground">{t.permissions.deniedDesc}</p>
+          </Card>
+        )}
+
         {/* Required Badge */}
-        {currentPermission.isRequired && !isGranted && (
-          <p className="text-sm text-warning mb-4">Required for safety protection</p>
+        {currentPermission.isRequired && !isGranted && !showDeniedMessage && (
+          <p className="text-sm text-warning mb-4">{t.permissions.required}</p>
         )}
       </div>
 
@@ -178,8 +226,9 @@ export function PermissionExplanationScreen({ onComplete, onSkip }: PermissionEx
               onClick={handleGrant}
               size="lg"
               className="w-full h-14 text-lg"
+              aria-label={`${t.permissions.grant} ${currentPermission.title}`}
             >
-              Allow {currentPermission.title}
+              {t.permissions.grant} {currentPermission.title}
             </Button>
             
             {!currentPermission.isRequired && (
@@ -204,7 +253,7 @@ export function PermissionExplanationScreen({ onComplete, onSkip }: PermissionEx
             size="lg"
             className="w-full h-14 text-lg"
           >
-            {currentStep < permissionSteps.length - 1 ? 'Continue' : 'Start Protection'}
+            {currentStep < permissionSteps.length - 1 ? t.common.continue : t.common.done}
           </Button>
         )}
 
@@ -214,7 +263,7 @@ export function PermissionExplanationScreen({ onComplete, onSkip }: PermissionEx
             onClick={onComplete}
             className="w-full text-center text-sm text-muted-foreground/60 py-2"
           >
-            Skip remaining and start protection
+            Skip remaining steps
           </button>
         )}
       </div>

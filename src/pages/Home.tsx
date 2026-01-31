@@ -4,6 +4,12 @@ import { DemoLinkButton } from '@/components/DemoLinkButton';
 import { useApp } from '@/contexts/AppContext';
 import { Card } from '@/components/ui/card';
 
+/**
+ * Home Page
+ * 
+ * Uses assistive language throughout.
+ * No absolute security claims.
+ */
 export default function Home() {
   const { t, state } = useApp();
   
@@ -23,7 +29,7 @@ export default function Home() {
       <StatusCard />
       
       {/* Stats */}
-      <section>
+      <section aria-label="Safety statistics">
         <StatsDisplay />
       </section>
 

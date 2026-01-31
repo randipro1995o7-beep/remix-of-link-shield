@@ -6,16 +6,19 @@ import { Switch } from '@/components/ui/switch';
 import { Language } from '@/i18n/translations';
 import { SafetyHistoryScreen } from '@/components/SafetyHistoryScreen';
 import { FamilyModeSetup } from '@/components/FamilyModeSetup';
+import { PrivacyPolicy } from './PrivacyPolicy';
+import { AboutPage } from './AboutPage';
 
-const languages: { code: Language; label: string }[] = [
-  { code: 'en', label: 'English' },
-  { code: 'es', label: 'Español' },
-  { code: 'pt', label: 'Português' },
-  { code: 'fr', label: 'Français' },
-  { code: 'de', label: 'Deutsch' },
-  { code: 'zh', label: '中文' },
-  { code: 'hi', label: 'हिन्दी' },
-  { code: 'ar', label: 'العربية' },
+const languages: { code: Language; label: string; nativeLabel: string }[] = [
+  { code: 'en', label: 'English', nativeLabel: 'English' },
+  { code: 'id', label: 'Indonesian', nativeLabel: 'Bahasa Indonesia' },
+  { code: 'es', label: 'Spanish', nativeLabel: 'Español' },
+  { code: 'pt', label: 'Portuguese', nativeLabel: 'Português' },
+  { code: 'fr', label: 'French', nativeLabel: 'Français' },
+  { code: 'de', label: 'German', nativeLabel: 'Deutsch' },
+  { code: 'zh', label: 'Chinese', nativeLabel: '中文' },
+  { code: 'hi', label: 'Hindi', nativeLabel: 'हिन्दी' },
+  { code: 'ar', label: 'Arabic', nativeLabel: 'العربية' },
 ];
 
 interface SettingsItemProps {
@@ -35,8 +38,9 @@ function SettingsItem({ icon: Icon, title, subtitle, onClick, rightElement, badg
       onClick={onClick}
       disabled={!isClickable}
       className="w-full flex items-center gap-4 p-4 text-left hover:bg-muted/50 transition-colors rounded-xl disabled:cursor-default"
+      aria-label={subtitle ? `${title}: ${subtitle}` : title}
     >
-      <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0">
+      <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0" aria-hidden="true">
         <Icon className="w-5 h-5 text-primary" />
       </div>
       
@@ -60,7 +64,7 @@ function SettingsItem({ icon: Icon, title, subtitle, onClick, rightElement, badg
       </div>
       
       {rightElement || (isClickable && (
-        <ChevronRight className="w-5 h-5 text-muted-foreground flex-shrink-0" />
+        <ChevronRight className="w-5 h-5 text-muted-foreground flex-shrink-0" aria-hidden="true" />
       ))}
     </button>
   );
@@ -70,19 +74,22 @@ export default function Settings() {
   const { state, t, setLanguage, dispatch } = useApp();
   const [showHistory, setShowHistory] = useState(false);
   const [showFamilyMode, setShowFamilyMode] = useState(false);
+  const [showPrivacy, setShowPrivacy] = useState(false);
+  const [showAbout, setShowAbout] = useState(false);
   
-  const currentLanguage = languages.find(l => l.code === state.language)?.label || 'English';
+  const currentLang = languages.find(l => l.code === state.language);
+  const currentLanguage = currentLang?.nativeLabel || 'English';
   
   const handleNotificationsToggle = (checked: boolean) => {
     dispatch({ type: 'SET_NOTIFICATIONS_ENABLED', payload: checked });
   };
   
   const handleLanguageChange = () => {
-    // In a real app, this would open a language picker modal
-    // For now, cycle through languages
-    const currentIndex = languages.findIndex(l => l.code === state.language);
-    const nextIndex = (currentIndex + 1) % languages.length;
-    setLanguage(languages[nextIndex].code);
+    // Cycle through supported languages (English and Indonesian for now)
+    const supportedLanguages: Language[] = ['en', 'id'];
+    const currentIndex = supportedLanguages.indexOf(state.language as Language);
+    const nextIndex = (currentIndex + 1) % supportedLanguages.length;
+    setLanguage(supportedLanguages[nextIndex]);
   };
 
   // Show full-screen overlays
@@ -97,6 +104,14 @@ export default function Settings() {
         onCancel={() => setShowFamilyMode(false)}
       />
     );
+  }
+
+  if (showPrivacy) {
+    return <PrivacyPolicy onBack={() => setShowPrivacy(false)} />;
+  }
+
+  if (showAbout) {
+    return <AboutPage onBack={() => setShowAbout(false)} />;
   }
   
   return (
@@ -168,13 +183,13 @@ export default function Settings() {
         <SettingsItem
           icon={Shield}
           title={t.settings.about}
-          onClick={() => {}}
+          onClick={() => setShowAbout(true)}
         />
         
         <SettingsItem
           icon={FileText}
           title={t.settings.privacy}
-          onClick={() => {}}
+          onClick={() => setShowPrivacy(true)}
         />
       </Card>
       

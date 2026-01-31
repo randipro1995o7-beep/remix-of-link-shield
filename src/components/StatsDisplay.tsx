@@ -3,6 +3,13 @@ import { useApp } from '@/contexts/AppContext';
 import { Card } from '@/components/ui/card';
 import { format } from 'date-fns';
 
+/**
+ * Stats Display Component
+ * 
+ * Uses assistive language:
+ * - "Links reviewed" instead of "Links checked"
+ * - "Links cancelled" instead of "Threats blocked"
+ */
 export function StatsDisplay() {
   const { state, t } = useApp();
   const { linksChecked, threatsBlocked, protectedSince } = state.protectionStats;
@@ -26,13 +33,18 @@ export function StatsDisplay() {
   ];
   
   return (
-    <div className="grid grid-cols-1 gap-3">
+    <div className="grid grid-cols-1 gap-3" role="list" aria-label="Safety statistics">
       {stats.map((stat, index) => (
         <Card
           key={index}
           className="p-4 flex items-center gap-4 card-elevated bg-card"
+          role="listitem"
+          aria-label={`${stat.label}: ${stat.value}`}
         >
-          <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0">
+          <div 
+            className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0"
+            aria-hidden="true"
+          >
             <stat.icon className="w-6 h-6 text-primary" />
           </div>
           <div className="flex-1 min-w-0">

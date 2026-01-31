@@ -13,6 +13,12 @@ interface StopScreenProps {
 
 const COUNTDOWN_SECONDS = 5;
 
+/**
+ * Stop Screen - First screen in the link interception flow
+ * 
+ * Uses calm, non-threatening language.
+ * Provides a behavioral pause before proceeding.
+ */
 export function StopScreen({ onContinue, onSkip, onCancel }: StopScreenProps) {
   const [countdown, setCountdown] = useState(COUNTDOWN_SECONDS);
   const [canContinue, setCanContinue] = useState(false);
@@ -45,12 +51,18 @@ export function StopScreen({ onContinue, onSkip, onCancel }: StopScreenProps) {
   if (!currentLink) return null;
 
   return (
-    <div className="fixed inset-0 z-50 bg-background flex flex-col animate-fade-in">
+    <div 
+      className="fixed inset-0 z-50 bg-background flex flex-col animate-fade-in"
+      role="alertdialog"
+      aria-modal="true"
+      aria-labelledby="stop-title"
+      aria-describedby="stop-subtitle"
+    >
       {/* Header with cancel */}
       <div className="flex justify-end p-4 safe-area-top">
         <button
           onClick={onCancel}
-          className="w-12 h-12 flex items-center justify-center rounded-full hover:bg-muted transition-colors"
+          className="w-12 h-12 flex items-center justify-center rounded-full hover:bg-muted transition-colors focus:outline-none focus:ring-2 focus:ring-primary"
           aria-label={t.common.cancel}
         >
           <X className="w-6 h-6 text-muted-foreground" />
@@ -66,16 +78,17 @@ export function StopScreen({ onContinue, onSkip, onCancel }: StopScreenProps) {
             "bg-warning/10 transition-transform duration-500",
             !canContinue && "animate-gentle-pulse"
           )}
+          aria-hidden="true"
         >
           <Hand className="w-14 h-14 text-warning" />
         </div>
 
-        {/* Main message */}
-        <h1 className="text-display text-foreground mb-4">
+        {/* Main message - calm, not threatening */}
+        <h1 id="stop-title" className="text-display text-foreground mb-4">
           {t.stopScreen.title}
         </h1>
 
-        <p className="text-body-lg text-muted-foreground mb-6 max-w-sm">
+        <p id="stop-subtitle" className="text-body-lg text-muted-foreground mb-6 max-w-sm">
           {t.stopScreen.subtitle}
         </p>
 
@@ -94,9 +107,11 @@ export function StopScreen({ onContinue, onSkip, onCancel }: StopScreenProps) {
 
         {/* Countdown or Continue button */}
         {!canContinue ? (
-          <div className="space-y-4">
+          <div className="space-y-4" role="timer" aria-live="polite">
             <div className="w-20 h-20 rounded-full border-4 border-primary flex items-center justify-center mx-auto">
-              <span className="text-3xl font-bold text-primary">{countdown}</span>
+              <span className="text-3xl font-bold text-primary" aria-label={`${countdown} seconds remaining`}>
+                {countdown}
+              </span>
             </div>
             <p className="text-muted-foreground">
               {t.stopScreen.pleaseWait} {countdown} {countdown !== 1 ? t.stopScreen.seconds : t.stopScreen.second}
@@ -109,7 +124,7 @@ export function StopScreen({ onContinue, onSkip, onCancel }: StopScreenProps) {
             className="w-full max-w-sm h-14 text-lg gap-2"
           >
             {t.stopScreen.continueToReview}
-            <ChevronRight className="w-5 h-5" />
+            <ChevronRight className="w-5 h-5" aria-hidden="true" />
           </Button>
         )}
       </div>
@@ -118,7 +133,8 @@ export function StopScreen({ onContinue, onSkip, onCancel }: StopScreenProps) {
       <div className="p-6 safe-area-bottom">
         <button
           onClick={onSkip}
-          className="w-full text-center text-sm text-muted-foreground/60 hover:text-muted-foreground transition-colors py-2"
+          className="w-full text-center text-sm text-muted-foreground/60 hover:text-muted-foreground transition-colors py-2 focus:outline-none focus:underline"
+          aria-label={t.stopScreen.skipNotRecommended}
         >
           {t.stopScreen.skipNotRecommended}
         </button>

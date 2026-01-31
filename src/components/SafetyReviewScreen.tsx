@@ -7,6 +7,7 @@ import { SafetyHistoryService, FamilyModeService } from '@/lib/storage';
 import { cn } from '@/lib/utils';
 import { HighRiskConfirmation } from './HighRiskConfirmation';
 import { GuardianPinVerification } from './GuardianPinVerification';
+import { useApp } from '@/contexts/AppContext';
 
 interface SafetyReviewScreenProps {
   url: string;
@@ -15,55 +16,51 @@ interface SafetyReviewScreenProps {
   onProceed: () => void;
 }
 
-// Risk level display configuration
-const riskConfig: Record<RiskLevel, {
-  icon: typeof Shield;
-  title: string;
-  bgColor: string;
-  iconColor: string;
-  borderColor: string;
-}> = {
-  low: {
-    icon: Shield,
-    title: 'Low Risk',
-    bgColor: 'bg-success/10',
-    iconColor: 'text-success',
-    borderColor: 'border-success/20',
-  },
-  medium: {
-    icon: ShieldAlert,
-    title: 'Medium Risk',
-    bgColor: 'bg-warning/10',
-    iconColor: 'text-warning',
-    borderColor: 'border-warning/20',
-  },
-  high: {
-    icon: ShieldX,
-    title: 'High Risk',
-    bgColor: 'bg-destructive/10',
-    iconColor: 'text-destructive',
-    borderColor: 'border-destructive/20',
-  },
-};
-
-// Check result icons
-function CheckIcon({ check }: { check: SafetyCheck }) {
-  if (check.passed) {
-    return <CheckCircle className="w-5 h-5 text-success flex-shrink-0" />;
-  }
-  if (check.severity === 'danger') {
-    return <XCircle className="w-5 h-5 text-destructive flex-shrink-0" />;
-  }
-  return <AlertTriangle className="w-5 h-5 text-warning flex-shrink-0" />;
-}
-
+/**
+ * Safety Review Screen
+ * 
+ * Shows link analysis results with calm, non-fear-based language.
+ * Uses assistive wording - "helps you decide" not "protects you".
+ */
 export function SafetyReviewScreen({ url, source, onCancel, onProceed }: SafetyReviewScreenProps) {
+  const { t } = useApp();
   const [review, setReview] = useState<SafetyReviewResult | null>(null);
   const [isAnalyzing, setIsAnalyzing] = useState(true);
   const [showAllChecks, setShowAllChecks] = useState(false);
   const [showHighRiskConfirm, setShowHighRiskConfirm] = useState(false);
   const [showGuardianPin, setShowGuardianPin] = useState(false);
   const [familyModeEnabled, setFamilyModeEnabled] = useState(false);
+
+  // Risk level display configuration - using assistive language
+  const riskConfig: Record<RiskLevel, {
+    icon: typeof Shield;
+    title: string;
+    bgColor: string;
+    iconColor: string;
+    borderColor: string;
+  }> = {
+    low: {
+      icon: Shield,
+      title: t.safetyReview.riskLow,
+      bgColor: 'bg-success/10',
+      iconColor: 'text-success',
+      borderColor: 'border-success/20',
+    },
+    medium: {
+      icon: ShieldAlert,
+      title: t.safetyReview.riskMedium,
+      bgColor: 'bg-warning/10',
+      iconColor: 'text-warning',
+      borderColor: 'border-warning/20',
+    },
+    high: {
+      icon: ShieldX,
+      title: t.safetyReview.riskHigh,
+      bgColor: 'bg-destructive/10',
+      iconColor: 'text-destructive',
+      borderColor: 'border-destructive/20',
+    },
+  };
 
   useEffect(() => {
     const init = async () => {
@@ -136,14 +133,30 @@ export function SafetyReviewScreen({ url, source, onCancel, onProceed }: SafetyR
     await recordAndProceed();
   };
 
+  // Check result icons
+  function CheckIcon({ check }: { check: SafetyCheck }) {
+    if (check.passed) {
+      return <CheckCircle className="w-5 h-5 text-success flex-shrink-0" aria-hidden="true" />;
+    }
+    if (check.severity === 'danger') {
+      return <XCircle className="w-5 h-5 text-destructive flex-shrink-0" aria-hidden="true" />;
+    }
+    return <AlertTriangle className="w-5 h-5 text-warning flex-shrink-0" aria-hidden="true" />;
+  }
+
   if (isAnalyzing || !review) {
     return (
-      <div className="fixed inset-0 z-50 bg-background flex flex-col items-center justify-center animate-fade-in">
+      <div 
+        className="fixed inset-0 z-50 bg-background flex flex-col items-center justify-center animate-fade-in"
+        role="status"
+        aria-live="polite"
+        aria-label={t.safetyReview.analyzing}
+      >
         <div className="w-20 h-20 rounded-full bg-primary/10 flex items-center justify-center mb-6 animate-gentle-pulse">
-          <Shield className="w-10 h-10 text-primary" />
+          <Shield className="w-10 h-10 text-primary" aria-hidden="true" />
         </div>
-        <h2 className="text-title text-foreground mb-2">Checking this link...</h2>
-        <p className="text-muted-foreground">This only takes a moment</p>
+        <h2 className="text-title text-foreground mb-2">{t.safetyReview.analyzing}</h2>
+        <p className="text-muted-foreground">{t.safetyReview.analyzingDesc}</p>
       </div>
     );
   }
@@ -176,36 +189,44 @@ export function SafetyReviewScreen({ url, source, onCancel, onProceed }: SafetyR
   const passedChecks = review.checks.filter(c => c.passed);
 
   return (
-    <div className="fixed inset-0 z-50 bg-background flex flex-col animate-fade-in">
+    <div 
+      className="fixed inset-0 z-50 bg-background flex flex-col animate-fade-in"
+      role="main"
+      aria-labelledby="review-title"
+    >
       {/* Header */}
       <div className="flex items-center justify-between p-4 safe-area-top">
         <button
           onClick={handleCancel}
           className="w-12 h-12 flex items-center justify-center rounded-full hover:bg-muted transition-colors"
-          aria-label="Go back"
+          aria-label={t.common.back}
         >
           <ArrowLeft className="w-6 h-6 text-foreground" />
         </button>
-        <h1 className="font-semibold text-foreground">Safety Review</h1>
-        <div className="w-12" /> {/* Spacer */}
+        <h1 id="review-title" className="font-semibold text-foreground">{t.safetyReview.title}</h1>
+        <div className="w-12" aria-hidden="true" />
       </div>
 
       {/* Scrollable Content */}
       <div className="flex-1 overflow-y-auto px-4 pb-32">
         {/* Risk Level Badge */}
         <div className="flex justify-center pt-4 pb-6">
-          <div className={cn(
-            "flex items-center gap-3 px-6 py-4 rounded-2xl border-2",
-            config.bgColor,
-            config.borderColor
-          )}>
-            <RiskIcon className={cn("w-10 h-10", config.iconColor)} />
+          <div 
+            className={cn(
+              "flex items-center gap-3 px-6 py-4 rounded-2xl border-2",
+              config.bgColor,
+              config.borderColor
+            )}
+            role="status"
+            aria-label={`${config.title}: ${t.safetyReview.basedOnChecks}`}
+          >
+            <RiskIcon className={cn("w-10 h-10", config.iconColor)} aria-hidden="true" />
             <div>
               <p className={cn("font-bold text-lg", config.iconColor)}>
                 {config.title}
               </p>
               <p className="text-sm text-muted-foreground">
-                Based on our checks
+                {t.safetyReview.basedOnChecks}
               </p>
             </div>
           </div>
@@ -213,7 +234,7 @@ export function SafetyReviewScreen({ url, source, onCancel, onProceed }: SafetyR
 
         {/* Domain Preview */}
         <Card className="p-4 mb-4 bg-muted/50">
-          <p className="text-sm text-muted-foreground mb-1">Link destination:</p>
+          <p className="text-sm text-muted-foreground mb-1">{t.stopScreen.linkDestination}</p>
           <p className="font-medium text-foreground break-all">{review.domain}</p>
         </Card>
 
@@ -222,21 +243,20 @@ export function SafetyReviewScreen({ url, source, onCancel, onProceed }: SafetyR
           <p className="text-foreground leading-relaxed">{review.summary}</p>
         </Card>
 
-        {/* Important: Disclaimer */}
+        {/* Important: Disclaimer - Honest claim */}
         <div className="flex items-start gap-3 p-4 rounded-xl bg-muted/30 mb-4">
-          <Shield className="w-5 h-5 text-muted-foreground flex-shrink-0 mt-0.5" />
+          <Shield className="w-5 h-5 text-muted-foreground flex-shrink-0 mt-0.5" aria-hidden="true" />
           <p className="text-sm text-muted-foreground">
-            Link Guardian helps you make safer choices, but cannot guarantee a website is completely safe. 
-            Always be careful with personal information.
+            {t.safetyReview.disclaimer}
           </p>
         </div>
 
         {/* Failed Checks (Issues Found) */}
         {failedChecks.length > 0 && (
-          <section className="mb-4">
-            <h3 className="font-medium text-foreground mb-3 flex items-center gap-2">
-              <AlertTriangle className="w-5 h-5 text-warning" />
-              Things to consider
+          <section className="mb-4" aria-labelledby="things-to-consider">
+            <h3 id="things-to-consider" className="font-medium text-foreground mb-3 flex items-center gap-2">
+              <AlertTriangle className="w-5 h-5 text-warning" aria-hidden="true" />
+              {t.safetyReview.thingsToConsider}
             </h3>
             <div className="space-y-2">
               {failedChecks.map((check) => (
@@ -260,13 +280,14 @@ export function SafetyReviewScreen({ url, source, onCancel, onProceed }: SafetyR
             <button
               onClick={() => setShowAllChecks(!showAllChecks)}
               className="w-full flex items-center justify-between p-3 rounded-xl hover:bg-muted/50 transition-colors"
+              aria-expanded={showAllChecks}
             >
               <span className="font-medium text-foreground flex items-center gap-2">
-                <CheckCircle className="w-5 h-5 text-success" />
-                {passedChecks.length} checks passed
+                <CheckCircle className="w-5 h-5 text-success" aria-hidden="true" />
+                {passedChecks.length} {t.safetyReview.checksPassed}
               </span>
               <span className="text-sm text-muted-foreground">
-                {showAllChecks ? 'Hide' : 'Show'}
+                {showAllChecks ? t.common.hide : t.common.show}
               </span>
             </button>
             
@@ -293,7 +314,7 @@ export function SafetyReviewScreen({ url, source, onCancel, onProceed }: SafetyR
           "p-4 border-2",
           config.borderColor
         )}>
-          <h3 className="font-medium text-foreground mb-2">Our recommendation</h3>
+          <h3 className="font-medium text-foreground mb-2">{t.safetyReview.ourRecommendation}</h3>
           <p className="text-muted-foreground">{review.recommendation}</p>
         </Card>
       </div>
@@ -307,8 +328,8 @@ export function SafetyReviewScreen({ url, source, onCancel, onProceed }: SafetyR
             size="lg"
             className="w-full h-14 text-lg gap-2"
           >
-            <X className="w-5 h-5" />
-            Cancel & Close Link
+            <X className="w-5 h-5" aria-hidden="true" />
+            {t.safetyReview.cancelAndClose}
           </Button>
           
           {/* Secondary action - Proceed anyway */}
@@ -321,8 +342,8 @@ export function SafetyReviewScreen({ url, source, onCancel, onProceed }: SafetyR
               review.riskLevel === 'high' && "text-destructive/60 hover:text-destructive"
             )}
           >
-            <ExternalLink className="w-4 h-4" />
-            <span>Open Anyway</span>
+            <ExternalLink className="w-4 h-4" aria-hidden="true" />
+            <span>{t.safetyReview.openAnyway}</span>
           </button>
         </div>
       </div>
