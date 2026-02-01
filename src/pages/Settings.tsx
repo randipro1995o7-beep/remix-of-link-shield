@@ -164,6 +164,7 @@ export default function Settings() {
           subtitle={t.settings.notificationsDesc}
           rightElement={
             <Switch
+              size="lg"
               checked={state.notificationsEnabled}
               onCheckedChange={handleNotificationsToggle}
               aria-label={t.settings.notifications}
