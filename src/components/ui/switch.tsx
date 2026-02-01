@@ -46,12 +46,18 @@ const Switch = React.forwardRef<
     className={cn(
       switchVariants({ size }),
       "data-[state=checked]:bg-primary data-[state=unchecked]:bg-muted",
+      "transition-colors duration-300 ease-in-out",
       className,
     )}
     {...props}
     ref={ref}
   >
-    <SwitchPrimitives.Thumb className={cn(thumbVariants({ size }))} />
+    <SwitchPrimitives.Thumb 
+      className={cn(
+        thumbVariants({ size }),
+        "transition-transform duration-300 ease-in-out"
+      )} 
+    />
   </SwitchPrimitives.Root>
 ));
 Switch.displayName = SwitchPrimitives.Root.displayName;

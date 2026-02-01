@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ChevronRight, Globe, Bell, HelpCircle, Shield, FileText, History, Users, Crown } from 'lucide-react';
+import { ChevronRight, Globe, Bell, HelpCircle, Shield, FileText, History, Users, Crown, Mail, MessageCircle, ExternalLink } from 'lucide-react';
 import { useApp } from '@/contexts/AppContext';
 import { Card } from '@/components/ui/card';
 import { Switch } from '@/components/ui/switch';
@@ -8,6 +8,13 @@ import { SafetyHistoryScreen } from '@/components/SafetyHistoryScreen';
 import { FamilyModeSetup } from '@/components/FamilyModeSetup';
 import { PrivacyPolicy } from './PrivacyPolicy';
 import { AboutPage } from './AboutPage';
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetDescription,
+} from '@/components/ui/sheet';
 
 const languages: { code: Language; label: string; nativeLabel: string }[] = [
   { code: 'en', label: 'English', nativeLabel: 'English' },
@@ -37,7 +44,16 @@ function SettingsItem({ icon: Icon, title, subtitle, onClick, rightElement, badg
     <button
       onClick={onClick}
       disabled={!isClickable}
-      className="w-full flex items-center gap-4 p-4 text-left hover:bg-muted/50 transition-colors rounded-xl disabled:cursor-default"
+      className={`
+        w-full flex items-center gap-4 p-4 text-left rounded-xl
+        transition-all duration-200 ease-out
+        ${isClickable 
+          ? 'hover:bg-muted/50 active:bg-muted active:scale-[0.98] cursor-pointer' 
+          : 'cursor-default'
+        }
+        disabled:cursor-default
+        focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2
+      `}
       aria-label={subtitle ? `${title}: ${subtitle}` : title}
     >
       <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0" aria-hidden="true">
@@ -76,6 +92,7 @@ export default function Settings() {
   const [showFamilyMode, setShowFamilyMode] = useState(false);
   const [showPrivacy, setShowPrivacy] = useState(false);
   const [showAbout, setShowAbout] = useState(false);
+  const [showHelp, setShowHelp] = useState(false);
   
   const currentLang = languages.find(l => l.code === state.language);
   const currentLanguage = currentLang?.nativeLabel || 'English';
@@ -178,7 +195,7 @@ export default function Settings() {
         <SettingsItem
           icon={HelpCircle}
           title={t.settings.help}
-          onClick={() => {}}
+          onClick={() => setShowHelp(true)}
         />
         
         <SettingsItem
@@ -200,6 +217,92 @@ export default function Settings() {
           {t.settings.version} 1.0.0
         </p>
       </div>
+
+      {/* Help & Support Sheet */}
+      <Sheet open={showHelp} onOpenChange={setShowHelp}>
+        <SheetContent side="bottom" className="rounded-t-3xl">
+          <SheetHeader className="text-left pb-4">
+            <SheetTitle className="text-xl">{t.settings.help}</SheetTitle>
+            <SheetDescription>
+              {state.language === 'id' 
+                ? 'Temukan jawaban atau hubungi kami' 
+                : 'Find answers or get in touch'}
+            </SheetDescription>
+          </SheetHeader>
+          
+          <div className="space-y-3 pb-6">
+            {/* FAQ Section */}
+            <div className="space-y-2">
+              <h3 className="text-sm font-medium text-muted-foreground uppercase tracking-wide">
+                {state.language === 'id' ? 'Pertanyaan Umum' : 'FAQ'}
+              </h3>
+              
+              <div className="space-y-2">
+                <div className="p-3 bg-muted/50 rounded-xl">
+                  <p className="font-medium text-sm">
+                    {state.language === 'id' 
+                      ? 'Bagaimana cara kerja Link Guardian?' 
+                      : 'How does Link Guardian work?'}
+                  </p>
+                  <p className="text-sm text-muted-foreground mt-1">
+                    {state.language === 'id'
+                      ? 'Link Guardian membantu Anda berhenti sejenak sebelum membuka tautan. Ini memberi waktu untuk mempertimbangkan keamanan tautan.'
+                      : 'Link Guardian helps you pause before opening links. This gives you time to consider link safety.'}
+                  </p>
+                </div>
+                
+                <div className="p-3 bg-muted/50 rounded-xl">
+                  <p className="font-medium text-sm">
+                    {state.language === 'id' 
+                      ? 'Apakah data saya aman?' 
+                      : 'Is my data safe?'}
+                  </p>
+                  <p className="text-sm text-muted-foreground mt-1">
+                    {state.language === 'id'
+                      ? 'Ya! Semua data disimpan secara lokal di perangkat Anda. Tidak ada yang dikirim ke server.'
+                      : 'Yes! All data is stored locally on your device. Nothing is sent to servers.'}
+                  </p>
+                </div>
+              </div>
+            </div>
+            
+            {/* Contact Section */}
+            <div className="space-y-2 pt-4">
+              <h3 className="text-sm font-medium text-muted-foreground uppercase tracking-wide">
+                {state.language === 'id' ? 'Hubungi Kami' : 'Contact Us'}
+              </h3>
+              
+              <button 
+                onClick={() => window.open('mailto:support@linkguardian.app', '_blank')}
+                className="w-full flex items-center gap-3 p-3 bg-muted/50 rounded-xl hover:bg-muted active:scale-[0.98] transition-all"
+              >
+                <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+                  <Mail className="w-5 h-5 text-primary" />
+                </div>
+                <div className="flex-1 text-left">
+                  <p className="font-medium text-sm">Email</p>
+                  <p className="text-xs text-muted-foreground">support@linkguardian.app</p>
+                </div>
+                <ExternalLink className="w-4 h-4 text-muted-foreground" />
+              </button>
+              
+              <button 
+                onClick={() => window.open('https://twitter.com/linkguardian', '_blank')}
+                className="w-full flex items-center gap-3 p-3 bg-muted/50 rounded-xl hover:bg-muted active:scale-[0.98] transition-all"
+              >
+                <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+                  <MessageCircle className="w-5 h-5 text-primary" />
+                </div>
+                <div className="flex-1 text-left">
+                  <p className="font-medium text-sm">Twitter / X</p>
+                  <p className="text-xs text-muted-foreground">@linkguardian</p>
+                </div>
+                <ExternalLink className="w-4 h-4 text-muted-foreground" />
+              </button>
+            </div>
+          </div>
+        </SheetContent>
+      </Sheet>
     </div>
   );
 }
