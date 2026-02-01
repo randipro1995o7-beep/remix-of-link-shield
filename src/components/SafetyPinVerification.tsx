@@ -1,56 +1,55 @@
-import { useState } from 'react';
-import { ArrowLeft, ShieldCheck } from 'lucide-react';
+
+import { useState, useCallback } from 'react';
+import { ArrowLeft, ShieldCheck, ShieldAlert } from 'lucide-react';
 import { PinPad } from './PinPad';
-import { useSafetyPin } from '@/contexts/SafetyPinContext';
 import { useApp } from '@/contexts/AppContext';
 
 interface SafetyPinVerificationProps {
   onSuccess: () => void;
   onCancel: () => void;
-  onFail: () => void;
 }
 
-const MAX_ATTEMPTS = 3;
+const MAX_ATTEMPTS = 5;
 
-export function SafetyPinVerification({ onSuccess, onCancel, onFail }: SafetyPinVerificationProps) {
+export function SafetyPinVerification({ onSuccess, onCancel }: SafetyPinVerificationProps) {
+  const [pin, setPin] = useState('');
   const [error, setError] = useState('');
   const [attempts, setAttempts] = useState(0);
-  const { verifySafetyPin } = useSafetyPin();
   const { t } = useApp();
 
-  const handlePinComplete = async (pin: string) => {
-    try {
-      const isCorrect = await verifySafetyPin(pin);
-      
-      if (isCorrect) {
-        onSuccess();
-      } else {
-        const newAttempts = attempts + 1;
-        setAttempts(newAttempts);
-        
-        if (newAttempts >= MAX_ATTEMPTS) {
-          setError(t.safetyPin.tooManyAttempts);
-          // Delay before blocking
-          setTimeout(() => {
-            onFail();
-          }, 1500);
+  const handleKeyPress = useCallback((key: string) => {
+    setError('');
+    if (key === 'backspace') {
+      setPin(p => p.slice(0, -1));
+      return;
+    }
+
+    if (pin.length < 4) {
+      const newPin = pin + key;
+      setPin(newPin);
+
+      if (newPin.length === 4) {
+        const storedPin = localStorage.getItem('user_pin');
+        if (newPin === storedPin) {
+          onSuccess();
         } else {
-          const remaining = MAX_ATTEMPTS - newAttempts;
-          setError(`${t.safetyPin.incorrectError} ${remaining} ${t.safetyPin.attemptsRemaining}.`);
+          const newAttempts = attempts + 1;
+          setAttempts(newAttempts);
+          if (newAttempts >= MAX_ATTEMPTS) {
+            setError("PIN locked. Please reset.");
+          } else {
+            setError(t.safetyPin.incorrectError);
+          }
+          setPin('');
         }
       }
-    } catch {
-      // Fail-safe: block on error
-      setError(t.errors.securityError);
-      setTimeout(() => {
-        onFail();
-      }, 1500);
     }
-  };
+  }, [pin, attempts, onSuccess, t.safetyPin.incorrectError]);
+
+  const isLocked = attempts >= MAX_ATTEMPTS;
 
   return (
     <div className="fixed inset-0 z-50 bg-background flex flex-col animate-fade-in">
-      {/* Header */}
       <div className="flex items-center p-4 safe-area-top">
         <button
           onClick={onCancel}
@@ -61,23 +60,31 @@ export function SafetyPinVerification({ onSuccess, onCancel, onFail }: SafetyPin
         </button>
       </div>
 
-      {/* Icon */}
       <div className="flex justify-center pt-8">
         <div className="w-20 h-20 rounded-full bg-primary/10 flex items-center justify-center">
-          <ShieldCheck className="w-10 h-10 text-primary" />
+          {isLocked ? (
+             <ShieldAlert className="w-10 h-10 text-destructive" />
+          ) : (
+             <ShieldCheck className="w-10 h-10 text-primary" style={{ color: '#26A69A' }} />
+          )}
         </div>
       </div>
 
-      {/* PIN Pad */}
       <div className="flex-1 flex items-center justify-center">
-        <PinPad
-          onComplete={handlePinComplete}
-          onCancel={onCancel}
-          title={t.safetyPin.verifyTitle}
-          subtitle={t.safetyPin.verifySubtitle}
-          error={error}
-          showCancel={false}
-        />
+        {isLocked ? (
+            <div className='text-center'>
+                <h1 className='text-2xl font-bold'>Too many attempts</h1>
+                <p>Please reset your PIN</p>
+            </div>
+        ) : (
+            <PinPad
+              onKeyPress={handleKeyPress}
+              pinLength={pin.length}
+              title={t.safetyPin.verifyTitle}
+              subtitle={"Enter your PIN to proceed"}
+              error={error}
+            />
+        )}
       </div>
     </div>
   );
