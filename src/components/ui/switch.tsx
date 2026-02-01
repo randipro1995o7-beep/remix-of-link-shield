@@ -45,7 +45,7 @@ const Switch = React.forwardRef<
   <SwitchPrimitives.Root
     className={cn(
       switchVariants({ size }),
-      "data-[state=checked]:bg-primary data-[state=unchecked]:bg-muted",
+      "data-[state=checked]:bg-[hsl(var(--toggle-on))] data-[state=unchecked]:bg-muted",
       "transition-colors duration-300 ease-in-out",
       className,
     )}
