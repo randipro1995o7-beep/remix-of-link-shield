@@ -40,8 +40,8 @@
     --success: 158 64% 42%;
     --success-foreground: 0 0% 100%;
 
-    /* Switch ON color (SafeGuard green) */
-    --toggle-on: 142 71% 45%;
+    /* Switch ON color (Teal accent) */
+    --toggle-on: 174 63% 40%;
     
     --warning: 38 92% 50%;
     --warning-foreground: 38 100% 15%;
@@ -110,8 +110,8 @@
     --success: 158 64% 50%;
     --success-foreground: 200 25% 10%;
 
-    /* Switch ON color (SafeGuard green) */
-    --toggle-on: 142 71% 45%;
+    /* Switch ON color (Teal accent) */
+    --toggle-on: 174 63% 40%;
 
     --warning: 38 92% 55%;
     --warning-foreground: 38 100% 10%;
