@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ChevronRight, Globe, Bell, HelpCircle, Shield, FileText, History, Users, Crown, Mail, MessageCircle, ExternalLink } from 'lucide-react';
 import { useApp } from '@/contexts/AppContext';
 import { Card } from '@/components/ui/card';
@@ -39,23 +39,20 @@ interface SettingsItemProps {
 
 function SettingsItem({ icon: Icon, title, subtitle, onClick, rightElement, badge }: SettingsItemProps) {
   const isClickable = Boolean(onClick);
+  const isRowButton = isClickable; // if not clickable, render a non-disabled container so nested controls (Switch) still work
   
-  return (
-    <button
-      onClick={onClick}
-      disabled={!isClickable}
-      className={`
-        w-full flex items-center gap-4 p-4 text-left rounded-xl
-        transition-all duration-200 ease-out
-        ${isClickable 
-          ? 'hover:bg-muted/50 active:bg-muted active:scale-[0.98] cursor-pointer' 
-          : 'cursor-default'
-        }
-        disabled:cursor-default
-        focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2
-      `}
-      aria-label={subtitle ? `${title}: ${subtitle}` : title}
-    >
+  const className = `
+    w-full flex items-center gap-4 p-4 text-left rounded-xl
+    transition-all duration-200 ease-out
+    ${isClickable 
+      ? 'hover:bg-muted/50 active:bg-muted active:scale-[0.98] cursor-pointer' 
+      : 'cursor-default'
+    }
+    focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2
+  `;
+
+  const content = (
+    <>
       <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0" aria-hidden="true">
         <Icon className="w-5 h-5 text-primary" />
       </div>
@@ -82,7 +79,27 @@ function SettingsItem({ icon: Icon, title, subtitle, onClick, rightElement, badg
       {rightElement || (isClickable && (
         <ChevronRight className="w-5 h-5 text-muted-foreground flex-shrink-0" aria-hidden="true" />
       ))}
-    </button>
+    </>
+  );
+
+  if (isRowButton) {
+    return (
+      <button
+        onClick={onClick}
+        className={className}
+        aria-label={subtitle ? `${title}: ${subtitle}` : title}
+        type="button"
+      >
+        {content}
+      </button>
+    );
+  }
+
+  // Non-clickable row: keep layout but DO NOT disable, so nested interactive elements keep working.
+  return (
+    <div className={className} aria-label={subtitle ? `${title}: ${subtitle}` : title}>
+      {content}
+    </div>
   );
 }
 
@@ -93,13 +110,31 @@ export default function Settings() {
   const [showPrivacy, setShowPrivacy] = useState(false);
   const [showAbout, setShowAbout] = useState(false);
   const [showHelp, setShowHelp] = useState(false);
+
+  const NOTIFICATIONS_KEY = 'linkguardian_notifications_enabled';
+  const [notificationsEnabled, setNotificationsEnabled] = useState<boolean>(() => {
+    try {
+      const saved = localStorage.getItem(NOTIFICATIONS_KEY);
+      if (saved === 'true') return true;
+      if (saved === 'false') return false;
+    } catch {
+      // ignore
+    }
+    return state.notificationsEnabled;
+  });
   
   const currentLang = languages.find(l => l.code === state.language);
   const currentLanguage = currentLang?.nativeLabel || 'English';
   
-  const handleNotificationsToggle = (checked: boolean) => {
-    dispatch({ type: 'SET_NOTIFICATIONS_ENABLED', payload: checked });
-  };
+  useEffect(() => {
+    // keep AppContext in sync (other screens rely on this flag)
+    dispatch({ type: 'SET_NOTIFICATIONS_ENABLED', payload: notificationsEnabled });
+    try {
+      localStorage.setItem(NOTIFICATIONS_KEY, String(notificationsEnabled));
+    } catch {
+      // ignore
+    }
+  }, [notificationsEnabled, dispatch]);
   
   const handleLanguageChange = () => {
     // Cycle through supported languages (English and Indonesian for now)
@@ -182,8 +217,8 @@ export default function Settings() {
           rightElement={
             <Switch
               size="lg"
-              checked={state.notificationsEnabled}
-              onCheckedChange={handleNotificationsToggle}
+              checked={notificationsEnabled}
+              onCheckedChange={setNotificationsEnabled}
               aria-label={t.settings.notifications}
             />
           }
