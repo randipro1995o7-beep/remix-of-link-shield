@@ -60,7 +60,7 @@ export function FamilyModeSetup({ onComplete, onCancel }: FamilyModeSetupProps) 
       </div>
 
       {/* Content */}
-      <div className="flex-1 overflow-y-auto px-4 pb-8">
+      <div className="flex-1 overflow-y-auto px-4 pb-24">
         {step === 'intro' && (
           <div className="pt-8 animate-fade-in">
             {/* Icon */}
@@ -87,7 +87,7 @@ export function FamilyModeSetup({ onComplete, onCancel }: FamilyModeSetupProps) 
                   <p className="text-sm text-muted-foreground">{t.familyMode.feature1Desc}</p>
                 </div>
               </Card>
-              
+
               <Card className="p-4 flex items-start gap-3">
                 <Users className="w-6 h-6 text-primary flex-shrink-0 mt-0.5" />
                 <div>
@@ -122,23 +122,21 @@ export function FamilyModeSetup({ onComplete, onCancel }: FamilyModeSetupProps) 
 
         {step === 'create-pin' && (
           <div className="pt-8 animate-fade-in">
-            <PinPad 
+            <PinPad
               title={t.familyMode.createPinTitle}
               subtitle={t.familyMode.createPinDesc}
-              onComplete={handleCreatePin} 
-              showCancel={false}
+              onPinComplete={handleCreatePin}
             />
           </div>
         )}
 
         {step === 'confirm-pin' && (
           <div className="pt-8 animate-fade-in">
-            <PinPad 
+            <PinPad
               title={t.familyMode.confirmPinTitle}
               subtitle={t.familyMode.confirmPinDesc}
-              onComplete={handleConfirmPin}
+              onPinComplete={handleConfirmPin}
               error={confirmError ? t.safetyPin.mismatchError : undefined}
-              showCancel={false}
             />
           </div>
         )}

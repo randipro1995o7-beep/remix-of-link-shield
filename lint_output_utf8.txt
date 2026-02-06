@@ -1,0 +1,70 @@
+﻿
+> vite_react_shadcn_ts@0.0.0 lint
+> eslint .
+
+
+C:\Users\randy\AndroidStudioProjects\remix-of-link-shield-1\android\app\build\intermediates\assets\debug\mergeDebugAssets\native-bridge.js
+    36:5   warning  Unused eslint-disable directive (no problems were reported)
+   208:29  warning  Unused eslint-disable directive (no problems were reported from 'no-prototype-builtins')
+  1009:13  error    Definition for rule '@typescript-eslint/no-unused-vars' was not found                     @typescript-eslint/no-unused-vars
+
+C:\Users\randy\AndroidStudioProjects\remix-of-link-shield-1\src\components\LinkInterceptionFlow.tsx
+  33:6  warning  React Hook useEffect has missing dependencies: 'currentLink' and 'resetVerification'. Either include them or remove the dependency array  react-hooks/exhaustive-deps
+
+C:\Users\randy\AndroidStudioProjects\remix-of-link-shield-1\src\components\QRScannerScreen.tsx
+  111:8  warning  React Hook useCallback has a missing dependency: 'handleScanResult'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+C:\Users\randy\AndroidStudioProjects\remix-of-link-shield-1\src\components\onboarding\OnboardingFlow.tsx
+  120:17  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+
+C:\Users\randy\AndroidStudioProjects\remix-of-link-shield-1\src\components\ui\badge.tsx
+  29:17  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+
+C:\Users\randy\AndroidStudioProjects\remix-of-link-shield-1\src\components\ui\button.tsx
+  47:18  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+
+C:\Users\randy\AndroidStudioProjects\remix-of-link-shield-1\src\components\ui\command.tsx
+  24:11  error  An interface declaring no members is equivalent to its supertype  @typescript-eslint/no-empty-object-type
+
+C:\Users\randy\AndroidStudioProjects\remix-of-link-shield-1\src\components\ui\form.tsx
+  129:10  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+
+C:\Users\randy\AndroidStudioProjects\remix-of-link-shield-1\src\components\ui\navigation-menu.tsx
+  111:3  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+
+C:\Users\randy\AndroidStudioProjects\remix-of-link-shield-1\src\components\ui\sidebar.tsx
+  636:3  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+
+C:\Users\randy\AndroidStudioProjects\remix-of-link-shield-1\src\components\ui\sonner.tsx
+  27:19  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+
+C:\Users\randy\AndroidStudioProjects\remix-of-link-shield-1\src\components\ui\textarea.tsx
+  5:18  error  An interface declaring no members is equivalent to its supertype  @typescript-eslint/no-empty-object-type
+
+C:\Users\randy\AndroidStudioProjects\remix-of-link-shield-1\src\components\ui\toggle.tsx
+  37:18  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+
+C:\Users\randy\AndroidStudioProjects\remix-of-link-shield-1\src\contexts\AppContext.tsx
+  254:6   warning  React Hook useEffect has a missing dependency: 'state'. Either include it or remove the dependency array                        react-hooks/exhaustive-deps
+  290:17  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+
+C:\Users\randy\AndroidStudioProjects\remix-of-link-shield-1\src\contexts\LinkInterceptionContext.tsx
+   62:34  error    Unexpected any. Specify a different type                                                                                        @typescript-eslint/no-explicit-any
+  153:6   warning  React Hook useEffect has a missing dependency: 'interceptLink'. Either include it or remove the dependency array                react-hooks/exhaustive-deps
+  230:17  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+
+C:\Users\randy\AndroidStudioProjects\remix-of-link-shield-1\src\contexts\SafetyPinContext.tsx
+  115:17  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+
+C:\Users\randy\AndroidStudioProjects\remix-of-link-shield-1\src\hooks\useShareIntent.ts
+  82:22  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\randy\AndroidStudioProjects\remix-of-link-shield-1\src\lib\alertSound.ts
+  16:67  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\randy\AndroidStudioProjects\remix-of-link-shield-1\tailwind.config.ts
+  109:13  error  A `require()` style import is forbidden  @typescript-eslint/no-require-imports
+
+Γ£û 24 problems (7 errors, 17 warnings)
+  0 errors and 2 warnings potentially fixable with the `--fix` option.
+

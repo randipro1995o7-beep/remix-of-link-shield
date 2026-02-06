@@ -251,3 +251,17 @@
     animation: shake 0.5s ease-in-out;
   }
 }
+
+/* Barcode Scanner - transparent background for camera */
+body.scanner-active {
+  background: transparent !important;
+}
+
+body.scanner-active #root {
+  background: transparent !important;
+}
+
+body.scanner-active .fixed.inset-0:not([class*="z-50"]) {
+  display: none !important;
+}
+

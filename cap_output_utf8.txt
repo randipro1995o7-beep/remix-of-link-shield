@@ -1,0 +1,14 @@
+﻿ΓêÜ Copying web assets from dist to android\app\src\main\assets\public in 21.94ms
+ΓêÜ Creating capacitor.config.json in android\app\src\main\assets in 1.43ms
+ΓêÜ copy android in 127.16ms
+ΓêÜ Updating Android plugins in 28.97ms
+[info] Found 5 Capacitor plugins for android:
+       @capacitor-community/barcode-scanner@4.0.1
+       @capacitor/app@8.0.0
+       @capacitor/browser@8.0.0
+       @capacitor/haptics@8.0.0
+       @capacitor/preferences@8.0.0
+ΓêÜ update android in 221.02ms
+ΓêÜ copy web in 58.28ms
+ΓêÜ update web in 64.66ms
+[info] Sync finished in 0.723s

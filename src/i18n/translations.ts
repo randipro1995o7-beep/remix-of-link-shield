@@ -8,14 +8,14 @@ export interface TranslationKeys {
   // App general
   appName: string;
   tagline: string;
-  
+
   // Navigation
   nav: {
     home: string;
     safety: string;
     settings: string;
   };
-  
+
   // Home screen
   home: {
     statusActive: string;
@@ -29,7 +29,7 @@ export interface TranslationKeys {
     testSafetyDesc: string;
     simulateLink: string;
   };
-  
+
   // Safety screen
   safety: {
     title: string;
@@ -40,7 +40,7 @@ export interface TranslationKeys {
     permissionsNeeded: string;
     grantPermissions: string;
   };
-  
+
   // Settings screen
   settings: {
     title: string;
@@ -59,8 +59,27 @@ export interface TranslationKeys {
     familyModeDesc: string;
     premium: string;
     premiumDesc: string;
+    whitelist: string;
+    whitelistDesc: string;
   };
-  
+
+  // Whitelist
+  whitelist: {
+    title: string;
+    description: string;
+    empty: string;
+    emptyDesc: string;
+    remove: string;
+    removeConfirmTitle: string;
+    removeConfirmDesc: string;
+    domain: string;
+    addSite: string;
+    enterUrl: string;
+    add: string;
+    invalidUrl: string;
+    addedDate: string;
+  };
+
   // Permissions
   permissions: {
     title: string;
@@ -81,7 +100,7 @@ export interface TranslationKeys {
     doesNotCollect: string;
     doesNotShare: string;
   };
-  
+
   // Stop screen
   stopScreen: {
     title: string;
@@ -94,7 +113,7 @@ export interface TranslationKeys {
     continueToReview: string;
     skipNotRecommended: string;
   };
-  
+
   // Safety PIN
   safetyPin: {
     createTitle: string;
@@ -112,7 +131,7 @@ export interface TranslationKeys {
     blocked: string;
     purpose: string;
   };
-  
+
   // Safety Review
   safetyReview: {
     title: string;
@@ -129,7 +148,25 @@ export interface TranslationKeys {
     openAnyway: string;
     disclaimer: string;
   };
-  
+
+  // Blocked Link Screen
+  blocked: {
+    title: string;
+    dangerTitle: string;
+    dangerDesc: string;
+    attemptedUrl: string;
+    identifiedAs: string;
+    unknownScam: string;
+    whyBlocked: string;
+    whyBlockedDesc: string;
+    whatToDo: string;
+    tip1: string;
+    tip2: string;
+    tip3: string;
+    closeButton: string;
+    cannotProceed: string;
+  };
+
   // Skip confirmation
   skipConfirmation: {
     title: string;
@@ -140,7 +177,7 @@ export interface TranslationKeys {
     goBack: string;
     skipAnyway: string;
   };
-  
+
   // High Risk confirmation
   highRisk: {
     title: string;
@@ -152,7 +189,7 @@ export interface TranslationKeys {
     holdInstruction: string;
     holdProgress: string;
   };
-  
+
   // Safety History
   history: {
     title: string;
@@ -171,7 +208,7 @@ export interface TranslationKeys {
       blocked: string;
     };
   };
-  
+
   // Family Mode
   familyMode: {
     title: string;
@@ -194,7 +231,7 @@ export interface TranslationKeys {
     guardianPinTitle: string;
     guardianPinDesc: string;
   };
-  
+
   // Privacy & About
   privacy: {
     title: string;
@@ -209,7 +246,7 @@ export interface TranslationKeys {
     clearableDataDesc: string;
     lastUpdated: string;
   };
-  
+
   about: {
     title: string;
     description: string;
@@ -222,7 +259,7 @@ export interface TranslationKeys {
     version: string;
     madeWith: string;
   };
-  
+
   // Errors
   errors: {
     generic: string;
@@ -240,7 +277,7 @@ export interface TranslationKeys {
     analysisTitle: string;
     analysisDesc: string;
   };
-  
+
   // Common
   common: {
     enable: string;
@@ -253,6 +290,7 @@ export interface TranslationKeys {
     loading: string;
     show: string;
     hide: string;
+    close: string;
   };
 }
 
@@ -260,13 +298,13 @@ export interface TranslationKeys {
 const englishTranslations: TranslationKeys = {
   appName: 'Link Guardian',
   tagline: 'Pause, think, then click',
-  
+
   nav: {
     home: 'Home',
     safety: 'Safety',
     settings: 'Settings',
   },
-  
+
   home: {
     statusActive: 'Safety Steps Active',
     statusActiveDesc: 'Link Guardian adds a pause before opening links',
@@ -279,7 +317,7 @@ const englishTranslations: TranslationKeys = {
     testSafetyDesc: 'Tap below to see what happens when you receive a link',
     simulateLink: 'See Safety Flow Demo',
   },
-  
+
   safety: {
     title: 'Safety Settings',
     enabled: 'Safety steps are on',
@@ -289,7 +327,7 @@ const englishTranslations: TranslationKeys = {
     permissionsNeeded: 'We need some permissions first',
     grantPermissions: 'Grant Permissions',
   },
-  
+
   settings: {
     title: 'Settings',
     language: 'Language',
@@ -307,8 +345,26 @@ const englishTranslations: TranslationKeys = {
     familyModeDesc: 'Add extra steps for shared devices',
     premium: 'Premium Features',
     premiumDesc: 'Extended history, Family Mode & more',
+    whitelist: 'Trusted Sites',
+    whitelistDesc: 'Manage sites that skip safety checks',
   },
-  
+
+  whitelist: {
+    title: 'Trusted Sites',
+    description: 'These websites will skip safety checks and open immediately.',
+    empty: 'No trusted sites yet',
+    emptyDesc: 'Sites you mark as "Always Trust" will appear here',
+    remove: 'Remove',
+    removeConfirmTitle: 'Remove from Trusted?',
+    removeConfirmDesc: 'This site will be checked again next time you visit.',
+    domain: 'Domain',
+    addSite: 'Add a new trusted site',
+    enterUrl: 'example.com or paste link',
+    add: 'Add Site',
+    invalidUrl: 'Please enter a valid domain or URL',
+    addedDate: 'Added',
+  },
+
   permissions: {
     title: 'Permissions Needed',
     description: 'Link Guardian needs these to add a safety pause before you open links',
@@ -328,7 +384,7 @@ const englishTranslations: TranslationKeys = {
     doesNotCollect: 'We do not collect your personal data',
     doesNotShare: 'We do not share anything with third parties',
   },
-  
+
   stopScreen: {
     title: 'Let\'s pause for a moment',
     subtitle: 'You\'re about to open an external link. Taking a moment can help you decide if it\'s right for you.',
@@ -340,7 +396,7 @@ const englishTranslations: TranslationKeys = {
     continueToReview: 'Continue to Review',
     skipNotRecommended: 'Skip this step (not recommended)',
   },
-  
+
   safetyPin: {
     createTitle: 'Create Your Safety PIN',
     createSubtitle: 'This adds a helpful pause when opening links',
@@ -357,7 +413,7 @@ const englishTranslations: TranslationKeys = {
     blocked: 'Link cancelled for now',
     purpose: 'The Safety PIN helps you slow down and think before clicking unfamiliar links.',
   },
-  
+
   safetyReview: {
     title: 'Link Review',
     analyzing: 'Looking at this link...',
@@ -373,7 +429,24 @@ const englishTranslations: TranslationKeys = {
     openAnyway: 'Open Anyway',
     disclaimer: 'Link Guardian helps you pause and think, but cannot guarantee any website is completely safe. Always be thoughtful with personal information.',
   },
-  
+
+  blocked: {
+    title: 'Dangerous Link Blocked',
+    dangerTitle: 'This Link is Dangerous',
+    dangerDesc: 'We have identified this website as a confirmed scam.',
+    attemptedUrl: 'You tried to open:',
+    identifiedAs: 'Identified as:',
+    unknownScam: 'Known Scam Website',
+    whyBlocked: 'Why is this blocked?',
+    whyBlockedDesc: 'This website is in our database of known scam sites. It is designed to steal your personal information, money, or both. We have blocked access to protect you.',
+    whatToDo: 'What should you do?',
+    tip1: 'Do not try to visit this website through other means',
+    tip2: 'If you received this link from someone, they may have been hacked',
+    tip3: 'Report suspicious messages to help protect others',
+    closeButton: 'Close & Stay Safe',
+    cannotProceed: 'This link cannot be opened for your safety',
+  },
+
   skipConfirmation: {
     title: 'Skip Review Step?',
     description: 'You\'re choosing to open this link without our review.',
@@ -383,7 +456,7 @@ const englishTranslations: TranslationKeys = {
     goBack: 'Go Back to Review',
     skipAnyway: 'Skip Anyway',
   },
-  
+
   highRisk: {
     title: 'This Link Needs Your Attention',
     description: 'We noticed some things that might be worth knowing about. Take a moment before deciding.',
@@ -394,7 +467,7 @@ const englishTranslations: TranslationKeys = {
     holdInstruction: 'Press and hold for 1.5 seconds',
     holdProgress: 'Keep holding...',
   },
-  
+
   history: {
     title: 'Your Link History',
     empty: 'No links reviewed yet',
@@ -412,7 +485,7 @@ const englishTranslations: TranslationKeys = {
       blocked: 'Blocked',
     },
   },
-  
+
   familyMode: {
     title: 'Family Mode',
     subtitle: 'Add an extra step for links that need attention',
@@ -434,7 +507,7 @@ const englishTranslations: TranslationKeys = {
     guardianPinTitle: 'Guardian Approval Needed',
     guardianPinDesc: 'A trusted adult needs to enter the Guardian PIN',
   },
-  
+
   privacy: {
     title: 'Privacy Policy',
     intro: 'Link Guardian is designed with your privacy as a priority.',
@@ -448,7 +521,7 @@ const englishTranslations: TranslationKeys = {
     clearableDataDesc: 'Clear your history anytime from Settings. Uninstalling the app removes everything.',
     lastUpdated: 'Last updated',
   },
-  
+
   about: {
     title: 'About Link Guardian',
     description: 'A simple tool that adds a thoughtful pause before opening links.',
@@ -461,7 +534,7 @@ const englishTranslations: TranslationKeys = {
     version: 'Version',
     madeWith: 'Made with care for everyday people',
   },
-  
+
   errors: {
     generic: 'Something didn\'t work',
     genericDesc: 'We couldn\'t complete this action. To be safe, the link has been cancelled.',
@@ -478,7 +551,7 @@ const englishTranslations: TranslationKeys = {
     analysisTitle: 'Couldn\'t Review Link',
     analysisDesc: 'We couldn\'t check this link. To be safe, it has been cancelled.',
   },
-  
+
   common: {
     enable: 'Enable',
     disable: 'Disable',
@@ -490,6 +563,7 @@ const englishTranslations: TranslationKeys = {
     loading: 'Loading...',
     show: 'Show',
     hide: 'Hide',
+    close: 'Close',
   },
 };
 
@@ -497,13 +571,13 @@ const englishTranslations: TranslationKeys = {
 const indonesianTranslations: TranslationKeys = {
   appName: 'Link Guardian',
   tagline: 'Berhenti, pikir, baru klik',
-  
+
   nav: {
     home: 'Beranda',
     safety: 'Keamanan',
     settings: 'Pengaturan',
   },
-  
+
   home: {
     statusActive: 'Langkah Keamanan Aktif',
     statusActiveDesc: 'Link Guardian menambahkan jeda sebelum membuka tautan',
@@ -516,7 +590,7 @@ const indonesianTranslations: TranslationKeys = {
     testSafetyDesc: 'Ketuk di bawah untuk melihat apa yang terjadi saat Anda menerima tautan',
     simulateLink: 'Lihat Demo Keamanan',
   },
-  
+
   safety: {
     title: 'Pengaturan Keamanan',
     enabled: 'Langkah keamanan aktif',
@@ -526,7 +600,7 @@ const indonesianTranslations: TranslationKeys = {
     permissionsNeeded: 'Kami perlu beberapa izin dulu',
     grantPermissions: 'Berikan Izin',
   },
-  
+
   settings: {
     title: 'Pengaturan',
     language: 'Bahasa',
@@ -544,8 +618,26 @@ const indonesianTranslations: TranslationKeys = {
     familyModeDesc: 'Tambahkan langkah ekstra untuk perangkat bersama',
     premium: 'Fitur Premium',
     premiumDesc: 'Riwayat lengkap, Mode Keluarga & lainnya',
+    whitelist: 'Situs Terpercaya',
+    whitelistDesc: 'Kelola situs yang melewati pemeriksaan',
   },
-  
+
+  whitelist: {
+    title: 'Situs Terpercaya',
+    description: 'Situs web ini akan melewati pemeriksaan keamanan dan langsung dibuka.',
+    empty: 'Belum ada situs terpercaya',
+    emptyDesc: 'Situs yang Anda tandai "Selalu Percaya" akan muncul di sini',
+    remove: 'Hapus',
+    removeConfirmTitle: 'Hapus dari Terpercaya?',
+    removeConfirmDesc: 'Situs ini akan diperiksa lagi saat kunjungan berikutnya.',
+    domain: 'Domain',
+    addSite: 'Tambah situs terpercaya baru',
+    enterUrl: 'example.com atau tempel tautan',
+    add: 'Tambahkan',
+    invalidUrl: 'Mohon masukkan domain atau URL yang valid',
+    addedDate: 'Ditambahkan',
+  },
+
   permissions: {
     title: 'Izin Diperlukan',
     description: 'Link Guardian memerlukan ini untuk menambahkan jeda keamanan sebelum Anda membuka tautan',
@@ -565,7 +657,7 @@ const indonesianTranslations: TranslationKeys = {
     doesNotCollect: 'Kami tidak mengumpulkan data pribadi Anda',
     doesNotShare: 'Kami tidak berbagi apapun dengan pihak ketiga',
   },
-  
+
   stopScreen: {
     title: 'Mari berhenti sebentar',
     subtitle: 'Anda akan membuka tautan eksternal. Berhenti sejenak dapat membantu Anda memutuskan apakah ini tepat untuk Anda.',
@@ -577,7 +669,7 @@ const indonesianTranslations: TranslationKeys = {
     continueToReview: 'Lanjutkan ke Tinjauan',
     skipNotRecommended: 'Lewati langkah ini (tidak disarankan)',
   },
-  
+
   safetyPin: {
     createTitle: 'Buat PIN Keamanan Anda',
     createSubtitle: 'Ini menambahkan jeda yang membantu saat membuka tautan',
@@ -594,7 +686,7 @@ const indonesianTranslations: TranslationKeys = {
     blocked: 'Tautan dibatalkan untuk saat ini',
     purpose: 'PIN Keamanan membantu Anda memperlambat dan berpikir sebelum mengklik tautan yang tidak dikenal.',
   },
-  
+
   safetyReview: {
     title: 'Tinjauan Tautan',
     analyzing: 'Melihat tautan ini...',
@@ -610,7 +702,24 @@ const indonesianTranslations: TranslationKeys = {
     openAnyway: 'Buka Tetap',
     disclaimer: 'Link Guardian membantu Anda berhenti dan berpikir, tetapi tidak dapat menjamin situs web mana pun sepenuhnya aman. Selalu berhati-hati dengan informasi pribadi.',
   },
-  
+
+  blocked: {
+    title: 'Tautan Berbahaya Diblokir',
+    dangerTitle: 'Tautan Ini Berbahaya',
+    dangerDesc: 'Kami telah mengidentifikasi situs web ini sebagai penipuan yang dikonfirmasi.',
+    attemptedUrl: 'Anda mencoba membuka:',
+    identifiedAs: 'Diidentifikasi sebagai:',
+    unknownScam: 'Situs Web Penipuan Dikenal',
+    whyBlocked: 'Mengapa ini diblokir?',
+    whyBlockedDesc: 'Situs web ini ada dalam database kami tentang situs penipuan yang dikenal. Situs ini dirancang untuk mencuri informasi pribadi, uang, atau keduanya. Kami telah memblokir akses untuk melindungi Anda.',
+    whatToDo: 'Apa yang harus Anda lakukan?',
+    tip1: 'Jangan mencoba mengunjungi situs web ini melalui cara lain',
+    tip2: 'Jika Anda menerima tautan ini dari seseorang, mereka mungkin telah diretas',
+    tip3: 'Laporkan pesan mencurigakan untuk membantu melindungi orang lain',
+    closeButton: 'Tutup & Tetap Aman',
+    cannotProceed: 'Tautan ini tidak dapat dibuka untuk keselamatan Anda',
+  },
+
   skipConfirmation: {
     title: 'Lewati Langkah Tinjauan?',
     description: 'Anda memilih untuk membuka tautan ini tanpa tinjauan kami.',
@@ -620,7 +729,7 @@ const indonesianTranslations: TranslationKeys = {
     goBack: 'Kembali ke Tinjauan',
     skipAnyway: 'Lewati Tetap',
   },
-  
+
   highRisk: {
     title: 'Tautan Ini Perlu Perhatian Anda',
     description: 'Kami melihat beberapa hal yang mungkin perlu Anda ketahui. Luangkan waktu sebelum memutuskan.',
@@ -631,7 +740,7 @@ const indonesianTranslations: TranslationKeys = {
     holdInstruction: 'Tekan dan tahan selama 1,5 detik',
     holdProgress: 'Terus tahan...',
   },
-  
+
   history: {
     title: 'Riwayat Tautan Anda',
     empty: 'Belum ada tautan yang ditinjau',
@@ -649,7 +758,7 @@ const indonesianTranslations: TranslationKeys = {
       blocked: 'Diblokir',
     },
   },
-  
+
   familyMode: {
     title: 'Mode Keluarga',
     subtitle: 'Tambahkan langkah ekstra untuk tautan yang perlu perhatian',
@@ -671,7 +780,7 @@ const indonesianTranslations: TranslationKeys = {
     guardianPinTitle: 'Persetujuan Wali Diperlukan',
     guardianPinDesc: 'Orang dewasa terpercaya perlu memasukkan PIN Wali',
   },
-  
+
   privacy: {
     title: 'Kebijakan Privasi',
     intro: 'Link Guardian dirancang dengan privasi Anda sebagai prioritas.',
@@ -685,7 +794,7 @@ const indonesianTranslations: TranslationKeys = {
     clearableDataDesc: 'Hapus riwayat Anda kapan saja dari Pengaturan. Menghapus aplikasi akan menghapus semuanya.',
     lastUpdated: 'Terakhir diperbarui',
   },
-  
+
   about: {
     title: 'Tentang Link Guardian',
     description: 'Alat sederhana yang menambahkan jeda sebelum membuka tautan.',
@@ -698,7 +807,7 @@ const indonesianTranslations: TranslationKeys = {
     version: 'Versi',
     madeWith: 'Dibuat dengan perhatian untuk orang biasa',
   },
-  
+
   errors: {
     generic: 'Sesuatu tidak berfungsi',
     genericDesc: 'Kami tidak dapat menyelesaikan tindakan ini. Untuk keamanan, tautan telah dibatalkan.',
@@ -715,7 +824,7 @@ const indonesianTranslations: TranslationKeys = {
     analysisTitle: 'Tidak Dapat Meninjau Tautan',
     analysisDesc: 'Kami tidak dapat memeriksa tautan ini. Untuk keamanan, tautan telah dibatalkan.',
   },
-  
+
   common: {
     enable: 'Aktifkan',
     disable: 'Nonaktifkan',
@@ -727,6 +836,7 @@ const indonesianTranslations: TranslationKeys = {
     loading: 'Memuat...',
     show: 'Tampilkan',
     hide: 'Sembunyikan',
+    close: 'Tutup',
   },
 };
 

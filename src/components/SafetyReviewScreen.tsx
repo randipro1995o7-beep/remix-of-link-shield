@@ -7,7 +7,10 @@ import { SafetyHistoryService, FamilyModeService } from '@/lib/storage';
 import { cn } from '@/lib/utils';
 import { HighRiskConfirmation } from './HighRiskConfirmation';
 import { GuardianPinVerification } from './GuardianPinVerification';
+import { BlockedLinkScreen } from './BlockedLinkScreen';
 import { useApp } from '@/contexts/AppContext';
+import { Haptics, NotificationType } from '@capacitor/haptics';
+import { playWarningSound, playDangerSound } from '@/lib/alertSound';
 
 interface SafetyReviewScreenProps {
   url: string;
@@ -60,6 +63,13 @@ export function SafetyReviewScreen({ url, source, onCancel, onProceed }: SafetyR
       iconColor: 'text-destructive',
       borderColor: 'border-destructive/20',
     },
+    blocked: {
+      icon: ShieldX,
+      title: t.blocked.title,
+      bgColor: 'bg-destructive/20',
+      iconColor: 'text-destructive',
+      borderColor: 'border-destructive/30',
+    },
   };
 
   useEffect(() => {
@@ -67,24 +77,44 @@ export function SafetyReviewScreen({ url, source, onCancel, onProceed }: SafetyR
       // Check family mode status
       const isFamilyMode = await FamilyModeService.isEnabled();
       setFamilyModeEnabled(isFamilyMode);
-      
+
       // Simulate brief analysis time for user experience
       await new Promise(resolve => setTimeout(resolve, 1200));
       const result = performSafetyReview(url);
       setReview(result);
       setIsAnalyzing(false);
+
+      // Play audio alert and haptic feedback for high-risk or blocked links
+      if (result.riskLevel === 'high' || result.riskLevel === 'blocked') {
+        // Play audio alert
+        if (result.riskLevel === 'blocked') {
+          await playDangerSound();
+        } else {
+          await playWarningSound();
+        }
+
+        // Also vibrate
+        try {
+          await Haptics.notification({ type: NotificationType.Warning });
+        } catch (e) {
+          // Haptics not available, ignore silently
+          console.debug('Haptics not available:', e);
+        }
+      }
     };
-    
+
     init();
   }, [url]);
 
   const handleCancel = async () => {
     // Record cancelled decision
     if (review) {
+      // Use 'high' for blocked links in history (storage type compatibility)
+      const storedRiskLevel = review.riskLevel === 'blocked' ? 'high' : review.riskLevel;
       await SafetyHistoryService.recordDecision({
         url,
         domain: review.domain,
-        riskLevel: review.riskLevel,
+        riskLevel: storedRiskLevel,
         action: 'cancelled',
         source,
       });
@@ -94,7 +124,7 @@ export function SafetyReviewScreen({ url, source, onCancel, onProceed }: SafetyR
 
   const handleProceed = async () => {
     if (!review) return;
-    
+
     // For HIGH risk links, require extra friction
     if (review.riskLevel === 'high') {
       // Check if family mode requires guardian approval
@@ -105,17 +135,19 @@ export function SafetyReviewScreen({ url, source, onCancel, onProceed }: SafetyR
       }
       return;
     }
-    
+
     // Record and proceed for low/medium risk
     await recordAndProceed();
   };
 
   const recordAndProceed = async () => {
     if (review) {
+      // Use 'high' for blocked links in history (storage type compatibility)
+      const storedRiskLevel = review.riskLevel === 'blocked' ? 'high' : review.riskLevel;
       await SafetyHistoryService.recordDecision({
         url,
         domain: review.domain,
-        riskLevel: review.riskLevel,
+        riskLevel: storedRiskLevel,
         action: 'opened',
         source,
       });
@@ -146,7 +178,7 @@ export function SafetyReviewScreen({ url, source, onCancel, onProceed }: SafetyR
 
   if (isAnalyzing || !review) {
     return (
-      <div 
+      <div
         className="fixed inset-0 z-50 bg-background flex flex-col items-center justify-center animate-fade-in"
         role="status"
         aria-live="polite"
@@ -181,15 +213,27 @@ export function SafetyReviewScreen({ url, source, onCancel, onProceed }: SafetyR
     );
   }
 
+  // Show blocked screen for confirmed scam links - NO BYPASS OPTION
+  if (review.riskLevel === 'blocked') {
+    return (
+      <BlockedLinkScreen
+        url={url}
+        domain={review.domain}
+        scamCategory={review.scamCategory}
+        onClose={onCancel}
+      />
+    );
+  }
+
   const config = riskConfig[review.riskLevel];
   const RiskIcon = config.icon;
-  
+
   // Separate failed and passed checks
   const failedChecks = review.checks.filter(c => !c.passed);
   const passedChecks = review.checks.filter(c => c.passed);
 
   return (
-    <div 
+    <div
       className="fixed inset-0 z-50 bg-background flex flex-col animate-fade-in"
       role="main"
       aria-labelledby="review-title"
@@ -211,7 +255,7 @@ export function SafetyReviewScreen({ url, source, onCancel, onProceed }: SafetyR
       <div className="flex-1 overflow-y-auto px-4 pb-32">
         {/* Risk Level Badge */}
         <div className="flex justify-center pt-4 pb-6">
-          <div 
+          <div
             className={cn(
               "flex items-center gap-3 px-6 py-4 rounded-2xl border-2",
               config.bgColor,
@@ -290,7 +334,7 @@ export function SafetyReviewScreen({ url, source, onCancel, onProceed }: SafetyR
                 {showAllChecks ? t.common.hide : t.common.show}
               </span>
             </button>
-            
+
             {showAllChecks && (
               <div className="space-y-2 mt-2">
                 {passedChecks.map((check) => (
@@ -331,7 +375,7 @@ export function SafetyReviewScreen({ url, source, onCancel, onProceed }: SafetyR
             <X className="w-5 h-5" aria-hidden="true" />
             {t.safetyReview.cancelAndClose}
           </Button>
-          
+
           {/* Secondary action - Proceed anyway */}
           <button
             onClick={handleProceed}

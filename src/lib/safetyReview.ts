@@ -1,7 +1,9 @@
 // Safety Review - Rule-based link analysis
 // Uses lightweight checks without AI dependency
 
-export type RiskLevel = 'low' | 'medium' | 'high';
+import { getScamInfo, getCategoryLabel, ScamCategory } from './scamDatabase';
+
+export type RiskLevel = 'low' | 'medium' | 'high' | 'blocked';
 
 export interface SafetyCheck {
   id: string;
@@ -18,6 +20,7 @@ export interface SafetyReviewResult {
   checks: SafetyCheck[];
   summary: string;
   recommendation: string;
+  scamCategory?: ScamCategory;
 }
 
 // Known trusted domains (simplified list)
@@ -80,8 +83,8 @@ function checkHttps(url: string): SafetyCheck {
   return {
     id: 'https',
     name: 'Secure Connection',
-    description: isHttps 
-      ? 'This site uses a secure encrypted connection' 
+    description: isHttps
+      ? 'This site uses a secure encrypted connection'
       : 'This site does not use encryption - your data may not be private',
     passed: isHttps,
     severity: isHttps ? 'info' : 'warning',
@@ -122,14 +125,14 @@ function checkTld(domain: string): SafetyCheck {
 function checkTyposquatting(domain: string): SafetyCheck {
   const lowerDomain = domain.toLowerCase();
   const rootDomain = getRootDomain(lowerDomain);
-  
+
   // Check if domain contains brand name but isn't the real domain
   const matchedBrand = BRAND_NAMES.find(brand => {
     const containsBrand = lowerDomain.includes(brand);
     const isRealDomain = TRUSTED_DOMAINS.has(rootDomain);
     return containsBrand && !isRealDomain;
   });
-  
+
   const isSuspicious = matchedBrand !== undefined;
   return {
     id: 'typosquatting',
@@ -190,7 +193,7 @@ function checkIpAddress(domain: string): SafetyCheck {
 function calculateRiskLevel(checks: SafetyCheck[]): RiskLevel {
   const dangerCount = checks.filter(c => !c.passed && c.severity === 'danger').length;
   const warningCount = checks.filter(c => !c.passed && c.severity === 'warning').length;
-  
+
   if (dangerCount >= 2 || (dangerCount >= 1 && warningCount >= 2)) {
     return 'high';
   }
@@ -206,7 +209,7 @@ function calculateRiskLevel(checks: SafetyCheck[]): RiskLevel {
 // Generate human-readable summary
 function generateSummary(riskLevel: RiskLevel, checks: SafetyCheck[]): string {
   const failedChecks = checks.filter(c => !c.passed);
-  
+
   if (riskLevel === 'high') {
     return 'We found several warning signs about this link. It may be trying to trick you or steal your information.';
   }
@@ -235,7 +238,28 @@ function generateRecommendation(riskLevel: RiskLevel): string {
 // Main safety review function
 export function performSafetyReview(url: string): SafetyReviewResult {
   const domain = extractDomain(url);
-  
+
+  // FIRST: Check scam database - if found, immediately block
+  const scamInfo = getScamInfo(domain);
+  if (scamInfo) {
+    return {
+      url,
+      domain,
+      riskLevel: 'blocked',
+      checks: [{
+        id: 'scam_database',
+        name: 'Known Scam Site',
+        description: `This website is in our database of known scam sites (${getCategoryLabel(scamInfo.category)})`,
+        passed: false,
+        severity: 'danger',
+      }],
+      summary: 'This website has been identified as a confirmed scam site. It is designed to steal your personal information or money.',
+      recommendation: 'DO NOT visit this website. If you received this link from someone, they may have been hacked or are trying to scam you.',
+      scamCategory: scamInfo.category,
+    };
+  }
+
+  // Normal heuristic checks for non-blocked domains
   const checks: SafetyCheck[] = [
     checkHttps(url),
     checkTrustedDomain(domain),
@@ -245,9 +269,9 @@ export function performSafetyReview(url: string): SafetyReviewResult {
     checkSubdomains(domain),
     checkIpAddress(domain),
   ];
-  
+
   const riskLevel = calculateRiskLevel(checks);
-  
+
   return {
     url,
     domain,
@@ -257,3 +281,4 @@ export function performSafetyReview(url: string): SafetyReviewResult {
     recommendation: generateRecommendation(riskLevel),
   };
 }
+

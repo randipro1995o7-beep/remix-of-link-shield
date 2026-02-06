@@ -1,32 +1,65 @@
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { Delete } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
-interface PinPadProps {
-  onKeyPress: (key: string) => void;
-  pinLength: number;
+export interface PinPadProps {
+  onKeyPress?: (key: string) => void;
+  onPinComplete?: (pin: string) => void;
+  pinLength?: number;
   title: string;
   subtitle?: string;
   error?: string;
+  showCancel?: boolean;
+  onCancel?: () => void;
 }
 
 export function PinPad({
   onKeyPress,
-  pinLength,
+  onPinComplete,
+  pinLength: externalPinLength,
   title,
   subtitle,
   error,
+  showCancel,
+  onCancel,
 }: PinPadProps) {
+  const [internalPin, setInternalPin] = useState('');
   const [shake, setShake] = useState(false);
+
+  // Use external pinLength if provided, otherwise use internal state
+  const displayPinLength = externalPinLength !== undefined ? externalPinLength : internalPin.length;
 
   useEffect(() => {
     if (error) {
       setShake(true);
+      setInternalPin(''); // Reset internal pin on error
       const timer = setTimeout(() => setShake(false), 500);
       return () => clearTimeout(timer);
     }
   }, [error]);
+
+  const handleKeyPress = useCallback((key: string) => {
+    // Call external onKeyPress if provided
+    if (onKeyPress) {
+      onKeyPress(key);
+    }
+
+    // Handle internal state for onPinComplete mode
+    if (onPinComplete) {
+      if (key === 'backspace') {
+        setInternalPin(p => p.slice(0, -1));
+      } else if (internalPin.length < 4) {
+        const newPin = internalPin + key;
+        setInternalPin(newPin);
+        if (newPin.length === 4) {
+          onPinComplete(newPin);
+          // Reset for next use
+          setTimeout(() => setInternalPin(''), 100);
+        }
+      }
+    }
+  }, [onKeyPress, onPinComplete, internalPin]);
 
   const digits = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0', 'backspace'];
 
@@ -44,9 +77,9 @@ export function PinPad({
             key={index}
             className={cn(
               "w-5 h-5 rounded-full transition-all duration-150",
-              index < pinLength ? "bg-teal-500 scale-110" : "bg-muted border-2 border-border"
+              index < displayPinLength ? "bg-teal-500 scale-110" : "bg-muted border-2 border-border"
             )}
-             style={{ backgroundColor: index < pinLength ? '#26A69A' : undefined }}
+            style={{ backgroundColor: index < displayPinLength ? '#26A69A' : undefined }}
           />
         ))}
       </div>
@@ -56,19 +89,29 @@ export function PinPad({
 
       <div className="grid grid-cols-3 gap-4 w-full max-w-xs">
         {digits.map((key) => (
-            <button
-              key={key}
-              onClick={() => onKeyPress(key)}
-              className={cn(
-                "h-16 rounded-2xl flex items-center justify-center text-2xl font-semibold text-foreground bg-muted/30 hover:bg-muted/60 transition-all duration-150 active:scale-95 focus:outline-none focus:ring-2 focus:ring-teal-500",
-                key === 'backspace' && "col-start-3"
-              )}
-               style={{ gridColumn: key === '0' ? '2' : undefined }}
-            >
-              {key === 'backspace' ? <Delete className="w-7 h-7" /> : key}
-            </button>
+          <button
+            key={key}
+            onClick={() => handleKeyPress(key)}
+            className={cn(
+              "h-16 rounded-2xl flex items-center justify-center text-2xl font-semibold text-foreground bg-muted/30 hover:bg-muted/60 transition-all duration-150 active:scale-95 focus:outline-none focus:ring-2 focus:ring-teal-500",
+              key === 'backspace' && "col-start-3"
+            )}
+            style={{ gridColumn: key === '0' ? '2' : undefined }}
+          >
+            {key === 'backspace' ? <Delete className="w-7 h-7" /> : key}
+          </button>
         ))}
       </div>
+
+      {showCancel && onCancel && (
+        <button
+          onClick={onCancel}
+          className="mt-6 text-muted-foreground hover:text-foreground transition-colors"
+        >
+          Cancel
+        </button>
+      )}
     </div>
   );
 }
+

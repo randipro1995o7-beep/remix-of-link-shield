@@ -4,6 +4,7 @@
 
     <!-- Izin yang Diperlukan -->
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CAMERA" />
     <!--
       PENTING: Izin ini diperlukan untuk fungsionalitas inti aplikasi.
       Peringatan keamanan sengaja diabaikan sesuai permintaan.
@@ -35,19 +36,47 @@
             </intent-filter>
 
             <!--
-              Intent filter untuk App Links.
-              PENTING: Jangan hapus atau modifikasi blok ini.
+              Intent filter untuk menangkap SEMUA link HTTP/HTTPS.
+              Ini membuat aplikasi muncul sebagai opsi saat user klik link dari mana saja.
+              CATATAN: Menggunakan host="*" agar match dengan semua domain.
             -->
-            <intent-filter android:autoVerify="true">
+            <!-- Intent filter untuk link handling dipindahkan ke alias agar bisa di-toggle -->
+        </activity>
+
+        <!-- 
+          Activity Alias khusus untuk handling link.
+          Default state: enabled="false" (non-aktif).
+          Akan diaktifkan secara programmatically saat user mengaktifkan fitur "Safety Steps".
+        -->
+        <activity-alias
+            android:name=".LinkHandlerActivity"
+            android:enabled="false"
+            android:exported="true"
+            android:targetActivity=".MainActivity">
+            
+            <!-- Intent filter untuk HTTP links -->
+            <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <data
-                    android:host="link-shield-final.vercel.app"
-                    android:scheme="https" />
+                <data android:scheme="http" />
             </intent-filter>
-
-        </activity>
+            
+            <!-- Intent filter untuk HTTPS links -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="https" />
+            </intent-filter>
+            
+            <!-- Intent filter untuk menerima shared text (link dari menu Share) -->
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="text/plain" />
+            </intent-filter>
+        </activity-alias>
 
         <provider
             android:name="androidx.core.content.FileProvider"

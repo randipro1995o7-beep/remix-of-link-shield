@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -9,7 +10,9 @@ import { LinkInterceptionProvider } from "@/contexts/LinkInterceptionContext";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { AppLayout } from "@/components/layout/AppLayout";
 import { LinkInterceptionFlow } from "@/components/LinkInterceptionFlow";
+import { OnboardingFlow } from "@/components/onboarding";
 import { useShareIntent } from "@/hooks/useShareIntent";
+import { initRemoteDatabase } from "@/lib/scamDatabase";
 
 // Pages
 import Index from "./pages/Index";
@@ -19,13 +22,19 @@ import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
 
-// Wrapper component to use hooks inside providers
 function AppContent() {
   // Initialize share intent listener
   useShareIntent();
 
+  // Initialize remote scam database on app startup
+  useEffect(() => {
+    initRemoteDatabase().catch(err => {
+      console.warn('Failed to initialize remote database:', err);
+    });
+  }, []);
+
   return (
-    <>
+    <OnboardingFlow>
       <AppLayout>
         <Routes>
           <Route path="/" element={<Index />} />
@@ -35,10 +44,10 @@ function AppContent() {
           <Route path="*" element={<NotFound />} />
         </Routes>
       </AppLayout>
-      
+
       {/* Global link interception overlay */}
       <LinkInterceptionFlow />
-    </>
+    </OnboardingFlow>
   );
 }
 

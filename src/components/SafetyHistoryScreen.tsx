@@ -103,7 +103,7 @@ export function SafetyHistoryScreen({ onBack }: SafetyHistoryScreenProps) {
       </div>
 
       {/* Content */}
-      <div className="flex-1 overflow-y-auto px-4 pb-8">
+      <div className="flex-1 overflow-y-auto px-4 pb-24">
         {isLoading ? (
           <div className="flex items-center justify-center h-64">
             <div className="animate-spin w-8 h-8 border-2 border-primary border-t-transparent rounded-full" />
@@ -143,7 +143,7 @@ export function SafetyHistoryScreen({ onBack }: SafetyHistoryScreenProps) {
                 {history.map((entry) => {
                   const RiskIcon = riskIcons[entry.riskLevel];
                   const ActionIcon = actionIcons[entry.action];
-                  
+
                   return (
                     <Card key={entry.id} className="p-3">
                       <div className="flex items-start gap-3">
@@ -155,7 +155,7 @@ export function SafetyHistoryScreen({ onBack }: SafetyHistoryScreenProps) {
                         )}>
                           <RiskIcon className={cn("w-5 h-5", riskColors[entry.riskLevel])} />
                         </div>
-                        
+
                         <div className="flex-1 min-w-0">
                           <p className="font-medium text-foreground truncate">{entry.domain}</p>
                           <div className="flex items-center gap-2 mt-1">
@@ -191,20 +191,21 @@ export function SafetyHistoryScreen({ onBack }: SafetyHistoryScreenProps) {
 
       {/* Clear Confirmation Dialog */}
       {showClearConfirm && (
-        <div className="fixed inset-0 z-[60] bg-black/50 flex items-end sm:items-center justify-center animate-fade-in">
-          <div className="bg-background rounded-t-2xl sm:rounded-2xl w-full sm:max-w-sm p-6 safe-area-bottom animate-slide-up">
+        <div className="fixed inset-0 z-[60] bg-black/50 flex items-center justify-center animate-fade-in p-4">
+          <div className="bg-background rounded-2xl w-full max-w-sm p-6 shadow-lg animate-in zoom-in-95 duration-200">
             <h3 className="text-lg font-semibold text-foreground mb-2">{t.history.clearTitle}</h3>
             <p className="text-muted-foreground mb-6">{t.history.clearDesc}</p>
-            <div className="space-y-3">
-              <Button onClick={() => setShowClearConfirm(false)} className="w-full">
+            <div className="grid grid-cols-2 gap-3">
+              <Button onClick={() => setShowClearConfirm(false)} variant="outline" className="w-full">
                 {t.common.cancel}
               </Button>
-              <button
+              <Button
                 onClick={handleClearHistory}
-                className="w-full py-3 text-destructive hover:bg-destructive/10 rounded-xl transition-colors"
+                variant="destructive"
+                className="w-full"
               >
                 {t.history.clearConfirm}
-              </button>
+              </Button>
             </div>
           </div>
         </div>

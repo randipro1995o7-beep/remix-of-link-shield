@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { StopScreen } from './StopScreen';
 import { SafetyPinCreation } from './SafetyPinCreation';
 import { SafetyPinVerification } from './SafetyPinVerification';
@@ -18,13 +18,19 @@ export function LinkInterceptionFlow() {
   const [step, setStep] = useState<FlowStep>('stop');
   const [showSkipConfirmation, setShowSkipConfirmation] = useState(false);
 
-  // Reset flow when a new link comes in
+  // Track the previous link URL to prevent unnecessary resets
+  const previousLinkUrl = useRef<string | null>(null);
+
+  // Reset flow when a NEW link comes in (not on every render)
   useEffect(() => {
-    if (currentLink) {
+    if (currentLink && currentLink.url !== previousLinkUrl.current) {
+      previousLinkUrl.current = currentLink.url;
       setStep('stop');
       resetVerification();
+    } else if (!currentLink) {
+      previousLinkUrl.current = null;
     }
-  }, [currentLink, resetVerification]);
+  }, [currentLink?.url]); // Only depend on the URL, not the whole object or resetVerification
 
   // Fail-safe: if there's a PIN error, block the link
   useEffect(() => {

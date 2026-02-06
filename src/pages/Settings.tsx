@@ -1,13 +1,16 @@
 import { useEffect, useState } from 'react';
-import { ChevronRight, Globe, Bell, HelpCircle, Shield, FileText, History, Users, Crown, Mail, MessageCircle, ExternalLink } from 'lucide-react';
+import { ChevronRight, Globe, Bell, HelpCircle, Shield, FileText, History, Users, Crown, Mail, MessageCircle, ExternalLink, Lock } from 'lucide-react';
 import { useApp } from '@/contexts/AppContext';
 import { Card } from '@/components/ui/card';
 import { Switch } from '@/components/ui/switch';
 import { Language } from '@/i18n/translations';
 import { SafetyHistoryScreen } from '@/components/SafetyHistoryScreen';
 import { FamilyModeSetup } from '@/components/FamilyModeSetup';
+import { WhitelistScreen } from '@/components/WhitelistScreen';
 import { PrivacyPolicy } from './PrivacyPolicy';
 import { AboutPage } from './AboutPage';
+import { ChangePinScreen } from '@/components/ChangePinScreen';
+import { PremiumScreen } from '@/components/PremiumScreen';
 import {
   Sheet,
   SheetContent,
@@ -40,12 +43,12 @@ interface SettingsItemProps {
 function SettingsItem({ icon: Icon, title, subtitle, onClick, rightElement, badge }: SettingsItemProps) {
   const isClickable = Boolean(onClick);
   const isRowButton = isClickable; // if not clickable, render a non-disabled container so nested controls (Switch) still work
-  
+
   const className = `
     w-full flex items-center gap-4 p-4 text-left rounded-xl
     transition-all duration-200 ease-out
-    ${isClickable 
-      ? 'hover:bg-muted/50 active:bg-muted active:scale-[0.98] cursor-pointer' 
+    ${isClickable
+      ? 'hover:bg-muted/50 active:bg-muted active:scale-[0.98] cursor-pointer'
       : 'cursor-default'
     }
     focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2
@@ -56,7 +59,7 @@ function SettingsItem({ icon: Icon, title, subtitle, onClick, rightElement, badg
       <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0" aria-hidden="true">
         <Icon className="w-5 h-5 text-primary" />
       </div>
-      
+
       <div className="flex-1 min-w-0">
         <div className="flex items-center gap-2">
           <p className="font-medium text-foreground">{title}</p>
@@ -75,7 +78,7 @@ function SettingsItem({ icon: Icon, title, subtitle, onClick, rightElement, badg
           <p className="text-sm text-muted-foreground truncate">{subtitle}</p>
         )}
       </div>
-      
+
       {rightElement || (isClickable && (
         <ChevronRight className="w-5 h-5 text-muted-foreground flex-shrink-0" aria-hidden="true" />
       ))}
@@ -110,6 +113,9 @@ export default function Settings() {
   const [showPrivacy, setShowPrivacy] = useState(false);
   const [showAbout, setShowAbout] = useState(false);
   const [showHelp, setShowHelp] = useState(false);
+  const [showWhitelist, setShowWhitelist] = useState(false);
+  const [showChangePin, setShowChangePin] = useState(false);
+  const [showPremium, setShowPremium] = useState(false);
 
   const NOTIFICATIONS_KEY = 'linkguardian_notifications_enabled';
   const [notificationsEnabled, setNotificationsEnabled] = useState<boolean>(() => {
@@ -122,10 +128,10 @@ export default function Settings() {
     }
     return state.notificationsEnabled;
   });
-  
+
   const currentLang = languages.find(l => l.code === state.language);
   const currentLanguage = currentLang?.nativeLabel || 'English';
-  
+
   useEffect(() => {
     // keep AppContext in sync (other screens rely on this flag)
     dispatch({ type: 'SET_NOTIFICATIONS_ENABLED', payload: notificationsEnabled });
@@ -135,7 +141,7 @@ export default function Settings() {
       // ignore
     }
   }, [notificationsEnabled, dispatch]);
-  
+
   const handleLanguageChange = () => {
     // Cycle through supported languages (English and Indonesian for now)
     const supportedLanguages: Language[] = ['en', 'id'];
@@ -149,9 +155,13 @@ export default function Settings() {
     return <SafetyHistoryScreen onBack={() => setShowHistory(false)} />;
   }
 
+  if (showWhitelist) {
+    return <WhitelistScreen onBack={() => setShowWhitelist(false)} />;
+  }
+
   if (showFamilyMode) {
     return (
-      <FamilyModeSetup 
+      <FamilyModeSetup
         onComplete={() => setShowFamilyMode(false)}
         onCancel={() => setShowFamilyMode(false)}
       />
@@ -165,7 +175,15 @@ export default function Settings() {
   if (showAbout) {
     return <AboutPage onBack={() => setShowAbout(false)} />;
   }
-  
+
+  if (showChangePin) {
+    return <ChangePinScreen onBack={() => setShowChangePin(false)} />;
+  }
+
+  if (showPremium) {
+    return <PremiumScreen onBack={() => setShowPremium(false)} />;
+  }
+
   return (
     <div className="p-4 space-y-6 animate-fade-in">
       {/* Header */}
@@ -174,7 +192,7 @@ export default function Settings() {
           {t.settings.title}
         </h1>
       </header>
-      
+
       {/* Safety Features */}
       <Card className="overflow-hidden card-elevated divide-y divide-border">
         <SettingsItem
@@ -183,7 +201,14 @@ export default function Settings() {
           subtitle={t.settings.safetyHistoryDesc}
           onClick={() => setShowHistory(true)}
         />
-        
+
+        <SettingsItem
+          icon={Shield}
+          title={t.settings.whitelist}
+          subtitle={t.settings.whitelistDesc}
+          onClick={() => setShowWhitelist(true)}
+        />
+
         <SettingsItem
           icon={Users}
           title={t.settings.familyMode}
@@ -191,16 +216,23 @@ export default function Settings() {
           onClick={() => setShowFamilyMode(true)}
           badge="premium"
         />
-        
+
+        <SettingsItem
+          icon={Lock}
+          title={state.language === 'id' ? 'Ubah PIN Keamanan' : 'Change Safety PIN'}
+          subtitle={state.language === 'id' ? 'Ganti PIN untuk verifikasi link' : 'Change PIN for link verification'}
+          onClick={() => setShowChangePin(true)}
+        />
+
         <SettingsItem
           icon={Crown}
           title={t.settings.premium}
           subtitle={t.settings.premiumDesc}
-          onClick={() => {}}
+          onClick={() => setShowPremium(true)}
           badge="new"
         />
       </Card>
-      
+
       {/* General Settings */}
       <Card className="overflow-hidden card-elevated divide-y divide-border">
         <SettingsItem
@@ -209,7 +241,7 @@ export default function Settings() {
           subtitle={currentLanguage}
           onClick={handleLanguageChange}
         />
-        
+
         <SettingsItem
           icon={Bell}
           title={t.settings.notifications}
@@ -224,7 +256,7 @@ export default function Settings() {
           }
         />
       </Card>
-      
+
       {/* Help & Info */}
       <Card className="overflow-hidden card-elevated divide-y divide-border">
         <SettingsItem
@@ -232,20 +264,20 @@ export default function Settings() {
           title={t.settings.help}
           onClick={() => setShowHelp(true)}
         />
-        
+
         <SettingsItem
           icon={Shield}
           title={t.settings.about}
           onClick={() => setShowAbout(true)}
         />
-        
+
         <SettingsItem
           icon={FileText}
           title={t.settings.privacy}
           onClick={() => setShowPrivacy(true)}
         />
       </Card>
-      
+
       {/* Version */}
       <div className="text-center pt-4">
         <p className="text-sm text-muted-foreground">
@@ -259,24 +291,24 @@ export default function Settings() {
           <SheetHeader className="text-left pb-4">
             <SheetTitle className="text-xl">{t.settings.help}</SheetTitle>
             <SheetDescription>
-              {state.language === 'id' 
-                ? 'Temukan jawaban atau hubungi kami' 
+              {state.language === 'id'
+                ? 'Temukan jawaban atau hubungi kami'
                 : 'Find answers or get in touch'}
             </SheetDescription>
           </SheetHeader>
-          
+
           <div className="space-y-3 pb-6">
             {/* FAQ Section */}
             <div className="space-y-2">
               <h3 className="text-sm font-medium text-muted-foreground uppercase tracking-wide">
                 {state.language === 'id' ? 'Pertanyaan Umum' : 'FAQ'}
               </h3>
-              
+
               <div className="space-y-2">
                 <div className="p-3 bg-muted/50 rounded-xl">
                   <p className="font-medium text-sm">
-                    {state.language === 'id' 
-                      ? 'Bagaimana cara kerja Link Guardian?' 
+                    {state.language === 'id'
+                      ? 'Bagaimana cara kerja Link Guardian?'
                       : 'How does Link Guardian work?'}
                   </p>
                   <p className="text-sm text-muted-foreground mt-1">
@@ -285,11 +317,11 @@ export default function Settings() {
                       : 'Link Guardian helps you pause before opening links. This gives you time to consider link safety.'}
                   </p>
                 </div>
-                
+
                 <div className="p-3 bg-muted/50 rounded-xl">
                   <p className="font-medium text-sm">
-                    {state.language === 'id' 
-                      ? 'Apakah data saya aman?' 
+                    {state.language === 'id'
+                      ? 'Apakah data saya aman?'
                       : 'Is my data safe?'}
                   </p>
                   <p className="text-sm text-muted-foreground mt-1">
@@ -300,14 +332,14 @@ export default function Settings() {
                 </div>
               </div>
             </div>
-            
+
             {/* Contact Section */}
             <div className="space-y-2 pt-4">
               <h3 className="text-sm font-medium text-muted-foreground uppercase tracking-wide">
                 {state.language === 'id' ? 'Hubungi Kami' : 'Contact Us'}
               </h3>
-              
-              <button 
+
+              <button
                 onClick={() => window.open('mailto:support@linkguardian.app', '_blank')}
                 className="w-full flex items-center gap-3 p-3 bg-muted/50 rounded-xl hover:bg-muted active:scale-[0.98] transition-all"
               >
@@ -320,8 +352,8 @@ export default function Settings() {
                 </div>
                 <ExternalLink className="w-4 h-4 text-muted-foreground" />
               </button>
-              
-              <button 
+
+              <button
                 onClick={() => window.open('https://twitter.com/linkguardian', '_blank')}
                 className="w-full flex items-center gap-3 p-3 bg-muted/50 rounded-xl hover:bg-muted active:scale-[0.98] transition-all"
               >
