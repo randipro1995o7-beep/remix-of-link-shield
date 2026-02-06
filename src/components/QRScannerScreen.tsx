@@ -45,6 +45,7 @@ export function QRScannerScreen({ onClose }: QRScannerScreenProps) {
         return () => {
             BarcodeScanner.stopScan().catch(() => { });
             document.body.classList.remove('scanner-active');
+            document.documentElement.classList.remove('scanner-active');
         };
     }, []);
 
@@ -88,6 +89,7 @@ export function QRScannerScreen({ onClose }: QRScannerScreenProps) {
 
         // Make background transparent for camera
         document.body.classList.add('scanner-active');
+        document.documentElement.classList.add('scanner-active');
 
         try {
             await BarcodeScanner.hideBackground();
@@ -95,6 +97,7 @@ export function QRScannerScreen({ onClose }: QRScannerScreenProps) {
             const result: ScanResult = await BarcodeScanner.startScan();
 
             document.body.classList.remove('scanner-active');
+            document.documentElement.classList.remove('scanner-active');
             await BarcodeScanner.showBackground();
 
             if (result.hasContent && result.content) {
@@ -105,6 +108,7 @@ export function QRScannerScreen({ onClose }: QRScannerScreenProps) {
         } catch (error) {
             console.error('Scan error:', error);
             document.body.classList.remove('scanner-active');
+            document.documentElement.classList.remove('scanner-active');
             await BarcodeScanner.showBackground();
             setScanState('error');
         }
@@ -115,6 +119,7 @@ export function QRScannerScreen({ onClose }: QRScannerScreenProps) {
             await BarcodeScanner.stopScan();
             await BarcodeScanner.showBackground();
             document.body.classList.remove('scanner-active');
+            document.documentElement.classList.remove('scanner-active');
         } catch (error) {
             console.error('Stop scan error:', error);
         }

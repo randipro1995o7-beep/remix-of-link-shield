@@ -42,10 +42,10 @@
 
     /* Switch ON color (Teal accent) */
     --toggle-on: 174 63% 40%;
-    
+
     --warning: 38 92% 50%;
     --warning-foreground: 38 100% 15%;
-    
+
     --destructive: 0 72% 51%;
     --destructive-foreground: 0 0% 100%;
 
@@ -163,7 +163,9 @@
   }
 
   /* Larger touch targets for accessibility */
-  button, a, [role="button"] {
+  button,
+  a,
+  [role="button"] {
     min-height: 44px;
     min-width: 44px;
   }
@@ -175,6 +177,7 @@
 }
 
 @layer components {
+
   /* Safe status indicator */
   .status-safe {
     @apply bg-success text-success-foreground;
@@ -210,10 +213,18 @@
 }
 
 @layer utilities {
+
   /* Animation for gentle pulse (safe status) */
   @keyframes gentle-pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.7; }
+
+    0%,
+    100% {
+      opacity: 1;
+    }
+
+    50% {
+      opacity: 0.7;
+    }
   }
 
   .animate-gentle-pulse {
@@ -222,8 +233,13 @@
 
   /* Slide up animation for bottom sheet */
   @keyframes slide-up {
-    from { transform: translateY(100%); }
-    to { transform: translateY(0); }
+    from {
+      transform: translateY(100%);
+    }
+
+    to {
+      transform: translateY(0);
+    }
   }
 
   .animate-slide-up {
@@ -232,8 +248,13 @@
 
   /* Fade in animation */
   @keyframes fade-in {
-    from { opacity: 0; }
-    to { opacity: 1; }
+    from {
+      opacity: 0;
+    }
+
+    to {
+      opacity: 1;
+    }
   }
 
   .animate-fade-in {
@@ -242,9 +263,26 @@
 
   /* Shake animation for PIN errors */
   @keyframes shake {
-    0%, 100% { transform: translateX(0); }
-    10%, 30%, 50%, 70%, 90% { transform: translateX(-8px); }
-    20%, 40%, 60%, 80% { transform: translateX(8px); }
+
+    0%,
+    100% {
+      transform: translateX(0);
+    }
+
+    10%,
+    30%,
+    50%,
+    70%,
+    90% {
+      transform: translateX(-8px);
+    }
+
+    20%,
+    40%,
+    60%,
+    80% {
+      transform: translateX(8px);
+    }
   }
 
   .animate-shake {
@@ -265,3 +303,10 @@ body.scanner-active .fixed.inset-0:not([class*="z-50"]) {
   display: none !important;
 }
 
+html.scanner-active {
+  background: transparent !important;
+}
+
+body.scanner-active .bg-background {
+  background: transparent !important;
+}
