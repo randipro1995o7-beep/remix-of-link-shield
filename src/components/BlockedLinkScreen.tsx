@@ -22,7 +22,7 @@ interface BlockedLinkScreenProps {
  * The user can only close this screen.
  */
 export function BlockedLinkScreen({ url, domain, scamCategory, onClose }: BlockedLinkScreenProps) {
-    const { t, state } = useApp();
+    const { t, state, refreshStats } = useApp();
 
     // Play alert sound and haptic notification when dangerous link is blocked
     useEffect(() => {
@@ -50,6 +50,8 @@ export function BlockedLinkScreen({ url, domain, scamCategory, onClose }: Blocke
             action: 'blocked',
             source: 'external',
         });
+        // Refresh global stats
+        await refreshStats();
         onClose();
     };
 

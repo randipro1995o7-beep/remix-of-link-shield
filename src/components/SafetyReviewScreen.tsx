@@ -27,7 +27,7 @@ interface SafetyReviewScreenProps {
  * Uses assistive wording - "helps you decide" not "protects you".
  */
 export function SafetyReviewScreen({ url, source, onCancel, onProceed }: SafetyReviewScreenProps) {
-  const { t } = useApp();
+  const { t, refreshStats } = useApp();
   const [review, setReview] = useState<SafetyReviewResult | null>(null);
   const [isAnalyzing, setIsAnalyzing] = useState(true);
   const [showAllChecks, setShowAllChecks] = useState(false);
@@ -120,6 +120,8 @@ export function SafetyReviewScreen({ url, source, onCancel, onProceed }: SafetyR
         action: 'cancelled',
         source,
       });
+      // Refresh global stats
+      await refreshStats();
     }
     onCancel();
   };
@@ -162,6 +164,8 @@ export function SafetyReviewScreen({ url, source, onCancel, onProceed }: SafetyR
         action: 'opened',
         source,
       });
+      // Refresh global stats
+      await refreshStats();
     }
     onProceed();
   };

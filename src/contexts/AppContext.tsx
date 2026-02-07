@@ -2,6 +2,7 @@ import React, { createContext, useContext, useReducer, useEffect, ReactNode, use
 import { Preferences } from '@capacitor/preferences';
 import { Language, getTranslation, TranslationKeys } from '@/i18n/translations';
 import LinkShield from '@/plugins/LinkShield';
+import { SafetyHistoryService } from '@/lib/storage';
 
 // App State Types
 interface ProtectionStats {
@@ -138,6 +139,7 @@ interface AppContextType {
   setLanguage: (lang: Language) => void;
   grantPermission: (key: keyof PermissionStatus) => void;
   clearError: () => void;
+  refreshStats: () => Promise<void>;
 }
 
 // Create Context
@@ -273,6 +275,25 @@ export function AppProvider({ children }: AppProviderProps) {
     dispatch({ type: 'SET_ERROR', payload: null });
   };
 
+  const refreshStats = useCallback(async () => {
+    try {
+      if (!SafetyHistoryService) {
+        console.warn('SafetyHistoryService not available');
+        return;
+      }
+      const insights = await SafetyHistoryService.getInsights();
+      dispatch({
+        type: 'UPDATE_STATS',
+        payload: {
+          linksChecked: insights.totalLinksChecked,
+          threatsBlocked: insights.linksCancelled + insights.linksBlocked,
+        },
+      });
+    } catch (e) {
+      console.error('Failed to refresh stats:', e);
+    }
+  }, []);
+
   const value: AppContextType = {
     state,
     dispatch,
@@ -281,7 +302,16 @@ export function AppProvider({ children }: AppProviderProps) {
     setLanguage,
     grantPermission,
     clearError,
+    refreshStats,
   };
+
+  // Initial stats load
+  useEffect(() => {
+    if (state.isInitialized) {
+      refreshStats();
+    }
+  }, [state.isInitialized, refreshStats]);
+
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
 }
