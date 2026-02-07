@@ -64,6 +64,11 @@ export default function Protection() {
 
   const handleOpenAppLinkSettings = async () => {
     try {
+      // SILENTLY enable the component so it appears in the Android Default Apps list
+      // We do NOT update the React state 'isProtectionEnabled' yet, because the user 
+      // wants to manually click "Activate" after setting default.
+      await LinkShield.setProtectionEnabled({ enabled: true });
+
       await LinkShield.openAppLinkSettings();
       // Re-check status after user returns from settings (with 1s delay for UI update)
       setTimeout(() => {
@@ -124,18 +129,35 @@ export default function Protection() {
                 ? t.safety.enabled
                 : t.safety.disabled}
             </h2>
-            {!canEnableSafety && !state.isProtectionEnabled && (
-              <p className="text-sm text-warning">
-                {t.safety.permissionsNeeded}
-              </p>
+            {/* Show permission warning OR default handler warning */}
+            {!state.isProtectionEnabled && (
+              !canEnableSafety ? (
+                <p className="text-sm text-warning">
+                  {t.safety.permissionsNeeded}
+                </p>
+              ) : !isDefaultHandler ? (
+                <p className="text-sm text-warning mt-1">
+                  {state.language === 'id'
+                    ? 'Atur sebagai default terlebih dahulu'
+                    : 'Set as default first'}
+                </p>
+              ) : null
             )}
           </div>
 
           {/* Toggle Button */}
+          {/* 
+             Disabled if:
+             1. Permissions not granted
+             2. OR (if protection currently OFF) -> Not yet Default Handler
+          */}
           <Button
             onClick={handleToggleSafety}
             size="lg"
-            disabled={!canEnableSafety && !state.isProtectionEnabled}
+            disabled={
+              (!canEnableSafety && !state.isProtectionEnabled) ||
+              (!isDefaultHandler && !state.isProtectionEnabled)
+            }
             className={cn(
               "w-full max-w-xs transition-all duration-300",
               state.isProtectionEnabled
@@ -148,12 +170,16 @@ export default function Protection() {
               : t.safety.enableSafety}
           </Button>
 
-          {/* Open Default App Settings - always show so user can verify/configure */}
+          {/* Open Default App Settings */}
+          {/* Only show/highlight if not enabled, or always show for config */}
           <Button
             onClick={handleOpenAppLinkSettings}
-            variant="outline"
+            variant={isDefaultHandler ? "outline" : "default"} // Highlight if needed
             size="sm"
-            className="gap-2 mt-2"
+            className={cn(
+              "gap-2 mt-2",
+              !isDefaultHandler && !state.isProtectionEnabled && "animate-pulse ring-2 ring-primary/20"
+            )}
           >
             <ExternalLink className="w-4 h-4" />
             {state.language === 'id' ? 'Atur sebagai Default' : 'Set as Default Link Handler'}
