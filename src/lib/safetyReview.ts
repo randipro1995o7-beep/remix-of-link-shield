@@ -189,11 +189,86 @@ function checkIpAddress(domain: string): SafetyCheck {
   };
 }
 
+// Check for fake invitation patterns (e.g. .apk files, suspicious wording)
+function checkFakeInvitation(url: string, domain: string): SafetyCheck {
+  const lowerUrl = url.toLowerCase();
+
+  // 1. Check for file extensions often used in malware
+  const isApk = lowerUrl.endsWith('.apk') || lowerUrl.includes('.apk?');
+  const isExe = lowerUrl.endsWith('.exe') || lowerUrl.includes('.exe?');
+
+  // 2. Check for invitation keywords
+  const invitationKeywords = [
+    'undangan', 'pernikahan', 'wedding', 'marry', 'invitation',
+    'surat', 'digital', 'nikah', 'resepsi', 'hajatan'
+  ];
+
+  const hasInvitationKeyword = invitationKeywords.some(keyword => lowerUrl.includes(keyword));
+
+  // 3. Trusted invitation domains (allow-list)
+  // Add real invitation platforms here to avoid false positives
+  const trustedInvitationDomains = [
+    'canva.com', 'sebarundangan.com', 'kitalulus.com', 'linkedin.com',
+    'bridestory.com', 'invit.id', 'datengdong.com'
+  ];
+
+  const rootDomain = getRootDomain(domain);
+  const isTrustedPlatform = trustedInvitationDomains.includes(rootDomain) || TRUSTED_DOMAINS.has(rootDomain);
+
+  // LOGIC:
+
+  // CRITICAL: Invitation keyword + APK/EXE = MALWARE
+  if (hasInvitationKeyword && (isApk || isExe)) {
+    return {
+      id: 'fake_invitation_file',
+      name: 'Malicious File Detected',
+      description: 'This link contains a dangerous file (.apk) disguised as an invitation. Installing it can drain your bank account.',
+      passed: false,
+      severity: 'danger'
+    };
+  }
+
+  // HIGH RISK: APK/EXE from unknown source (even without invitation keywords)
+  if (isApk || isExe) {
+    return {
+      id: 'suspicious_file',
+      name: 'Suspicious File',
+      description: 'This link downloads an application file directly. Do not install unknown apps.',
+      passed: false,
+      severity: 'danger'
+    };
+  }
+
+  // MEDIUM RISK: Invitation keyword on unknown domain
+  if (hasInvitationKeyword && !isTrustedPlatform) {
+    return {
+      id: 'suspicious_invitation',
+      name: 'Unverified Invitation',
+      description: 'This link claims to be an invitation but comes from an unknown website. Be careful.',
+      passed: false,
+      severity: 'warning'
+    };
+  }
+
+  return {
+    id: 'invitation_safety',
+    name: 'Content Safety',
+    description: 'No specific fake invitation patterns detected',
+    passed: true,
+    severity: 'info'
+  };
+}
+
 // Calculate overall risk level
 function calculateRiskLevel(checks: SafetyCheck[]): RiskLevel {
+  // If any check fails with 'fake_invitation_file' ID -> BLOCKED immediately
+  const isMalware = checks.some(c => c.id === 'fake_invitation_file' && !c.passed);
+  if (isMalware) return 'blocked';
+
   const dangerCount = checks.filter(c => !c.passed && c.severity === 'danger').length;
   const warningCount = checks.filter(c => !c.passed && c.severity === 'warning').length;
 
+  // Existing logic...
   if (dangerCount >= 2 || (dangerCount >= 1 && warningCount >= 2)) {
     return 'high';
   }
@@ -268,6 +343,7 @@ export function performSafetyReview(url: string): SafetyReviewResult {
     checkTld(domain),
     checkSubdomains(domain),
     checkIpAddress(domain),
+    checkFakeInvitation(url, domain),
   ];
 
   const riskLevel = calculateRiskLevel(checks);

@@ -11,6 +11,7 @@ import { PrivacyPolicy } from './PrivacyPolicy';
 import { AboutPage } from './AboutPage';
 import { ChangePinScreen } from '@/components/ChangePinScreen';
 import { PremiumScreen } from '@/components/PremiumScreen';
+import { RecoveryOptionsScreen } from '@/components/RecoveryOptionsScreen';
 import {
   Sheet,
   SheetContent,
@@ -116,6 +117,7 @@ export default function Settings() {
   const [showWhitelist, setShowWhitelist] = useState(false);
   const [showChangePin, setShowChangePin] = useState(false);
   const [showPremium, setShowPremium] = useState(false);
+  const [showRecoveryOptions, setShowRecoveryOptions] = useState(false);
 
   const NOTIFICATIONS_KEY = 'linkguardian_notifications_enabled';
   const [notificationsEnabled, setNotificationsEnabled] = useState<boolean>(() => {
@@ -184,6 +186,10 @@ export default function Settings() {
     return <PremiumScreen onBack={() => setShowPremium(false)} />;
   }
 
+  if (showRecoveryOptions) {
+    return <RecoveryOptionsScreen onBack={() => setShowRecoveryOptions(false)} />;
+  }
+
   return (
     <div className="p-4 space-y-6 animate-fade-in">
       {/* Header */}
@@ -222,6 +228,13 @@ export default function Settings() {
           title={state.language === 'id' ? 'Ubah PIN Keamanan' : 'Change Safety PIN'}
           subtitle={state.language === 'id' ? 'Ganti PIN untuk verifikasi link' : 'Change PIN for link verification'}
           onClick={() => setShowChangePin(true)}
+        />
+
+        <SettingsItem
+          icon={Shield}
+          title={state.language === 'id' ? 'Opsi Pemulihan PIN' : 'Password Recovery'}
+          subtitle={state.language === 'id' ? 'Atur email & no HP untuk reset PIN' : 'Set email & phone for PIN reset'}
+          onClick={() => setShowRecoveryOptions(true)}
         />
 
         <SettingsItem

@@ -19,3 +19,4 @@ export { SafetyPinService, GuardianPinService } from './SafetyPinService';
 export { SafetyHistoryService } from './SafetyHistoryService';
 export { FamilyModeService } from './FamilyModeService';
 export { PremiumService } from './PremiumService';
+export { RecoveryService } from './RecoveryService';

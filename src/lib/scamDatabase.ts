@@ -25,6 +25,7 @@ export type ScamCategory =
     | 'fake_bank'      // Bank palsu
     | 'lottery_scam'   // Undian/hadiah palsu
     | 'phishing'       // Mencuri kredensial
+    | 'fake_invitation' // Undangan palsu (.apk)
     | 'malware'        // Menyebarkan virus
     | 'crypto_scam'    // Penipuan crypto
     | 'shopping_scam'  // Toko online palsu
@@ -74,6 +75,12 @@ const SCAM_DOMAINS: ScamDomainEntry[] = [
     { domain: 'cek-bansos-2024.net', category: 'impersonation' },
     { domain: 'kemensos-bantuan.com', category: 'impersonation' },
     { domain: 'prakerja-daftar.xyz', category: 'impersonation' },
+
+    // === FAKE INVITATION SCAMS (.apk) ===
+    { domain: 'undangan-pernikahan-digital.apk', category: 'fake_invitation' },
+    { domain: 'surat-undangan-resmi.apk', category: 'fake_invitation' },
+    { domain: 'undangan-nikah-kita.xyz', category: 'fake_invitation' },
+    { domain: 'wedding-invitation-app.com', category: 'fake_invitation' },
 
     // === SHOPPING SCAMS ===
     { domain: 'shopee-flash-sale.xyz', category: 'shopping_scam' },
@@ -183,6 +190,7 @@ export function getCategoryLabel(category: ScamCategory, lang: 'en' | 'id' = 'id
         fake_bank: { en: 'Fake Banking Site', id: 'Situs Bank Palsu' },
         lottery_scam: { en: 'Lottery/Prize Scam', id: 'Penipuan Undian/Hadiah' },
         phishing: { en: 'Phishing Attack', id: 'Serangan Phishing' },
+        fake_invitation: { en: 'Fake Invitation (APK Scam)', id: 'Undangan Palsu (.apk)' },
         malware: { en: 'Malware Distribution', id: 'Penyebaran Malware' },
         crypto_scam: { en: 'Crypto Scam', id: 'Penipuan Crypto' },
         shopping_scam: { en: 'Fake Online Shop', id: 'Toko Online Palsu' },

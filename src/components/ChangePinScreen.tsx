@@ -4,6 +4,7 @@ import { useSafetyPin } from '@/contexts/SafetyPinContext';
 import { useApp } from '@/contexts/AppContext';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
+import { ForgotPinScreen } from './ForgotPinScreen';
 
 interface ChangePinScreenProps {
     onBack: () => void;
@@ -26,6 +27,7 @@ export function ChangePinScreen({ onBack }: ChangePinScreenProps) {
     const [confirmPin, setConfirmPin] = useState('');
     const [error, setError] = useState('');
     const [isProcessing, setIsProcessing] = useState(false);
+    const [showForgotPin, setShowForgotPin] = useState(false);
 
     const t = {
         id: {
@@ -42,6 +44,7 @@ export function ChangePinScreen({ onBack }: ChangePinScreenProps) {
             pinMismatch: 'PIN tidak cocok, silakan coba lagi',
             done: 'Selesai',
             back: 'Kembali',
+            forgotPin: 'Lupa PIN?',
         },
         en: {
             title: 'Change PIN',
@@ -57,6 +60,7 @@ export function ChangePinScreen({ onBack }: ChangePinScreenProps) {
             pinMismatch: 'PINs do not match, please try again',
             done: 'Done',
             back: 'Back',
+            forgotPin: 'Forgot PIN?',
         },
     };
 
@@ -148,6 +152,18 @@ export function ChangePinScreen({ onBack }: ChangePinScreenProps) {
         }
     };
 
+    if (showForgotPin) {
+        return (
+            <ForgotPinScreen
+                onBack={() => setShowForgotPin(false)}
+                onSuccess={() => {
+                    setShowForgotPin(false);
+                    onBack(); // Close ChangePinScreen on success
+                }}
+            />
+        )
+    }
+
     if (step === 'success') {
         return (
             <div className="fixed inset-0 z-50 bg-background flex flex-col animate-fade-in">
@@ -196,8 +212,8 @@ export function ChangePinScreen({ onBack }: ChangePinScreenProps) {
                         <div
                             key={i}
                             className={`w-4 h-4 rounded-full transition-all duration-200 ${i < getCurrentPinValue().length
-                                    ? 'bg-primary scale-110'
-                                    : 'bg-muted'
+                                ? 'bg-primary scale-110'
+                                : 'bg-muted'
                                 }`}
                         />
                     ))}
@@ -208,6 +224,16 @@ export function ChangePinScreen({ onBack }: ChangePinScreenProps) {
                     <p className="text-destructive text-sm mb-4 animate-shake">{error}</p>
                 )}
 
+                {/* Forgot PIN Link - Only shown on verify-current step */}
+                {step === 'verify-current' && (
+                    <button
+                        onClick={() => setShowForgotPin(true)}
+                        className="text-sm text-primary font-medium hover:underline mb-4"
+                    >
+                        {lang.forgotPin}
+                    </button>
+                )}
+
                 {/* Keypad */}
                 <div className="grid grid-cols-3 gap-4 w-full max-w-xs mt-4">
                     {[1, 2, 3, 4, 5, 6, 7, 8, 9, null, 0, 'backspace'].map((key, i) => (
@@ -216,10 +242,10 @@ export function ChangePinScreen({ onBack }: ChangePinScreenProps) {
                             onClick={() => key !== null && handleKeyPress(String(key))}
                             disabled={key === null || isProcessing}
                             className={`h-16 rounded-2xl text-2xl font-semibold transition-all duration-150 ${key === null
-                                    ? 'invisible'
-                                    : key === 'backspace'
-                                        ? 'bg-muted/50 hover:bg-muted active:scale-95 text-foreground text-lg'
-                                        : 'bg-muted hover:bg-muted/80 active:scale-95 text-foreground'
+                                ? 'invisible'
+                                : key === 'backspace'
+                                    ? 'bg-muted/50 hover:bg-muted active:scale-95 text-foreground text-lg'
+                                    : 'bg-muted hover:bg-muted/80 active:scale-95 text-foreground'
                                 } ${isProcessing ? 'opacity-50' : ''}`}
                         >
                             {key === 'backspace' ? '⌫' : key}

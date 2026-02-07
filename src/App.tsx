@@ -13,6 +13,7 @@ import { LinkInterceptionFlow } from "@/components/LinkInterceptionFlow";
 import { OnboardingFlow } from "@/components/onboarding";
 import { useShareIntent } from "@/hooks/useShareIntent";
 import { initRemoteDatabase } from "@/lib/scamDatabase";
+import { EmailService } from "@/lib/email/EmailService";
 
 // Pages
 import Index from "./pages/Index";
@@ -31,6 +32,13 @@ function AppContent() {
     initRemoteDatabase().catch(err => {
       console.warn('Failed to initialize remote database:', err);
     });
+
+    // Initialize Email Service
+    try {
+      EmailService.init();
+    } catch (e) {
+      console.warn('Failed to initialize EmailService:', e);
+    }
   }, []);
 
   return (

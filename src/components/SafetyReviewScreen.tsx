@@ -7,6 +7,7 @@ import { SafetyHistoryService, FamilyModeService } from '@/lib/storage';
 import { cn } from '@/lib/utils';
 import { HighRiskConfirmation } from './HighRiskConfirmation';
 import { GuardianPinVerification } from './GuardianPinVerification';
+import { SafetyPinVerification } from './SafetyPinVerification';
 import { BlockedLinkScreen } from './BlockedLinkScreen';
 import { useApp } from '@/contexts/AppContext';
 import { Haptics, NotificationType } from '@capacitor/haptics';
@@ -32,6 +33,7 @@ export function SafetyReviewScreen({ url, source, onCancel, onProceed }: SafetyR
   const [showAllChecks, setShowAllChecks] = useState(false);
   const [showHighRiskConfirm, setShowHighRiskConfirm] = useState(false);
   const [showGuardianPin, setShowGuardianPin] = useState(false);
+  const [showSafetyPin, setShowSafetyPin] = useState(false);
   const [familyModeEnabled, setFamilyModeEnabled] = useState(false);
 
   // Risk level display configuration - using assistive language
@@ -126,17 +128,26 @@ export function SafetyReviewScreen({ url, source, onCancel, onProceed }: SafetyR
     if (!review) return;
 
     // For HIGH risk links, require extra friction
+    // For HIGH risk links
     if (review.riskLevel === 'high') {
       // Check if family mode requires guardian approval
       if (familyModeEnabled) {
         setShowGuardianPin(true);
-      } else {
-        setShowHighRiskConfirm(true);
+        return;
       }
+      // Otherwise use standard Safety PIN
+      setShowSafetyPin(true);
       return;
     }
 
-    // Record and proceed for low/medium risk
+    // For MEDIUM risk (suspicious, e.g. fake invitation)
+    // Require Safety PIN as per user request
+    if (review.riskLevel === 'medium') {
+      setShowSafetyPin(true);
+      return;
+    }
+
+    // Record and proceed for low risk
     await recordAndProceed();
   };
 
@@ -155,8 +166,8 @@ export function SafetyReviewScreen({ url, source, onCancel, onProceed }: SafetyR
     onProceed();
   };
 
-  const handleHighRiskConfirmed = async () => {
-    setShowHighRiskConfirm(false);
+  const handleSafetyPinVerified = async () => {
+    setShowSafetyPin(false);
     await recordAndProceed();
   };
 
@@ -193,15 +204,7 @@ export function SafetyReviewScreen({ url, source, onCancel, onProceed }: SafetyR
     );
   }
 
-  // Show high-risk confirmation overlay
-  if (showHighRiskConfirm) {
-    return (
-      <HighRiskConfirmation
-        onConfirm={handleHighRiskConfirmed}
-        onCancel={() => setShowHighRiskConfirm(false)}
-      />
-    );
-  }
+
 
   // Show guardian PIN verification for family mode
   if (showGuardianPin) {
@@ -209,6 +212,16 @@ export function SafetyReviewScreen({ url, source, onCancel, onProceed }: SafetyR
       <GuardianPinVerification
         onSuccess={handleGuardianVerified}
         onCancel={() => setShowGuardianPin(false)}
+      />
+    );
+  }
+
+  // Show Safety PIN verification (for Medium/High risk)
+  if (showSafetyPin) {
+    return (
+      <SafetyPinVerification
+        onSuccess={handleSafetyPinVerified}
+        onCancel={() => setShowSafetyPin(false)}
       />
     );
   }
