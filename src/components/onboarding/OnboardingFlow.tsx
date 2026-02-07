@@ -1,13 +1,14 @@
 import { useState, useEffect } from 'react';
 import { LanguageSelectionScreen } from './LanguageSelectionScreen';
 import { PinSetupScreen } from './PinSetupScreen';
+import { RecoveryOptionsScreen } from '@/components/RecoveryOptionsScreen';
 import { useApp } from '@/contexts/AppContext';
 import { useSafetyPin } from '@/contexts/SafetyPinContext';
 import { Language } from '@/i18n/translations';
 
 const ONBOARDING_COMPLETE_KEY = 'linkguardian_onboarding_complete';
 
-type OnboardingStep = 'language' | 'pin' | 'complete';
+type OnboardingStep = 'language' | 'pin' | 'recovery' | 'complete';
 
 interface OnboardingFlowProps {
     children: React.ReactNode;
@@ -62,21 +63,26 @@ export function OnboardingFlow({ children }: OnboardingFlowProps) {
     const handlePinComplete = async (pin: string) => {
         try {
             await createSafetyPin(pin);
-            // Mark onboarding as complete
-            localStorage.setItem(ONBOARDING_COMPLETE_KEY, 'true');
-
-            // Auto-enable protection after onboarding
-            try {
-                const LinkShield = (await import('@/plugins/LinkShield')).default;
-                await LinkShield.setProtectionEnabled({ enabled: true });
-            } catch (e) {
-                console.error('Failed to auto-enable protection:', e);
-            }
-
-            setStep('complete');
+            // Move to recovery setup instead of completing immediately
+            setStep('recovery');
         } catch (error) {
             console.error('Failed to create PIN:', error);
         }
+    };
+
+    const handleRecoveryComplete = async () => {
+        // Mark onboarding as complete
+        localStorage.setItem(ONBOARDING_COMPLETE_KEY, 'true');
+
+        // Auto-enable protection after onboarding
+        try {
+            const LinkShield = (await import('@/plugins/LinkShield')).default;
+            await LinkShield.setProtectionEnabled({ enabled: true });
+        } catch (e) {
+            console.error('Failed to auto-enable protection:', e);
+        }
+
+        setStep('complete');
     };
 
     // Show loading while checking status
@@ -109,6 +115,17 @@ export function OnboardingFlow({ children }: OnboardingFlowProps) {
     // Step 2: PIN setup
     if (step === 'pin') {
         return <PinSetupScreen onComplete={handlePinComplete} />;
+    }
+
+    // Step 3: Recovery Options
+    if (step === 'recovery') {
+        return (
+            <RecoveryOptionsScreen
+                isOnboarding
+                onBack={() => setStep('pin')}
+                onComplete={handleRecoveryComplete}
+            />
+        );
     }
 
     return null;
