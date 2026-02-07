@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { ChevronRight, Globe, Bell, HelpCircle, Shield, FileText, History, Users, Crown, Mail, MessageCircle, ExternalLink, Lock } from 'lucide-react';
+import { ChevronRight, Globe, Bell, HelpCircle, Shield, FileText, History, Users, Crown, Mail, MessageCircle, ExternalLink, Lock, Check } from 'lucide-react';
 import { useApp } from '@/contexts/AppContext';
 import { Card } from '@/components/ui/card';
 import { Switch } from '@/components/ui/switch';
@@ -23,13 +23,20 @@ import {
 const languages: { code: Language; label: string; nativeLabel: string }[] = [
   { code: 'en', label: 'English', nativeLabel: 'English' },
   { code: 'id', label: 'Indonesian', nativeLabel: 'Bahasa Indonesia' },
+  { code: 'ms', label: 'Malay', nativeLabel: 'Bahasa Melayu' },
+  { code: 'th', label: 'Thai', nativeLabel: 'ไทย' },
+  { code: 'tl', label: 'Filipino', nativeLabel: 'Filipino' },
+  { code: 'vi', label: 'Vietnamese', nativeLabel: 'Tiếng Việt' },
+  { code: 'lo', label: 'Lao', nativeLabel: 'ລາວ' },
+  { code: 'my', label: 'Burmese', nativeLabel: 'မြန်မာဘာသာ' },
+  { code: 'km', label: 'Khmer', nativeLabel: 'ខ្មែរ' },
+  { code: 'ja', label: 'Japanese', nativeLabel: '日本語' },
   { code: 'es', label: 'Spanish', nativeLabel: 'Español' },
-  { code: 'pt', label: 'Portuguese', nativeLabel: 'Português' },
-  { code: 'fr', label: 'French', nativeLabel: 'Français' },
-  { code: 'de', label: 'German', nativeLabel: 'Deutsch' },
-  { code: 'zh', label: 'Chinese', nativeLabel: '中文' },
-  { code: 'hi', label: 'Hindi', nativeLabel: 'हिन्दी' },
+  { code: 'ru', label: 'Russian', nativeLabel: 'Русский' },
   { code: 'ar', label: 'Arabic', nativeLabel: 'العربية' },
+  { code: 'ko', label: 'Korean', nativeLabel: '한국어' },
+  { code: 'de', label: 'German', nativeLabel: 'Deutsch' },
+  { code: 'pt-br', label: 'Portuguese (Brazil)', nativeLabel: 'Português (Brasil)' },
 ];
 
 interface SettingsItemProps {
@@ -118,6 +125,7 @@ export default function Settings() {
   const [showChangePin, setShowChangePin] = useState(false);
   const [showPremium, setShowPremium] = useState(false);
   const [showRecoveryOptions, setShowRecoveryOptions] = useState(false);
+  const [showLanguageSelector, setShowLanguageSelector] = useState(false);
 
   const NOTIFICATIONS_KEY = 'linkguardian_notifications_enabled';
   const [notificationsEnabled, setNotificationsEnabled] = useState<boolean>(() => {
@@ -145,11 +153,7 @@ export default function Settings() {
   }, [notificationsEnabled, dispatch]);
 
   const handleLanguageChange = () => {
-    // Cycle through supported languages (English and Indonesian for now)
-    const supportedLanguages: Language[] = ['en', 'id'];
-    const currentIndex = supportedLanguages.indexOf(state.language as Language);
-    const nextIndex = (currentIndex + 1) % supportedLanguages.length;
-    setLanguage(supportedLanguages[nextIndex]);
+    setShowLanguageSelector(true);
   };
 
   // Show full-screen overlays
@@ -297,6 +301,51 @@ export default function Settings() {
           {t.settings.version} 1.0.0
         </p>
       </div>
+
+      {/* Language Selector Sheet */}
+      <Sheet open={showLanguageSelector} onOpenChange={setShowLanguageSelector}>
+        <SheetContent side="bottom" className="rounded-t-3xl max-h-[80vh] overflow-hidden flex flex-col">
+          <SheetHeader className="text-left pb-4 flex-shrink-0">
+            <SheetTitle className="text-xl">{t.settings.language}</SheetTitle>
+            <SheetDescription>
+              {state.language === 'id'
+                ? 'Pilih bahasa aplikasi'
+                : 'Select application language'}
+            </SheetDescription>
+          </SheetHeader>
+
+          <div className="overflow-y-auto pb-6 -mx-6 px-6">
+            <div className="space-y-2">
+              {languages.map((lang) => (
+                <button
+                  key={lang.code}
+                  onClick={() => {
+                    setLanguage(lang.code);
+                    setShowLanguageSelector(false);
+                  }}
+                  className={`
+                    w-full flex items-center justify-between p-4 rounded-xl transition-all
+                    ${state.language === lang.code
+                      ? 'bg-primary/10 text-primary border-transparent'
+                      : 'bg-muted/30 hover:bg-muted/50 text-foreground border-transparent'
+                    }
+                  `}
+                >
+                  <div className="flex flex-col text-left">
+                    <span className="font-medium text-base">{lang.nativeLabel}</span>
+                    <span className="text-sm opacity-70">{lang.label}</span>
+                  </div>
+                  {state.language === lang.code && (
+                    <div className="w-6 h-6 rounded-full bg-primary flex items-center justify-center">
+                      <Check className="w-3.5 h-3.5 text-primary-foreground" />
+                    </div>
+                  )}
+                </button>
+              ))}
+            </div>
+          </div>
+        </SheetContent>
+      </Sheet>
 
       {/* Help & Support Sheet */}
       <Sheet open={showHelp} onOpenChange={setShowHelp}>
