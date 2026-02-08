@@ -3,6 +3,8 @@
 
 import { getScamInfo, getCategoryLabel, ScamCategory } from './scamDatabase';
 
+import { isTrustedDomain } from './trustedDomains';
+
 export type RiskLevel = 'low' | 'medium' | 'high' | 'blocked';
 
 export interface SafetyCheck {
@@ -23,13 +25,6 @@ export interface SafetyReviewResult {
   scamCategory?: ScamCategory;
 }
 
-// Known trusted domains (simplified list)
-const TRUSTED_DOMAINS = new Set([
-  'google.com', 'youtube.com', 'facebook.com', 'twitter.com', 'x.com',
-  'instagram.com', 'linkedin.com', 'amazon.com', 'microsoft.com',
-  'apple.com', 'github.com', 'wikipedia.org', 'reddit.com', 'netflix.com',
-  'whatsapp.com', 'telegram.org', 'zoom.us', 'dropbox.com', 'paypal.com',
-]);
 
 // Common brand names for typosquatting detection
 const BRAND_NAMES = [
@@ -93,8 +88,8 @@ function checkHttps(url: string): SafetyCheck {
 
 // Check for known trusted domain
 function checkTrustedDomain(domain: string): SafetyCheck {
-  const rootDomain = getRootDomain(domain);
-  const isTrusted = TRUSTED_DOMAINS.has(rootDomain);
+  // Use the new comprehensive check
+  const isTrusted = isTrustedDomain(domain);
   return {
     id: 'trusted',
     name: 'Known Website',
@@ -129,7 +124,8 @@ function checkTyposquatting(domain: string): SafetyCheck {
   // Check if domain contains brand name but isn't the real domain
   const matchedBrand = BRAND_NAMES.find(brand => {
     const containsBrand = lowerDomain.includes(brand);
-    const isRealDomain = TRUSTED_DOMAINS.has(rootDomain);
+    // Check if it's actually the real trusted domain (or subdomain of it)
+    const isRealDomain = isTrustedDomain(domain);
     return containsBrand && !isRealDomain;
   });
 
@@ -213,7 +209,8 @@ function checkFakeInvitation(url: string, domain: string): SafetyCheck {
   ];
 
   const rootDomain = getRootDomain(domain);
-  const isTrustedPlatform = trustedInvitationDomains.includes(rootDomain) || TRUSTED_DOMAINS.has(rootDomain);
+  const isTrustedPlatform = trustedInvitationDomains.includes(rootDomain) || isTrustedDomain(domain);
+
 
   // LOGIC:
 

@@ -31,6 +31,13 @@ android {
         sourceCompatibility JavaVersion.VERSION_21
         targetCompatibility JavaVersion.VERSION_21
     }
+
+    sourceSets {
+        main {
+            res.srcDirs = ['src/main/res']
+            res.excludes += ['**/*.webp']
+        }
+    }
 }
 
 repositories {

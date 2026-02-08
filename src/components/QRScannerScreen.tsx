@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { BarcodeScanner, ScanResult } from '@capacitor-community/barcode-scanner';
-import { X, QrCode, AlertTriangle, Camera, Shield } from 'lucide-react';
+import { X, QrCode, AlertTriangle, Camera, Shield, Wallet, Banknote } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { useApp } from '@/contexts/AppContext';
@@ -11,7 +11,7 @@ interface QRScannerScreenProps {
     onClose: () => void;
 }
 
-type ScanState = 'ready' | 'scanning' | 'reviewing' | 'error';
+type ScanState = 'ready' | 'scanning' | 'reviewing' | 'error' | 'qris_detected';
 
 export function QRScannerScreen({ onClose }: QRScannerScreenProps) {
     const { state } = useApp();
@@ -38,6 +38,11 @@ export function QRScannerScreen({ onClose }: QRScannerScreenProps) {
         reviewingUrl: isIndonesian ? 'Memeriksa keamanan...' : 'Checking safety...',
         openSafe: isIndonesian ? 'Buka Link' : 'Open Link',
         scanAnother: isIndonesian ? 'Scan Lagi' : 'Scan Another',
+        qrisDetected: isIndonesian ? 'QRIS Ditemukan' : 'QRIS Detected',
+        qrisMessage: isIndonesian
+            ? 'Ini adalah kode pembayaran QRIS. Silakan scan menggunakan aplikasi pembayaran atau m-banking Anda.'
+            : 'This is a QRIS payment code. Please scan using your payment or banking app.',
+        openPaymentApp: isIndonesian ? 'Buka E-Wallet / Bank' : 'Open Payment App',
     };
 
     // Cleanup on unmount
@@ -126,7 +131,20 @@ export function QRScannerScreen({ onClose }: QRScannerScreenProps) {
         setScanState('ready');
     }, []);
 
+    // Helper to detect standard QRIS format
+    const isQRIS = (content: string): boolean => {
+        // Standard QRIS usually starts with payload format indicator '00' 
+        // followed by length '02' and version '01', so '000201'
+        return content.startsWith('000201');
+    };
+
     const handleScanResult = useCallback((content: string) => {
+        // Check for QRIS first
+        if (isQRIS(content)) {
+            setScanState('qris_detected');
+            return;
+        }
+
         // Check if it's a valid URL
         const urlPattern = /^(https?:\/\/|www\.)/i;
 
@@ -243,6 +261,24 @@ export function QRScannerScreen({ onClose }: QRScannerScreenProps) {
                         <Button size="lg" onClick={startScan} className="h-14 px-8">
                             <Camera className="w-5 h-5 mr-2" />
                             {lang.grantPermission}
+                        </Button>
+                    </div>
+                )}
+
+                {scanState === 'qris_detected' && (
+                    <div className="text-center animate-fade-in max-w-sm">
+                        <div className="w-24 h-24 rounded-full bg-blue-500/10 flex items-center justify-center mx-auto mb-6">
+                            <Banknote className="w-12 h-12 text-blue-500" />
+                        </div>
+                        <h2 className="text-xl font-semibold text-foreground mb-2">
+                            {lang.qrisDetected}
+                        </h2>
+                        <p className="text-muted-foreground mb-8">
+                            {lang.qrisMessage}
+                        </p>
+                        <Button size="lg" onClick={handleScanAnother} className="h-14 px-8">
+                            <QrCode className="w-5 h-5 mr-2" />
+                            {lang.scanAnother}
                         </Button>
                     </div>
                 )}
