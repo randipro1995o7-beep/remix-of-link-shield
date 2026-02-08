@@ -12,7 +12,7 @@ interface WhitelistScreenProps {
 
 export function WhitelistScreen({ onBack }: WhitelistScreenProps) {
     const { t } = useApp();
-    const { whitelist, removeFromWhitelist, addToWhitelist } = useLinkInterception();
+    const { whitelist, systemWhitelist, removeFromWhitelist, addToWhitelist } = useLinkInterception();
     const [showRemoveConfirm, setShowRemoveConfirm] = useState<string | null>(null);
     const [newSite, setNewSite] = useState('');
     const [error, setError] = useState<string | null>(null);
@@ -106,36 +106,73 @@ export function WhitelistScreen({ onBack }: WhitelistScreenProps) {
                     {error && <p className="text-xs text-destructive mt-2 ml-1">{error}</p>}
                 </Card>
 
-                {whitelist.length === 0 ? (
+                {whitelist.length === 0 && systemWhitelist.length === 0 ? (
                     <div className="flex flex-col items-center justify-center h-48 text-center opacity-70">
                         <ShieldCheck className="w-12 h-12 text-muted-foreground mb-3" />
                         <p className="text-base text-foreground mb-1">{t.whitelist?.empty || 'No trusted sites yet'}</p>
                         <p className="text-sm text-muted-foreground">{t.whitelist?.emptyDesc || 'Sites you mark as "Always Trust" will appear here'}</p>
                     </div>
                 ) : (
-                    <div className="space-y-2">
-                        {whitelist.map((domain) => (
-                            <Card key={domain} className="p-3 flex items-center gap-3 animate-fade-in">
-                                <div className="w-10 h-10 rounded-xl bg-success/10 flex items-center justify-center flex-shrink-0">
-                                    <CheckCircle className="w-5 h-5 text-success" />
-                                </div>
+                    <div className="space-y-6">
+                        {/* User Whitelist */}
+                        {whitelist.length > 0 && (
+                            <div className="space-y-2">
+                                <h3 className="text-sm font-medium text-muted-foreground px-1">
+                                    {t.whitelist?.userAdded || 'Added by You'}
+                                </h3>
+                                {whitelist.map((domain) => (
+                                    <Card key={domain} className="p-3 flex items-center gap-3 animate-fade-in">
+                                        <div className="w-10 h-10 rounded-xl bg-success/10 flex items-center justify-center flex-shrink-0">
+                                            <CheckCircle className="w-5 h-5 text-success" />
+                                        </div>
 
-                                <div className="flex-1 min-w-0">
-                                    <p className="font-medium text-foreground truncate">{domain}</p>
-                                    <p className="text-xs text-muted-foreground flex items-center gap-1">
-                                        <Globe className="w-3 h-3" />
-                                        {t.whitelist?.domain || 'Trusted Domain'}
-                                    </p>
-                                </div>
+                                        <div className="flex-1 min-w-0">
+                                            <p className="font-medium text-foreground truncate">{domain}</p>
+                                            <p className="text-xs text-muted-foreground flex items-center gap-1">
+                                                <Globe className="w-3 h-3" />
+                                                {t.whitelist?.domain || 'Trusted Domain'}
+                                            </p>
+                                        </div>
 
-                                <button
-                                    onClick={() => setShowRemoveConfirm(domain)}
-                                    className="w-10 h-10 flex items-center justify-center rounded-xl hover:bg-destructive/10 text-muted-foreground hover:text-destructive transition-colors"
-                                >
-                                    <Trash2 className="w-5 h-5" />
-                                </button>
-                            </Card>
-                        ))}
+                                        <button
+                                            onClick={() => setShowRemoveConfirm(domain)}
+                                            className="w-10 h-10 flex items-center justify-center rounded-xl hover:bg-destructive/10 text-muted-foreground hover:text-destructive transition-colors"
+                                        >
+                                            <Trash2 className="w-5 h-5" />
+                                        </button>
+                                    </Card>
+                                ))}
+                            </div>
+                        )}
+
+                        {/* System Whitelist */}
+                        {systemWhitelist.length > 0 && (
+                            <div className="space-y-2">
+                                <h3 className="text-sm font-medium text-muted-foreground px-1">
+                                    {t.whitelist?.systemDefault || 'System Verified'}
+                                </h3>
+                                {systemWhitelist.map((domain) => (
+                                    <Card key={domain} className="p-3 flex items-center gap-3 animate-fade-in bg-muted/30 border-dashed">
+                                        <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0">
+                                            <ShieldCheck className="w-5 h-5 text-primary" />
+                                        </div>
+
+                                        <div className="flex-1 min-w-0">
+                                            <p className="font-medium text-foreground truncate">{domain}</p>
+                                            <p className="text-xs text-muted-foreground flex items-center gap-1">
+                                                <ShieldCheck className="w-3 h-3" />
+                                                {t.whitelist?.verified || 'Official Partner'}
+                                            </p>
+                                        </div>
+
+                                        {/* No delete button for system items */}
+                                        <div className="w-10 h-10 flex items-center justify-center">
+                                            {/* Optional lock icon or just empty */}
+                                        </div>
+                                    </Card>
+                                ))}
+                            </div>
+                        )}
                     </div>
                 )}
             </div>

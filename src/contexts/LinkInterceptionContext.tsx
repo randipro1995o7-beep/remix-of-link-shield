@@ -2,7 +2,7 @@ import React, { createContext, useContext, useState, useEffect, ReactNode } from
 import { useApp } from './AppContext';
 import { logger } from '@/lib/utils/logger';
 import { SecureLocalStorage } from '@/lib/storage/SecureLocalStorage';
-import PhishGuard, { PhishGuardResult } from '@/lib/services/PhishGuard';
+import PhishGuard, { PhishGuardResult, KNOWN_BRANDS } from '@/lib/services/PhishGuard';
 import { UrlResolver } from '@/lib/services/UrlResolver';
 
 export interface InterceptedLink {
@@ -21,6 +21,7 @@ interface LinkInterceptionContextType {
   blockLink: () => void;
   linkHistory: InterceptedLink[];
   whitelist: string[];
+  systemWhitelist: string[];
   addToWhitelist: (url: string) => void;
   removeFromWhitelist: (domain: string) => void;
   isWhitelisted: (url: string) => boolean;
@@ -50,7 +51,7 @@ interface LinkInterceptionProviderProps {
 export function LinkInterceptionProvider({ children }: LinkInterceptionProviderProps) {
   const { state } = useApp();
   const [currentLink, setCurrentLink] = useState<InterceptedLink | null>(null);
-  const [whitelist, setWhitelist] = useState<string[]>(DEFAULT_WHITELIST);
+  const [whitelist, setWhitelist] = useState<string[]>([]);
   const [linkHistory, setLinkHistory] = useState<InterceptedLink[]>([]);
   const [isInitialized, setIsInitialized] = useState(false);
 
@@ -62,17 +63,36 @@ export function LinkInterceptionProvider({ children }: LinkInterceptionProviderP
         const oldWhitelist = localStorage.getItem(WHITELIST_KEY);
         const oldHistory = localStorage.getItem(HISTORY_KEY);
 
+        let finalWhitelist: string[] = [];
+
         // Load or migrate whitelist
         const storedWhitelist = await SecureLocalStorage.getItem(WHITELIST_KEY);
         if (storedWhitelist) {
-          setWhitelist(JSON.parse(storedWhitelist));
+          finalWhitelist = JSON.parse(storedWhitelist);
         } else if (oldWhitelist) {
           // Migrate from localStorage
           await SecureLocalStorage.setItem(WHITELIST_KEY, oldWhitelist);
-          setWhitelist(JSON.parse(oldWhitelist));
+          finalWhitelist = JSON.parse(oldWhitelist);
           localStorage.removeItem(WHITELIST_KEY);
           logger.info('Migrated whitelist from localStorage to secure storage');
+        } else {
+          // First run (or no data) - DO NOT set defaults here, they are now in systemWhitelist
+          finalWhitelist = [];
         }
+
+        // Clean up user whitelist: Remove any domains that are now part of systemWhitelist
+        // This ensures they become read-only even if previously saved as user-editable
+        const systemDomains = new Set([...DEFAULT_WHITELIST]);
+        KNOWN_BRANDS.forEach(b => b.officialDomains.forEach(d => systemDomains.add(d)));
+
+        const cleanedWhitelist = finalWhitelist.filter(domain => !systemDomains.has(domain));
+
+        // If we filtered anything out, save the cleaned version
+        if (cleanedWhitelist.length !== finalWhitelist.length) {
+          await SecureLocalStorage.setItem(WHITELIST_KEY, JSON.stringify(cleanedWhitelist));
+        }
+
+        setWhitelist(cleanedWhitelist);
 
         // Load or migrate history
         const storedHistory = await SecureLocalStorage.getItem(HISTORY_KEY);
@@ -141,14 +161,52 @@ export function LinkInterceptionProvider({ children }: LinkInterceptionProviderP
     }
   };
 
+  // Flatten system trusted sites
+  const systemWhitelist = React.useMemo(() => {
+    const sites: string[] = [...DEFAULT_WHITELIST];
+    KNOWN_BRANDS.forEach(brand => {
+      sites.push(...brand.officialDomains);
+    });
+    return sites;
+  }, []);
+
   const isWhitelisted = (url: string) => {
     const domain = getDomain(url);
-    return domain ? whitelist.includes(domain) : false;
+    if (!domain) return false;
+
+    // Check user whitelist (exact match)
+    if (whitelist.includes(domain)) return true;
+
+    // Check system whitelist (exact match)
+    if (systemWhitelist.includes(domain)) return true;
+
+    // Check if domain starts with www.
+    if (domain.startsWith('www.')) {
+      const domainNoWww = domain.replace(/^www\./, '');
+      if (whitelist.includes(domainNoWww)) return true;
+      if (systemWhitelist.includes(domainNoWww)) return true;
+    }
+
+    // Check if domain is a subdomain of any system whitelist domain
+    // e.g. promo.shopee.co.id should match shopee.co.id
+    // But be careful not to match malicioussubdomain.shopee.co.id.evil.com
+    // The previous logic for `isWhitelisted` was exact match. PhishGuard handles brand impersonation.
+    // Trusted sites usually mean "skip PhishGuard".
+    // Let's keep it simple: Exact match or "parent domain match" if we want to trust subdomains.
+    // For now, let's stick to the flattening logic + www handling.
+    // Actually, officialDomains in PhishGuard are root domains usually.
+    // Let's check for "endsWith" dot domain.
+
+    const isSystemSubdomain = systemWhitelist.some(trusted =>
+      domain.endsWith('.' + trusted)
+    );
+
+    return isSystemSubdomain;
   };
 
   const addToWhitelist = (url: string) => {
     const domain = getDomain(url);
-    if (domain && !whitelist.includes(domain)) {
+    if (domain && !whitelist.includes(domain) && !systemWhitelist.includes(domain)) {
       setWhitelist(prev => [...prev, domain]);
     }
   };
@@ -308,6 +366,7 @@ export function LinkInterceptionProvider({ children }: LinkInterceptionProviderP
         blockLink,
         linkHistory,
         whitelist,
+        systemWhitelist,
         addToWhitelist,
         removeFromWhitelist,
         isWhitelisted,

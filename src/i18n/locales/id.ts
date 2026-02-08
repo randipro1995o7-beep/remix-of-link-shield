@@ -72,6 +72,9 @@ export const id: TranslationKeys = {
         add: 'Tambahkan',
         invalidUrl: 'Mohon masukkan domain atau URL yang valid',
         addedDate: 'Ditambahkan',
+        userAdded: 'Ditambahkan oleh Anda',
+        systemDefault: 'Terverifikasi Sistem',
+        verified: 'Mitra Resmi',
     },
 
     permissions: {

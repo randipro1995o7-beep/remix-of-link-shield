@@ -78,6 +78,9 @@ export interface TranslationKeys {
         add: string;
         invalidUrl: string;
         addedDate: string;
+        userAdded: string;
+        systemDefault: string;
+        verified: string;
     };
 
     // Permissions

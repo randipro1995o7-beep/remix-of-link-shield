@@ -16,7 +16,7 @@ interface Brand {
     keywords: string[]; // Variations to look for
 }
 
-const KNOWN_BRANDS: Brand[] = [
+export const KNOWN_BRANDS: Brand[] = [
     {
         name: 'BCA',
         officialDomains: ['bca.co.id', 'klikbca.com', 'klikbca.co.id', 'mybca.bca.co.id'],
