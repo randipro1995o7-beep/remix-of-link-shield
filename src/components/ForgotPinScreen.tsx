@@ -1,11 +1,11 @@
 import { useState, useEffect, useCallback } from 'react';
-import { ArrowLeft, Phone, Mail, CheckCircle, AlertCircle, Lock, Send } from 'lucide-react';
+import { ArrowLeft, Phone, Mail, CheckCircle, AlertCircle, Lock, Send, RefreshCw } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { useApp } from '@/contexts/AppContext';
 import { RecoveryService, SafetyPinService } from '@/lib/storage';
 import { RecoveryOptionsScreen } from './RecoveryOptionsScreen';
-import { EmailService } from '@/lib/email/EmailService';
+import { AuthService } from '@/lib/services/AuthService';
 import { toast } from 'sonner';
 
 interface ForgotPinScreenProps {
@@ -13,21 +13,20 @@ interface ForgotPinScreenProps {
     onSuccess: () => void;
 }
 
-type Step = 'choose-method' | 'send-otp' | 'verify-otp' | 'new-pin' | 'confirm-pin' | 'success';
+type Step = 'choose-method' | 'send-link' | 'link-sent' | 'new-pin' | 'confirm-pin' | 'success';
 
 /**
  * Forgot PIN Screen
  * 
- * Allows user to reset their PIN via SMS or Email OTP.
+ * Allows user to reset their PIN via Email Magic Link.
  */
 export function ForgotPinScreen({ onBack, onSuccess }: ForgotPinScreenProps) {
     const { state } = useApp();
     const [step, setStep] = useState<Step>('choose-method');
-    const [method, setMethod] = useState<'phone' | 'email' | null>(null);
-    const [maskedPhone, setMaskedPhone] = useState<string | null>(null);
+    const [method, setMethod] = useState<'email' | null>('email'); // Only email supported for now with Firebase
     const [maskedEmail, setMaskedEmail] = useState<string | null>(null);
-    const [otp, setOtp] = useState('');
-    const [generatedOtp, setGeneratedOtp] = useState<string | null>(null);
+    const [fullEmail, setFullEmail] = useState<string | null>(null);
+
     const [newPin, setNewPin] = useState('');
     const [confirmPin, setConfirmPin] = useState('');
     const [error, setError] = useState('');
@@ -39,21 +38,20 @@ export function ForgotPinScreen({ onBack, onSuccess }: ForgotPinScreenProps) {
 
     const t = {
         title: isIndonesian ? 'Lupa PIN' : 'Forgot PIN',
-        chooseMethod: isIndonesian ? 'Pilih Metode Pemulihan' : 'Choose Recovery Method',
+        chooseMethod: isIndonesian ? 'Metode Pemulihan' : 'Recovery Method',
         chooseMethodDesc: isIndonesian
-            ? 'Pilih cara untuk menerima kode verifikasi'
-            : 'Choose how to receive verification code',
-        viaSms: isIndonesian ? 'Via SMS' : 'Via SMS',
+            ? 'Kami akan mengirimkan link reset ke email Anda'
+            : 'We will send a reset link to your email',
         viaEmail: isIndonesian ? 'Via Email' : 'Via Email',
-        sendCode: isIndonesian ? 'Kirim Kode' : 'Send Code',
-        sendingTo: isIndonesian ? 'Kode akan dikirim ke:' : 'Code will be sent to:',
-        enterOtp: isIndonesian ? 'Masukkan Kode OTP' : 'Enter OTP Code',
-        enterOtpDesc: isIndonesian
-            ? 'Masukkan 6 digit kode yang dikirim'
-            : 'Enter the 6-digit code sent',
-        verify: isIndonesian ? 'Verifikasi' : 'Verify',
+        sendLink: isIndonesian ? 'Kirim Link Reset' : 'Send Reset Link',
+        sendingTo: isIndonesian ? 'Link akan dikirim ke:' : 'Link will be sent to:',
+        linkSentTitle: isIndonesian ? 'Link Terkirim!' : 'Link Sent!',
+        linkSentDesc: isIndonesian
+            ? 'Cek email Anda dan klik link untuk mereset PIN. Jangan tutup aplikasi ini.'
+            : 'Check your email and click the link to reset PIN. Do not close this app.',
+        waitingForVerify: isIndonesian ? 'Menunggu verifikasi...' : 'Waiting for verification...',
         resendIn: isIndonesian ? 'Kirim ulang dalam' : 'Resend in',
-        resend: isIndonesian ? 'Kirim Ulang Kode' : 'Resend Code',
+        resend: isIndonesian ? 'Kirim Ulang Link' : 'Resend Link',
         newPinTitle: isIndonesian ? 'Buat PIN Baru' : 'Create New PIN',
         newPinDesc: isIndonesian ? 'Masukkan PIN 4 digit yang baru' : 'Enter a new 4-digit PIN',
         confirmPinTitle: isIndonesian ? 'Konfirmasi PIN Baru' : 'Confirm New PIN',
@@ -61,25 +59,19 @@ export function ForgotPinScreen({ onBack, onSuccess }: ForgotPinScreenProps) {
         successTitle: isIndonesian ? 'PIN Berhasil Direset!' : 'PIN Reset Successful!',
         successDesc: isIndonesian ? 'Anda sekarang bisa menggunakan PIN baru' : 'You can now use your new PIN',
         done: isIndonesian ? 'Selesai' : 'Done',
-        invalidOtp: isIndonesian ? 'Kode OTP salah atau kadaluarsa' : 'Invalid or expired OTP code',
         pinMismatch: isIndonesian ? 'PIN tidak cocok' : 'PINs do not match',
         noRecovery: isIndonesian
-            ? 'Belum ada opsi pemulihan yang diatur. Silakan atur sekarang agar Anda bisa mereset PIN.'
-            : 'No recovery options set. Please set them up now to reset your PIN.',
-        otpSent: isIndonesian ? 'Kode OTP telah dikirim!' : 'OTP code has been sent!',
-        // For local/offline mode
-        localOtpNotice: isIndonesian
-            ? 'Kode OTP Anda akan ditampilkan. Catat dan simpan kode ini.'
-            : 'Your OTP code will be displayed. Note and save this code.',
-        setupRecovery: isIndonesian ? 'Atur Opsi Pemulihan' : 'Setup Recovery Options',
+            ? 'Belum ada email pemulihan yang diatur. Silakan atur sekarang.'
+            : 'No recovery email set. Please set it up now.',
+        setupRecovery: isIndonesian ? 'Atur Email Pemulihan' : 'Setup Recovery Email',
     };
 
     useEffect(() => {
         const loadRecoveryOptions = async () => {
-            const phone = await RecoveryService.getMaskedPhone();
             const email = await RecoveryService.getMaskedEmail();
-            setMaskedPhone(phone);
+            const rawEmail = await RecoveryService.getRecoveryEmail();
             setMaskedEmail(email);
+            setFullEmail(rawEmail);
             setIsLoading(false);
         };
         loadRecoveryOptions();
@@ -93,72 +85,37 @@ export function ForgotPinScreen({ onBack, onSuccess }: ForgotPinScreenProps) {
         }
     }, [countdown]);
 
-    const handleSendOtp = async () => {
+    // Listen for Auth State Changes (Verification Success)
+    useEffect(() => {
+        const unsubscribe = AuthService.onAuthStateChanged((user) => {
+            if (user && step === 'link-sent') {
+                toast.success(isIndonesian ? 'Verifikasi Berhasil!' : 'Verification Successful!');
+                setStep('new-pin');
+            }
+        });
+        return () => unsubscribe();
+    }, [step, isIndonesian]);
+
+    const handleSendLink = async () => {
         setIsLoading(true);
         try {
-            const code = await RecoveryService.generateOTP();
-
-            let sent = false;
-            let errorMessage = '';
-
-            if (method === 'email' && maskedEmail) {
-                // Send via EmailJS (if configured)
-                const fullEmail = await RecoveryService.getRecoveryEmail();
-
-                if (fullEmail) {
-                    // Force cast to any because TS might complain about mismatch if not fully propagated yet
-                    const result = await EmailService.sendOtp(fullEmail, code) as any;
-
-                    // Handle both boolean (old) and object (new) return types for safety
-                    if (typeof result === 'boolean') {
-                        sent = result;
-                    } else {
-                        sent = result.success;
-                        if (!sent && result.error) {
-                            errorMessage = result.error;
-                        }
-                    }
+            if (fullEmail) {
+                const result = await AuthService.sendVerificationLink(fullEmail);
+                if (result.success) {
+                    setCountdown(60);
+                    setStep('link-sent');
+                    toast.success(isIndonesian ? 'Link verifikasi terkirim' : 'Verification link sent');
                 } else {
-                    // Fallback if email retrieval fails
-                    errorMessage = 'Gagal mengambil email tujuan';
+                    toast.error(isIndonesian ? 'Gagal mengirim link: ' + result.error : 'Failed to send link: ' + result.error);
                 }
             } else {
-                // SMS/Phone (Simulation only for now as SMS API is paid)
-                toast.info(`[SIMULASI] SMS ke ${maskedPhone}: Kode ${code}`);
-                sent = true;
-            }
-
-            if (sent) {
-                setGeneratedOtp(code);
-                setCountdown(60);
-                setStep('verify-otp');
-                toast.success(t.otpSent);
-            } else {
-                // Show specific error if available
-                if (errorMessage) {
-                    toast.error(`Gagal mengirim: ${errorMessage}`);
-                } else {
-                    toast.error('Gagal mengirim kode OTP. Periksa key konfigurasi atau koneksi internet.');
-                }
+                toast.error('Email not found');
             }
         } catch (e) {
             console.error(e);
-            toast.error('Terjadi kesalahan saat membuat OTP');
+            toast.error('Error sending link');
         }
         setIsLoading(false);
-    };
-
-    const handleVerifyOtp = async () => {
-        setError('');
-        const isValid = await RecoveryService.verifyOTP(otp);
-
-        if (isValid) {
-            await RecoveryService.clearOTP();
-            setStep('new-pin');
-        } else {
-            setError(t.invalidOtp);
-            setOtp('');
-        }
     };
 
     const handleKeyPress = useCallback((key: string) => {
@@ -212,32 +169,21 @@ export function ForgotPinScreen({ onBack, onSuccess }: ForgotPinScreenProps) {
             <RecoveryOptionsScreen
                 onBack={() => setShowRecoverySetup(false)}
                 onComplete={async () => {
-                    // Show loading immediately to transition UI
                     setIsLoading(true);
                     setShowRecoverySetup(false);
-
-                    // Small delay to ensure storage persistence and smooth transition
                     await new Promise(resolve => setTimeout(resolve, 500));
-
-                    // Reload options
-                    try {
-                        const phone = await RecoveryService.getMaskedPhone();
-                        const email = await RecoveryService.getMaskedEmail();
-                        console.log('Reloaded options:', { phone, email });
-                        setMaskedPhone(phone);
-                        setMaskedEmail(email);
-                    } catch (e) {
-                        console.error('Failed to reload options:', e);
-                    }
-
+                    const email = await RecoveryService.getMaskedEmail();
+                    const rawEmail = await RecoveryService.getRecoveryEmail();
+                    setMaskedEmail(email);
+                    setFullEmail(rawEmail);
                     setIsLoading(false);
                 }}
             />
         );
     }
 
-    // No recovery options available
-    if (!maskedPhone && !maskedEmail && step === 'choose-method') {
+    // No email set
+    if (!maskedEmail && step === 'choose-method') {
         return (
             <div className="fixed inset-0 z-50 bg-background flex flex-col animate-fade-in">
                 <div className="flex items-center p-4 safe-area-top border-b border-border">
@@ -248,15 +194,13 @@ export function ForgotPinScreen({ onBack, onSuccess }: ForgotPinScreenProps) {
                     <div className="w-12" />
                 </div>
                 <div className="flex-1 flex flex-col items-center justify-center px-6 text-center">
-                    <div className="w-20 h-20 rounded-full bg-destructive/10 flex items-center justify-center mb-6">
-                        <AlertCircle className="w-10 h-10 text-destructive" />
+                    <div className="w-20 h-20 rounded-full bg-primary/10 flex items-center justify-center mb-6">
+                        <AlertCircle className="w-10 h-10 text-primary" />
                     </div>
                     <p className="text-muted-foreground mb-6">{t.noRecovery}</p>
-
                     <Button onClick={() => setShowRecoverySetup(true)} className="w-full max-w-xs mb-3">
                         {t.setupRecovery}
                     </Button>
-
                     <Button onClick={onBack} variant="ghost" className="w-full max-w-xs">
                         {isIndonesian ? 'Kembali' : 'Go Back'}
                     </Button>
@@ -358,7 +302,7 @@ export function ForgotPinScreen({ onBack, onSuccess }: ForgotPinScreenProps) {
             </div>
 
             <div className="flex-1 overflow-y-auto p-4">
-                {/* Choose Method */}
+                {/* Choose Method / Initial State */}
                 {step === 'choose-method' && (
                     <div className="space-y-6">
                         <div className="text-center py-4">
@@ -367,127 +311,48 @@ export function ForgotPinScreen({ onBack, onSuccess }: ForgotPinScreenProps) {
                         </div>
 
                         <div className="space-y-3">
-                            {maskedPhone && (
-                                <Card
-                                    className={`p-4 cursor-pointer transition-all ${method === 'phone' ? 'ring-2 ring-primary' : ''
-                                        }`}
-                                    onClick={() => setMethod('phone')}
-                                >
-                                    <div className="flex items-center gap-4">
-                                        <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
-                                            <Phone className="w-6 h-6 text-primary" />
-                                        </div>
-                                        <div className="flex-1">
-                                            <p className="font-medium">{t.viaSms}</p>
-                                            <p className="text-sm text-muted-foreground">{maskedPhone}</p>
-                                        </div>
-                                        {method === 'phone' && <CheckCircle className="w-5 h-5 text-primary" />}
+                            <Card className="p-4 cursor-pointer ring-2 ring-primary">
+                                <div className="flex items-center gap-4">
+                                    <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
+                                        <Mail className="w-6 h-6 text-primary" />
                                     </div>
-                                </Card>
-                            )}
-
-                            {maskedEmail && (
-                                <Card
-                                    className={`p-4 cursor-pointer transition-all ${method === 'email' ? 'ring-2 ring-primary' : ''
-                                        }`}
-                                    onClick={() => setMethod('email')}
-                                >
-                                    <div className="flex items-center gap-4">
-                                        <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
-                                            <Mail className="w-6 h-6 text-primary" />
-                                        </div>
-                                        <div className="flex-1">
-                                            <p className="font-medium">{t.viaEmail}</p>
-                                            <p className="text-sm text-muted-foreground">{maskedEmail}</p>
-                                        </div>
-                                        {method === 'email' && <CheckCircle className="w-5 h-5 text-primary" />}
+                                    <div className="flex-1">
+                                        <p className="font-medium">{t.viaEmail}</p>
+                                        <p className="text-sm text-muted-foreground">{maskedEmail}</p>
                                     </div>
-                                </Card>
-                            )}
+                                    <CheckCircle className="w-5 h-5 text-primary" />
+                                </div>
+                            </Card>
                         </div>
 
                         <Button
-                            onClick={() => setStep('send-otp')}
-                            disabled={!method}
+                            onClick={handleSendLink}
                             size="lg"
                             className="w-full"
                         >
-                            {isIndonesian ? 'Lanjutkan' : 'Continue'}
+                            {t.sendLink}
                         </Button>
                     </div>
                 )}
 
-                {/* Send OTP */}
-                {step === 'send-otp' && (
+                {/* Link Sent State */}
+                {step === 'link-sent' && (
                     <div className="space-y-6 text-center py-8">
-                        <div className="w-20 h-20 rounded-full bg-primary/10 flex items-center justify-center mx-auto">
-                            <Send className="w-10 h-10 text-primary" />
+                        <div className="w-20 h-20 rounded-full bg-primary/10 flex items-center justify-center mx-auto animate-pulse">
+                            <Mail className="w-10 h-10 text-primary" />
                         </div>
 
                         <div>
-                            <h2 className="text-xl font-bold text-foreground mb-2">{t.sendCode}</h2>
-                            <p className="text-muted-foreground">{t.sendingTo}</p>
-                            <p className="font-medium text-foreground mt-2">
-                                {method === 'phone' ? maskedPhone : maskedEmail}
-                            </p>
+                            <h2 className="text-xl font-bold text-foreground mb-2">{t.linkSentTitle}</h2>
+                            <p className="text-muted-foreground max-w-xs mx-auto">{t.linkSentDesc}</p>
                         </div>
 
-                        {/* Local mode notice */}
-                        <div className="p-4 bg-warning/10 rounded-xl border border-warning/20">
-                            <p className="text-sm text-warning">{t.localOtpNotice}</p>
+                        <div className="p-4 bg-muted/50 rounded-xl">
+                            <div className="flex items-center justify-center gap-2 text-primary font-medium">
+                                <RefreshCw className="w-4 h-4 animate-spin" />
+                                <span>{t.waitingForVerify}</span>
+                            </div>
                         </div>
-
-                        <Button onClick={handleSendOtp} size="lg" className="w-full">
-                            {t.sendCode}
-                        </Button>
-                    </div>
-                )}
-
-                {/* Verify OTP */}
-                {step === 'verify-otp' && (
-                    <div className="space-y-6 text-center py-8">
-                        <div className="w-20 h-20 rounded-full bg-primary/10 flex items-center justify-center mx-auto">
-                            <Lock className="w-10 h-10 text-primary" />
-                        </div>
-
-                        <div>
-                            <h2 className="text-xl font-bold text-foreground mb-2">{t.enterOtp}</h2>
-                            <p className="text-muted-foreground">{t.enterOtpDesc}</p>
-                        </div>
-
-                        {/* OTP Input */}
-                        <div className="flex justify-center gap-2">
-                            {[0, 1, 2, 3, 4, 5].map((i) => (
-                                <input
-                                    key={i}
-                                    type="text"
-                                    inputMode="numeric"
-                                    maxLength={1}
-                                    value={otp[i] || ''}
-                                    onChange={(e) => {
-                                        const val = e.target.value.replace(/\D/g, '');
-                                        if (val) {
-                                            const newOtp = otp.slice(0, i) + val + otp.slice(i + 1);
-                                            setOtp(newOtp.slice(0, 6));
-                                            // Auto-focus next input
-                                            if (i < 5 && val) {
-                                                const nextInput = e.target.parentElement?.children[i + 1] as HTMLInputElement;
-                                                nextInput?.focus();
-                                            }
-                                        }
-                                    }}
-                                    onKeyDown={(e) => {
-                                        if (e.key === 'Backspace' && !otp[i] && i > 0) {
-                                            const prevInput = e.currentTarget.parentElement?.children[i - 1] as HTMLInputElement;
-                                            prevInput?.focus();
-                                        }
-                                    }}
-                                    className="w-12 h-14 text-center text-2xl font-bold rounded-xl bg-muted border-2 border-border focus:border-primary focus:outline-none transition-colors"
-                                />
-                            ))}
-                        </div>
-
-                        {error && <p className="text-destructive text-sm">{error}</p>}
 
                         {/* Resend */}
                         <div>
@@ -496,23 +361,15 @@ export function ForgotPinScreen({ onBack, onSuccess }: ForgotPinScreenProps) {
                                     {t.resendIn} {countdown}s
                                 </p>
                             ) : (
-                                <button
-                                    onClick={handleSendOtp}
-                                    className="text-sm text-primary hover:underline"
+                                <Button
+                                    onClick={handleSendLink}
+                                    variant="outline"
+                                    className="w-full"
                                 >
                                     {t.resend}
-                                </button>
+                                </Button>
                             )}
                         </div>
-
-                        <Button
-                            onClick={handleVerifyOtp}
-                            disabled={otp.length < 6}
-                            size="lg"
-                            className="w-full"
-                        >
-                            {t.verify}
-                        </Button>
                     </div>
                 )}
             </div>

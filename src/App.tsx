@@ -1,4 +1,7 @@
 import { useEffect } from "react";
+import { App as CapacitorApp } from '@capacitor/app';
+import { AuthService } from '@/lib/services/AuthService';
+import { toast } from 'sonner';
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -14,7 +17,6 @@ import { OnboardingFlow } from "@/components/onboarding";
 import { useShareIntent } from "@/hooks/useShareIntent";
 import { useSecurityStatusNotification } from "@/hooks/useSecurityStatusNotification";
 import { initRemoteDatabase } from "@/lib/scamDatabase";
-import { EmailService } from "@/lib/email/EmailService";
 
 // Pages
 import Index from "./pages/Index";
@@ -37,13 +39,28 @@ function AppContent() {
     initRemoteDatabase().catch(err => {
       console.warn('Failed to initialize remote database:', err);
     });
+  }, []);
 
-    // Initialize Email Service
-    try {
-      EmailService.init();
-    } catch (e) {
-      console.warn('Failed to initialize EmailService:', e);
-    }
+  useEffect(() => {
+    // Listen for deep links (e.g. Firebase Auth links)
+    const listener = CapacitorApp.addListener('appUrlOpen', async (data) => {
+      const url = data.url;
+      if (AuthService.isSignInLink(url)) {
+        toast.loading('Verifying email link...', { id: 'auth-verify' });
+        const result = await AuthService.verifyEmailLink(url);
+        if (result.success) {
+          toast.success('Email verified! You can now reset your PIN.', { id: 'auth-verify' });
+          // Navigation to the relevant screen is handled by the screen listening to auth state,
+          // or we could dispatch a global event/state here.
+        } else {
+          toast.error('Verification failed: ' + result.error, { id: 'auth-verify' });
+        }
+      }
+    });
+
+    return () => {
+      listener.then(handle => handle.remove());
+    };
   }, []);
 
   return (
