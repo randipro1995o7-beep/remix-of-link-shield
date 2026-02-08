@@ -19,6 +19,7 @@ import { EmailService } from "@/lib/email/EmailService";
 import Index from "./pages/Index";
 import Protection from "./pages/Protection";
 import Settings from "./pages/Settings";
+import { SecurityDashboard } from "./pages/SecurityDashboard";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -48,6 +49,7 @@ function AppContent() {
           <Route path="/" element={<Index />} />
           <Route path="/protection" element={<Protection />} />
           <Route path="/settings" element={<Settings />} />
+          <Route path="/security-dashboard" element={<SecurityDashboard />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

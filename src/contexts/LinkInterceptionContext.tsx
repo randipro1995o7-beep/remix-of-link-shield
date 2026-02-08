@@ -1,10 +1,14 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { useApp } from './AppContext';
+import { logger } from '@/lib/utils/logger';
+import { SecureLocalStorage } from '@/lib/storage/SecureLocalStorage';
+import PhishGuard, { PhishGuardResult } from '@/lib/services/PhishGuard';
 
 export interface InterceptedLink {
   url: string;
   source?: string; // e.g., "WhatsApp", "SMS", "Email"
   timestamp: Date;
+  securityAnalysis?: PhishGuardResult;
 }
 
 interface LinkInterceptionContextType {
@@ -26,6 +30,17 @@ const HISTORY_KEY = 'lg_link_history';
 const WHITELIST_KEY = 'lg_whitelist';
 const MAX_HISTORY = 50;
 
+// Default trusted sites for new users
+const DEFAULT_WHITELIST = [
+  'youtube.com',
+  'google.com',
+  'facebook.com',
+  'instagram.com',
+  'twitter.com',
+  'whatsapp.com',
+  'linkedin.com'
+];
+
 interface LinkInterceptionProviderProps {
   children: ReactNode;
 }
@@ -33,52 +48,75 @@ interface LinkInterceptionProviderProps {
 export function LinkInterceptionProvider({ children }: LinkInterceptionProviderProps) {
   const { state } = useApp();
   const [currentLink, setCurrentLink] = useState<InterceptedLink | null>(null);
-  const [whitelist, setWhitelist] = useState<string[]>(() => {
-    try {
-      const saved = localStorage.getItem(WHITELIST_KEY);
-      if (saved) {
-        return JSON.parse(saved);
-      }
-      // Default trusted sites for new users
-      return [
-        'youtube.com',
-        'google.com',
-        'facebook.com',
-        'instagram.com',
-        'twitter.com',
-        'whatsapp.com',
-        'linkedin.com'
-      ];
-    } catch {
-      return [];
-    }
-  });
+  const [whitelist, setWhitelist] = useState<string[]>(DEFAULT_WHITELIST);
+  const [linkHistory, setLinkHistory] = useState<InterceptedLink[]>([]);
+  const [isInitialized, setIsInitialized] = useState(false);
 
-  const [linkHistory, setLinkHistory] = useState<InterceptedLink[]>(() => {
-    try {
-      const saved = localStorage.getItem(HISTORY_KEY);
-      if (saved) {
-        const parsed = JSON.parse(saved);
-        return parsed.map((item: { url: string; source?: string; timestamp: string }) => ({
-          ...item,
-          timestamp: new Date(item.timestamp),
-        }));
-      }
-    } catch {
-      // Ignore parse errors
-    }
-    return [];
-  });
-
+  // Load data from secure storage on mount
   useEffect(() => {
-    localStorage.setItem(WHITELIST_KEY, JSON.stringify(whitelist));
-  }, [whitelist]);
+    const loadData = async () => {
+      try {
+        // Migrate old localStorage data if exists
+        const oldWhitelist = localStorage.getItem(WHITELIST_KEY);
+        const oldHistory = localStorage.getItem(HISTORY_KEY);
 
-  const saveHistory = (history: InterceptedLink[]) => {
+        // Load or migrate whitelist
+        const storedWhitelist = await SecureLocalStorage.getItem(WHITELIST_KEY);
+        if (storedWhitelist) {
+          setWhitelist(JSON.parse(storedWhitelist));
+        } else if (oldWhitelist) {
+          // Migrate from localStorage
+          await SecureLocalStorage.setItem(WHITELIST_KEY, oldWhitelist);
+          setWhitelist(JSON.parse(oldWhitelist));
+          localStorage.removeItem(WHITELIST_KEY);
+          logger.info('Migrated whitelist from localStorage to secure storage');
+        }
+
+        // Load or migrate history
+        const storedHistory = await SecureLocalStorage.getItem(HISTORY_KEY);
+        if (storedHistory) {
+          const parsed = JSON.parse(storedHistory);
+          const history = parsed.map((item: any) => ({
+            ...item,
+            timestamp: new Date(item.timestamp),
+          }));
+          setLinkHistory(history);
+        } else if (oldHistory) {
+          // Migrate from localStorage
+          await SecureLocalStorage.setItem(HISTORY_KEY, oldHistory);
+          const parsed = JSON.parse(oldHistory);
+          const history = parsed.map((item: any) => ({
+            ...item,
+            timestamp: new Date(item.timestamp),
+          }));
+          setLinkHistory(history);
+          localStorage.removeItem(HISTORY_KEY);
+          logger.info('Migrated link history from localStorage to secure storage');
+        }
+      } catch (error) {
+        logger.error('Failed to load secure storage data', error);
+      } finally {
+        setIsInitialized(true);
+      }
+    };
+
+    loadData();
+  }, []);
+
+  // Save whitelist when it changes
+  useEffect(() => {
+    if (isInitialized) {
+      SecureLocalStorage.setItem(WHITELIST_KEY, JSON.stringify(whitelist)).catch(error => {
+        logger.error('Failed to save whitelist', error);
+      });
+    }
+  }, [whitelist, isInitialized]);
+
+  const saveHistory = async (history: InterceptedLink[]) => {
     try {
-      localStorage.setItem(HISTORY_KEY, JSON.stringify(history.slice(0, MAX_HISTORY)));
-    } catch {
-      // Ignore storage errors
+      await SecureLocalStorage.setItem(HISTORY_KEY, JSON.stringify(history.slice(0, MAX_HISTORY)));
+    } catch (error) {
+      logger.error('Failed to save link history', error);
     }
   };
 
@@ -124,7 +162,7 @@ export function LinkInterceptionProvider({ children }: LinkInterceptionProviderP
       const { Browser } = await import('@capacitor/browser');
       await Browser.open({ url });
     } catch (error) {
-      console.error('Failed to open browser:', error);
+      logger.error('Failed to open browser', error);
       // Fallback for web: open in new tab
       window.open(url, '_blank', 'noopener,noreferrer');
     }
@@ -176,10 +214,14 @@ export function LinkInterceptionProvider({ children }: LinkInterceptionProviderP
       return;
     }
 
+    // Perform PhishGuard analysis
+    const securityAnalysis = PhishGuard.analyzeUrl(url);
+
     const link: InterceptedLink = {
       url,
       source,
       timestamp: new Date(),
+      securityAnalysis,
     };
     setCurrentLink(link);
 

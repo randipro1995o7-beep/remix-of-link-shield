@@ -1,0 +1,272 @@
+.security-dashboard {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding-bottom: 100px;
+}
+
+.dashboard-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.dashboard-header h1 {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.back-btn {
+    padding: 8px 16px;
+    background: var(--color-bg-secondary, #f5f5f5);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.back-btn:hover {
+    background: var(--color-bg-tertiary, #e0e0e0);
+}
+
+/* Metrics Grid */
+.metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    margin-bottom: 32px;
+}
+
+.metric-card {
+    background: white;
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    padding: 20px;
+    text-align: center;
+}
+
+.metric-card.warning {
+    border-left: 4px solid #ff9800;
+}
+
+.metric-card.critical {
+    border-left: 4px solid #f44336;
+}
+
+.metric-value {
+    font-size: 32px;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 8px;
+}
+
+.metric-label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #666;
+    margin-bottom: 4px;
+}
+
+.metric-sublabel {
+    font-size: 12px;
+    color: #999;
+}
+
+/* Filters */
+.filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    align-items: flex-end;
+    margin-bottom: 24px;
+    padding: 16px;
+    background: white;
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+}
+
+.filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex: 1;
+    min-width: 200px;
+}
+
+.filter-group label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #666;
+}
+
+.filter-group select {
+    padding: 8px 12px;
+    border: 1px solid #d0d0d0;
+    border-radius: 8px;
+    font-size: 14px;
+    background: white;
+}
+
+.export-buttons {
+    display: flex;
+    gap: 8px;
+}
+
+.export-btn {
+    padding: 10px 20px;
+    background: var(--color-primary, #1976d2);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.export-btn:hover {
+    background: var(--color-primary-dark, #1565c0);
+}
+
+/* Events Container */
+.events-container {
+    background: white;
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    padding: 20px;
+}
+
+.events-container h2 {
+    margin: 0 0 20px 0;
+    font-size: 18px;
+    font-weight: 600;
+    color: #333;
+}
+
+.no-events {
+    text-align: center;
+    padding: 60px 20px;
+    color: #999;
+}
+
+/* Events List */
+.events-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.event-item {
+    display: flex;
+    gap: 12px;
+    padding: 16px;
+    background: #fafafa;
+    border-radius: 8px;
+    border-left: 3px solid #e0e0e0;
+}
+
+.event-item.severity-warning {
+    border-left-color: #ff9800;
+    background: #fff3e0;
+}
+
+.event-item.severity-critical {
+    border-left-color: #f44336;
+    background: #ffebee;
+}
+
+.event-icon {
+    font-size: 20px;
+    line-height: 1;
+}
+
+.event-content {
+    flex: 1;
+}
+
+.event-message {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: #333;
+}
+
+.event-meta {
+    display: flex;
+    gap: 16px;
+    font-size: 12px;
+    color: #666;
+    margin-bottom: 8px;
+}
+
+.event-type {
+    text-transform: capitalize;
+    background: #e0e0e0;
+    padding: 2px 8px;
+    border-radius: 4px;
+}
+
+.event-time {
+    color: #999;
+}
+
+.event-details {
+    font-size: 11px;
+    color: #666;
+    font-family: 'Courier New', monospace;
+    background: white;
+    padding: 8px;
+    border-radius: 4px;
+    overflow-x: auto;
+    margin-top: 8px;
+}
+
+/* Loading State */
+.security-dashboard.loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 400px;
+    gap: 16px;
+}
+
+.spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid #e0e0e0;
+    border-top-color: var(--color-primary, #1976d2);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .metrics-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .filters {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .filter-group {
+        min-width: 100%;
+    }
+
+    .export-buttons {
+        flex-direction: column;
+    }
+
+    .export-btn {
+        width: 100%;
+    }
+}

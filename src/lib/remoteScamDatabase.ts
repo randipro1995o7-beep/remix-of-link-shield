@@ -7,6 +7,8 @@
 
 import { Preferences } from '@capacitor/preferences';
 import { ScamDomainEntry, ScamCategory } from './scamDatabase';
+import { logger } from '@/lib/utils/logger';
+import { secureFetch } from '@/lib/utils/network';
 
 // GitHub raw URL for remote database
 // Create a public repo and host scam-database.json there
@@ -58,11 +60,11 @@ export async function initRemoteDatabase(): Promise<void> {
         if (shouldSync) {
             // Sync in background, don't block startup
             syncDatabase().catch(err => {
-                console.warn('Background database sync failed:', err);
+                logger.warn('Background database sync failed', err);
             });
         }
     } catch (error) {
-        console.error('Failed to initialize remote database:', error);
+        logger.error('Failed to initialize remote database', error);
     }
 }
 
@@ -88,7 +90,7 @@ async function loadCachedDatabase(): Promise<void> {
             databaseVersion = version;
         }
     } catch (error) {
-        console.error('Failed to load cached database:', error);
+        logger.error('Failed to load cached database', error);
     }
 }
 
@@ -116,12 +118,17 @@ async function shouldSyncDatabase(): Promise<boolean> {
  */
 export async function syncDatabase(): Promise<{ success: boolean; newDomains?: number; error?: string }> {
     try {
-        console.log('Syncing scam database from remote...');
+        logger.info('Syncing scam database from remote...');
 
-        const response = await fetch(REMOTE_DATABASE_URL, {
-            cache: 'no-cache',
+        // Use secure fetch with timeout and retry
+        const response = await secureFetch(REMOTE_DATABASE_URL, {
+            timeout: 15000, // 15 seconds for large database
+            retries: 2, // Retry twice on failure
             headers: {
                 'Accept': 'application/json',
+            },
+            onRetry: (attempt, error) => {
+                logger.warn(`Database sync retry attempt ${attempt}`, { error: error.message });
             },
         });
 
@@ -158,12 +165,12 @@ export async function syncDatabase(): Promise<{ success: boolean; newDomains?: n
         lastSyncTime = new Date();
         databaseVersion = data.version;
 
-        console.log(`Database synced: ${data.domains.length} domains, version ${data.version}`);
+        logger.info(`Database synced: ${data.domains.length} domains, version ${data.version}`);
 
         return { success: true, newDomains: data.domains.length };
     } catch (error) {
         const errMsg = error instanceof Error ? error.message : 'Unknown error';
-        console.error('Database sync failed:', errMsg);
+        logger.error('Database sync failed', { error: errMsg });
         return { success: false, error: errMsg };
     }
 }

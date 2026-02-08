@@ -1,8 +1,8 @@
-import { useState } from 'react';
-import { ArrowLeft, Lock } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { ArrowLeft, Lock, Fingerprint } from 'lucide-react';
 import { PinPad } from '@/components/PinPad';
 import { useApp } from '@/contexts/AppContext';
-import { SafetyPinService } from '@/lib/storage';
+import { useSafetyPin } from '@/contexts/SafetyPinContext';
 
 interface SafetyPinVerificationProps {
   onSuccess: () => void;
@@ -13,30 +13,49 @@ const MAX_ATTEMPTS = 3;
 
 export function SafetyPinVerification({ onSuccess, onCancel }: SafetyPinVerificationProps) {
   const { t } = useApp();
+  const { verifyWithBiometric, verifySafetyPin, biometricAvailable, biometricEnabled, biometricType } = useSafetyPin();
   const [attempts, setAttempts] = useState(0);
   const [showError, setShowError] = useState(false);
   const [isBlocked, setIsBlocked] = useState(false);
 
+  // Auto-trigger biometric if enabled
+  useEffect(() => {
+    if (biometricAvailable && biometricEnabled && !isBlocked) {
+      handleBiometricAuth();
+    }
+  }, []);
+
+  const handleBiometricAuth = async () => {
+    const success = await verifyWithBiometric();
+    if (success) {
+      onSuccess();
+    }
+  };
+
   const handlePinEntry = async (pin: string) => {
     if (isBlocked) return;
 
-    const isValid = await SafetyPinService.verify(pin);
+    try {
+      const isValid = await verifySafetyPin(pin);
 
-    if (isValid) {
-      onSuccess();
-      return;
-    }
+      if (isValid) {
+        onSuccess();
+        return;
+      }
 
-    // Failed attempt
-    const newAttempts = attempts + 1;
-    setAttempts(newAttempts);
-    setShowError(true);
+      // Failed attempt
+      const newAttempts = attempts + 1;
+      setAttempts(newAttempts);
+      setShowError(true);
 
-    setTimeout(() => setShowError(false), 500);
+      setTimeout(() => setShowError(false), 500);
 
-    // Using same max attempts logic as Guardian PIN for consistency
-    if (newAttempts >= MAX_ATTEMPTS) {
-      setIsBlocked(true);
+      if (newAttempts >= MAX_ATTEMPTS) {
+        setIsBlocked(true);
+      }
+    } catch (err) {
+      console.error('PIN verification error', err);
+      setShowError(true);
     }
   };
 
@@ -86,6 +105,20 @@ export function SafetyPinVerification({ onSuccess, onCancel }: SafetyPinVerifica
           error={showError ? `${t.safetyPin.incorrectError} ${remainingAttempts} attempts remaining` : undefined}
           showCancel={false}
         />
+
+        {biometricAvailable && biometricEnabled && !isBlocked && (
+          <button
+            onClick={handleBiometricAuth}
+            className="mt-8 flex flex-col items-center gap-2 text-primary hover:text-primary/80 transition-colors animate-fade-in"
+          >
+            <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
+              <Fingerprint className="w-6 h-6" />
+            </div>
+            <span className="text-sm font-medium">
+              Use {biometricType}
+            </span>
+          </button>
+        )}
       </div>
     </div>
   );

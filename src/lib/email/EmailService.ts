@@ -1,6 +1,7 @@
 import emailjs from '@emailjs/browser';
 import { EMAIL_CONFIG } from '@/config/email';
 import { toast } from 'sonner';
+import { logger } from '@/lib/utils/logger';
 
 /**
  * Service to handle email sending using EmailJS
@@ -24,8 +25,14 @@ export const EmailService = {
      */
     async sendOtp(toEmail: string, otp: string): Promise<{ success: boolean; error?: string }> {
         if (!EMAIL_CONFIG.IS_CONFIGURED) {
-            console.warn('EmailJS not configured. Falling back to local simulation.');
-            toast.info(`[SIMULATION] Email sent to ${toEmail}: Code is ${otp}`);
+            logger.warn('EmailJS not configured. Falling back to local simulation.');
+            // SECURITY: Never show OTP in production
+            if (import.meta.env.DEV) {
+                toast.info(`[DEV MODE] Email OTP simulation - check console`);
+                logger.sensitive('OTP sent to email', { toEmail, otp });
+            } else {
+                toast.info(`Recovery code sent to ${toEmail}`);
+            }
             return { success: true }; // Simulate success for now
         }
 
@@ -42,11 +49,13 @@ export const EmailService = {
             );
 
             if (result.status === 200) {
+                logger.info('Email sent successfully');
                 return { success: true };
             }
-            return { success: false, error: `Status: ${result.status} ${result.text}` };
+            return { success: false, error: `Status: ${result.status}` };
         } catch (error: any) {
-            console.error('Failed to send email:', error);
+            logger.error('Failed to send email', error);
+
             // More detailed error logging
             let errorMessage = 'Unknown error';
 
@@ -56,14 +65,8 @@ export const EmailService = {
                 } else if ('message' in error) {
                     errorMessage = (error as any).message;
                 } else {
-                    // Last resort: try to stringify the object
-                    try {
-                        errorMessage = JSON.stringify(error);
-                    } catch (e) {
-                        errorMessage = 'Error object cannot be stringified';
-                    }
+                    errorMessage = 'Email service error';
                 }
-                console.error('EmailJS Error Details:', errorMessage);
             } else if (typeof error === 'string') {
                 errorMessage = error;
             }
@@ -72,3 +75,4 @@ export const EmailService = {
         }
     }
 };
+

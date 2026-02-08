@@ -25,6 +25,9 @@
 
 import { secureStorage } from './CapacitorStorageProvider';
 import { STORAGE_KEYS } from './types';
+import { PinRateLimiter, RateLimitResult } from './PinRateLimiter';
+import { logger } from '@/lib/utils/logger';
+import { logAuthSuccess, logAuthFailure, SecurityEventLogger } from '@/lib/security/SecurityEventLogger';
 
 export const SafetyPinService = {
   /**
@@ -36,6 +39,9 @@ export const SafetyPinService = {
       throw new Error('Safety PIN must be exactly 4 digits');
     }
     await secureStorage.save(STORAGE_KEYS.SAFETY_PIN, pin);
+
+    // Log PIN creation
+    await SecurityEventLogger.logEvent('pin_created', 'Safety PIN created');
   },
 
   /**
@@ -63,18 +69,70 @@ export const SafetyPinService = {
 
   /**
    * Verify a PIN against the stored value
-   * Returns true if match, false otherwise
+   * Returns verification result with rate limit info
    * 
-   * FAIL-SAFE: Returns false on any error
+   * FAIL-SAFE: Returns failure on any error
+   * RATE-LIMITED: Prevents brute force attacks
    */
-  async verify(pin: string): Promise<boolean> {
+  async verify(pin: string): Promise<{ success: boolean; error?: string; rateLimitInfo?: RateLimitResult }> {
     try {
+      // Check rate limit first
+      const rateLimitCheck = await PinRateLimiter.checkRateLimit();
+
+      if (!rateLimitCheck.allowed) {
+        const waitTime = PinRateLimiter.formatLockoutTime(rateLimitCheck.waitTimeMs!);
+        return {
+          success: false,
+          error: `Too many attempts. Please wait ${waitTime}.`,
+          rateLimitInfo: rateLimitCheck,
+        };
+      }
+
+      // Verify PIN
       const storedPin = await secureStorage.get(STORAGE_KEYS.SAFETY_PIN);
-      if (storedPin === null) return false;
-      return storedPin === pin;
-    } catch {
+      if (storedPin === null) {
+        return { success: false, error: 'PIN not set' };
+      }
+
+      const isMatch = storedPin === pin;
+
+      if (isMatch) {
+        // Success: clear failed attempts
+        await PinRateLimiter.recordSuccessfulAttempt();
+        logger.security('PIN verified successfully');
+
+        // Log authentication success
+        await logAuthSuccess();
+
+        return { success: true };
+      } else {
+        // Failure: record attempt
+        const result = await PinRateLimiter.recordFailedAttempt();
+
+        // Log authentication failure
+        await logAuthFailure({
+          remainingAttempts: result.remainingAttempts,
+        });
+
+        if (!result.allowed) {
+          const waitTime = PinRateLimiter.formatLockoutTime(result.waitTimeMs!);
+          return {
+            success: false,
+            error: `Too many attempts. Account locked for ${waitTime}.`,
+            rateLimitInfo: result,
+          };
+        }
+
+        return {
+          success: false,
+          error: `Incorrect PIN. ${result.remainingAttempts} attempts remaining.`,
+          rateLimitInfo: result,
+        };
+      }
+    } catch (error) {
+      logger.error('PIN verification failed', error);
       // Fail-safe: deny access on error
-      return false;
+      return { success: false, error: 'Verification failed' };
     }
   },
 };

@@ -6,6 +6,9 @@
  */
 
 import { secureStorage } from './CapacitorStorageProvider';
+import bcrypt from 'bcryptjs';
+import { logger } from '@/lib/utils/logger';
+import { logOTPGenerated, logOTPVerified, SecurityEventLogger } from '@/lib/security/SecurityEventLogger';
 
 const STORAGE_KEYS = {
     RECOVERY_PHONE: 'linkguardian_recovery_phone',
@@ -100,34 +103,76 @@ export const RecoveryService = {
     /**
      * Generate and store OTP code (6 digits)
      * Returns the OTP for sending via SMS/Email
+     * 
+     * SECURITY: OTP is hashed before storage using bcrypt
      */
     async generateOTP(): Promise<string> {
         const otp = Math.floor(100000 + Math.random() * 900000).toString();
         const expiry = Date.now() + 5 * 60 * 1000; // 5 minutes validity
 
-        await secureStorage.save(STORAGE_KEYS.PENDING_OTP, otp);
+        // Hash OTP before storing (10 rounds = ~100ms on modern devices)
+        const hashedOtp = await bcrypt.hash(otp, 10);
+
+        await secureStorage.save(STORAGE_KEYS.PENDING_OTP, hashedOtp);
         await secureStorage.save(STORAGE_KEYS.OTP_EXPIRY, expiry.toString());
+
+        logger.security('OTP generated', { expiresIn: '5 minutes' });
+
+        // Log to security event logger
+        await logOTPGenerated({ expiryDuration: '5 minutes' });
 
         return otp;
     },
 
     /**
      * Verify OTP code
+     * 
+     * SECURITY: Uses bcrypt.compare for timing-attack resistant comparison
      */
     async verifyOTP(inputOtp: string): Promise<boolean> {
-        const storedOtp = await secureStorage.get(STORAGE_KEYS.PENDING_OTP);
-        const expiryStr = await secureStorage.get(STORAGE_KEYS.OTP_EXPIRY);
+        try {
+            const hashedOtp = await secureStorage.get(STORAGE_KEYS.PENDING_OTP);
+            const expiryStr = await secureStorage.get(STORAGE_KEYS.OTP_EXPIRY);
 
-        if (!storedOtp || !expiryStr) return false;
+            if (!hashedOtp || !expiryStr) {
+                logger.security('OTP verification failed - no pending OTP');
+                return false;
+            }
 
-        const expiry = parseInt(expiryStr, 10);
-        if (Date.now() > expiry) {
-            // OTP expired, clear it
-            await this.clearOTP();
+            const expiry = parseInt(expiryStr, 10);
+            if (Date.now() > expiry) {
+                // OTP expired, clear it
+                await this.clearOTP();
+                logger.security('OTP verification failed - expired');
+
+                // Log expiration
+                await SecurityEventLogger.logEvent('otp_expired', 'OTP code expired');
+
+                return false;
+            }
+
+            // Use bcrypt to compare (prevents timing attacks)
+            const isValid = await bcrypt.compare(inputOtp, hashedOtp);
+
+            if (isValid) {
+                logger.security('OTP verified successfully');
+                // Clear OTP after successful verification
+                await this.clearOTP();
+
+                // Log successful verification
+                await logOTPVerified();
+            } else {
+                logger.security('OTP verification failed - incorrect code');
+
+                // Log failed verification
+                await SecurityEventLogger.logEvent('otp_failed', 'OTP verification failed');
+            }
+
+            return isValid;
+        } catch (error) {
+            logger.error('OTP verification error', error);
             return false;
         }
-
-        return storedOtp === inputOtp;
     },
 
     /**

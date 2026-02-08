@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
-import { ChevronRight, Globe, Bell, HelpCircle, Shield, FileText, History, Users, Crown, Mail, MessageCircle, ExternalLink, Lock, Check } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { ChevronRight, Globe, Bell, HelpCircle, Shield, FileText, History, Users, Crown, Mail, MessageCircle, ExternalLink, Lock, Check, Activity, Fingerprint } from 'lucide-react';
 import { useApp } from '@/contexts/AppContext';
+import { useSafetyPin } from '@/contexts/SafetyPinContext';
 import { Card } from '@/components/ui/card';
 import { Switch } from '@/components/ui/switch';
 import { Language } from '@/i18n/translations';
@@ -116,6 +118,8 @@ function SettingsItem({ icon: Icon, title, subtitle, onClick, rightElement, badg
 
 export default function Settings() {
   const { state, t, setLanguage, dispatch } = useApp();
+  const { biometricAvailable, biometricEnabled, setBiometricEnabled, biometricType } = useSafetyPin();
+  const navigate = useNavigate();
   const [showHistory, setShowHistory] = useState(false);
   const [showFamilyMode, setShowFamilyMode] = useState(false);
   const [showPrivacy, setShowPrivacy] = useState(false);
@@ -234,11 +238,41 @@ export default function Settings() {
           onClick={() => setShowChangePin(true)}
         />
 
+        {biometricAvailable && (
+          <SettingsItem
+            icon={Fingerprint}
+            title={biometricType}
+            subtitle={biometricEnabled ? 'Enabled for quick access' : 'Enable biometric unlock'}
+            rightElement={
+              <Switch
+                size="lg"
+                checked={biometricEnabled}
+                onCheckedChange={async (checked) => {
+                  try {
+                    await setBiometricEnabled(checked);
+                  } catch (err) {
+                    // Start a new task if error handling is needed, but for now just console error via context
+                    console.error("Failed to toggle biometric", err);
+                  }
+                }}
+              />
+            }
+          />
+        )}
+
         <SettingsItem
           icon={Shield}
           title={state.language === 'id' ? 'Opsi Pemulihan PIN' : 'Password Recovery'}
           subtitle={state.language === 'id' ? 'Atur email & no HP untuk reset PIN' : 'Set email & phone for PIN reset'}
           onClick={() => setShowRecoveryOptions(true)}
+        />
+
+        <SettingsItem
+          icon={Activity}
+          title={state.language === 'id' ? 'Log Keamanan' : 'Security Logs'}
+          subtitle={state.language === 'id' ? 'Lihat aktivitas keamanan & audit' : 'View security activity & audit trail'}
+          onClick={() => navigate('/security-dashboard')}
+          badge="new"
         />
 
         <SettingsItem

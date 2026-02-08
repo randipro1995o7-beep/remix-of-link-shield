@@ -3,6 +3,7 @@ import { StopScreen } from './StopScreen';
 import { SafetyPinCreation } from './SafetyPinCreation';
 import { SafetyPinVerification } from './SafetyPinVerification';
 import { SafetyReviewScreen } from './SafetyReviewScreen';
+import { BlockedLinkScreen } from './BlockedLinkScreen';
 import { SkipConfirmationDialog } from './SkipConfirmationDialog';
 import { useLinkInterception } from '@/contexts/LinkInterceptionContext';
 import { useSafetyPin } from '@/contexts/SafetyPinContext';
@@ -25,7 +26,14 @@ export function LinkInterceptionFlow() {
   useEffect(() => {
     if (currentLink && currentLink.url !== previousLinkUrl.current) {
       previousLinkUrl.current = currentLink.url;
-      setStep('stop');
+
+      // Strict Blocking: Check PhishGuard analysis immediately
+      if (currentLink.securityAnalysis?.isSuspicious) {
+        setStep('blocked');
+      } else {
+        setStep('stop');
+      }
+
       resetVerification();
     } else if (!currentLink) {
       previousLinkUrl.current = null;
@@ -89,7 +97,25 @@ export function LinkInterceptionFlow() {
     allowLink();
   };
 
+  // Helper to extract domain for display
+  const getDomain = (url: string) => {
+    try {
+      return new URL(url).hostname;
+    } catch {
+      return url;
+    }
+  };
+
   switch (step) {
+    case 'blocked':
+      return (
+        <BlockedLinkScreen
+          url={currentLink.url}
+          domain={getDomain(currentLink.url)}
+          onClose={blockLink}
+        />
+      );
+
     case 'stop':
       return (
         <>
@@ -119,7 +145,6 @@ export function LinkInterceptionFlow() {
         <SafetyPinVerification
           onSuccess={handlePinVerified}
           onCancel={handleCancel}
-          onFail={handlePinFailed}
         />
       );
 

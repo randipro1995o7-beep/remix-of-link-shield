@@ -1,15 +1,23 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { SafetyPinService } from '@/lib/storage';
+import { GuardianPinService, SafetyPinService } from '../lib/storage/SafetyPinService';
+import { logger } from '@/lib/utils/logger';
+import { BiometricService } from '@/lib/utils/biometric';
+import { Preferences } from '@capacitor/preferences';
 
 interface SafetyPinContextType {
   hasSafetyPin: boolean;
   isVerified: boolean;
   isLoading: boolean;
   error: string | null;
+  biometricAvailable: boolean;
+  biometricEnabled: boolean;
+  biometricType: string;
   verifySafetyPin: (pin: string) => Promise<boolean>;
+  verifyWithBiometric: () => Promise<boolean>;
   createSafetyPin: (pin: string) => Promise<void>;
   resetVerification: () => void;
   clearSafetyPin: () => Promise<void>;
+  setBiometricEnabled: (enabled: boolean) => Promise<void>;
 }
 
 const SafetyPinContext = createContext<SafetyPinContextType | undefined>(undefined);
@@ -18,60 +26,105 @@ interface SafetyPinProviderProps {
   children: ReactNode;
 }
 
+const BIOMETRIC_ENABLED_KEY = 'lg_biometric_enabled';
+
 export function SafetyPinProvider({ children }: SafetyPinProviderProps) {
   const [hasSafetyPin, setHasSafetyPin] = useState(false);
   const [isVerified, setIsVerified] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [biometricAvailable, setBiometricAvailable] = useState(false);
+  const [biometricEnabled, setBiometricEnabledState] = useState(false);
+  const [biometricType, setBiometricType] = useState('Biometric');
 
-  // Load Safety PIN status on mount
+  // Load Safety PIN status and biometric availability on mount
   useEffect(() => {
-    const checkSafetyPin = async () => {
+    const initialize = async () => {
       try {
+        // Check PIN exists
         const exists = await SafetyPinService.exists();
         setHasSafetyPin(exists);
+
+        // Check biometric availability
+        const capability = await BiometricService.checkAvailability();
+        setBiometricAvailable(capability.isAvailable);
+        if (capability.biometryType) {
+          setBiometricType(capability.biometryType);
+        }
+
+        // Load biometric preference
+        if (capability.isAvailable) {
+          const { value } = await Preferences.get({ key: BIOMETRIC_ENABLED_KEY });
+          setBiometricEnabledState(value === 'true');
+        }
       } catch (err) {
-        console.error('Failed to check Safety PIN:', err);
-        // Fail-safe: assume PIN exists to prevent bypassing
-        setHasSafetyPin(true);
+        logger.error('Failed to initialize SafetyPinContext', err);
+        setHasSafetyPin(false);
         setError('Unable to verify Safety PIN status');
       } finally {
         setIsLoading(false);
       }
     };
 
-    checkSafetyPin();
+    initialize();
   }, []);
 
   const createSafetyPin = async (pin: string): Promise<void> => {
     if (pin.length !== 4 || !/^\d{4}$/.test(pin)) {
       throw new Error('Safety PIN must be exactly 4 digits');
     }
-    
+
     try {
       await SafetyPinService.save(pin);
       setHasSafetyPin(true);
-      setIsVerified(true);
-      setError(null);
+      setIsVerified(true); // Automatically verified after creation
     } catch (err) {
-      console.error('Failed to create Safety PIN:', err);
-      setError('Unable to save Safety PIN securely');
-      throw err;
+      logger.error('Failed to create Safety PIN', err);
+      throw new Error('Failed to save Safety PIN');
+    }
+  };
+
+  const verifyWithBiometric = async (): Promise<boolean> => {
+    if (!biometricAvailable || !biometricEnabled) {
+      setError('Biometric authentication not available or not enabled');
+      return false;
+    }
+
+    try {
+      const result = await BiometricService.authenticate('Unlock Link Shield');
+
+      if (result.success) {
+        setIsVerified(true);
+        setError(null);
+        return true;
+      } else {
+        if (result.error && result.error !== 'Authentication cancelled') {
+          setError(result.error);
+        }
+        return false;
+      }
+    } catch (err) {
+      logger.error('Biometric verification failed', err);
+      setError('Biometric verification failed');
+      return false;
     }
   };
 
   const verifySafetyPin = async (pin: string): Promise<boolean> => {
     try {
-      const isCorrect = await SafetyPinService.verify(pin);
-      if (isCorrect) {
+      const result = await SafetyPinService.verify(pin);
+
+      if (result.success) {
         setIsVerified(true);
         setError(null);
+        return true;
+      } else {
+        setError('Incorrect PIN');
+        return false;
       }
-      return isCorrect;
     } catch (err) {
-      console.error('Failed to verify Safety PIN:', err);
-      setError('Security check failed');
-      // Fail-safe: return false on error
+      logger.error('Failed to verify Safety PIN', err);
+      setError('Verification failed');
       return false;
     }
   };
@@ -81,38 +134,52 @@ export function SafetyPinProvider({ children }: SafetyPinProviderProps) {
     setError(null);
   };
 
-  const clearSafetyPin = async () => {
+  const clearSafetyPin = async (): Promise<void> => {
+    await SafetyPinService.clear();
+    setHasSafetyPin(false);
+    setIsVerified(false);
+    // Also disable biometric when PIN is cleared
+    await setBiometricEnabled(false);
+  };
+
+  const setBiometricEnabled = async (enabled: boolean): Promise<void> => {
     try {
-      await SafetyPinService.clear();
-      setHasSafetyPin(false);
-      setIsVerified(false);
-      setError(null);
+      await Preferences.set({
+        key: BIOMETRIC_ENABLED_KEY,
+        value: enabled.toString(),
+      });
+      setBiometricEnabledState(enabled);
+      logger.info(`Biometric authentication ${enabled ? 'enabled' : 'disabled'}`);
     } catch (err) {
-      console.error('Failed to clear Safety PIN:', err);
-      setError('Unable to remove Safety PIN');
-      throw err;
+      logger.error('Failed to update biometric preference', err);
+      throw new Error('Failed to update biometric setting');
     }
   };
 
+  const value: SafetyPinContextType = {
+    hasSafetyPin,
+    isVerified,
+    isLoading,
+    error,
+    biometricAvailable,
+    biometricEnabled,
+    biometricType,
+    verifySafetyPin,
+    verifyWithBiometric,
+    createSafetyPin,
+    resetVerification,
+    clearSafetyPin,
+    setBiometricEnabled,
+  };
+
   return (
-    <SafetyPinContext.Provider
-      value={{
-        hasSafetyPin,
-        isVerified,
-        isLoading,
-        error,
-        verifySafetyPin,
-        createSafetyPin,
-        resetVerification,
-        clearSafetyPin,
-      }}
-    >
+    <SafetyPinContext.Provider value={value}>
       {children}
     </SafetyPinContext.Provider>
   );
 }
 
-export function useSafetyPin(): SafetyPinContextType {
+export function useSafetyPin() {
   const context = useContext(SafetyPinContext);
   if (context === undefined) {
     throw new Error('useSafetyPin must be used within a SafetyPinProvider');
