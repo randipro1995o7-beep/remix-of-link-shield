@@ -6,6 +6,8 @@ import { useApp } from '@/contexts/AppContext';
 import { cn } from '@/lib/utils';
 
 interface StopScreenProps {
+  url: string;
+  finalUrl?: string;
   onContinue: () => void;
   onSkip: () => void;
   onCancel: () => void;
@@ -19,7 +21,7 @@ const COUNTDOWN_SECONDS = 5;
  * Uses calm, non-threatening language.
  * Provides a behavioral pause before proceeding.
  */
-export function StopScreen({ onContinue, onSkip, onCancel }: StopScreenProps) {
+export function StopScreen({ url, finalUrl, onContinue, onSkip, onCancel }: StopScreenProps) {
   const [countdown, setCountdown] = useState(COUNTDOWN_SECONDS);
   const [canContinue, setCanContinue] = useState(false);
   const { currentLink } = useLinkInterception();
@@ -51,7 +53,7 @@ export function StopScreen({ onContinue, onSkip, onCancel }: StopScreenProps) {
   if (!currentLink) return null;
 
   return (
-    <div 
+    <div
       className="fixed inset-0 z-50 bg-background flex flex-col animate-fade-in"
       role="alertdialog"
       aria-modal="true"
@@ -93,11 +95,22 @@ export function StopScreen({ onContinue, onSkip, onCancel }: StopScreenProps) {
         </p>
 
         {/* Link preview */}
-        <div className="w-full max-w-sm bg-muted/50 rounded-xl p-4 mb-8">
+        <div className="w-full max-w-sm bg-muted/50 rounded-xl p-4 mb-4">
           <p className="text-sm text-muted-foreground mb-1">{t.stopScreen.linkDestination}</p>
-          <p className="text-foreground font-medium break-all">
+          <p className="text-foreground font-medium break-all mb-2">
             {getDomain(currentLink.url)}
           </p>
+
+          {/* Show resolved URL if different */}
+          {finalUrl && finalUrl !== currentLink.url && (
+            <div className="mt-3 pt-3 border-t border-border">
+              <p className="text-xs text-warning font-medium mb-1">⚠️ Redirects to:</p>
+              <p className="text-sm text-foreground break-all font-mono bg-background/50 p-1 rounded">
+                {getDomain(finalUrl)}
+              </p>
+            </div>
+          )}
+
           {currentLink.source && (
             <p className="text-xs text-muted-foreground mt-2">
               {t.stopScreen.sharedFrom} {currentLink.source}

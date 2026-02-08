@@ -43,21 +43,28 @@ export function BlockedLinkScreen({ url, domain, scamCategory, onClose }: Blocke
 
     const handleClose = async () => {
         // Record blocked decision
-        await SafetyHistoryService.recordDecision({
-            url,
-            domain,
-            riskLevel: 'high', // Use 'high' for storage compatibility (blocked is not in storage type)
-            action: 'blocked',
-            source: 'external',
-        });
+        if (url && domain) {
+            try {
+                await SafetyHistoryService.recordDecision({
+                    url,
+                    domain,
+                    riskLevel: 'high', // Use 'high' for storage compatibility (blocked is not in storage type)
+                    action: 'blocked',
+                    source: 'external',
+                });
+            } catch (e) {
+                console.error('Failed to record history', e);
+            }
+        }
         // Refresh global stats
-        await refreshStats();
-        onClose();
+        if (refreshStats) await refreshStats();
+        if (onClose) onClose();
     };
 
+    const currentLang = (state?.language || 'en') as 'en' | 'id';
     const categoryLabel = scamCategory
-        ? getCategoryLabel(scamCategory, state.language as 'en' | 'id')
-        : t.blocked.unknownScam;
+        ? getCategoryLabel(scamCategory, currentLang)
+        : (t?.blocked?.unknownScam || 'Unknown Scam');
 
     return (
         <div
@@ -71,7 +78,7 @@ export function BlockedLinkScreen({ url, domain, scamCategory, onClose }: Blocke
                 <div className="flex items-center justify-between p-4">
                     <div className="w-12" aria-hidden="true" />
                     <h1 id="blocked-title" className="font-bold text-destructive text-lg">
-                        {t.blocked.title}
+                        {t?.blocked?.title || 'Dangerous Link Blocked'}
                     </h1>
                     <button
                         onClick={handleClose}
@@ -94,16 +101,16 @@ export function BlockedLinkScreen({ url, domain, scamCategory, onClose }: Blocke
 
                 {/* Warning Title */}
                 <h2 className="text-2xl font-bold text-destructive text-center mb-2">
-                    {t.blocked.dangerTitle}
+                    {t?.blocked?.dangerTitle || 'Dangerous Link Blocked'}
                 </h2>
                 <p id="blocked-description" className="text-center text-muted-foreground mb-6">
-                    {t.blocked.dangerDesc}
+                    {t?.blocked?.dangerDesc || 'We have identified this website as a confirmed scam.'}
                 </p>
 
                 {/* Domain Info */}
                 <Card className="p-4 mb-4 bg-destructive/5 border-destructive/20">
-                    <p className="text-sm text-muted-foreground mb-1">{t.blocked.attemptedUrl}</p>
-                    <p className="font-mono text-sm text-destructive break-all">{domain}</p>
+                    <p className="text-sm text-muted-foreground mb-1">{t?.blocked?.attemptedUrl || 'You tried to open:'}</p>
+                    <p className="font-mono text-sm text-destructive break-all">{domain || 'Unknown Domain'}</p>
                 </Card>
 
                 {/* Scam Category */}
@@ -111,7 +118,7 @@ export function BlockedLinkScreen({ url, domain, scamCategory, onClose }: Blocke
                     <div className="flex items-start gap-3">
                         <AlertOctagon className="w-6 h-6 text-destructive flex-shrink-0 mt-0.5" aria-hidden="true" />
                         <div>
-                            <p className="font-semibold text-destructive">{t.blocked.identifiedAs}</p>
+                            <p className="font-semibold text-destructive">{t?.blocked?.identifiedAs || 'Identified as:'}</p>
                             <p className="text-destructive/80 mt-1">{categoryLabel}</p>
                         </div>
                     </div>
@@ -119,19 +126,19 @@ export function BlockedLinkScreen({ url, domain, scamCategory, onClose }: Blocke
 
                 {/* Explanation */}
                 <Card className="p-4 mb-4">
-                    <h3 className="font-semibold text-foreground mb-2">{t.blocked.whyBlocked}</h3>
+                    <h3 className="font-semibold text-foreground mb-2">{t?.blocked?.whyBlocked || 'Why is this blocked?'}</h3>
                     <p className="text-muted-foreground text-sm leading-relaxed">
-                        {t.blocked.whyBlockedDesc}
+                        {t?.blocked?.whyBlockedDesc || 'This website is in our database of known scam sites.'}
                     </p>
                 </Card>
 
                 {/* What to do */}
                 <Card className="p-4 mb-4 bg-muted/50">
-                    <h3 className="font-semibold text-foreground mb-2">{t.blocked.whatToDo}</h3>
+                    <h3 className="font-semibold text-foreground mb-2">{t?.blocked?.whatToDo || 'What should you do?'}</h3>
                     <ul className="text-sm text-muted-foreground space-y-2">
-                        <li>• {t.blocked.tip1}</li>
-                        <li>• {t.blocked.tip2}</li>
-                        <li>• {t.blocked.tip3}</li>
+                        <li>• {t?.blocked?.tip1 || 'Close this window instantly'}</li>
+                        <li>• {t?.blocked?.tip2 || 'Do not enter any personal information'}</li>
+                        <li>• {t?.blocked?.tip3 || 'Report this link if possible'}</li>
                     </ul>
                 </Card>
             </div>
@@ -144,12 +151,12 @@ export function BlockedLinkScreen({ url, domain, scamCategory, onClose }: Blocke
                     className="w-full h-14 text-lg gap-2"
                 >
                     <X className="w-5 h-5" aria-hidden="true" />
-                    {t.blocked.closeButton}
+                    {t?.blocked?.closeButton || 'Close & Stay Safe'}
                 </Button>
 
                 {/* No "proceed anyway" button - this is intentional */}
                 <p className="text-center text-xs text-muted-foreground mt-3">
-                    {t.blocked.cannotProceed}
+                    {t?.blocked?.cannotProceed || 'This link cannot be opened for your safety'}
                 </p>
             </div>
         </div>

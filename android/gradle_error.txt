@@ -1,0 +1,59 @@
+﻿./gradlew : 
+At line:1 char:1
++ ./gradlew assembleDebug 
+2>&1 | Out-File -FilePath 
+gradle_error.txt -E ...
++ 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          
+    : NotSpecified: (:Stri  
+  ng) [], RemoteException
+    + FullyQualifiedErrorId 
+    : NativeCommandError
+ 
+FAILURE: Build failed with 
+an exception.
+
+* Where:
+Build file 'C:\Users\randy\A
+ndroidStudioProjects\remix-o
+f-link-shield-1\node_modules
+\@aparajita\capacitor-biomet
+ric-auth\android\build.gradl
+e' line: 1
+
+* What went wrong:
+Could not compile build 
+file 'C:\Users\randy\Android
+StudioProjects\remix-of-link
+-shield-1\node_modules\@apar
+ajita\capacitor-biometric-au
+th\android\build.gradle'.
+> startup failed:
+  build file 'C:\Users\randy
+\AndroidStudioProjects\remix
+-of-link-shield-1\node_modul
+es\@aparajita\capacitor-biom
+etric-auth\android\build.gra
+dle': 1: Unexpected 
+character: '?' @ line 1, 
+column 1.
+     ?ext {
+     ^
+  
+  1 error
+
+
+* Try:
+> Run with --stacktrace 
+option to get the stack 
+trace.
+> Run with --info or 
+--debug option to get more 
+log output.
+> Run with --scan to get 
+full insights.
+> Get more help at 
+https://help.gradle.org.
+
+BUILD FAILED in 1s

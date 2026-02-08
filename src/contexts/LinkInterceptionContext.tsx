@@ -3,9 +3,11 @@ import { useApp } from './AppContext';
 import { logger } from '@/lib/utils/logger';
 import { SecureLocalStorage } from '@/lib/storage/SecureLocalStorage';
 import PhishGuard, { PhishGuardResult } from '@/lib/services/PhishGuard';
+import { UrlResolver } from '@/lib/services/UrlResolver';
 
 export interface InterceptedLink {
   url: string;
+  finalUrl?: string; // The URL after following redirects
   source?: string; // e.g., "WhatsApp", "SMS", "Email"
   timestamp: Date;
   securityAnalysis?: PhishGuardResult;
@@ -190,46 +192,93 @@ export function LinkInterceptionProvider({ children }: LinkInterceptionProviderP
     }
   }, [state.isInitialized, pendingUrl]);
 
-  const interceptLink = React.useCallback((url: string, source?: string) => {
-    const currentState = stateRef.current;
+  const interceptLink = React.useCallback(async (url: string, source?: string) => {
+    try {
+      const currentState = stateRef.current;
 
-    // Wait for app to be fully initialized before making decisions
-    if (!currentState.isInitialized) {
-      setPendingUrl({ url, source });
-      return;
+      // Wait for app to be fully initialized before making decisions
+      if (!currentState.isInitialized) {
+        setPendingUrl({ url, source });
+        return;
+      }
+
+      // If protection is disabled, bypass everything and open directly
+      if (!currentState.isProtectionEnabled) {
+        openInExternalBrowser(url);
+        return;
+      }
+
+      // Check whitelist first
+      const domain = getDomain(url);
+      const isWhitelisted = domain ? whitelistRef.current.includes(domain) : false;
+
+      if (isWhitelisted) {
+        openInExternalBrowser(url);
+        return;
+      }
+
+      // Resolve final URL (follow redirects)
+      let finalUrl = url;
+      let securityAnalysis;
+
+      try {
+        finalUrl = await UrlResolver.resolveFinalUrl(url);
+      } catch (error) {
+        logger.error('UrlResolver failed, using original URL', error);
+        finalUrl = url;
+      }
+
+      try {
+        // Perform PhishGuard analysis on the FINAL URL
+        securityAnalysis = PhishGuard.analyzeUrl(finalUrl);
+      } catch (error) {
+        logger.error('PhishGuard analysis failed', error);
+        // Fallback analysis (safe)
+        securityAnalysis = { score: 0, isSuspicious: false, reasons: [], details: {} } as any;
+      }
+
+      const link: InterceptedLink = {
+        url, // Keep original URL for display
+        finalUrl: finalUrl !== url ? finalUrl : undefined, // Store final URL if different
+        source,
+        timestamp: new Date(),
+        securityAnalysis,
+      };
+      setCurrentLink(link);
+
+      // Add to history
+      try {
+        const currentHistory = linkHistoryRef.current;
+        const newHistory = [link, ...currentHistory].slice(0, MAX_HISTORY);
+        setLinkHistory(newHistory);
+        saveHistory(newHistory);
+      } catch (e) {
+        logger.error('Failed to save history', e);
+      }
+    } catch (error) {
+      // Master catch-all: if anything fails, log it and show a safe fallback
+      logger.error('Critical error in interceptLink', error);
+      console.error('interceptLink critical error:', error);
+
+      // Still set a link so the UI doesn't crash - use safe defaults
+      setCurrentLink({
+        url,
+        finalUrl: undefined,
+        source,
+        timestamp: new Date(),
+        securityAnalysis: {
+          score: 0,
+          isSuspicious: false,
+          reasons: ['Error during analysis'],
+          details: {
+            brandImpersonationScore: 0,
+            tldScore: 0,
+            structureScore: 0,
+            keywordScore: 0
+          }
+        }
+      });
     }
-
-    // If protection is disabled, bypass everything and open directly
-    if (!currentState.isProtectionEnabled) {
-      openInExternalBrowser(url);
-      return;
-    }
-
-    // Check whitelist first
-    const domain = getDomain(url);
-    const isWhitelisted = domain ? whitelistRef.current.includes(domain) : false;
-
-    if (isWhitelisted) {
-      openInExternalBrowser(url);
-      return;
-    }
-
-    // Perform PhishGuard analysis
-    const securityAnalysis = PhishGuard.analyzeUrl(url);
-
-    const link: InterceptedLink = {
-      url,
-      source,
-      timestamp: new Date(),
-      securityAnalysis,
-    };
-    setCurrentLink(link);
-
-    // Add to history
-    const currentHistory = linkHistoryRef.current;
-    const newHistory = [link, ...currentHistory].slice(0, MAX_HISTORY);
-    setLinkHistory(newHistory);
-    saveHistory(newHistory);
   }, []);
 
   const clearLink = () => {

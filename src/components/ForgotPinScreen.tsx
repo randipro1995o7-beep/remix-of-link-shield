@@ -64,8 +64,8 @@ export function ForgotPinScreen({ onBack, onSuccess }: ForgotPinScreenProps) {
         invalidOtp: isIndonesian ? 'Kode OTP salah atau kadaluarsa' : 'Invalid or expired OTP code',
         pinMismatch: isIndonesian ? 'PIN tidak cocok' : 'PINs do not match',
         noRecovery: isIndonesian
-            ? 'Tidak ada opsi pemulihan yang terdaftar. Silakan hubungi dukungan.'
-            : 'No recovery options registered. Please contact support.',
+            ? 'Belum ada opsi pemulihan yang diatur. Silakan atur sekarang agar Anda bisa mereset PIN.'
+            : 'No recovery options set. Please set them up now to reset your PIN.',
         otpSent: isIndonesian ? 'Kode OTP telah dikirim!' : 'OTP code has been sent!',
         // For local/offline mode
         localOtpNotice: isIndonesian

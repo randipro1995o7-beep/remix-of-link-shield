@@ -34,7 +34,11 @@ export function LinkInterceptionFlow() {
         setStep('stop');
       }
 
-      resetVerification();
+      try {
+        resetVerification();
+      } catch (e) {
+        console.error('Failed to reset verification', e);
+      }
     } else if (!currentLink) {
       previousLinkUrl.current = null;
     }
@@ -43,8 +47,14 @@ export function LinkInterceptionFlow() {
   // Fail-safe: if there's a PIN error, block the link
   useEffect(() => {
     if (pinError && currentLink) {
-      toast.error(t.errors.securityError);
-      blockLink();
+      try {
+        const errorMessage = t?.errors?.securityError || 'Security error occurred';
+        toast.error(errorMessage);
+        blockLink();
+      } catch (e) {
+        console.error('Failed to handle PIN error', e);
+        blockLink();
+      }
     }
   }, [pinError, currentLink, blockLink, t]);
 
@@ -108,18 +118,27 @@ export function LinkInterceptionFlow() {
 
   switch (step) {
     case 'blocked':
-      return (
-        <BlockedLinkScreen
-          url={currentLink.url}
-          domain={getDomain(currentLink.url)}
-          onClose={blockLink}
-        />
-      );
+      try {
+        return (
+          <BlockedLinkScreen
+            url={currentLink?.url || ''}
+            domain={getDomain(currentLink?.url || '')}
+            onClose={blockLink}
+          />
+        );
+      } catch (error) {
+        console.error('Error rendering BlockedLinkScreen:', error);
+        // Fallback: block the link silently
+        blockLink();
+        return null;
+      }
 
     case 'stop':
       return (
         <>
           <StopScreen
+            url={currentLink.url}
+            finalUrl={currentLink.finalUrl}
             onContinue={handleContinue}
             onSkip={handleSkipRequest}
             onCancel={handleCancel}
