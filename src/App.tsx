@@ -12,6 +12,7 @@ import { AppLayout } from "@/components/layout/AppLayout";
 import { LinkInterceptionFlow } from "@/components/LinkInterceptionFlow";
 import { OnboardingFlow } from "@/components/onboarding";
 import { useShareIntent } from "@/hooks/useShareIntent";
+import { useSecurityStatusNotification } from "@/hooks/useSecurityStatusNotification";
 import { initRemoteDatabase } from "@/lib/scamDatabase";
 import { EmailService } from "@/lib/email/EmailService";
 
@@ -27,6 +28,9 @@ const queryClient = new QueryClient();
 function AppContent() {
   // Initialize share intent listener
   useShareIntent();
+
+  // Initialize persistent security notification
+  useSecurityStatusNotification();
 
   // Initialize remote scam database on app startup
   useEffect(() => {

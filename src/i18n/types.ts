@@ -43,6 +43,10 @@ export interface TranslationKeys {
         language: string;
         notifications: string;
         notificationsDesc: string;
+        protectionActive: string;
+        protectionActiveDesc: string;
+        protectionInactive: string;
+        protectionInactiveDesc: string;
         about: string;
         help: string;
         privacy: string;
