@@ -33,6 +33,7 @@ interface AppState {
   isLoading: boolean;
   isInitialized: boolean;
   error: string | null;
+  theme: 'light' | 'dark' | 'tokyo-night';
 }
 
 // Action Types
@@ -41,6 +42,7 @@ type AppAction =
   | { type: 'UPDATE_STATS'; payload: Partial<ProtectionStats> }
   | { type: 'SET_PERMISSION'; payload: { key: keyof PermissionStatus; value: boolean } }
   | { type: 'SET_LANGUAGE'; payload: Language }
+  | { type: 'SET_THEME'; payload: 'light' | 'dark' | 'tokyo-night' }
   | { type: 'SET_NOTIFICATIONS_ENABLED'; payload: boolean }
   | { type: 'SET_LOADING'; payload: boolean }
   | { type: 'SET_INITIALIZED'; payload: boolean }
@@ -66,6 +68,7 @@ const initialState: AppState = {
   isLoading: true,
   isInitialized: false,
   error: null,
+  theme: 'light',
 };
 
 // Reducer
@@ -94,6 +97,9 @@ function appReducer(state: AppState, action: AppAction): AppState {
 
     case 'SET_LANGUAGE':
       return { ...state, language: action.payload };
+
+    case 'SET_THEME':
+      return { ...state, theme: action.payload };
 
     case 'SET_NOTIFICATIONS_ENABLED':
       return { ...state, notificationsEnabled: action.payload };
@@ -137,6 +143,7 @@ interface AppContextType {
   // Convenience methods
   setProtectionEnabled: (enabled: boolean) => void;
   setLanguage: (lang: Language) => void;
+  setTheme: (theme: 'light' | 'dark' | 'tokyo-night') => void;
   grantPermission: (key: keyof PermissionStatus) => void;
   clearError: () => void;
   refreshStats: () => Promise<void>;
@@ -168,12 +175,13 @@ export function AppProvider({ children }: AppProviderProps) {
         },
         permissions: stateToSave.permissions,
         isProtectionEnabled: stateToSave.isProtectionEnabled,
+        theme: stateToSave.theme,
       };
       await Preferences.set({
         key: STORAGE_KEY,
         value: JSON.stringify(toPersist),
       });
-      console.log('State saved to Preferences:', toPersist.permissions);
+      // console.log('State saved to Preferences:', toPersist.permissions);
     } catch (error) {
       console.error('Failed to persist state:', error);
     }
@@ -194,6 +202,10 @@ export function AppProvider({ children }: AppProviderProps) {
 
           if (parsed.language) {
             loadedState.language = parsed.language;
+          }
+
+          if (parsed.theme) {
+            loadedState.theme = parsed.theme;
           }
 
           if (typeof parsed.notificationsEnabled === 'boolean') {
@@ -238,6 +250,24 @@ export function AppProvider({ children }: AppProviderProps) {
     loadPersistedState();
   }, []);
 
+  // Apply theme to document
+  useEffect(() => {
+    const root = window.document.documentElement;
+    root.classList.remove('light', 'dark', 'tokyo-night');
+
+    if (state.theme !== 'light') {
+      root.classList.add(state.theme);
+      // Ensure 'dark' class is present for Tailwind dark: modifiers
+      if (state.theme === 'tokyo-night') {
+        root.classList.add('dark');
+      }
+    }
+
+    // Specifically handle status bar color if needed (would need plugin access here or in App.tsx)
+    // For now, just handling the CSS class
+
+  }, [state.theme]);
+
   // Persist state changes and sync with native layer
   useEffect(() => {
     if (!state.isInitialized) return;
@@ -253,7 +283,7 @@ export function AppProvider({ children }: AppProviderProps) {
 
     // Save to Capacitor Preferences
     saveState(state);
-  }, [state.language, state.notificationsEnabled, state.protectionStats, state.isProtectionEnabled, state.permissions, state.isInitialized, saveState]);
+  }, [state.language, state.notificationsEnabled, state.protectionStats, state.isProtectionEnabled, state.permissions, state.isInitialized, state.theme, saveState]);
 
   // Get translations for current language
   const t = getTranslation(state.language);
@@ -265,6 +295,10 @@ export function AppProvider({ children }: AppProviderProps) {
 
   const setLanguage = (lang: Language) => {
     dispatch({ type: 'SET_LANGUAGE', payload: lang });
+  };
+
+  const setTheme = (theme: 'light' | 'dark' | 'tokyo-night') => {
+    dispatch({ type: 'SET_THEME', payload: theme });
   };
 
   const grantPermission = (key: keyof PermissionStatus) => {
@@ -300,6 +334,7 @@ export function AppProvider({ children }: AppProviderProps) {
     t,
     setProtectionEnabled,
     setLanguage,
+    setTheme,
     grantPermission,
     clearError,
     refreshStats,

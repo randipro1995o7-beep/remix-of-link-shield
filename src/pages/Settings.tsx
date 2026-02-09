@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ChevronRight, Globe, Bell, HelpCircle, Shield, FileText, History, Users, Crown, Mail, MessageCircle, ExternalLink, Lock, Check, Activity, Fingerprint } from 'lucide-react';
+import { ChevronRight, Globe, Bell, HelpCircle, Shield, FileText, History, Users, Crown, Mail, MessageCircle, ExternalLink, Lock, Check, Activity, Fingerprint, Sun, Moon } from 'lucide-react';
 import { useApp } from '@/contexts/AppContext';
+import { Button } from '@/components/ui/button';
 import { useSafetyPin } from '@/contexts/SafetyPinContext';
 import { Card } from '@/components/ui/card';
 import { Switch } from '@/components/ui/switch';
@@ -201,10 +202,29 @@ export default function Settings() {
   return (
     <div className="p-4 space-y-6 animate-fade-in">
       {/* Header */}
-      <header className="pt-4 pb-2">
+      <header className="sticky top-0 z-10 bg-background/80 backdrop-blur-md pt-4 pb-2 -mx-4 px-4 flex justify-between items-center transition-all">
         <h1 className="text-display text-foreground">
           {t.settings.title}
         </h1>
+        <Button
+          onClick={() => {
+            if (state.theme === 'tokyo-night') {
+              dispatch({ type: 'SET_THEME', payload: 'light' });
+            } else {
+              dispatch({ type: 'SET_THEME', payload: 'tokyo-night' });
+            }
+          }}
+          variant="ghost"
+          size="icon"
+          className="rounded-full"
+          aria-label="Toggle Tokyo Night Mode"
+        >
+          {state.theme === 'tokyo-night' ? (
+            <Sun className="w-6 h-6 text-foreground/80" />
+          ) : (
+            <Moon className="w-6 h-6 text-foreground/80" />
+          )}
+        </Button>
       </header>
 
       {/* Safety Features */}

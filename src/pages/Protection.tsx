@@ -87,7 +87,7 @@ export default function Protection() {
   return (
     <div className="p-4 space-y-6 animate-fade-in">
       {/* Header */}
-      <header className="pt-4 pb-2 flex justify-between items-center">
+      <header className="sticky top-0 z-10 bg-background/80 backdrop-blur-md pt-4 pb-2 -mx-4 px-4 flex justify-between items-center transition-all">
         <h1 className="text-display text-foreground">
           {t.safety.title}
         </h1>
