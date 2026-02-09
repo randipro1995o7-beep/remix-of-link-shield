@@ -59,7 +59,7 @@ export function useShareIntent() {
 
         if (data.url) {
           // Extract the actual URL if it's a deep link to our app
-          // The URL might be in format: https://link-shield-final.vercel.app/?url=https://example.com
+          // The URL might be in format: https://safety-shield.vercel.app/?url=https://example.com
           let targetUrl = data.url;
 
           try {
@@ -123,8 +123,8 @@ export function useShareIntent() {
     };
 
     document.addEventListener('click', handleClick, true);
-    window.addEventListener('linkguardian:share', handleCustomShare as EventListener);
-    window.addEventListener('linkguardian:intercepted', handleNativeIntercepted);
+    window.addEventListener('safetyshield:share', handleCustomShare as EventListener);
+    window.addEventListener('safetyshield:intercepted', handleNativeIntercepted);
 
     return () => {
       // Cleanup Capacitor listener
@@ -133,8 +133,8 @@ export function useShareIntent() {
       }
 
       document.removeEventListener('click', handleClick, true);
-      window.removeEventListener('linkguardian:share', handleCustomShare as EventListener);
-      window.removeEventListener('linkguardian:intercepted', handleNativeIntercepted);
+      window.removeEventListener('safetyshield:share', handleCustomShare as EventListener);
+      window.removeEventListener('safetyshield:intercepted', handleNativeIntercepted);
     };
   }, [interceptLink, handleShareIntent]);
 

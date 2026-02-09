@@ -2,7 +2,7 @@ import type { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
   appId: 'com.safeguard.app',
-  appName: 'SafeGuard',
+  appName: 'Safety SHIELD',
   webDir: 'dist',
   plugins: {
     CapacitorHttp: {

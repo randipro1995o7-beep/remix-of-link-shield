@@ -1,7 +1,7 @@
 import { TranslationKeys } from '../types';
 
 export const ptBr: TranslationKeys = {
-    appName: 'Link Guardian',
+    appName: 'Safety SHIELD',
     tagline: 'Pause, pense, depois clique',
 
     nav: {
@@ -12,7 +12,7 @@ export const ptBr: TranslationKeys = {
 
     home: {
         statusActive: 'Etapas de segurança ativas',
-        statusActiveDesc: 'Link Guardian adiciona uma pausa antes de abrir links',
+        statusActiveDesc: 'Safety SHIELD adiciona uma pausa antes de abrir links',
         statusPaused: 'Etapas de segurança pausadas',
         statusPausedDesc: 'Ative a segurança para adicionar um momento de reflexão antes de clicar',
         linksChecked: 'Links verificados',
@@ -38,11 +38,11 @@ export const ptBr: TranslationKeys = {
         language: 'Idioma',
         notifications: 'Notificações',
         notificationsDesc: 'Receba lembretes sobre sua atividade de links',
-        protectionActive: 'Link Shield Ativo',
+        protectionActive: 'Safety SHIELD Ativo',
         protectionActiveDesc: 'Escaneando links. Aviso: Não escaneie códigos QR de fontes desconhecidas!',
         protectionInactive: 'Proteção Inativa',
         protectionInactiveDesc: 'App não é o navegador padrão. Toque para proteger seu dispositivo.',
-        about: 'Sobre o Link Guardian',
+        about: 'Sobre o Safety SHIELD',
         help: 'Ajuda e Suporte',
         privacy: 'Política de Privacidade',
         version: 'Versão',
@@ -76,7 +76,7 @@ export const ptBr: TranslationKeys = {
 
     permissions: {
         title: 'Permissão necessária',
-        description: 'O Link Guardian precisa disso para adicionar uma pausa de segurança antes de abrir links',
+        description: 'O Safety SHIELD precisa disso para adicionar uma pausa de segurança antes de abrir links',
         linkDetection: 'Detecção de link',
         linkDetectionDesc: 'Nos avisa quando você toca em um link',
         safetyScreen: 'Tela de segurança',
@@ -87,7 +87,7 @@ export const ptBr: TranslationKeys = {
         granted: 'Permitido',
         required: 'Necessário',
         deniedTitle: 'Permissão não concedida',
-        deniedDesc: 'Sem esta permissão, o Link Guardian não pode ajudar você a pausar antes de abrir links. Você pode habilitar isso nas configurações do seu telefone.',
+        deniedDesc: 'Sem esta permissão, o Safety SHIELD não pode ajudar você a pausar antes de abrir links. Você pode habilitar isso nas configurações do seu telefone.',
         whatWeDoNot: 'O que NÃO fazemos:',
         doesNotSpy: 'Nós não espionamos sua navegação',
         doesNotCollect: 'Nós não coletamos seus dados pessoais',
@@ -136,7 +136,7 @@ export const ptBr: TranslationKeys = {
         ourRecommendation: 'Nossa recomendação',
         cancelAndClose: 'Cancelar e fechar link',
         openAnyway: 'Abrir mesmo assim',
-        disclaimer: 'O Link Guardian ajuda você a pausar e pensar, mas não pode garantir que qualquer site seja completamente seguro. Sempre tenha cuidado com informações pessoais.',
+        disclaimer: 'O Safety SHIELD ajuda você a pausar e pensar, mas não pode garantir que qualquer site seja completamente seguro. Sempre tenha cuidado com informações pessoais.',
     },
 
     blocked: {
@@ -219,7 +219,7 @@ export const ptBr: TranslationKeys = {
 
     privacy: {
         title: 'Política de Privacidade',
-        intro: 'O Link Guardian foi projetado com sua privacidade como prioridade.',
+        intro: 'O Safety SHIELD foi projetado com sua privacidade como prioridade.',
         localOnly: 'Tudo no seu dispositivo',
         localOnlyDesc: 'Toda a análise de links acontece diretamente no seu telefone. Nada é enviado para servidores.',
         noUpload: 'Sem envio de dados',
@@ -232,10 +232,10 @@ export const ptBr: TranslationKeys = {
     },
 
     about: {
-        title: 'Sobre o Link Guardian',
+        title: 'Sobre o Safety SHIELD',
         description: 'Uma ferramenta simples que adiciona uma pausa reflexiva antes de abrir links.',
         mission: 'Por que fazemos isso',
-        missionDesc: 'Em um mundo de toques rápidos e ações instantâneas, acreditamos que tirar um momento para pensar pode fazer a diferença. O Link Guardian não é sobre bloquear ou assustar — é sobre ajudar você a pausar.',
+        missionDesc: 'Em um mundo de toques rápidos e ações instantâneas, acreditamos que tirar um momento para pensar pode fazer a diferença. O Safety SHIELD não é sobre bloquear ou assustar — é sobre ajudar você a pausar.',
         honestClaim: 'Honestos com você',
         notAntivirus: 'Este não é um software antivírus',
         notGuarantee: 'Não podemos garantir que qualquer site seja seguro',
@@ -256,7 +256,7 @@ export const ptBr: TranslationKeys = {
         storageTitle: 'Problema de armazenamento',
         storageDesc: 'Não conseguimos salvar suas configurações. Por segurança, este link foi cancelado.',
         permissionTitle: 'Permissão necessária',
-        permissionDesc: 'O Link Guardian precisa de permissão para ajudar você. Por segurança, este link foi cancelado.',
+        permissionDesc: 'O Safety SHIELD precisa de permissão para ajudar você. Por segurança, este link foi cancelado.',
         analysisTitle: 'Não é possível verificar o link',
         analysisDesc: 'Não conseguimos verificar este link. Por segurança, este link foi cancelado.',
     },

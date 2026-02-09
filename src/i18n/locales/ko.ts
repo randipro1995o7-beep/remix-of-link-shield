@@ -1,7 +1,7 @@
 import { TranslationKeys } from '../types';
 
 export const ko: TranslationKeys = {
-    appName: 'Link Guardian',
+    appName: 'Safety SHIELD',
     tagline: '잠깐, 생각하고, 클릭하세요',
 
     nav: {
@@ -12,7 +12,7 @@ export const ko: TranslationKeys = {
 
     home: {
         statusActive: '안전 단계가 활성화됨',
-        statusActiveDesc: 'Link Guardian이 링크를 열기 전에 일시 정지를 추가합니다',
+        statusActiveDesc: 'Safety SHIELD이 링크를 열기 전에 일시 정지를 추가합니다',
         statusPaused: '안전 단계가 일시 중지됨',
         statusPausedDesc: '클릭하기 전에 생각할 시간을 갖으려면 안전을 활성화하세요',
         linksChecked: '확인된 링크',
@@ -38,11 +38,11 @@ export const ko: TranslationKeys = {
         language: '언어',
         notifications: '알림',
         notificationsDesc: '링크 활동에 대한 알림 받기',
-        protectionActive: 'Link Shield 활성',
+        protectionActive: 'Safety SHIELD 활성',
         protectionActiveDesc: '링크 스캔 중. 경고: 알 수 없는 출처의 QR 코드를 스캔하지 마십시오!',
         protectionInactive: '보호 비활성',
         protectionInactiveDesc: '앱이 기본 브라우저로 설정되지 않았습니다. 탭하여 기기를 보호하세요.',
-        about: 'Link Guardian 정보',
+        about: 'Safety SHIELD 정보',
         help: '도움말 및 지원',
         privacy: '개인정보 처리방침',
         version: '버전',
@@ -76,7 +76,7 @@ export const ko: TranslationKeys = {
 
     permissions: {
         title: '권한 필요',
-        description: 'Link Guardian은 링크를 열기 전에 안전을 위한 일시 정지를 추가하기 위해 이것이 필요합니다',
+        description: 'Safety SHIELD은 링크를 열기 전에 안전을 위한 일시 정지를 추가하기 위해 이것이 필요합니다',
         linkDetection: '링크 감지',
         linkDetectionDesc: '링크를 탭할 때 알 수 있게 해줍니다',
         safetyScreen: '안전 화면',
@@ -87,7 +87,7 @@ export const ko: TranslationKeys = {
         granted: '허용됨',
         required: '필수',
         deniedTitle: '권한이 부여되지 않음',
-        deniedDesc: '이 권한이 없으면 Link Guardian은 링크를 열기 전에 멈추도록 도울 수 없습니다. 휴대폰 설정에서 활성화할 수 있습니다.',
+        deniedDesc: '이 권한이 없으면 Safety SHIELD은 링크를 열기 전에 멈추도록 도울 수 없습니다. 휴대폰 설정에서 활성화할 수 있습니다.',
         whatWeDoNot: '우리가 하지 않는 것:',
         doesNotSpy: '우리는 당신의 브라우징을 감시하지 않습니다',
         doesNotCollect: '우리는 당신의 개인 데이터를 수집하지 않습니다',
@@ -136,7 +136,7 @@ export const ko: TranslationKeys = {
         ourRecommendation: '우리의 권장 사항',
         cancelAndClose: '취소 및 링크 닫기',
         openAnyway: '그래도 열기',
-        disclaimer: 'Link Guardian은 멈추고 생각하는 것을 돕지만 어떤 웹사이트도 완전히 안전하다고 보장할 수는 없습니다. 개인 정보에 항상 주의하세요.',
+        disclaimer: 'Safety SHIELD은 멈추고 생각하는 것을 돕지만 어떤 웹사이트도 완전히 안전하다고 보장할 수는 없습니다. 개인 정보에 항상 주의하세요.',
     },
 
     blocked: {
@@ -219,7 +219,7 @@ export const ko: TranslationKeys = {
 
     privacy: {
         title: '개인정보 처리방침',
-        intro: 'Link Guardian은 귀하의 개인정보를 최우선으로 설계되었습니다.',
+        intro: 'Safety SHIELD은 귀하의 개인정보를 최우선으로 설계되었습니다.',
         localOnly: '모든 것은 기기에',
         localOnlyDesc: '모든 링크 분석은 휴대폰에서 직접 이루어집니다. 어떤 서버로도 전송되지 않습니다.',
         noUpload: '데이터 업로드 없음',
@@ -232,10 +232,10 @@ export const ko: TranslationKeys = {
     },
 
     about: {
-        title: 'Link Guardian 정보',
+        title: 'Safety SHIELD 정보',
         description: '링크를 열기 전에 생각할 수 있는 멈춤을 추가하는 간단한 도구.',
         mission: '우리가 이것을 만든 이유',
-        missionDesc: '빠른 탭과 즉각적인 행동의 세상에서, 우리는 생각할 시간을 갖는 것이 차이를 만들 수 있다고 믿습니다. Link Guardian은 차단이나 공포를 위한 것이 아니라 멈추는 것을 돕기 위한 것입니다.',
+        missionDesc: '빠른 탭과 즉각적인 행동의 세상에서, 우리는 생각할 시간을 갖는 것이 차이를 만들 수 있다고 믿습니다. Safety SHIELD은 차단이나 공포를 위한 것이 아니라 멈추는 것을 돕기 위한 것입니다.',
         honestClaim: '솔직하게 말씀드립니다',
         notAntivirus: '이것은 바이러스 백신 소프트웨어가 아닙니다',
         notGuarantee: '어떤 웹사이트도 안전하다고 보장할 수 없습니다',
@@ -256,7 +256,7 @@ export const ko: TranslationKeys = {
         storageTitle: '저장소 문제',
         storageDesc: '설정을 저장할 수 없었습니다. 안전을 위해 이 링크가 취소되었습니다.',
         permissionTitle: '권한 필요',
-        permissionDesc: 'Link Guardian은 당신을 돕기 위해 권한이 필요합니다. 안전을 위해 이 링크가 취소되었습니다.',
+        permissionDesc: 'Safety SHIELD은 당신을 돕기 위해 권한이 필요합니다. 안전을 위해 이 링크가 취소되었습니다.',
         analysisTitle: '링크를 확인할 수 없음',
         analysisDesc: '이 링크를 확인할 수 없었습니다. 안전을 위해 이 링크가 취소되었습니다.',
     },

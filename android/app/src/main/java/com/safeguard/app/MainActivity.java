@@ -61,7 +61,8 @@ public class MainActivity extends BridgeActivity {
     }
 
     public void startSignIn() {
-        // First, sign out of the Google client to ensure the account picker is always shown.
+        // First, sign out of the Google client to ensure the account picker is always
+        // shown.
         mGoogleSignInClient.signOut().addOnCompleteListener(this, task -> {
             Intent signInIntent = mGoogleSignInClient.getSignInIntent();
             signInLauncher.launch(signInIntent);
@@ -82,7 +83,7 @@ public class MainActivity extends BridgeActivity {
                     }
                 });
     }
-    
+
     private void notifyWebviewOfSignIn(String status, String errorMessage) {
         JSObject result = new JSObject();
         result.put("status", status);
@@ -100,7 +101,8 @@ public class MainActivity extends BridgeActivity {
     }
 
     private void handleIntent(Intent intent) {
-        if (intent == null) return;
+        if (intent == null)
+            return;
         String url = null;
         Uri appLinkData = intent.getData();
         if (appLinkData != null) {
@@ -146,7 +148,7 @@ public class MainActivity extends BridgeActivity {
     }
 
     private void forwardUrlToWebView(String url) {
-        String js = "window.dispatchEvent(new CustomEvent('linkguardian:intercepted', { detail: { url: '" + url
+        String js = "window.dispatchEvent(new CustomEvent('safetyshield:intercepted', { detail: { url: '" + url
                 + "' } }));";
         getBridge().getWebView().post(() -> {
             getBridge().getWebView().evaluateJavascript(js, null);

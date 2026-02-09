@@ -146,7 +146,7 @@ interface AppContextType {
 const AppContext = createContext<AppContextType | undefined>(undefined);
 
 // Storage key for Capacitor Preferences
-const STORAGE_KEY = 'linkguardian_app_state';
+const STORAGE_KEY = 'safetyshield_app_state';
 
 // Provider Component
 interface AppProviderProps {

@@ -15,7 +15,7 @@
 import { Preferences } from '@capacitor/preferences';
 import { logger } from '@/lib/utils/logger';
 
-const STORAGE_KEY = 'lg_security_events';
+const STORAGE_KEY = 'ss_security_events';
 const MAX_EVENTS = 1000;
 
 export type SecurityEventType =

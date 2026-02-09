@@ -9,7 +9,7 @@ interface AboutPageProps {
 /**
  * About Screen
  * 
- * Honest, transparent description of what Link Guardian does and doesn't do.
+ * Honest, transparent description of what Safety SHIELD does and doesn't do.
  * No overclaims. No security guarantees.
  */
 export function AboutPage({ onBack }: AboutPageProps) {
@@ -75,9 +75,9 @@ export function AboutPage({ onBack }: AboutPageProps) {
           </ul>
         </Card>
 
-        {/* What Link Guardian Does */}
+        {/* What Safety SHIELD Does */}
         <Card className="p-4">
-          <h3 className="font-medium text-foreground mb-3">What Link Guardian Does</h3>
+          <h3 className="font-medium text-foreground mb-3">What Safety SHIELD Does</h3>
           <ul className="space-y-2 text-sm text-muted-foreground">
             <li className="flex items-start gap-2">
               <span className="text-success mt-1">✓</span>
@@ -98,9 +98,9 @@ export function AboutPage({ onBack }: AboutPageProps) {
           </ul>
         </Card>
 
-        {/* What Link Guardian Does NOT Do */}
+        {/* What Safety SHIELD Does NOT Do */}
         <Card className="p-4">
-          <h3 className="font-medium text-foreground mb-3">What Link Guardian Does NOT Do</h3>
+          <h3 className="font-medium text-foreground mb-3">What Safety SHIELD Does NOT Do</h3>
           <ul className="space-y-2 text-sm text-muted-foreground">
             <li className="flex items-start gap-2">
               <span className="text-destructive mt-1">✗</span>

@@ -1,7 +1,7 @@
 import { TranslationKeys } from '../types';
 
 export const en: TranslationKeys = {
-    appName: 'Link Guardian',
+    appName: 'Safety SHIELD',
     tagline: 'Pause, think, then click',
 
     nav: {
@@ -12,7 +12,7 @@ export const en: TranslationKeys = {
 
     home: {
         statusActive: 'Safety Steps Active',
-        statusActiveDesc: 'Link Guardian adds a pause before opening links',
+        statusActiveDesc: 'Safety SHIELD adds a pause before opening links',
         statusPaused: 'Safety Steps Paused',
         statusPausedDesc: 'Enable safety to add a thoughtful pause before clicking',
         linksChecked: 'Links reviewed',
@@ -38,11 +38,11 @@ export const en: TranslationKeys = {
         language: 'Language',
         notifications: 'Notifications',
         notificationsDesc: 'Get gentle reminders about your link activity',
-        protectionActive: 'Link Shield Active',
+        protectionActive: 'Safety SHIELD Active',
         protectionActiveDesc: 'Scanning links. Warning: Do not scan QR codes from unknown sources!',
         protectionInactive: 'Protection Inactive',
         protectionInactiveDesc: 'App is not set as default browser. Tap to secure your device.',
-        about: 'About Link Guardian',
+        about: 'About Safety SHIELD',
         help: 'Help & Support',
         privacy: 'Privacy Policy',
         version: 'Version',
@@ -79,7 +79,7 @@ export const en: TranslationKeys = {
 
     permissions: {
         title: 'Permissions Needed',
-        description: 'Link Guardian needs these to add a safety pause before you open links',
+        description: 'Safety SHIELD needs these to add a safety pause before you open links',
         linkDetection: 'Link Detection',
         linkDetectionDesc: 'Lets us notice when you tap on a link',
         safetyScreen: 'Safety Screen',
@@ -90,7 +90,7 @@ export const en: TranslationKeys = {
         granted: 'Allowed',
         required: 'Required',
         deniedTitle: 'Permission Not Granted',
-        deniedDesc: 'Without this permission, Link Guardian cannot help you pause before opening links. You can enable it in your phone settings.',
+        deniedDesc: 'Without this permission, Safety SHIELD cannot help you pause before opening links. You can enable it in your phone settings.',
         whatWeDoNot: 'What we do NOT do:',
         doesNotSpy: 'We do not spy on your browsing',
         doesNotCollect: 'We do not collect your personal data',
@@ -139,7 +139,7 @@ export const en: TranslationKeys = {
         ourRecommendation: 'Our suggestion',
         cancelAndClose: 'Cancel & Close Link',
         openAnyway: 'Open Anyway',
-        disclaimer: 'Link Guardian helps you pause and think, but cannot guarantee any website is completely safe. Always be thoughtful with personal information.',
+        disclaimer: 'Safety SHIELD helps you pause and think, but cannot guarantee any website is completely safe. Always be thoughtful with personal information.',
     },
 
     blocked: {
@@ -222,7 +222,7 @@ export const en: TranslationKeys = {
 
     privacy: {
         title: 'Privacy Policy',
-        intro: 'Link Guardian is designed with your privacy as a priority.',
+        intro: 'Safety SHIELD is designed with your privacy as a priority.',
         localOnly: 'Everything Stays on Your Device',
         localOnlyDesc: 'All link analysis happens right on your phone. Nothing is sent to any server.',
         noUpload: 'No Data Upload',
@@ -235,10 +235,10 @@ export const en: TranslationKeys = {
     },
 
     about: {
-        title: 'About Link Guardian',
+        title: 'About Safety SHIELD',
         description: 'A simple tool that adds a thoughtful pause before opening links.',
         mission: 'Why We Made This',
-        missionDesc: 'In a world of quick taps and instant actions, we believe taking a moment to think can make a difference. Link Guardian isn\'t about blocking or scaring — it\'s about helping you pause.',
+        missionDesc: 'In a world of quick taps and instant actions, we believe taking a moment to think can make a difference. Safety SHIELD isn\'t about blocking or scaring — it\'s about helping you pause.',
         honestClaim: 'Being Honest With You',
         notAntivirus: 'This is not antivirus software',
         notGuarantee: 'We cannot guarantee any website is safe',
@@ -259,7 +259,7 @@ export const en: TranslationKeys = {
         storageTitle: 'Storage Issue',
         storageDesc: 'We couldn\'t save your settings. To be safe, this link has been cancelled.',
         permissionTitle: 'Permission Needed',
-        permissionDesc: 'Link Guardian needs permission to help you. To be safe, this link has been cancelled.',
+        permissionDesc: 'Safety SHIELD needs permission to help you. To be safe, this link has been cancelled.',
         analysisTitle: 'Couldn\'t Review Link',
         analysisDesc: 'We couldn\'t check this link. To be safe, it has been cancelled.',
     },

@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { App as CapacitorApp } from '@capacitor/app';
+import { StatusBar, Style } from '@capacitor/status-bar';
 import { AuthService } from '@/lib/services/AuthService';
 import { toast } from 'sonner';
 import { Toaster } from "@/components/ui/toaster";
@@ -39,6 +40,19 @@ function AppContent() {
     initRemoteDatabase().catch(err => {
       console.warn('Failed to initialize remote database:', err);
     });
+  }, []);
+
+  useEffect(() => {
+    // Set status bar to light (dark icons on light background)
+    const setStatusBar = async () => {
+      try {
+        await StatusBar.setStyle({ style: Style.Light });
+        await StatusBar.setBackgroundColor({ color: '#FFFFFF' });
+      } catch (error) {
+        console.warn('Status bar plugin error:', error);
+      }
+    };
+    setStatusBar();
   }, []);
 
   useEffect(() => {

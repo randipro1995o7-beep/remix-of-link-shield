@@ -1,7 +1,7 @@
 import { TranslationKeys } from '../types';
 
 export const lo: TranslationKeys = {
-    appName: 'Link Guardian',
+    appName: 'Safety SHIELD',
     tagline: 'ຢຸດ, ຄິດ, ແລ້ວຈຶ່ງກົດ',
 
     nav: {
@@ -12,7 +12,7 @@ export const lo: TranslationKeys = {
 
     home: {
         statusActive: 'ຂັ້ນຕອນຄວາມປອດໄພເປີດຢູ່',
-        statusActiveDesc: 'Link Guardian ເພີ່ມການຢຸດຊົ່ວຄາວກ່ອນເປີດລິ້ງ',
+        statusActiveDesc: 'Safety SHIELD ເພີ່ມການຢຸດຊົ່ວຄາວກ່ອນເປີດລິ້ງ',
         statusPaused: 'ຂັ້ນຕອນຄວາມປອດໄພຢຸດຊົ່ວຄາວ',
         statusPausedDesc: 'ເປີດໃຊ້ຄວາມປອດໄພເພື່ອເພີ່ມການຢຸດຄິດກ່ອນກົດ',
         linksChecked: 'ລິ້ງທີ່ກວດສອບແລ້ວ',
@@ -38,11 +38,11 @@ export const lo: TranslationKeys = {
         language: 'ພາສາ',
         notifications: 'ການແຈ້ງເຕືອນ',
         notificationsDesc: 'ໄດ້ຮັບການແຈ້ງເຕືອນກ່ຽວກັບກິດຈະກຳລິ້ງຂອງທ່ານ',
-        protectionActive: 'Link Shield Active',
+        protectionActive: 'Safety SHIELD Active',
         protectionActiveDesc: 'Scanning links. Warning: Do not scan QR codes from unknown sources!',
         protectionInactive: 'Protection Inactive',
         protectionInactiveDesc: 'App is not set as default browser. Tap to secure your device.',
-        about: 'ກ່ຽວກັບ Link Guardian',
+        about: 'ກ່ຽວກັບ Safety SHIELD',
         help: 'ຄວາມຊ່ວຍເຫຼືອ ແລະ ການສະໜັບສະໜູນ',
         privacy: 'ນະໂຍບາຍຄວາມເປັນສ່ວນຕົວ',
         version: 'ເວີຊັນ',
@@ -76,7 +76,7 @@ export const lo: TranslationKeys = {
 
     permissions: {
         title: 'ຈຳເປັນຕ້ອງໄດ້ຮັບການອະນຸຍາດ',
-        description: 'Link Guardian ຕ້ອງການສິ່ງນີ້ເພື່ອເພີ່ມການຢຸດເພື່ອຄວາມປອດໄພກ່ອນທີ່ທ່ານຈະເປີດລິ້ງ',
+        description: 'Safety SHIELD ຕ້ອງການສິ່ງນີ້ເພື່ອເພີ່ມການຢຸດເພື່ອຄວາມປອດໄພກ່ອນທີ່ທ່ານຈະເປີດລິ້ງ',
         linkDetection: 'ການກວດຈັບລິ້ງ',
         linkDetectionDesc: 'ຊ່ວຍໃຫ້ພວກເຮົາຮູ້ເມື່ອທ່ານແຕະລິ້ງ',
         safetyScreen: 'ໜ້າຈໍຄວາມປອດໄພ',
@@ -87,7 +87,7 @@ export const lo: TranslationKeys = {
         granted: 'ອະນຸຍາດແລ້ວ',
         required: 'ຈຳເປັນ',
         deniedTitle: 'ບໍ່ໄດ້ຮັບການອະນຸຍາດ',
-        deniedDesc: 'ຫາກບໍ່ມີການອະນຸຍາດນີ້ Link Guardian ບໍ່ສາມາດຊ່ວຍທ່ານຢຸດກ່ອນເປີດລິ້ງໄດ້. ທ່ານສາມາດເປີດໃຊ້ມັນໃນການຕັ້ງຄ່າໂທລະສັບຂອງທ່ານ.',
+        deniedDesc: 'ຫາກບໍ່ມີການອະນຸຍາດນີ້ Safety SHIELD ບໍ່ສາມາດຊ່ວຍທ່ານຢຸດກ່ອນເປີດລິ້ງໄດ້. ທ່ານສາມາດເປີດໃຊ້ມັນໃນການຕັ້ງຄ່າໂທລະສັບຂອງທ່ານ.',
         whatWeDoNot: 'ສິ່ງທີ່ພວກເຮົາບໍ່ເຮັດ:',
         doesNotSpy: 'ພວກເຮົາບໍ່ສອດແນມການທ່ອງເວັບຂອງທ່ານ',
         doesNotCollect: 'ພວກເຮົາບໍ່ເກັບກຳຂໍ້ມູນສ່ວນຕົວຂອງທ່ານ',
@@ -136,7 +136,7 @@ export const lo: TranslationKeys = {
         ourRecommendation: 'ຄຳແນະນຳຂອງພວກເຮົາ',
         cancelAndClose: 'ຍົກເລີກ ແລະ ປິດລິ້ງ',
         openAnyway: 'ເປີດຢູ່ດີ',
-        disclaimer: 'Link Guardian ຊ່ວຍໃຫ້ທ່ານຢຸດ ແລະ ຄິດ, ແຕ່ບໍ່ສາມາດຮັບປະກັນໄດ້ວ່າເວັບໄຊໃດປອດໄພຢ່າງສົມບູນ. ກະລຸນາລະມັດລະວັງຂໍ້ມູນສ່ວນຕົວສະເໝີ.',
+        disclaimer: 'Safety SHIELD ຊ່ວຍໃຫ້ທ່ານຢຸດ ແລະ ຄິດ, ແຕ່ບໍ່ສາມາດຮັບປະກັນໄດ້ວ່າເວັບໄຊໃດປອດໄພຢ່າງສົມບູນ. ກະລຸນາລະມັດລະວັງຂໍ້ມູນສ່ວນຕົວສະເໝີ.',
     },
 
     blocked: {
@@ -219,7 +219,7 @@ export const lo: TranslationKeys = {
 
     privacy: {
         title: 'ນະໂຍບາຍຄວາມເປັນສ່ວນຕົວ',
-        intro: 'Link Guardian ຖືກອອກແບບມາໂດຍໃຫ້ຄວາມເປັນສ່ວນຕົວຂອງທ່ານເປັນບູລິມະສິດ.',
+        intro: 'Safety SHIELD ຖືກອອກແບບມາໂດຍໃຫ້ຄວາມເປັນສ່ວນຕົວຂອງທ່ານເປັນບູລິມະສິດ.',
         localOnly: 'ທຸກຢ່າງຢູ່ໃນອຸປະກອນຂອງທ່ານ',
         localOnlyDesc: 'ການວິເຄາະລິ້ງທັງໝົດເກີດຂຶ້ນໃນໂທລະສັບຂອງທ່ານໂດຍກົງ. ບໍ່ມີຫຍັງຖືກສົ່ງໄປຍັງເຊີບເວີໃດໆ.',
         noUpload: 'ບໍ່ມີການອັບໂຫລດຂໍ້ມູນ',
@@ -232,10 +232,10 @@ export const lo: TranslationKeys = {
     },
 
     about: {
-        title: 'ກ່ຽວກັບ Link Guardian',
+        title: 'ກ່ຽວກັບ Safety SHIELD',
         description: 'ເຄື່ອງມືຂະໜາດນ້ອຍທີ່ເພີ່ມການຢຸດຄິດຢ່າງຮອບຄອບກ່ອນເປີດລິ້ງ.',
         mission: 'ເປັນຫຍັງພວກເຮົາຈຶ່ງເຮັດສິ່ງນີ້',
-        missionDesc: 'ໃນໂລກຂອງການແຕະທີ່ວ່ອງໄວແລະການກະທຳທັນທີ, ພວກເຮົາເຊື່ອວ່າການໃຊ້ເວລາຄິດຈັກໜ້ອຍສາມາດສ້າງຄວາມແຕກຕ່າງໄດ້. Link Guardian ບໍ່ແມ່ນກ່ຽວກັບການບລັອກ ຫຼື ເຮັດໃຫ້ຢ້ານ — ມັນແມ່ນກ່ຽວກັບການຊ່ວຍໃຫ້ທ່ານຢຸດຈັກໜ້ອຍ.',
+        missionDesc: 'ໃນໂລກຂອງການແຕະທີ່ວ່ອງໄວແລະການກະທຳທັນທີ, ພວກເຮົາເຊື່ອວ່າການໃຊ້ເວລາຄິດຈັກໜ້ອຍສາມາດສ້າງຄວາມແຕກຕ່າງໄດ້. Safety SHIELD ບໍ່ແມ່ນກ່ຽວກັບການບລັອກ ຫຼື ເຮັດໃຫ້ຢ້ານ — ມັນແມ່ນກ່ຽວກັບການຊ່ວຍໃຫ້ທ່ານຢຸດຈັກໜ້ອຍ.',
         honestClaim: 'ຊື່ສັດກັບທ່ານ',
         notAntivirus: 'ນີ້ບໍ່ແມ່ນຊອບແວປ້ອງກັນໄວຣັສ',
         notGuarantee: 'ພວກເຮົາບໍ່ສາມາດຮັບປະກັນໄດ້ວ່າເວັບໄຊໃດປອດໄພ',
@@ -256,7 +256,7 @@ export const lo: TranslationKeys = {
         storageTitle: 'ບັນຫາການເກັບຂໍ້ມູນ',
         storageDesc: 'ພວກເຮົາບໍ່ສາມາດບັນທຶກການຕັ້ງຄ່າຂອງທ່ານໄດ້. ເພື່ອຄວາມປອດໄພ, ລິ້ງນີ້ຖືກຍົກເລີກແລ້ວ.',
         permissionTitle: 'ຈຳເປັນຕ້ອງໄດ້ຮັບການອະນຸຍາດ',
-        permissionDesc: 'Link Guardian ຕ້ອງການການອະນຸຍາດເພື່ອຊ່ວຍເຫຼືອທ່ານ. ເພື່ອຄວາມປອດໄພ, ລິ້ງນີ້ຖືກຍົກເລີກແລ້ວ.',
+        permissionDesc: 'Safety SHIELD ຕ້ອງການການອະນຸຍາດເພື່ອຊ່ວຍເຫຼືອທ່ານ. ເພື່ອຄວາມປອດໄພ, ລິ້ງນີ້ຖືກຍົກເລີກແລ້ວ.',
         analysisTitle: 'ບໍ່ສາມາດກວດສອບລິ້ງ',
         analysisDesc: 'ພວກເຮົາບໍ່ສາມາດກວດສອບລິ້ງນີ້ໄດ້. ເພື່ອຄວາມປອດໄພ, ລິ້ງນີ້ຖືກຍົກເລີກແລ້ວ.',
     },

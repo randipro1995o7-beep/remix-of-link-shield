@@ -1,7 +1,7 @@
 import { TranslationKeys } from '../types';
 
 export const ja: TranslationKeys = {
-    appName: 'Link Guardian',
+    appName: 'Safety SHIELD',
     tagline: '開く前に、ちょっと一息',
 
     nav: {
@@ -12,7 +12,7 @@ export const ja: TranslationKeys = {
 
     home: {
         statusActive: '保護機能は有効です',
-        statusActiveDesc: 'Link Guardianがリンクをワンクッション挟んで開きます',
+        statusActiveDesc: 'Safety SHIELDがリンクをワンクッション挟んで開きます',
         statusPaused: '保護機能は一時停止中',
         statusPausedDesc: '保護を有効にして、クリック前の確認を追加しましょう',
         linksChecked: '確認したリンク',
@@ -38,11 +38,11 @@ export const ja: TranslationKeys = {
         language: '言語',
         notifications: '通知',
         notificationsDesc: 'リンクのアクティビティに関する通知を受け取る',
-        protectionActive: 'Link Shield アクティブ',
+        protectionActive: 'Safety SHIELD アクティブ',
         protectionActiveDesc: 'リンクをスキャン中。警告：不明なソースからのQRコードをスキャンしないでください！',
         protectionInactive: '保護が無効です',
         protectionInactiveDesc: 'アプリがデフォルトのブラウザとして設定されていません。タップしてデバイスを保護してください。',
-        about: 'Link Guardianについて',
+        about: 'Safety SHIELDについて',
         help: 'ヘルプとサポート',
         privacy: 'プライバシーポリシー',
         version: 'バージョン',
@@ -76,7 +76,7 @@ export const ja: TranslationKeys = {
 
     permissions: {
         title: '権限が必要です',
-        description: 'リンクを開く前に確認画面を表示するために、Link Guardianにはこれらの権限が必要です',
+        description: 'リンクを開く前に確認画面を表示するために、Safety SHIELDにはこれらの権限が必要です',
         linkDetection: 'リンク検出',
         linkDetectionDesc: 'リンクをタップしたことを検知します',
         safetyScreen: '保護画面',
@@ -87,7 +87,7 @@ export const ja: TranslationKeys = {
         granted: '許可済み',
         required: '必須',
         deniedTitle: '権限が許可されていません',
-        deniedDesc: 'この権限がないと、Link Guardianはリンクを開く前の確認をサポートできません。スマートフォンの設定から有効にできます。',
+        deniedDesc: 'この権限がないと、Safety SHIELDはリンクを開く前の確認をサポートできません。スマートフォンの設定から有効にできます。',
         whatWeDoNot: '私たちがしないこと:',
         doesNotSpy: '閲覧履歴を監視することはありません',
         doesNotCollect: '個人データを収集することはありません',
@@ -136,7 +136,7 @@ export const ja: TranslationKeys = {
         ourRecommendation: '私たちのアドバイス',
         cancelAndClose: 'キャンセルして閉じる',
         openAnyway: 'とにかく開く',
-        disclaimer: 'Link Guardianは確認を促しますが、ウェブサイトの完全な安全性を保証するものではありません。個人情報の取り扱いには常に注意してください。',
+        disclaimer: 'Safety SHIELDは確認を促しますが、ウェブサイトの完全な安全性を保証するものではありません。個人情報の取り扱いには常に注意してください。',
     },
 
     blocked: {
@@ -219,7 +219,7 @@ export const ja: TranslationKeys = {
 
     privacy: {
         title: 'プライバシーポリシー',
-        intro: 'Link Guardianは、あなたのプライバシーを最優先に設計されています。',
+        intro: 'Safety SHIELDは、あなたのプライバシーを最優先に設計されています。',
         localOnly: 'すべては端末内で完結',
         localOnlyDesc: 'リンクの分析はすべてスマートフォン上で行われます。サーバーに送信されることはありません。',
         noUpload: 'データアップロードなし',
@@ -232,10 +232,10 @@ export const ja: TranslationKeys = {
     },
 
     about: {
-        title: 'Link Guardianについて',
+        title: 'Safety SHIELDについて',
         description: 'リンクを開く前に、考えるための「間」を作るシンプルなツール。',
         mission: '私たちがこれを作る理由',
-        missionDesc: '素早いタップと即時のアクションが求められる世界で、一瞬立ち止まって考えることが重要だと信じています。Link Guardianはブロックや警告のためではなく、あなたが立ち止まるのを助けるためのものです。',
+        missionDesc: '素早いタップと即時のアクションが求められる世界で、一瞬立ち止まって考えることが重要だと信じています。Safety SHIELDはブロックや警告のためではなく、あなたが立ち止まるのを助けるためのものです。',
         honestClaim: '正直にお伝えします',
         notAntivirus: 'これはウイルス対策ソフトではありません',
         notGuarantee: 'すべてのウェブサイトの安全性を保証するものではありません',
@@ -256,7 +256,7 @@ export const ja: TranslationKeys = {
         storageTitle: '保存エラー',
         storageDesc: '設定を保存できませんでした。安全のため、このリンクはキャンセルされました。',
         permissionTitle: '権限が必要です',
-        permissionDesc: 'Link Guardianには権限が必要です。安全のため、このリンクはキャンセルされました。',
+        permissionDesc: 'Safety SHIELDには権限が必要です。安全のため、このリンクはキャンセルされました。',
         analysisTitle: 'リンクを確認できません',
         analysisDesc: 'このリンクをチェックできませんでした。安全のため、このリンクはキャンセルされました。',
     },

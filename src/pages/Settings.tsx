@@ -131,7 +131,7 @@ export default function Settings() {
   const [showRecoveryOptions, setShowRecoveryOptions] = useState(false);
   const [showLanguageSelector, setShowLanguageSelector] = useState(false);
 
-  const NOTIFICATIONS_KEY = 'linkguardian_notifications_enabled';
+  const NOTIFICATIONS_KEY = 'safetyshield_notifications_enabled';
   const [notificationsEnabled, setNotificationsEnabled] = useState<boolean>(() => {
     try {
       const saved = localStorage.getItem(NOTIFICATIONS_KEY);
@@ -404,13 +404,13 @@ export default function Settings() {
                 <div className="p-3 bg-muted/50 rounded-xl">
                   <p className="font-medium text-sm">
                     {state.language === 'id'
-                      ? 'Bagaimana cara kerja Link Guardian?'
-                      : 'How does Link Guardian work?'}
+                      ? 'Bagaimana cara kerja Safety SHIELD?'
+                      : 'How does Safety SHIELD work?'}
                   </p>
                   <p className="text-sm text-muted-foreground mt-1">
                     {state.language === 'id'
-                      ? 'Link Guardian membantu Anda berhenti sejenak sebelum membuka tautan. Ini memberi waktu untuk mempertimbangkan keamanan tautan.'
-                      : 'Link Guardian helps you pause before opening links. This gives you time to consider link safety.'}
+                      ? 'Safety SHIELD membantu Anda berhenti sejenak sebelum membuka tautan. Ini memberi waktu untuk mempertimbangkan keamanan tautan.'
+                      : 'Safety SHIELD helps you pause before opening links. This gives you time to consider link safety.'}
                   </p>
                 </div>
 
@@ -436,7 +436,7 @@ export default function Settings() {
               </h3>
 
               <button
-                onClick={() => window.open('mailto:support@linkguardian.app', '_blank')}
+                onClick={() => window.open('mailto:support@safetyshield.app', '_blank')}
                 className="w-full flex items-center gap-3 p-3 bg-muted/50 rounded-xl hover:bg-muted active:scale-[0.98] transition-all"
               >
                 <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
@@ -444,13 +444,13 @@ export default function Settings() {
                 </div>
                 <div className="flex-1 text-left">
                   <p className="font-medium text-sm">Email</p>
-                  <p className="text-xs text-muted-foreground">support@linkguardian.app</p>
+                  <p className="text-xs text-muted-foreground">support@safetyshield.app</p>
                 </div>
                 <ExternalLink className="w-4 h-4 text-muted-foreground" />
               </button>
 
               <button
-                onClick={() => window.open('https://twitter.com/linkguardian', '_blank')}
+                onClick={() => window.open('https://twitter.com/safetyshield', '_blank')}
                 className="w-full flex items-center gap-3 p-3 bg-muted/50 rounded-xl hover:bg-muted active:scale-[0.98] transition-all"
               >
                 <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
@@ -458,7 +458,7 @@ export default function Settings() {
                 </div>
                 <div className="flex-1 text-left">
                   <p className="font-medium text-sm">Twitter / X</p>
-                  <p className="text-xs text-muted-foreground">@linkguardian</p>
+                  <p className="text-xs text-muted-foreground">@safetyshield</p>
                 </div>
                 <ExternalLink className="w-4 h-4 text-muted-foreground" />
               </button>

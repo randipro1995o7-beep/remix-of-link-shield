@@ -1,7 +1,7 @@
 import { TranslationKeys } from '../types';
 
 export const ms: TranslationKeys = {
-    appName: 'Link Guardian',
+    appName: 'Safety SHIELD',
     tagline: 'Jeda, fikir, kemudian klik',
 
     nav: {
@@ -12,7 +12,7 @@ export const ms: TranslationKeys = {
 
     home: {
         statusActive: 'Langkah Keselamatan Aktif',
-        statusActiveDesc: 'Link Guardian menambah jeda sebelum membuka pautan',
+        statusActiveDesc: 'Safety SHIELD menambah jeda sebelum membuka pautan',
         statusPaused: 'Langkah Keselamatan Dijeda',
         statusPausedDesc: 'Aktifkan keselamatan untuk menambah jeda sebelum mengklik',
         linksChecked: 'Pautan disemak',
@@ -38,11 +38,11 @@ export const ms: TranslationKeys = {
         language: 'Bahasa',
         notifications: 'Pemberitahuan',
         notificationsDesc: 'Dapatkan peringatan mengenai aktiviti pautan anda',
-        protectionActive: 'Link Shield Aktif',
+        protectionActive: 'Safety SHIELD Aktif',
         protectionActiveDesc: 'Mengimbas pautan. Amaran: Jangan imbas kod QR dari sumber yang tidak diketahui!',
         protectionInactive: 'Perlindungan Tidak Aktif',
         protectionInactiveDesc: 'Aplikasi bukan penyemak imbas lalai. Ketik untuk mengamankan peranti anda.',
-        about: 'Tentang Link Guardian',
+        about: 'Tentang Safety SHIELD',
         help: 'Bantuan & Sokongan',
         privacy: 'Dasar Privasi',
         version: 'Versi',
@@ -76,7 +76,7 @@ export const ms: TranslationKeys = {
 
     permissions: {
         title: 'Kebenaran Diperlukan',
-        description: 'Link Guardian memerlukan ini untuk menambah jeda keselamatan sebelum anda membuka pautan',
+        description: 'Safety SHIELD memerlukan ini untuk menambah jeda keselamatan sebelum anda membuka pautan',
         linkDetection: 'Pengesanan Pautan',
         linkDetectionDesc: 'Membolehkan kami mengetahui apabila anda mengetik pautan',
         safetyScreen: 'Skrin Keselamatan',
@@ -87,7 +87,7 @@ export const ms: TranslationKeys = {
         granted: 'Dibenarkan',
         required: 'Diperlukan',
         deniedTitle: 'Kebenaran Tidak Diberikan',
-        deniedDesc: 'Tanpa kebenaran ini, Link Guardian tidak dapat membantu anda berhenti sebelum membuka pautan. Anda boleh mengaktifkannya dalam tetapan telefon anda.',
+        deniedDesc: 'Tanpa kebenaran ini, Safety SHIELD tidak dapat membantu anda berhenti sebelum membuka pautan. Anda boleh mengaktifkannya dalam tetapan telefon anda.',
         whatWeDoNot: 'Apa yang kami TIDAK lakukan:',
         doesNotSpy: 'Kami tidak mengintip pelayaran anda',
         doesNotCollect: 'Kami tidak mengumpul data peribadi anda',
@@ -136,7 +136,7 @@ export const ms: TranslationKeys = {
         ourRecommendation: 'Cadangan kami',
         cancelAndClose: 'Batal & Tutup Pautan',
         openAnyway: 'Buka Juga',
-        disclaimer: 'Link Guardian membantu anda berhenti dan berfikir, tetapi tidak dapat menjamin mana-mana laman web adalah selamat sepenuhnya. Sentiasa berhati-hati dengan maklumat peribadi.',
+        disclaimer: 'Safety SHIELD membantu anda berhenti dan berfikir, tetapi tidak dapat menjamin mana-mana laman web adalah selamat sepenuhnya. Sentiasa berhati-hati dengan maklumat peribadi.',
     },
 
     blocked: {
@@ -219,7 +219,7 @@ export const ms: TranslationKeys = {
 
     privacy: {
         title: 'Dasar Privasi',
-        intro: 'Link Guardian direka dengan privasi anda sebagai keutamaan.',
+        intro: 'Safety SHIELD direka dengan privasi anda sebagai keutamaan.',
         localOnly: 'Semua Kekal di Peranti Anda',
         localOnlyDesc: 'Semua analisis pautan berlaku terus di telefon anda. Tiada apa yang dihantar ke mana-mana pelayan.',
         noUpload: 'Tiada Muat Naik Data',
@@ -232,10 +232,10 @@ export const ms: TranslationKeys = {
     },
 
     about: {
-        title: 'Tentang Link Guardian',
+        title: 'Tentang Safety SHIELD',
         description: 'Alat mudah yang menambah jeda yang bijak sebelum membuka pautan.',
         mission: 'Mengapa Kami Membuat Ini',
-        missionDesc: 'Dalam dunia dengan ketukan pantas dan tindakan segera, kami percaya meluangkan masa untuk berfikir boleh membuat perbezaan. Link Guardian bukan tentang menyekat atau menakut-nakuti — ia tentang membantu anda berhenti sejenak.',
+        missionDesc: 'Dalam dunia dengan ketukan pantas dan tindakan segera, kami percaya meluangkan masa untuk berfikir boleh membuat perbezaan. Safety SHIELD bukan tentang menyekat atau menakut-nakuti — ia tentang membantu anda berhenti sejenak.',
         honestClaim: 'Jujur Dengan Anda',
         notAntivirus: 'Ini bukan perisian antivirus',
         notGuarantee: 'Kami tidak dapat menjamin mana-mana laman web adalah selamat',
@@ -256,7 +256,7 @@ export const ms: TranslationKeys = {
         storageTitle: 'Masalah Penyimpanan',
         storageDesc: 'Kami tidak dapat menyimpan tetapan anda. Demi keselamatan, pautan ini telah dibatalkan.',
         permissionTitle: 'Kebenaran Diperlukan',
-        permissionDesc: 'Link Guardian memerlukan kebenaran untuk membantu anda. Demi keselamatan, pautan ini telah dibatalkan.',
+        permissionDesc: 'Safety SHIELD memerlukan kebenaran untuk membantu anda. Demi keselamatan, pautan ini telah dibatalkan.',
         analysisTitle: 'Tidak Dapat Menyemak Pautan',
         analysisDesc: 'Kami tidak dapat menyemak pautan ini. Demi keselamatan, pautan ini telah dibatalkan.',
     },

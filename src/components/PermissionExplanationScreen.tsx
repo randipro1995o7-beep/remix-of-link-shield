@@ -39,7 +39,7 @@ export function PermissionExplanationScreen({ onComplete, onSkip }: PermissionEx
       icon: Eye,
       title: t.permissions.linkDetection,
       shortDesc: t.permissions.linkDetectionDesc,
-      longDesc: 'This lets Link Guardian notice when you tap a link from messages, emails, or other apps.',
+      longDesc: 'This lets Safety SHIELD notice when you tap a link from messages, emails, or other apps.',
       whyNeeded: 'Without this, we cannot help you pause before opening links.',
       isRequired: true,
     },
@@ -72,7 +72,7 @@ export function PermissionExplanationScreen({ onComplete, onSkip }: PermissionEx
     // For demo, we simulate granting
     grantPermission(currentPermission.id);
     setShowDeniedMessage(false);
-    
+
     // Auto-advance after a short delay
     setTimeout(() => {
       if (currentStep < permissionSteps.length - 1) {
@@ -98,12 +98,12 @@ export function PermissionExplanationScreen({ onComplete, onSkip }: PermissionEx
     }
   };
 
-  const requiredGranted = 
-    state.permissions.accessibility && 
+  const requiredGranted =
+    state.permissions.accessibility &&
     state.permissions.overlay;
 
   return (
-    <div 
+    <div
       className="fixed inset-0 z-50 bg-background flex flex-col animate-fade-in"
       role="dialog"
       aria-modal="true"
@@ -130,8 +130,8 @@ export function PermissionExplanationScreen({ onComplete, onSkip }: PermissionEx
             className={cn(
               "h-2 rounded-full transition-all duration-300",
               index === currentStep ? "w-8 bg-primary" : "w-2",
-              index < currentStep || state.permissions[step.id] 
-                ? "bg-primary" 
+              index < currentStep || state.permissions[step.id]
+                ? "bg-primary"
                 : "bg-muted"
             )}
             aria-hidden="true"
@@ -176,7 +176,7 @@ export function PermissionExplanationScreen({ onComplete, onSkip }: PermissionEx
               isExpanded && "rotate-90"
             )} aria-hidden="true" />
           </button>
-          
+
           {isExpanded && (
             <div className="mt-4 pt-4 border-t border-border space-y-3 animate-fade-in">
               <p className="text-muted-foreground">{currentPermission.longDesc}</p>
@@ -230,7 +230,7 @@ export function PermissionExplanationScreen({ onComplete, onSkip }: PermissionEx
             >
               {t.permissions.grant} {currentPermission.title}
             </Button>
-            
+
             {!currentPermission.isRequired && (
               <button
                 onClick={handleSkipCurrent}

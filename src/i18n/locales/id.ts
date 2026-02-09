@@ -1,7 +1,7 @@
 import { TranslationKeys } from '../types';
 
 export const id: TranslationKeys = {
-    appName: 'Link Guardian',
+    appName: 'Safety SHIELD',
     tagline: 'Berhenti, pikir, baru klik',
 
     nav: {
@@ -12,7 +12,7 @@ export const id: TranslationKeys = {
 
     home: {
         statusActive: 'Langkah Keamanan Aktif',
-        statusActiveDesc: 'Link Guardian menambahkan jeda sebelum membuka tautan',
+        statusActiveDesc: 'Safety SHIELD menambahkan jeda sebelum membuka tautan',
         statusPaused: 'Langkah Keamanan Dijeda',
         statusPausedDesc: 'Aktifkan keamanan untuk menambah jeda sebelum mengklik',
         linksChecked: 'Tautan ditinjau',
@@ -38,11 +38,11 @@ export const id: TranslationKeys = {
         language: 'Bahasa',
         notifications: 'Notifikasi',
         notificationsDesc: 'Dapatkan pengingat lembut tentang aktivitas tautan Anda',
-        protectionActive: 'Link Shield Aktif',
+        protectionActive: 'Safety SHIELD Aktif',
         protectionActiveDesc: 'Memindai tautan. Peringatan: Jangan pindai kode QR dari sumber yang tidak dikenal!',
         protectionInactive: 'Perlindungan Tidak Aktif',
         protectionInactiveDesc: 'Aplikasi bukan browser default. Ketuk untuk mengamankan perangkat.',
-        about: 'Tentang Link Guardian',
+        about: 'Tentang Safety SHIELD',
         help: 'Bantuan & Dukungan',
         privacy: 'Kebijakan Privasi',
         version: 'Versi',
@@ -79,7 +79,7 @@ export const id: TranslationKeys = {
 
     permissions: {
         title: 'Izin Diperlukan',
-        description: 'Link Guardian memerlukan ini untuk menambahkan jeda keamanan sebelum Anda membuka tautan',
+        description: 'Safety SHIELD memerlukan ini untuk menambahkan jeda keamanan sebelum Anda membuka tautan',
         linkDetection: 'Deteksi Tautan',
         linkDetectionDesc: 'Memungkinkan kami mengetahui saat Anda mengetuk tautan',
         safetyScreen: 'Layar Keamanan',
@@ -90,7 +90,7 @@ export const id: TranslationKeys = {
         granted: 'Diizinkan',
         required: 'Diperlukan',
         deniedTitle: 'Izin Tidak Diberikan',
-        deniedDesc: 'Tanpa izin ini, Link Guardian tidak dapat membantu Anda berhenti sebelum membuka tautan. Anda dapat mengaktifkannya di pengaturan telepon.',
+        deniedDesc: 'Tanpa izin ini, Safety SHIELD tidak dapat membantu Anda berhenti sebelum membuka tautan. Anda dapat mengaktifkannya di pengaturan telepon.',
         whatWeDoNot: 'Yang TIDAK kami lakukan:',
         doesNotSpy: 'Kami tidak memata-matai penelusuran Anda',
         doesNotCollect: 'Kami tidak mengumpulkan data pribadi Anda',
@@ -139,7 +139,7 @@ export const id: TranslationKeys = {
         ourRecommendation: 'Saran kami',
         cancelAndClose: 'Batalkan & Tutup Tautan',
         openAnyway: 'Buka Tetap',
-        disclaimer: 'Link Guardian membantu Anda berhenti dan berpikir, tetapi tidak dapat menjamin situs web mana pun sepenuhnya aman. Selalu berhati-hati dengan informasi pribadi.',
+        disclaimer: 'Safety SHIELD membantu Anda berhenti dan berpikir, tetapi tidak dapat menjamin situs web mana pun sepenuhnya aman. Selalu berhati-hati dengan informasi pribadi.',
     },
 
     blocked: {
@@ -222,7 +222,7 @@ export const id: TranslationKeys = {
 
     privacy: {
         title: 'Kebijakan Privasi',
-        intro: 'Link Guardian dirancang dengan privasi Anda sebagai prioritas.',
+        intro: 'Safety SHIELD dirancang dengan privasi Anda sebagai prioritas.',
         localOnly: 'Semua Tetap di Perangkat Anda',
         localOnlyDesc: 'Semua analisis tautan terjadi langsung di telepon Anda. Tidak ada yang dikirim ke server mana pun.',
         noUpload: 'Tidak Ada Unggahan Data',
@@ -235,10 +235,10 @@ export const id: TranslationKeys = {
     },
 
     about: {
-        title: 'Tentang Link Guardian',
+        title: 'Tentang Safety SHIELD',
         description: 'Alat sederhana yang menambahkan jeda sebelum membuka tautan.',
         mission: 'Mengapa Kami Membuat Ini',
-        missionDesc: 'Di dunia dengan ketukan cepat dan tindakan instan, kami percaya meluangkan waktu untuk berpikir dapat membuat perbedaan. Link Guardian bukan tentang memblokir atau menakut-nakuti — ini tentang membantu Anda berhenti sejenak.',
+        missionDesc: 'Di dunia dengan ketukan cepat dan tindakan instan, kami percaya meluangkan waktu untuk berpikir dapat membuat perbedaan. Safety SHIELD bukan tentang memblokir atau menakut-nakuti — ini tentang membantu Anda berhenti sejenak.',
         honestClaim: 'Jujur Dengan Anda',
         notAntivirus: 'Ini bukan perangkat lunak antivirus',
         notGuarantee: 'Kami tidak dapat menjamin situs web mana pun aman',
@@ -259,7 +259,7 @@ export const id: TranslationKeys = {
         storageTitle: 'Masalah Penyimpanan',
         storageDesc: 'Kami tidak dapat menyimpan pengaturan Anda. Agar aman, tautan ini telah dibatalkan.',
         permissionTitle: 'Izin Diperlukan',
-        permissionDesc: 'Link Guardian memerlukan izin untuk membantu Anda. Agar aman, tautan ini telah dibatalkan.',
+        permissionDesc: 'Safety SHIELD memerlukan izin untuk membantu Anda. Agar aman, tautan ini telah dibatalkan.',
         analysisTitle: 'Tidak Dapat Meninjau Tautan',
         analysisDesc: 'Kami tidak dapat memeriksa tautan ini. Agar aman, tautan ini telah dibatalkan.',
     },

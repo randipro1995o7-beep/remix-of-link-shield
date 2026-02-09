@@ -12,14 +12,14 @@ import { secureFetch } from '@/lib/utils/network';
 
 // GitHub raw URL for remote database
 // Create a public repo and host scam-database.json there
-// Example: https://raw.githubusercontent.com/YOUR_USERNAME/linkguardian-data/main/scam-database.json
-const REMOTE_DATABASE_URL = 'https://raw.githubusercontent.com/linkguardian-app/scam-database/main/scam-database.json';
+// Example: https://raw.githubusercontent.com/YOUR_USERNAME/safetyshield-data/main/scam-database.json
+const REMOTE_DATABASE_URL = 'https://raw.githubusercontent.com/safetyshield-app/scam-database/main/scam-database.json';
 
 // Storage keys
 const STORAGE_KEYS = {
-    CACHED_DATABASE: 'lg_scam_db_cache',
-    LAST_SYNC: 'lg_scam_db_last_sync',
-    DATABASE_VERSION: 'lg_scam_db_version',
+    CACHED_DATABASE: 'ss_scam_db_cache',
+    LAST_SYNC: 'ss_scam_db_last_sync',
+    DATABASE_VERSION: 'ss_scam_db_version',
 };
 
 // Sync interval: 6 hours (in milliseconds)

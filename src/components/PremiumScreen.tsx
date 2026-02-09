@@ -56,7 +56,7 @@ export function PremiumScreen({ onBack }: PremiumScreenProps) {
                         <Crown className="w-10 h-10 text-white" />
                     </div>
                     <h2 className="text-2xl font-bold text-foreground mb-2">
-                        {isIndonesian ? 'Link Guardian Premium' : 'Link Guardian Premium'}
+                        {isIndonesian ? 'Safety SHIELD Premium' : 'Safety SHIELD Premium'}
                     </h2>
                     <p className="text-muted-foreground max-w-sm mx-auto">
                         {isIndonesian

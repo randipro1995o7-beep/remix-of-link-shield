@@ -1,5 +1,5 @@
 /**
- * Storage Types for Link Guardian
+ * Storage Types for Safety SHIELD
  * 
  * IMPORTANT DEVELOPER NOTE:
  * ==========================
@@ -30,14 +30,14 @@ export interface StorageProvider {
 
 // Storage keys used across the app
 export const STORAGE_KEYS = {
-  SAFETY_PIN: 'lg_safety_pin_v1',
-  APP_STATE: 'lg_app_state_v1',
-  LINK_HISTORY: 'lg_link_history_v1',
-  SAFETY_HISTORY: 'lg_safety_history_v1',
-  FAMILY_MODE: 'lg_family_mode_v1',
-  GUARDIAN_PIN: 'lg_guardian_pin_v1',
-  PREMIUM_STATUS: 'lg_premium_status_v1',
-  PIN_LAST_CHANGED: 'lg_pin_last_changed_v1',
+  SAFETY_PIN: 'ss_safety_pin_v1',
+  APP_STATE: 'ss_app_state_v1',
+  LINK_HISTORY: 'ss_link_history_v1',
+  SAFETY_HISTORY: 'ss_safety_history_v1',
+  FAMILY_MODE: 'ss_family_mode_v1',
+  GUARDIAN_PIN: 'ss_guardian_pin_v1',
+  PREMIUM_STATUS: 'ss_premium_status_v1',
+  PIN_LAST_CHANGED: 'ss_pin_last_changed_v1',
 } as const;
 
 // Safety history entry for tracking user patterns

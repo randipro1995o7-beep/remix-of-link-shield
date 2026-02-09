@@ -1,7 +1,7 @@
 import { TranslationKeys } from '../types';
 
 export const ar: TranslationKeys = {
-    appName: 'Link Guardian',
+    appName: 'Safety SHIELD',
     tagline: 'توقف، فكر، ثم انقر',
 
     nav: {
@@ -12,7 +12,7 @@ export const ar: TranslationKeys = {
 
     home: {
         statusActive: 'خطوات الأمان نشطة',
-        statusActiveDesc: 'يضيف Link Guardian وقفة قبل فتح الروابط',
+        statusActiveDesc: 'يضيف Safety SHIELD وقفة قبل فتح الروابط',
         statusPaused: 'خطوات الأمان متوقفة مؤقتاً',
         statusPausedDesc: 'مكّن الأمان لإضافة لحظة للتفكير قبل النقر',
         linksChecked: 'الروابط التي تم التحقق منها',
@@ -38,11 +38,11 @@ export const ar: TranslationKeys = {
         language: 'اللغة',
         notifications: 'الإشعارات',
         notificationsDesc: 'احصل على تذكيرات حول نشاط الروابط الخاص بك',
-        protectionActive: 'Link Shield نشط',
+        protectionActive: 'Safety SHIELD نشط',
         protectionActiveDesc: 'جاري فحص الروابط. تحذير: لا تقم بمسح رموز QR من مصادر غير معروفة!',
         protectionInactive: 'الحماية غير نشطة',
         protectionInactiveDesc: 'التطبيق ليس المتصفح الافتراضي. اضغط لتأمين جهازك.',
-        about: 'حول Link Guardian',
+        about: 'حول Safety SHIELD',
         help: 'المساعدة والدعم',
         privacy: 'سياسة الخصوصية',
         version: 'الإصدار',
@@ -76,7 +76,7 @@ export const ar: TranslationKeys = {
 
     permissions: {
         title: 'الإذن مطلوب',
-        description: 'يحتاج Link Guardian لهذا الإذن لإضافة وقفة للأمان قبل فتح الروابط',
+        description: 'يحتاج Safety SHIELD لهذا الإذن لإضافة وقفة للأمان قبل فتح الروابط',
         linkDetection: 'كشف الروابط',
         linkDetectionDesc: 'يتيح لنا معرفة متى تضغط على رابط',
         safetyScreen: 'شاشة الأمان',
@@ -87,7 +87,7 @@ export const ar: TranslationKeys = {
         granted: 'مسموح',
         required: 'مطلوب',
         deniedTitle: 'الإذن غير ممنوح',
-        deniedDesc: 'بدون هذا الإذن، لا يستطيع Link Guardian مساعدتك على التوقف قبل فتح الروابط. يمكنك تفعيله في إعدادات هاتفك.',
+        deniedDesc: 'بدون هذا الإذن، لا يستطيع Safety SHIELD مساعدتك على التوقف قبل فتح الروابط. يمكنك تفعيله في إعدادات هاتفك.',
         whatWeDoNot: 'ما لا نفعله:',
         doesNotSpy: 'نحن لا نتجسس على تصفحك',
         doesNotCollect: 'نحن لا نجمع بياناتك الشخصية',
@@ -136,7 +136,7 @@ export const ar: TranslationKeys = {
         ourRecommendation: 'توصيتنا',
         cancelAndClose: 'إلغاء وإغلاق الرابط',
         openAnyway: 'فتح على أي حال',
-        disclaimer: 'يساعدك Link Guardian على التوقف والتفكير، لكن لا يمكنه ضمان أن أي موقع آمن تماماً. كن حذراً دائماً مع المعلومات الشخصية.',
+        disclaimer: 'يساعدك Safety SHIELD على التوقف والتفكير، لكن لا يمكنه ضمان أن أي موقع آمن تماماً. كن حذراً دائماً مع المعلومات الشخصية.',
     },
 
     blocked: {
@@ -219,7 +219,7 @@ export const ar: TranslationKeys = {
 
     privacy: {
         title: 'سياسة الخصوصية',
-        intro: 'تم تصميم Link Guardian مع وضع خصوصيتك كأولوية.',
+        intro: 'تم تصميم Safety SHIELD مع وضع خصوصيتك كأولوية.',
         localOnly: 'كل شيء على جهازك',
         localOnlyDesc: 'يحدث كل تحليل الروابط مباشرة على هاتفك. لا يتم إرسال أي شيء إلى أي خوادم.',
         noUpload: 'لا تحميل للبيانات',
@@ -232,10 +232,10 @@ export const ar: TranslationKeys = {
     },
 
     about: {
-        title: 'حول Link Guardian',
+        title: 'حول Safety SHIELD',
         description: 'أداة بسيطة تضيف وقفة للتفكير قبل فتح الروابط.',
         mission: 'لماذا نفعل هذا',
-        missionDesc: 'في عالم النقرات السريعة والإجراءات الفورية، نؤمن بأن أخذ لحظة للتفكير يمكن أن يحدث فرقاً. Link Guardian ليس للحظر أو التخويف — إنه لمساعدتك على التوقف.',
+        missionDesc: 'في عالم النقرات السريعة والإجراءات الفورية، نؤمن بأن أخذ لحظة للتفكير يمكن أن يحدث فرقاً. Safety SHIELD ليس للحظر أو التخويف — إنه لمساعدتك على التوقف.',
         honestClaim: 'نحن صادقون معك',
         notAntivirus: 'هذا ليس برنامج مكافحة فيروسات',
         notGuarantee: 'لا يمكننا ضمان أن أي موقع ويب آمن',
@@ -256,7 +256,7 @@ export const ar: TranslationKeys = {
         storageTitle: 'مشكلة في التخزين',
         storageDesc: 'لم نتمكن من حفظ إعداداتك. للأمان، تم إلغاء هذا الرابط.',
         permissionTitle: 'الإذن مطلوب',
-        permissionDesc: 'يحتاج Link Guardian لإذن لمساعدتك. للأمان، تم إلغاء هذا الرابط.',
+        permissionDesc: 'يحتاج Safety SHIELD لإذن لمساعدتك. للأمان، تم إلغاء هذا الرابط.',
         analysisTitle: 'تعذر التحقق من الرابط',
         analysisDesc: 'لم نتمكن من التحقق من هذا الرابط. للأمان، تم إلغاء هذا الرابط.',
     },

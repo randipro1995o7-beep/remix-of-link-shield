@@ -1,7 +1,7 @@
 import { TranslationKeys } from '../types';
 
 export const th: TranslationKeys = {
-    appName: 'Link Guardian',
+    appName: 'Safety SHIELD',
     tagline: 'หยุด คิด แล้วค่อยคลิก',
 
     nav: {
@@ -12,7 +12,7 @@ export const th: TranslationKeys = {
 
     home: {
         statusActive: 'ขั้นตอนความปลอดภัยทำงานอยู่',
-        statusActiveDesc: 'Link Guardian ช่วยเพิ่มการหยุดชั่วคราวก่อนเปิดลิงก์',
+        statusActiveDesc: 'Safety SHIELD ช่วยเพิ่มการหยุดชั่วคราวก่อนเปิดลิงก์',
         statusPaused: 'ขั้นตอนความปลอดภัยหยุดชั่วคราว',
         statusPausedDesc: 'เปิดใช้งานความปลอดภัยเพื่อเพิ่มการหยุดคิดก่อนคลิก',
         linksChecked: 'ลิงก์ที่ตรวจสอบแล้ว',
@@ -38,11 +38,11 @@ export const th: TranslationKeys = {
         language: 'ภาษา',
         notifications: 'การแจ้งเตือน',
         notificationsDesc: 'รับการแจ้งเตือนเกี่ยวกับกิจกรรมลิงก์ของคุณ',
-        protectionActive: 'Link Shield ทำงานอยู่',
+        protectionActive: 'Safety SHIELD ทำงานอยู่',
         protectionActiveDesc: 'กำลังสแกนลิงก์ คำเตือน: อย่าสแกน QR code จากแหล่งที่ไม่รู้จัก!',
         protectionInactive: 'การป้องกันไม่ได้ทำงาน',
         protectionInactiveDesc: 'แอปไม่ได้ตั้งเป็นเบราว์เซอร์เริ่มต้น แตะเพื่อความปลอดภัยของอุปกรณ์',
-        about: 'เกี่ยวกับ Link Guardian',
+        about: 'เกี่ยวกับ Safety SHIELD',
         help: 'ความช่วยเหลือและการสนับสนุน',
         privacy: 'นโยบายความเป็นส่วนตัว',
         version: 'เวอร์ชัน',
@@ -76,7 +76,7 @@ export const th: TranslationKeys = {
 
     permissions: {
         title: 'จำเป็นต้องได้รับอนุญาต',
-        description: 'Link Guardian ต้องการสิ่งนี้เพื่อเพิ่มการหยุดเพื่อความปลอดภัยก่อนที่คุณจะเปิดลิงก์',
+        description: 'Safety SHIELD ต้องการสิ่งนี้เพื่อเพิ่มการหยุดเพื่อความปลอดภัยก่อนที่คุณจะเปิดลิงก์',
         linkDetection: 'การตรวจจับลิงก์',
         linkDetectionDesc: 'ช่วยให้เรารู้เมื่อคุณแตะลิงก์',
         safetyScreen: 'หน้าจอความปลอดภัย',
@@ -87,7 +87,7 @@ export const th: TranslationKeys = {
         granted: 'ได้รับอนุญาตแล้ว',
         required: 'จำเป็น',
         deniedTitle: 'ไม่ได้รับอนุญาต',
-        deniedDesc: 'หากไม่มีการอนุญาตนี้ Link Guardian ไม่สามารถช่วยคุณหยุดก่อนเปิดลิงก์ได้ คุณสามารถเปิดใช้งานได้ในการตั้งค่าโทรศัพท์ของคุณ',
+        deniedDesc: 'หากไม่มีการอนุญาตนี้ Safety SHIELD ไม่สามารถช่วยคุณหยุดก่อนเปิดลิงก์ได้ คุณสามารถเปิดใช้งานได้ในการตั้งค่าโทรศัพท์ของคุณ',
         whatWeDoNot: 'สิ่งที่เราไม่ทำ:',
         doesNotSpy: 'เราไม่สอดแนมการท่องเว็บของคุณ',
         doesNotCollect: 'เราไม่รวบรวมข้อมูลส่วนบุคคลของคุณ',
@@ -136,7 +136,7 @@ export const th: TranslationKeys = {
         ourRecommendation: 'คำแนะนำของเรา',
         cancelAndClose: 'ยกเลิกและปิดลิงก์',
         openAnyway: 'เปิดอยู่ดี',
-        disclaimer: 'Link Guardian ช่วยให้คุณหยุดและคิด แต่ไม่สามารถรับประกันได้ว่าเว็บไซต์ใดปลอดภัยอย่างสมบูรณ์ โปรดระมัดระวังข้อมูลส่วนบุคคลเสมอ',
+        disclaimer: 'Safety SHIELD ช่วยให้คุณหยุดและคิด แต่ไม่สามารถรับประกันได้ว่าเว็บไซต์ใดปลอดภัยอย่างสมบูรณ์ โปรดระมัดระวังข้อมูลส่วนบุคคลเสมอ',
     },
 
     blocked: {
@@ -219,7 +219,7 @@ export const th: TranslationKeys = {
 
     privacy: {
         title: 'นโยบายความเป็นส่วนตัว',
-        intro: 'Link Guardian ถูกออกแบบมาโดยให้ความเป็นส่วนตัวของคุณเป็นลำดับความสำคัญ',
+        intro: 'Safety SHIELD ถูกออกแบบมาโดยให้ความเป็นส่วนตัวของคุณเป็นลำดับความสำคัญ',
         localOnly: 'ทุกอย่างอยู่ในอุปกรณ์ของคุณ',
         localOnlyDesc: 'การวิเคราะห์ลิงก์ทั้งหมดเกิดขึ้นบนโทรศัพท์ของคุณโดยตรง ไม่มีอะไรถูกส่งไปยังเซิร์ฟเวอร์ใดๆ',
         noUpload: 'ไม่มีการอัปโหลดข้อมูล',
@@ -232,10 +232,10 @@ export const th: TranslationKeys = {
     },
 
     about: {
-        title: 'เกี่ยวกับ Link Guardian',
+        title: 'เกี่ยวกับ Safety SHIELD',
         description: 'เครื่องมือขนาดย่อมที่เพิ่มการหยุดคิดอย่างรอบคอบก่อนเปิดลิงก์',
         mission: 'ทำไมเราถึงทำสิ่งนี้',
-        missionDesc: 'ในโลกของการแตะที่รวดเร็วและการกระทำทันที เราเชื่อว่าการใช้เวลาคิดสักครู่สามารถสร้างความแตกต่างได้ Link Guardian ไม่ใช่เกี่ยวกับการบล็อกหรือทำให้กลัว — มันเกี่ยวกับการช่วยให้คุณหยุดสักครู่',
+        missionDesc: 'ในโลกของการแตะที่รวดเร็วและการกระทำทันที เราเชื่อว่าการใช้เวลาคิดสักครู่สามารถสร้างความแตกต่างได้ Safety SHIELD ไม่ใช่เกี่ยวกับการบล็อกหรือทำให้กลัว — มันเกี่ยวกับการช่วยให้คุณหยุดสักครู่',
         honestClaim: 'ซื่อสัตย์กับคุณ',
         notAntivirus: 'นี่ไม่ใช่ซอฟต์แวร์ป้องกันไวรัส',
         notGuarantee: 'เราไม่สามารถรับประกันได้ว่าเว็บไซต์ใดปลอดภัย',
@@ -256,7 +256,7 @@ export const th: TranslationKeys = {
         storageTitle: 'ปัญหาการจัดเก็บข้อมูล',
         storageDesc: 'เราไม่สามารถบันทึกการตั้งค่าของคุณได้ เพื่อความปลอดภัย ลิงก์นี้ถูกยกเลิกแล้ว',
         permissionTitle: 'จำเป็นต้องได้รับอนุญาต',
-        permissionDesc: 'Link Guardian ต้องการการอนุญาตเพื่อช่วยเหลือคุณ เพื่อความปลอดภัย ลิงก์นี้ถูกยกเลิกแล้ว',
+        permissionDesc: 'Safety SHIELD ต้องการการอนุญาตเพื่อช่วยเหลือคุณ เพื่อความปลอดภัย ลิงก์นี้ถูกยกเลิกแล้ว',
         analysisTitle: 'ไม่สามารถตรวจสอบลิงก์',
         analysisDesc: 'เราไม่สามารถตรวจสอบลิงก์นี้ได้ เพื่อความปลอดภัย ลิงก์นี้ถูกยกเลิกแล้ว',
     },

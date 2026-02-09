@@ -6,7 +6,7 @@ import { useApp } from '@/contexts/AppContext';
 import { useSafetyPin } from '@/contexts/SafetyPinContext';
 import { Language } from '@/i18n/translations';
 
-const ONBOARDING_COMPLETE_KEY = 'linkguardian_onboarding_complete';
+const ONBOARDING_COMPLETE_KEY = 'safetyshield_onboarding_complete';
 
 type OnboardingStep = 'language' | 'pin' | 'recovery' | 'complete';
 

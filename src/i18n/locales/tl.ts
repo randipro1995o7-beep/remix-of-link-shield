@@ -1,7 +1,7 @@
 import { TranslationKeys } from '../types';
 
 export const tl: TranslationKeys = {
-    appName: 'Link Guardian',
+    appName: 'Safety SHIELD',
     tagline: 'Huminto, mag-isip, saka mag-click',
 
     nav: {
@@ -12,7 +12,7 @@ export const tl: TranslationKeys = {
 
     home: {
         statusActive: 'Mga Hakbang sa Kaligtasan Aktibo',
-        statusActiveDesc: 'Nagdaragdag ang Link Guardian ng paghinto bago buksan ang mga link',
+        statusActiveDesc: 'Nagdaragdag ang Safety SHIELD ng paghinto bago buksan ang mga link',
         statusPaused: 'Mga Hakbang sa Kaligtasan Naka-pause',
         statusPausedDesc: 'Paganahin ang kaligtasan para magdagdag ng pag-iisip bago mag-click',
         linksChecked: 'Mga link na nasuri',
@@ -38,11 +38,11 @@ export const tl: TranslationKeys = {
         language: 'Wika',
         notifications: 'Mga Abiso',
         notificationsDesc: 'Makakuha ng paalala tungkol sa iyong link activity',
-        protectionActive: 'Link Shield Aktibo',
+        protectionActive: 'Safety SHIELD Aktibo',
         protectionActiveDesc: 'Nagi-scan ng links. Babala: Wag mag-scan ng QR codes mula sa hindi kilalang source!',
         protectionInactive: 'Proteksyon Hindi Aktibo',
         protectionInactiveDesc: 'App ay hindi default browser. I-tap para i-secure ang device.',
-        about: 'Tungkol sa Link Guardian',
+        about: 'Tungkol sa Safety SHIELD',
         help: 'Tulong at Suporta',
         privacy: 'Patakaran sa Privacy',
         version: 'Bersyon',
@@ -76,7 +76,7 @@ export const tl: TranslationKeys = {
 
     permissions: {
         title: 'Kailangan ng Pahintulot',
-        description: 'Kailangan ito ng Link Guardian para magdagdag ng paghinto bago mo buksan ang mga link',
+        description: 'Kailangan ito ng Safety SHIELD para magdagdag ng paghinto bago mo buksan ang mga link',
         linkDetection: 'Pagtuklas ng Link',
         linkDetectionDesc: 'Hinahayaan kaming malaman kapag nag-tap ka sa isang link',
         safetyScreen: 'Safety Screen',
@@ -87,7 +87,7 @@ export const tl: TranslationKeys = {
         granted: 'Pinayagan',
         required: 'Kinakailangan',
         deniedTitle: 'Hindi Ipinagkaloob ang Pahintulot',
-        deniedDesc: 'Kung walang pahintulot na ito, hindi ka matutulungan ng Link Guardian na huminto bago magbukas ng mga link. Maaari mo itong paganahin sa mga setting ng iyong telepono.',
+        deniedDesc: 'Kung walang pahintulot na ito, hindi ka matutulungan ng Safety SHIELD na huminto bago magbukas ng mga link. Maaari mo itong paganahin sa mga setting ng iyong telepono.',
         whatWeDoNot: 'Ang HINDI namin ginagawa:',
         doesNotSpy: 'Hindi namin ini-espiya ang iyong pagba-browse',
         doesNotCollect: 'Hindi kami nangongolekta ng iyong personal na data',
@@ -136,7 +136,7 @@ export const tl: TranslationKeys = {
         ourRecommendation: 'Ang aming mungkahi',
         cancelAndClose: 'Kanselahin at Isara ang Link',
         openAnyway: 'Buksan Pa Rin',
-        disclaimer: 'Tinutulungan ka ng Link Guardian na huminto at mag-isip, ngunit hindi magagarantiyahan na ang anumang website ay ganap na ligtas. Laging maging maingat sa personal na impormasyon.',
+        disclaimer: 'Tinutulungan ka ng Safety SHIELD na huminto at mag-isip, ngunit hindi magagarantiyahan na ang anumang website ay ganap na ligtas. Laging maging maingat sa personal na impormasyon.',
     },
 
     blocked: {
@@ -219,7 +219,7 @@ export const tl: TranslationKeys = {
 
     privacy: {
         title: 'Patakaran sa Privacy',
-        intro: 'Ang Link Guardian ay dinisenyo na prayoridad ang iyong privacy.',
+        intro: 'Ang Safety SHIELD ay dinisenyo na prayoridad ang iyong privacy.',
         localOnly: 'Lahat ay Nananatili sa Iyong Device',
         localOnlyDesc: 'Ang lahat ng pagsusuri ng link ay nangyayari mismo sa iyong telepono. Walang ipinapadala sa anumang server.',
         noUpload: 'Walang Pag-upload ng Data',
@@ -232,10 +232,10 @@ export const tl: TranslationKeys = {
     },
 
     about: {
-        title: 'Tungkol sa Link Guardian',
+        title: 'Tungkol sa Safety SHIELD',
         description: 'Isang simpleng tool na nagdaragdag ng maalalahaning paghinto bago buksan ang mga link.',
         mission: 'Bakit Namin Ito Ginawa',
-        missionDesc: 'Sa isang mundo ng mabilis na pag-tap at agarang pagkilos, naniniwala kami na ang paglalaan ng sandali para mag-isip ay makakagawa ng pagkakaiba. Ang Link Guardian ay hindi tungkol sa pag-block o pananakot — ito ay tungkol sa pagtulong sa iyong huminto sandali.',
+        missionDesc: 'Sa isang mundo ng mabilis na pag-tap at agarang pagkilos, naniniwala kami na ang paglalaan ng sandali para mag-isip ay makakagawa ng pagkakaiba. Ang Safety SHIELD ay hindi tungkol sa pag-block o pananakot — ito ay tungkol sa pagtulong sa iyong huminto sandali.',
         honestClaim: 'Pagiging Tapat sa Iyo',
         notAntivirus: 'Hindi ito antivirus software',
         notGuarantee: 'Hindi namin magagarantiyahan na ang anumang website ay ligtas',
@@ -256,7 +256,7 @@ export const tl: TranslationKeys = {
         storageTitle: 'Isyu sa Storage',
         storageDesc: 'Hindi namin mai-save ang iyong mga setting. Para maging ligtas, nakansela ang link na ito.',
         permissionTitle: 'Kailangan ng Pahintulot',
-        permissionDesc: 'Kailangan ng Link Guardian ng pahintulot upang matulungan ka. Para maging ligtas, nakansela ang link na ito.',
+        permissionDesc: 'Kailangan ng Safety SHIELD ng pahintulot upang matulungan ka. Para maging ligtas, nakansela ang link na ito.',
         analysisTitle: 'Hindi Masuri ang Link',
         analysisDesc: 'Hindi namin masuri ang link na ito. Para maging ligtas, nakansela ang link na ito.',
     },

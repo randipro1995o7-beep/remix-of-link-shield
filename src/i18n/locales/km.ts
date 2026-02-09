@@ -1,7 +1,7 @@
 import { TranslationKeys } from '../types';
 
 export const km: TranslationKeys = {
-    appName: 'Link Guardian',
+    appName: 'Safety SHIELD',
     tagline: 'ផ្អាក គិត ហើយបន្ទាប់មកចុច',
 
     nav: {
@@ -12,7 +12,7 @@ export const km: TranslationKeys = {
 
     home: {
         statusActive: 'ជំហានសុវត្ថិភាពសកម្ម',
-        statusActiveDesc: 'Link Guardian បន្ថែមការផ្អាកមុនពេលបើកតំណ',
+        statusActiveDesc: 'Safety SHIELD បន្ថែមការផ្អាកមុនពេលបើកតំណ',
         statusPaused: 'ជំហានសុវត្ថិភាពបានផ្អាក',
         statusPausedDesc: 'បើកសុវត្ថិភាពដើម្បីបន្ថែមការគិតមុនពេលចុច',
         linksChecked: 'តំណដែលបានពិនិត្យ',
@@ -38,11 +38,11 @@ export const km: TranslationKeys = {
         language: 'ភាសា',
         notifications: 'ការជូនដំណឹង',
         notificationsDesc: 'ទទួលការរំលឹកអំពីសកម្មភាពតំណរបស់អ្នក',
-        protectionActive: 'Link Shield Active',
+        protectionActive: 'Safety SHIELD Active',
         protectionActiveDesc: 'Scanning links. Warning: Do not scan QR codes from unknown sources!',
         protectionInactive: 'Protection Inactive',
         protectionInactiveDesc: 'App is not set as default browser. Tap to secure your device.',
-        about: 'អំពី Link Guardian',
+        about: 'អំពី Safety SHIELD',
         help: 'ជំនួយ និងការគាំទ្រ',
         privacy: 'គោលការណ៍ឯកជនភាព',
         version: 'កំណែ',
@@ -76,7 +76,7 @@ export const km: TranslationKeys = {
 
     permissions: {
         title: 'ត្រូវការការអនុញ្ញាត',
-        description: 'Link Guardian ត្រូវការវាដើម្បីបន្ថែមការផ្អាកសុវត្ថិភាពមុនពេលអ្នកបើកតំណ',
+        description: 'Safety SHIELD ត្រូវការវាដើម្បីបន្ថែមការផ្អាកសុវត្ថិភាពមុនពេលអ្នកបើកតំណ',
         linkDetection: 'ការរកឃើញតំណ',
         linkDetectionDesc: 'អនុញ្ញាតឱ្យយើងដឹងនៅពេលអ្នកចុចលើតំណ',
         safetyScreen: 'អេក្រង់សុវត្ថិភាព',
@@ -87,7 +87,7 @@ export const km: TranslationKeys = {
         granted: 'បានអនុញ្ញាត',
         required: 'ទាមទារ',
         deniedTitle: 'មិនបានផ្តល់ការអនុញ្ញាត',
-        deniedDesc: 'បើគ្មានការអនុញ្ញាតនេះទេ Link Guardian មិនអាចជួយអ្នកផ្អាកមុនពេលបើកតំណបានទេ។ អ្នកអាចបើកវានៅក្នុងការកំណត់ទូរស័ព្ទរបស់អ្នក។',
+        deniedDesc: 'បើគ្មានការអនុញ្ញាតនេះទេ Safety SHIELD មិនអាចជួយអ្នកផ្អាកមុនពេលបើកតំណបានទេ។ អ្នកអាចបើកវានៅក្នុងការកំណត់ទូរស័ព្ទរបស់អ្នក។',
         whatWeDoNot: 'អ្វីដែលយើងមិនធ្វើ:',
         doesNotSpy: 'យើងមិនឈ្លបយកការណ៍លើការរុករករបស់អ្នកទេ',
         doesNotCollect: 'យើងមិនប្រមូលទិន្នន័យផ្ទាល់ខ្លួនរបស់អ្នកទេ',
@@ -136,7 +136,7 @@ export const km: TranslationKeys = {
         ourRecommendation: 'ការណែនាំរបស់យើង',
         cancelAndClose: 'បោះបង់ & បិទតំណ',
         openAnyway: 'បើកទោះយ៉ាងណាក៏ដោយ',
-        disclaimer: 'Link Guardian ជួយអ្នកផ្អាក និងគិត ប៉ុន្តែមិនអាចធានាថាគេហទំព័រណាមួយមានសុវត្ថិភាពទាំងស្រុងនោះទេ។ តែងតែមានការប្រុងប្រយ័ត្នជាមួយព័ត៌មានផ្ទាល់ខ្លួន។',
+        disclaimer: 'Safety SHIELD ជួយអ្នកផ្អាក និងគិត ប៉ុន្តែមិនអាចធានាថាគេហទំព័រណាមួយមានសុវត្ថិភាពទាំងស្រុងនោះទេ។ តែងតែមានការប្រុងប្រយ័ត្នជាមួយព័ត៌មានផ្ទាល់ខ្លួន។',
     },
 
     blocked: {
@@ -219,7 +219,7 @@ export const km: TranslationKeys = {
 
     privacy: {
         title: 'គោលការណ៍ឯកជនភាព',
-        intro: 'Link Guardian ត្រូវបានរចនាឡើងដោយផ្តល់អាទិភាពដល់ឯកជនភាពរបស់អ្នក។',
+        intro: 'Safety SHIELD ត្រូវបានរចនាឡើងដោយផ្តល់អាទិភាពដល់ឯកជនភាពរបស់អ្នក។',
         localOnly: 'អ្វីគ្រប់យ៉ាងនៅលើឧបករណ៍របស់អ្នក',
         localOnlyDesc: 'ការវិភាគតំណទាំងអស់កើតឡើងនៅលើទូរស័ព្ទរបស់អ្នក។ គ្មានអ្វីត្រូវបានបញ្ជូនទៅម៉ាស៊ីនមេណាមួយឡើយ។',
         noUpload: 'មិនមានការផ្ទុកទិន្នន័យឡើង',
@@ -232,10 +232,10 @@ export const km: TranslationKeys = {
     },
 
     about: {
-        title: 'អំពី Link Guardian',
+        title: 'អំពី Safety SHIELD',
         description: 'ឧបករណ៍សាមញ្ញដែលបន្ថែមការផ្អាកដោយការគិតមុនពេលបើកតំណ។',
         mission: 'ហេតុអ្វីបានជាយើងធ្វើបែបនេះ',
-        missionDesc: 'នៅក្នុងពិភពនៃការចុចរហ័សនិងសកម្មភាពភ្លាមៗ យើងជឿថាការចំណាយពេលគិតអាចធ្វើឱ្យមានភាពខុសគ្នា។ Link Guardian មិនមែនអំពីការទប់ស្កាត់ ឬការបំភ័យទេ — វាគឺអំពីការជួយអ្នកឱ្យផ្អាក។',
+        missionDesc: 'នៅក្នុងពិភពនៃការចុចរហ័សនិងសកម្មភាពភ្លាមៗ យើងជឿថាការចំណាយពេលគិតអាចធ្វើឱ្យមានភាពខុសគ្នា។ Safety SHIELD មិនមែនអំពីការទប់ស្កាត់ ឬការបំភ័យទេ — វាគឺអំពីការជួយអ្នកឱ្យផ្អាក។',
         honestClaim: 'ស្មោះត្រង់ជាមួយអ្នក',
         notAntivirus: 'នេះមិនមែនជាកម្មវិធីកំចាត់មេរោគទេ',
         notGuarantee: 'យើងមិនអាចធានាថាគេហទំព័រណាមួយមានសុវត្ថិភាពទេ',
@@ -256,7 +256,7 @@ export const km: TranslationKeys = {
         storageTitle: 'បញ្ហាកន្លែងផ្ទុក',
         storageDesc: 'យើងមិនអាចរក្សាទុកការកំណត់របស់អ្នកបានទេ។ ដើម្បីសុវត្ថិភាព តំណនេះត្រូវបានលុបចោល។',
         permissionTitle: 'ត្រូវការការអនុញ្ញាត',
-        permissionDesc: 'Link Guardian ត្រូវការការអនុញ្ញាតដើម្បីជួយអ្នក។ ដើម្បីសុវត្ថិភាព តំណនេះត្រូវបានលុបចោល។',
+        permissionDesc: 'Safety SHIELD ត្រូវការការអនុញ្ញាតដើម្បីជួយអ្នក។ ដើម្បីសុវត្ថិភាព តំណនេះត្រូវបានលុបចោល។',
         analysisTitle: 'មិនអាចពិនិត្យតំណ',
         analysisDesc: 'យើងមិនអាចពិនិត្យតំណនេះបានទេ។ ដើម្បីសុវត្ថិភាព តំណនេះត្រូវបានលុបចោល។',
     },

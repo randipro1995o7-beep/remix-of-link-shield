@@ -1,7 +1,7 @@
 import { TranslationKeys } from '../types';
 
 export const vi: TranslationKeys = {
-    appName: 'Link Guardian',
+    appName: 'Safety SHIELD',
     tagline: 'Dừng lại, suy nghĩ, rồi hãy nhấp',
 
     nav: {
@@ -12,7 +12,7 @@ export const vi: TranslationKeys = {
 
     home: {
         statusActive: 'Các Bước An Toàn Đang Bật',
-        statusActiveDesc: 'Link Guardian thêm một khoảng dừng trước khi mở liên kết',
+        statusActiveDesc: 'Safety SHIELD thêm một khoảng dừng trước khi mở liên kết',
         statusPaused: 'Các Bước An Toàn Đã Tạm Dừng',
         statusPausedDesc: 'Bật an toàn để thêm sự suy nghĩ trước khi nhấp',
         linksChecked: 'Liên kết đã xem xét',
@@ -38,11 +38,11 @@ export const vi: TranslationKeys = {
         language: 'Ngôn ngữ',
         notifications: 'Thông báo',
         notificationsDesc: 'Nhận nhắc nhở về hoạt động liên kết của bạn',
-        protectionActive: 'Link Shield Đang Hoạt Động',
+        protectionActive: 'Safety SHIELD Đang Hoạt Động',
         protectionActiveDesc: 'Đang quét liên kết. Cảnh báo: Không quét mã QR từ nguồn không xác định!',
         protectionInactive: 'Bảo Vệ Đang Tắt',
         protectionInactiveDesc: 'Ứng dụng không phải trình duyệt mặc định. Nhấn để bảo vệ thiết bị.',
-        about: 'Về Link Guardian',
+        about: 'Về Safety SHIELD',
         help: 'Trợ giúp & Hỗ trợ',
         privacy: 'Chính sách riêng tư',
         version: 'Phiên bản',
@@ -76,7 +76,7 @@ export const vi: TranslationKeys = {
 
     permissions: {
         title: 'Cần Cấp Quyền',
-        description: 'Link Guardian cần các quyền này để thêm khoảng dừng an toàn trước khi bạn mở liên kết',
+        description: 'Safety SHIELD cần các quyền này để thêm khoảng dừng an toàn trước khi bạn mở liên kết',
         linkDetection: 'Phát hiện Liên kết',
         linkDetectionDesc: 'Cho phép chúng tôi biết khi bạn nhấn vào liên kết',
         safetyScreen: 'Màn hình An toàn',
@@ -87,7 +87,7 @@ export const vi: TranslationKeys = {
         granted: 'Đã cho phép',
         required: 'Bắt buộc',
         deniedTitle: 'Quyền chưa được cấp',
-        deniedDesc: 'Nếu không có quyền này, Link Guardian không thể giúp bạn dừng lại trước khi mở liên kết. Bạn có thể bật nó trong cài đặt điện thoại.',
+        deniedDesc: 'Nếu không có quyền này, Safety SHIELD không thể giúp bạn dừng lại trước khi mở liên kết. Bạn có thể bật nó trong cài đặt điện thoại.',
         whatWeDoNot: 'Những gì chúng tôi KHÔNG làm:',
         doesNotSpy: 'Chúng tôi không theo dõi trình duyệt của bạn',
         doesNotCollect: 'Chúng tôi không thu thập dữ liệu cá nhân của bạn',
@@ -136,7 +136,7 @@ export const vi: TranslationKeys = {
         ourRecommendation: 'Đề xuất của chúng tôi',
         cancelAndClose: 'Hủy & Đóng Liên kết',
         openAnyway: 'Vẫn Mở',
-        disclaimer: 'Link Guardian giúp bạn dừng lại và suy nghĩ, nhưng không thể đảm bảo bất kỳ trang web nào là hoàn toàn an toàn. Luôn cẩn thận với thông tin cá nhân.',
+        disclaimer: 'Safety SHIELD giúp bạn dừng lại và suy nghĩ, nhưng không thể đảm bảo bất kỳ trang web nào là hoàn toàn an toàn. Luôn cẩn thận với thông tin cá nhân.',
     },
 
     blocked: {
@@ -219,7 +219,7 @@ export const vi: TranslationKeys = {
 
     privacy: {
         title: 'Chính sách Riêng tư',
-        intro: 'Link Guardian được thiết kế với quyền riêng tư của bạn là ưu tiên hàng đầu.',
+        intro: 'Safety SHIELD được thiết kế với quyền riêng tư của bạn là ưu tiên hàng đầu.',
         localOnly: 'Mọi thứ Ở lại trên Thiết bị Của Bạn',
         localOnlyDesc: 'Tất cả phân tích liên kết diễn ra ngay trên điện thoại của bạn. Không có gì được gửi đến bất kỳ máy chủ nào.',
         noUpload: 'Không Tải lên Dữ liệu',
@@ -232,10 +232,10 @@ export const vi: TranslationKeys = {
     },
 
     about: {
-        title: 'Về Link Guardian',
+        title: 'Về Safety SHIELD',
         description: 'Một công cụ đơn giản thêm một khoảng dừng chu đáo trước khi mở liên kết.',
         mission: 'Tại sao Chúng tôi Làm Điều này',
-        missionDesc: 'Trong một thế giới của những cú chạm nhanh và hành động tức thì, chúng tôi tin rằng dành một chút thời gian để suy nghĩ có thể tạo ra sự khác biệt. Link Guardian không phải là chặn hay dọa dẫm — nó là về việc giúp bạn dừng lại.',
+        missionDesc: 'Trong một thế giới của những cú chạm nhanh và hành động tức thì, chúng tôi tin rằng dành một chút thời gian để suy nghĩ có thể tạo ra sự khác biệt. Safety SHIELD không phải là chặn hay dọa dẫm — nó là về việc giúp bạn dừng lại.',
         honestClaim: 'Thành thật Với Bạn',
         notAntivirus: 'Đây không phải là phần mềm diệt virus',
         notGuarantee: 'Chúng tôi không thể đảm bảo bất kỳ trang web nào là an toàn',
@@ -256,7 +256,7 @@ export const vi: TranslationKeys = {
         storageTitle: 'Vấn đề Lưu trữ',
         storageDesc: 'Chúng tôi không thể lưu cài đặt của bạn. Để an toàn, liên kết này đã bị hủy.',
         permissionTitle: 'Cần Cấp Quyền',
-        permissionDesc: 'Link Guardian cần quyền để giúp bạn. Để an toàn, liên kết này đã bị hủy.',
+        permissionDesc: 'Safety SHIELD cần quyền để giúp bạn. Để an toàn, liên kết này đã bị hủy.',
         analysisTitle: 'Không thể Xem xét Liên kết',
         analysisDesc: 'Chúng tôi không thể kiểm tra liên kết này. Để an toàn, liên kết này đã bị hủy.',
     },

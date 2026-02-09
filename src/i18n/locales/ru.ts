@@ -1,7 +1,7 @@
 import { TranslationKeys } from '../types';
 
 export const ru: TranslationKeys = {
-    appName: 'Link Guardian',
+    appName: 'Safety SHIELD',
     tagline: 'Остановись, подумай, потом нажми',
 
     nav: {
@@ -12,7 +12,7 @@ export const ru: TranslationKeys = {
 
     home: {
         statusActive: 'Меры безопасности активны',
-        statusActiveDesc: 'Link Guardian добавляет паузу перед открытием ссылок',
+        statusActiveDesc: 'Safety SHIELD добавляет паузу перед открытием ссылок',
         statusPaused: 'Меры безопасности приостановлены',
         statusPausedDesc: 'Включите безопасность, чтобы добавить момент на размышление перед кликом',
         linksChecked: 'Проверенные ссылки',
@@ -38,11 +38,11 @@ export const ru: TranslationKeys = {
         language: 'Язык',
         notifications: 'Уведомления',
         notificationsDesc: 'Получайте напоминания о вашей активности',
-        protectionActive: 'Link Shield Активен',
+        protectionActive: 'Safety SHIELD Активен',
         protectionActiveDesc: 'Сканирование ссылок. Предупреждение: Не сканируйте QR-коды из неизвестных источников!',
         protectionInactive: 'Защита Неактивна',
         protectionInactiveDesc: 'Приложение не установлено как браузер по умолчанию. Нажмите для защиты устройства.',
-        about: 'О Link Guardian',
+        about: 'О Safety SHIELD',
         help: 'Помощь и поддержка',
         privacy: 'Политика конфиденциальности',
         version: 'Версия',
@@ -76,7 +76,7 @@ export const ru: TranslationKeys = {
 
     permissions: {
         title: 'Требуется разрешение',
-        description: 'Link Guardian нужно это, чтобы добавить паузу для безопасности перед открытием ссылок',
+        description: 'Safety SHIELD нужно это, чтобы добавить паузу для безопасности перед открытием ссылок',
         linkDetection: 'Обнаружение ссылок',
         linkDetectionDesc: 'Позволяет нам знать, когда вы нажимаете на ссылку',
         safetyScreen: 'Экран безопасности',
@@ -87,7 +87,7 @@ export const ru: TranslationKeys = {
         granted: 'Разрешено',
         required: 'Обязательно',
         deniedTitle: 'Разрешение не предоставлено',
-        deniedDesc: 'Без этого разрешения Link Guardian не может помочь вам сделать паузу перед открытием ссылок. Вы можете включить его в настройках телефона.',
+        deniedDesc: 'Без этого разрешения Safety SHIELD не может помочь вам сделать паузу перед открытием ссылок. Вы можете включить его в настройках телефона.',
         whatWeDoNot: 'Чего мы НЕ делаем:',
         doesNotSpy: 'Мы не следим за вашим просмотром',
         doesNotCollect: 'Мы не собираем ваши личные данные',
@@ -136,7 +136,7 @@ export const ru: TranslationKeys = {
         ourRecommendation: 'Наша рекомендация',
         cancelAndClose: 'Отменить и закрыть ссылку',
         openAnyway: 'Открыть все равно',
-        disclaimer: 'Link Guardian помогает вам сделать паузу и подумать, но не может гарантировать полную безопасность любого веб-сайта. Всегда будьте осторожны с личной информацией.',
+        disclaimer: 'Safety SHIELD помогает вам сделать паузу и подумать, но не может гарантировать полную безопасность любого веб-сайта. Всегда будьте осторожны с личной информацией.',
     },
 
     blocked: {
@@ -219,7 +219,7 @@ export const ru: TranslationKeys = {
 
     privacy: {
         title: 'Политика конфиденциальности',
-        intro: 'Link Guardian разработан с приоритетом вашей конфиденциальности.',
+        intro: 'Safety SHIELD разработан с приоритетом вашей конфиденциальности.',
         localOnly: 'Все на вашем устройстве',
         localOnlyDesc: 'Весь анализ ссылок происходит прямо на вашем телефоне. Ничего не отправляется на какие-либо серверы.',
         noUpload: 'Без загрузки данных',
@@ -232,10 +232,10 @@ export const ru: TranslationKeys = {
     },
 
     about: {
-        title: 'О Link Guardian',
+        title: 'О Safety SHIELD',
         description: 'Простой инструмент, который добавляет задумчивую паузу перед открытием ссылок.',
         mission: 'Почему мы это делаем',
-        missionDesc: 'В мире быстрых нажатий и мгновенных действий мы верим, что пауза на размышление может иметь значение. Link Guardian не о блокировке или запугивании — он о том, чтобы помочь вам сделать паузу.',
+        missionDesc: 'В мире быстрых нажатий и мгновенных действий мы верим, что пауза на размышление может иметь значение. Safety SHIELD не о блокировке или запугивании — он о том, чтобы помочь вам сделать паузу.',
         honestClaim: 'Честны с вами',
         notAntivirus: 'Это не антивирусное ПО',
         notGuarantee: 'Мы не можем гарантировать безопасность какого-либо веб-сайта',
@@ -256,7 +256,7 @@ export const ru: TranslationKeys = {
         storageTitle: 'Проблема с хранилищем',
         storageDesc: 'Мы не смогли сохранить ваши настройки. Для безопасности эта ссылка была отменена.',
         permissionTitle: 'Требуется разрешение',
-        permissionDesc: 'Link Guardian нужно разрешение, чтобы помочь вам. Для безопасности эта ссылка была отменена.',
+        permissionDesc: 'Safety SHIELD нужно разрешение, чтобы помочь вам. Для безопасности эта ссылка была отменена.',
         analysisTitle: 'Невозможно проверить ссылку',
         analysisDesc: 'Мы не смогли проверить эту ссылку. Для безопасности эта ссылка была отменена.',
     },
