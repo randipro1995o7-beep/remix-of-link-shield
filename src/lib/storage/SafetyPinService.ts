@@ -39,9 +39,32 @@ export const SafetyPinService = {
       throw new Error('Safety PIN must be exactly 4 digits');
     }
     await secureStorage.save(STORAGE_KEYS.SAFETY_PIN, pin);
+    // Record timestamp for rate limiting (1 change per 24h)
+    await secureStorage.save(STORAGE_KEYS.PIN_LAST_CHANGED, Date.now().toString());
 
     // Log PIN creation
     await SecurityEventLogger.logEvent('pin_created', 'Safety PIN created');
+  },
+
+  /**
+   * Check if PIN change is allowed (rate limit: 1 per 24h)
+   */
+  async canChangePin(): Promise<{ allowed: boolean; waitTimeMs?: number }> {
+    const lastChangedStr = await secureStorage.get(STORAGE_KEYS.PIN_LAST_CHANGED);
+    if (!lastChangedStr) return { allowed: true };
+
+    const lastChanged = parseInt(lastChangedStr, 10);
+    const now = Date.now();
+    const oneDayMs = 24 * 60 * 60 * 1000;
+
+    if (now - lastChanged < oneDayMs) {
+      return {
+        allowed: false,
+        waitTimeMs: oneDayMs - (now - lastChanged)
+      };
+    }
+
+    return { allowed: true };
   },
 
   /**

@@ -21,6 +21,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
+        <meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version" />
+
         <activity
             android:name=".MainActivity"
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|locale|smallestScreenSize|screenLayout|uiMode|navigation|density"
@@ -41,6 +43,16 @@
               CATATAN: Menggunakan host="*" agar match dengan semua domain.
             -->
             <!-- Intent filter untuk link handling dipindahkan ke alias agar bisa di-toggle -->
+            
+            <!-- Intent filter untuk Firebase Email Link Authentication -->
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data
+                    android:scheme="https"
+                    android:host="safeguard-7c1a9.firebaseapp.com" />
+            </intent-filter>
         </activity>
 
         <!-- 

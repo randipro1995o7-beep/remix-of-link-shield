@@ -16,6 +16,7 @@ interface RecoveryOptionsScreenProps {
  * Recovery Options Screen
  * 
  * Allows user to set up recovery phone and/or email for PIN reset.
+ * Simple save only - Verification happens during PIN reset flow.
  */
 export function RecoveryOptionsScreen({ onBack, onComplete, isOnboarding }: RecoveryOptionsScreenProps) {
     const { state } = useApp();
@@ -44,14 +45,10 @@ export function RecoveryOptionsScreen({ onBack, onComplete, isOnboarding }: Reco
         saveSuccess: isIndonesian ? 'Pengaturan pemulihan disimpan!' : 'Recovery options saved!',
         invalidPhone: isIndonesian ? 'Nomor HP tidak valid' : 'Invalid phone number',
         invalidEmail: isIndonesian ? 'Email tidak valid' : 'Invalid email address',
-        currentPhone: isIndonesian ? 'Nomor terdaftar:' : 'Registered phone:',
-        currentEmail: isIndonesian ? 'Email terdaftar:' : 'Registered email:',
-        noRecovery: isIndonesian
-            ? 'Belum ada opsi pemulihan yang disimpan'
-            : 'No recovery options saved yet',
         whyImportant: isIndonesian
             ? 'Jika Anda lupa PIN, opsi ini akan digunakan untuk verifikasi identitas Anda.'
             : 'If you forget your PIN, these options will be used to verify your identity.',
+        cancel: isIndonesian ? 'Batal' : 'Cancel',
     };
 
     useEffect(() => {
@@ -69,6 +66,12 @@ export function RecoveryOptionsScreen({ onBack, onComplete, isOnboarding }: Reco
         loadExisting();
     }, []);
 
+    const resetForm = () => {
+        setActiveField(null);
+        setPhone('');
+        setEmail('');
+    };
+
     const handleSavePhone = async () => {
         if (!phone.trim()) return;
 
@@ -77,8 +80,7 @@ export function RecoveryOptionsScreen({ onBack, onComplete, isOnboarding }: Reco
             await RecoveryService.saveRecoveryPhone(phone);
             const masked = await RecoveryService.getMaskedPhone();
             setExistingPhone(masked);
-            setPhone('');
-            setActiveField(null);
+            resetForm();
             toast.success(t.saveSuccess);
         } catch (e) {
             toast.error(t.invalidPhone);
@@ -94,8 +96,7 @@ export function RecoveryOptionsScreen({ onBack, onComplete, isOnboarding }: Reco
             await RecoveryService.saveRecoveryEmail(email);
             const masked = await RecoveryService.getMaskedEmail();
             setExistingEmail(masked);
-            setEmail('');
-            setActiveField(null);
+            resetForm();
             toast.success(t.saveSuccess);
         } catch (e) {
             toast.error(t.invalidEmail);
@@ -159,7 +160,7 @@ export function RecoveryOptionsScreen({ onBack, onComplete, isOnboarding }: Reco
                     </div>
 
                     {activeField === 'phone' ? (
-                        <div className="space-y-3">
+                        <div className="space-y-3 animate-fade-in">
                             <input
                                 type="tel"
                                 value={phone}
@@ -169,18 +170,10 @@ export function RecoveryOptionsScreen({ onBack, onComplete, isOnboarding }: Reco
                                 autoFocus
                             />
                             <div className="flex gap-2">
-                                <Button
-                                    variant="outline"
-                                    onClick={() => setActiveField(null)}
-                                    className="flex-1"
-                                >
-                                    {isIndonesian ? 'Batal' : 'Cancel'}
+                                <Button variant="outline" onClick={resetForm} className="flex-1">
+                                    {t.cancel}
                                 </Button>
-                                <Button
-                                    onClick={handleSavePhone}
-                                    disabled={!phone.trim() || isSaving}
-                                    className="flex-1"
-                                >
+                                <Button onClick={handleSavePhone} disabled={!phone.trim() || isSaving} className="flex-1">
                                     {t.save}
                                 </Button>
                             </div>
@@ -188,7 +181,8 @@ export function RecoveryOptionsScreen({ onBack, onComplete, isOnboarding }: Reco
                     ) : (
                         <Button
                             variant="outline"
-                            onClick={() => setActiveField('phone')}
+                            onClick={() => { resetForm(); setActiveField('phone'); }}
+                            disabled={activeField !== null}
                             className="w-full"
                         >
                             {existingPhone
@@ -217,7 +211,7 @@ export function RecoveryOptionsScreen({ onBack, onComplete, isOnboarding }: Reco
                     </div>
 
                     {activeField === 'email' ? (
-                        <div className="space-y-3">
+                        <div className="space-y-3 animate-fade-in">
                             <input
                                 type="email"
                                 value={email}
@@ -227,18 +221,10 @@ export function RecoveryOptionsScreen({ onBack, onComplete, isOnboarding }: Reco
                                 autoFocus
                             />
                             <div className="flex gap-2">
-                                <Button
-                                    variant="outline"
-                                    onClick={() => setActiveField(null)}
-                                    className="flex-1"
-                                >
-                                    {isIndonesian ? 'Batal' : 'Cancel'}
+                                <Button variant="outline" onClick={resetForm} className="flex-1">
+                                    {t.cancel}
                                 </Button>
-                                <Button
-                                    onClick={handleSaveEmail}
-                                    disabled={!email.trim() || isSaving}
-                                    className="flex-1"
-                                >
+                                <Button onClick={handleSaveEmail} disabled={!email.trim() || isSaving} className="flex-1">
                                     {t.save}
                                 </Button>
                             </div>
@@ -246,7 +232,8 @@ export function RecoveryOptionsScreen({ onBack, onComplete, isOnboarding }: Reco
                     ) : (
                         <Button
                             variant="outline"
-                            onClick={() => setActiveField('email')}
+                            onClick={() => { resetForm(); setActiveField('email'); }}
+                            disabled={activeField !== null}
                             className="w-full"
                         >
                             {existingEmail
@@ -264,6 +251,7 @@ export function RecoveryOptionsScreen({ onBack, onComplete, isOnboarding }: Reco
                     onClick={handleComplete}
                     size="lg"
                     className="w-full"
+                    disabled={activeField !== null}
                 >
                     {isOnboarding && !existingPhone && !existingEmail
                         ? t.skip

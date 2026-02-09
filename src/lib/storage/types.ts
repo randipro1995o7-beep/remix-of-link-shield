@@ -37,6 +37,7 @@ export const STORAGE_KEYS = {
   FAMILY_MODE: 'lg_family_mode_v1',
   GUARDIAN_PIN: 'lg_guardian_pin_v1',
   PREMIUM_STATUS: 'lg_premium_status_v1',
+  PIN_LAST_CHANGED: 'lg_pin_last_changed_v1',
 } as const;
 
 // Safety history entry for tracking user patterns

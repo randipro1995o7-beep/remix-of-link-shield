@@ -16,6 +16,13 @@ import com.getcapacitor.annotation.CapacitorPlugin;
 public class LinkShieldPlugin extends Plugin {
 
     @PluginMethod
+    public void signInWithGoogle(PluginCall call) {
+        MainActivity mainActivity = (MainActivity) getActivity();
+        mainActivity.startSignIn();
+        call.resolve();
+    }
+
+    @PluginMethod
     public void setProtectionEnabled(PluginCall call) {
         Boolean enabled = call.getBoolean("enabled");
         if (enabled == null) {
@@ -133,4 +140,3 @@ public class LinkShieldPlugin extends Plugin {
         }
     }
 }
-

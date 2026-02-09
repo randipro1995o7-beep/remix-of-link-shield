@@ -41,7 +41,8 @@ const DEFAULT_WHITELIST = [
   'instagram.com',
   'twitter.com',
   'whatsapp.com',
-  'linkedin.com'
+  'linkedin.com',
+  'safeguard-7c1a9.firebaseapp.com' // Firebase Auth domain - tidak boleh di-intercept
 ];
 
 interface LinkInterceptionProviderProps {
@@ -266,11 +267,24 @@ export function LinkInterceptionProvider({ children }: LinkInterceptionProviderP
         return;
       }
 
-      // Check whitelist first
+      // Check whitelist first (User + System)
+      // We must check both because interceptLink uses refs for stability, 
+      // but we need to ensure system domains are respected.
       const domain = getDomain(url);
-      const isWhitelisted = domain ? whitelistRef.current.includes(domain) : false;
 
-      if (isWhitelisted) {
+      let isAllowed = false;
+      if (domain) {
+        // Check user whitelist
+        if (whitelistRef.current.includes(domain)) isAllowed = true;
+        // Check system whitelist (access directly from module scope or ref if needed)
+        // Since systemWhitelist is memoized but static in content, we can re-derive or check against DEFAULT_WHITELIST
+        else if (DEFAULT_WHITELIST.includes(domain)) isAllowed = true;
+        else if (KNOWN_BRANDS.some(brand => brand.officialDomains.includes(domain))) isAllowed = true;
+        // Check subdomains of system whitelist
+        else if (DEFAULT_WHITELIST.some(trusted => domain.endsWith('.' + trusted))) isAllowed = true;
+      }
+
+      if (isAllowed) {
         openInExternalBrowser(url);
         return;
       }

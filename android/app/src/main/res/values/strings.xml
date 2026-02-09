@@ -4,4 +4,5 @@
     <string name="title_activity_main">SafeGuard</string>
     <string name="package_name">com.safeguard.app</string>
     <string name="custom_url_scheme">com.safeguard.app</string>
+    <string name="server_client_id">507578257201-0q919hibo7n20426aj2n0bcl32qaif4v.apps.googleusercontent.com</string>
 </resources>

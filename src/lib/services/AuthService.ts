@@ -4,12 +4,18 @@ import {
     sendSignInLinkToEmail,
     isSignInWithEmailLink,
     signInWithEmailLink,
+    GoogleAuthProvider,
+    signInWithPopup,
+    signInWithCredential,
     User
 } from 'firebase/auth';
 import { firebaseConfig } from '@/config/firebase';
 import { logger } from '@/lib/utils/logger';
 
 // Initialize Firebase
+import { Capacitor } from '@capacitor/core';
+import { FirebaseAuthentication } from '@capacitor-firebase/authentication';
+
 const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
 const auth = getAuth(app);
 
@@ -98,8 +104,65 @@ export const AuthService = {
     /**
      * Subscribe to auth state changes
      */
+    /**
+     * Subscribe to auth state changes
+     */
     onAuthStateChanged(callback: (user: User | null) => void) {
         return auth.onAuthStateChanged(callback);
+    },
+
+    /**
+     * Sign in with Google
+     */
+    async loginWithGoogle() {
+        try {
+            if (Capacitor.isNativePlatform()) {
+                // Native Platform (Android/iOS) - Use Capacitor Firebase Plugin
+                logger.info('Starting native Google Sign-In with @capacitor-firebase/authentication');
+
+                // Aggressive Sign-Out Strategy
+                // 1. Sign out from Firebase JS SDK to clear any cached user
+                try { await auth.signOut(); } catch (e) { /* ignore */ }
+
+                // 2. Disable Credential Manager to force Legacy Google Sign-In Flow
+                // The Credential Manager (Android 14+) often auto-selects the previous account.
+                // Disabling it falls back to the legacy Google Sign-In intent, which is more 
+                // likely to show the "Choose Account" dialog.
+
+                // 3. Force Sign-Out Native Session (Now Patched)
+                // We patched the plugin to ensure legacy sign-out works.
+                try { await FirebaseAuthentication.signOut(); } catch (e) { /* ignore */ }
+
+                const result = await FirebaseAuthentication.signInWithGoogle({
+                    useCredentialManager: false
+                });
+
+                if (!result.credential?.idToken) {
+                    throw new Error('No ID token returned from Google Sign-In');
+                }
+
+                // Create a Firebase credential with the Google ID token
+                const credential = GoogleAuthProvider.credential(result.credential.idToken);
+
+                // Sign in with credential from the Google user
+                const userCredential = await signInWithCredential(auth, credential);
+
+                logger.info('Native Google sign-in success', userCredential.user.email);
+                return { success: true, user: userCredential.user };
+            } else {
+                // Web Platform - Use Firebase SDK Popup
+                const provider = new GoogleAuthProvider();
+                const result = await signInWithPopup(auth, provider);
+                // The signed-in user info.
+                const user = result.user;
+                logger.info('Google sign-in success', user.email);
+                return { success: true, user };
+            }
+        } catch (error: any) {
+            logger.error('Google sign-in error', error);
+            const errorMessage = error.message || 'Google sign-in failed';
+            return { success: false, error: errorMessage };
+        }
     },
 
     auth
