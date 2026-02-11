@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { GuardianPinService, SafetyPinService } from '../lib/storage/SafetyPinService';
+import { PinRateLimiter } from '../lib/storage/PinRateLimiter';
 import { logger } from '@/lib/utils/logger';
 import { BiometricService } from '@/lib/utils/biometric';
 import { Preferences } from '@capacitor/preferences';
@@ -72,6 +73,13 @@ export function SafetyPinProvider({ children }: SafetyPinProviderProps) {
   const createSafetyPin = async (pin: string): Promise<void> => {
     if (pin.length !== 4 || !/^\d{4}$/.test(pin)) {
       throw new Error('Safety PIN must be exactly 4 digits');
+    }
+
+    // Check rate limit (3 changes per 24h)
+    const { allowed, waitTimeMs } = await SafetyPinService.canChangePin();
+    if (!allowed && waitTimeMs) {
+      const waitTime = PinRateLimiter.formatLockoutTime(waitTimeMs);
+      throw new Error(`Limit reached. Please wait ${waitTime} before changing PIN again.`);
     }
 
     try {

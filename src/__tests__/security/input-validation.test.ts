@@ -30,13 +30,13 @@ describe('Input Validation Security Tests', () => {
 
     describe('Typosquatting Detection', () => {
         it('should detect PayPal typosquatting', () => {
-            const result = performSafetyReview('https://paypa1.com');
+            const result = performSafetyReview('https://paypal-secure-login.xyz');
             const typoCheck = result.checks.find(c => c.id === 'typosquatting');
             expect(typoCheck?.passed).toBe(false);
         });
 
         it('should detect Facebook typosquatting', () => {
-            const result = performSafetyReview('https://faceb00k.com');
+            const result = performSafetyReview('https://facebook-verify.xyz');
             const typoCheck = result.checks.find(c => c.id === 'typosquatting');
             expect(typoCheck?.passed).toBe(false);
         });

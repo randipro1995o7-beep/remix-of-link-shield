@@ -184,6 +184,24 @@ export const RecoveryService = {
     },
 
     /**
+     * Format phone number to E.164 for Firebase Auth
+     * e.g., 08123456789 → +628123456789
+     */
+    formatPhoneToE164(phone: string): string {
+        let cleaned = phone.replace(/[^\d+]/g, '');
+
+        if (cleaned.startsWith('0')) {
+            cleaned = '+62' + cleaned.substring(1);
+        } else if (cleaned.startsWith('62')) {
+            cleaned = '+' + cleaned;
+        } else if (!cleaned.startsWith('+')) {
+            cleaned = '+62' + cleaned;
+        }
+
+        return cleaned;
+    },
+
+    /**
      * Clear all recovery data
      */
     async clearAll(): Promise<void> {

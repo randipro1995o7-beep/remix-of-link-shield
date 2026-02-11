@@ -6,6 +6,7 @@ import { Input } from '@/components/ui/input';
 import { useApp } from '@/contexts/AppContext';
 import { SafetyPinService, RecoveryService } from '@/lib/storage';
 import { EmailService } from '@/lib/email/EmailService';
+import { PhoneAuthService } from '@/lib/auth/PhoneAuthService';
 import { toast } from 'sonner';
 import {
     InputOTP,
@@ -42,6 +43,7 @@ export function ForgotPinScreen({ onBack, onSuccess }: ForgotPinScreenProps) {
     const [otp, setOtp] = useState('');
     const [generatedOtp, setGeneratedOtp] = useState<string | null>(null);
     const [isLoading, setIsLoading] = useState(false);
+    const [isPhoneMethod, setIsPhoneMethod] = useState(false);
 
     // PIN State
     const [newPin, setNewPin] = useState('');
@@ -115,12 +117,12 @@ export function ForgotPinScreen({ onBack, onSuccess }: ForgotPinScreenProps) {
                 setRawPhone(rPhone);
                 setRawEmail(rEmail);
 
-                if (!rPhone && !rEmail) {
+                // Force setup if no EMAIL is configured (ignoring phone as it is disabled)
+                if (!rEmail) {
                     setStep('setup-recovery');
                 }
             } catch (e) {
                 console.error('Failed to initialize forgot pin screen', e);
-                // Fallback to setup if error, but logging it is important
                 if (step !== 'rate-limited') {
                     setStep('setup-recovery');
                 }
@@ -137,33 +139,19 @@ export function ForgotPinScreen({ onBack, onSuccess }: ForgotPinScreenProps) {
 
         setIsLoading(true);
         try {
-            if (fallbackType === 'email') {
-                if (!fallbackInput.includes('@')) {
-                    toast.error(isIndonesian ? 'Email tidak valid' : 'Invalid email');
-                    setIsLoading(false);
-                    return;
-                }
-                await RecoveryService.saveRecoveryEmail(fallbackInput);
-                setRawEmail(fallbackInput);
-                const masked = await RecoveryService.getMaskedEmail();
-                setMaskedEmail(masked);
-
-                // Immediately proceed to OTP
-                handleSelectMethod('email', fallbackInput);
-            } else {
-                if (fallbackInput.length < 10) {
-                    toast.error(isIndonesian ? 'Nomor HP tidak valid' : 'Invalid phone number');
-                    setIsLoading(false);
-                    return;
-                }
-                await RecoveryService.saveRecoveryPhone(fallbackInput);
-                setRawPhone(fallbackInput);
-                const masked = await RecoveryService.getMaskedPhone();
-                setMaskedPhone(masked);
-
-                // Immediately proceed to OTP
-                handleSelectMethod('phone', fallbackInput);
+            // Force Email Type
+            if (!fallbackInput.includes('@')) {
+                toast.error(isIndonesian ? 'Email tidak valid' : 'Invalid email');
+                setIsLoading(false);
+                return;
             }
+            await RecoveryService.saveRecoveryEmail(fallbackInput);
+            setRawEmail(fallbackInput);
+            const masked = await RecoveryService.getMaskedEmail();
+            setMaskedEmail(masked);
+
+            // Immediately proceed to OTP
+            handleSelectMethod('email', fallbackInput);
         } catch (error) {
             console.error(error);
             toast.error('Failed to save recovery info');
@@ -177,23 +165,27 @@ export function ForgotPinScreen({ onBack, onSuccess }: ForgotPinScreenProps) {
 
         setSelectedMethod(method);
         setIsLoading(true);
-
-        const code = EmailService.generateOTP();
-        setGeneratedOtp(code);
+        setOtp('');
 
         try {
-            let result;
             if (method === 'phone') {
-                result = await EmailService.sendPhoneOTP(target, code);
+                // PHONE OTP DISABLED PER USER REQUEST
+                toast.error(isIndonesian ? 'Metode ini sedang dinonaktifkan sementara.' : 'This method is temporarily disabled.');
+                setIsLoading(false);
             } else {
-                result = await EmailService.sendOTP(target, code);
-            }
+                // Email: generate OTP locally, send via SendGrid/EmailJS
+                setIsPhoneMethod(false);
+                const code = EmailService.generateOTP();
+                setGeneratedOtp(code);
 
-            if (result.success) {
-                toast.success(isIndonesian ? 'Kode OTP terkirim!' : 'OTP sent!');
-                setStep('otp');
-            } else {
-                toast.error(isIndonesian ? 'Gagal mengirim OTP: ' + result.error : 'Failed to send OTP: ' + result.error);
+                const result = await EmailService.sendOTP(target, code);
+
+                if (result.success) {
+                    toast.success(isIndonesian ? 'Kode OTP terkirim ke email!' : 'OTP sent to email!');
+                    setStep('otp');
+                } else {
+                    toast.error(isIndonesian ? 'Gagal mengirim OTP: ' + result.error : 'Failed to send OTP: ' + result.error);
+                }
             }
         } catch (e) {
             toast.error('Error sending OTP');
@@ -202,13 +194,27 @@ export function ForgotPinScreen({ onBack, onSuccess }: ForgotPinScreenProps) {
         }
     };
 
-    const handleVerifyOTP = () => {
-        if (otp === generatedOtp) {
-            toast.success(isIndonesian ? 'Verifikasi berhasil!' : 'Verification successful!');
-            setStep('new-pin');
-        } else {
+    const handleVerifyOTP = async () => {
+        setIsLoading(true);
+        try {
+            if (isPhoneMethod) {
+                // Should not happen
+                toast.error("Phone verification disabled");
+            } else {
+                // Verify locally for email OTP
+                if (otp === generatedOtp) {
+                    toast.success(isIndonesian ? 'Verifikasi berhasil!' : 'Verification successful!');
+                    setStep('new-pin');
+                } else {
+                    toast.error(t.invalidOtp);
+                    setOtp('');
+                }
+            }
+        } catch (e) {
             toast.error(t.invalidOtp);
             setOtp('');
+        } finally {
+            setIsLoading(false);
         }
     };
 
@@ -257,6 +263,7 @@ export function ForgotPinScreen({ onBack, onSuccess }: ForgotPinScreenProps) {
 
     // -1. Rate Limited
     if (step === 'rate-limited') {
+        // ... (keep same)
         return (
             <div className="fixed inset-0 z-50 bg-background flex flex-col animate-fade-in shadow-2xl">
                 <div className="flex items-center p-4 safe-area-top border-b border-border">
@@ -300,26 +307,22 @@ export function ForgotPinScreen({ onBack, onSuccess }: ForgotPinScreenProps) {
                     <p className="text-muted-foreground mb-8">{t.noRecoveryDesc}</p>
 
                     <div className="w-full max-w-sm space-y-4">
+                        {/* Validasi Email Only UI */}
                         <div className="flex bg-muted rounded-lg p-1">
                             <button
-                                className={`flex-1 py-2 text-sm font-medium rounded-md transition-all ${fallbackType === 'email' ? 'bg-background shadow' : 'text-muted-foreground'}`}
+                                className={`flex-1 py-2 text-sm font-medium rounded-md transition-all bg-background shadow`}
                                 onClick={() => { setFallbackType('email'); setFallbackInput(''); }}
                             >
                                 Email
                             </button>
-                            <button
-                                className={`flex-1 py-2 text-sm font-medium rounded-md transition-all ${fallbackType === 'phone' ? 'bg-background shadow' : 'text-muted-foreground'}`}
-                                onClick={() => { setFallbackType('phone'); setFallbackInput(''); }}
-                            >
-                                Phone
-                            </button>
+                            {/* Phone tab hidden */}
                         </div>
 
                         <Input
                             value={fallbackInput}
                             onChange={(e) => setFallbackInput(e.target.value)}
-                            placeholder={fallbackType === 'email' ? 'example@email.com' : '08123456789'}
-                            type={fallbackType === 'email' ? 'email' : 'tel'}
+                            placeholder={'example@email.com'}
+                            type={'email'}
                             className="h-12"
                         />
 
@@ -358,20 +361,7 @@ export function ForgotPinScreen({ onBack, onSuccess }: ForgotPinScreenProps) {
                     </div>
 
                     <div className="space-y-4">
-                        {maskedPhone && (
-                            <Card
-                                className="p-4 flex items-center gap-4 cursor-pointer hover:bg-muted/50 transition-colors border-primary/20"
-                                onClick={() => handleSelectMethod('phone')}
-                            >
-                                <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
-                                    <Phone className="w-5 h-5 text-primary" />
-                                </div>
-                                <div className="flex-1">
-                                    <p className="font-medium">{t.sendTo} Phone</p>
-                                    <p className="text-sm text-muted-foreground">{maskedPhone}</p>
-                                </div>
-                            </Card>
-                        )}
+                        {/* Phone Option Hidden */}
 
                         {maskedEmail && (
                             <Card
@@ -437,7 +427,7 @@ export function ForgotPinScreen({ onBack, onSuccess }: ForgotPinScreenProps) {
                     <Button
                         className="w-full max-w-xs h-12 text-lg mb-4"
                         onClick={handleVerifyOTP}
-                        disabled={otp.length < 6}
+                        disabled={otp.length < 6 || isLoading}
                     >
                         {t.verify}
                     </Button>

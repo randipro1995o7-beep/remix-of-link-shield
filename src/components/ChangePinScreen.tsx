@@ -112,8 +112,8 @@ export function ChangePinScreen({ onBack }: ChangePinScreenProps) {
                             await createSafetyPin(pin);
                             setStep('success');
                             toast.success(lang.successTitle);
-                        } catch (e) {
-                            setError('Failed to save PIN');
+                        } catch (e: any) {
+                            setError(e.message || 'Failed to save PIN');
                         }
                         setIsProcessing(false);
                     } else {

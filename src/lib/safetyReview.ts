@@ -29,13 +29,14 @@ export interface SafetyReviewResult {
 // Common brand names for typosquatting detection
 const BRAND_NAMES = [
   'google', 'facebook', 'amazon', 'apple', 'microsoft', 'paypal',
-  'netflix', 'instagram', 'whatsapp', 'linkedin', 'twitter', 'bank',
-  'secure', 'verify', 'account', 'login', 'signin', 'support',
+  'netflix', 'instagram', 'whatsapp', 'linkedin', 'twitter',
+  'shopee', 'tokopedia', 'gojek', 'gopay', 'dana',
+  'bca', 'bri', 'mandiri', 'bni',
 ];
 
 // Suspicious TLDs often used in scams
 const SUSPICIOUS_TLDS = new Set([
-  '.xyz', '.top', '.work', '.click', '.link', '.info', '.biz',
+  '.xyz', '.top', '.work', '.click', '.link', '.biz',
   '.win', '.loan', '.gq', '.ml', '.cf', '.tk', '.ga',
 ]);
 
@@ -52,6 +53,16 @@ const SUSPICIOUS_PATTERNS = [
   /\d{10,}/,  // Long number strings
   /[a-z]{20,}/i,  // Very long random strings
 ];
+
+// Known URL shortener services
+const KNOWN_SHORTENERS = new Set([
+  'bit.ly', 'tinyurl.com', 't.co', 'goo.gl', 'ow.ly', 'is.gd',
+  'buff.ly', 'adf.ly', 'bit.do', 'mcaf.ee', 'su.pr', 'dlvr.it',
+  'fb.me', 'lnkd.in', 'youtu.be', 'amzn.to', 'rb.gy', 'cutt.ly',
+  'shorturl.at', 'tiny.cc', 'bc.vc', 'v.gd', 'clck.ru', 'rebrand.ly',
+  's.id', 'linktr.ee', 'qr.ae', 'surl.li', 'shorturl.asia', 'u.to',
+  'zo.ee', 'lmy.de', 'tinu.be', 'han.gl',
+]);
 
 // Extract domain from URL
 function extractDomain(url: string): string {
@@ -98,6 +109,21 @@ function checkTrustedDomain(domain: string): SafetyCheck {
       : 'This website is not in our list of commonly trusted sites',
     passed: isTrusted,
     severity: isTrusted ? 'info' : 'warning',
+  };
+}
+
+// Check if URL uses a known shortener service
+function checkUrlShortener(domain: string): SafetyCheck {
+  const rootDomain = getRootDomain(domain);
+  const isShortener = KNOWN_SHORTENERS.has(rootDomain) || KNOWN_SHORTENERS.has(domain);
+  return {
+    id: 'url_shortener',
+    name: 'URL Shortener',
+    description: isShortener
+      ? 'This link uses a URL shortener — the true destination may differ from what was shown to you'
+      : 'This link goes directly to its destination',
+    passed: !isShortener,
+    severity: isShortener ? 'warning' : 'info',
   };
 }
 
@@ -258,8 +284,8 @@ function checkFakeInvitation(url: string, domain: string): SafetyCheck {
 
 // Calculate overall risk level
 function calculateRiskLevel(checks: SafetyCheck[]): RiskLevel {
-  // If any check fails with 'fake_invitation_file' ID -> BLOCKED immediately
-  const isMalware = checks.some(c => c.id === 'fake_invitation_file' && !c.passed);
+  // If any check fails with malware/file download IDs -> BLOCKED immediately
+  const isMalware = checks.some(c => (c.id === 'fake_invitation_file' || c.id === 'suspicious_file') && !c.passed);
   if (isMalware) return 'blocked';
 
   const dangerCount = checks.filter(c => !c.passed && c.severity === 'danger').length;
@@ -308,7 +334,7 @@ function generateRecommendation(riskLevel: RiskLevel): string {
 }
 
 // Main safety review function
-export function performSafetyReview(url: string): SafetyReviewResult {
+export function performSafetyReview(url: string, safeBrowsingResult?: { isThreat: boolean; threatDescription?: string; isApiAvailable: boolean }): SafetyReviewResult {
   const domain = extractDomain(url);
 
   // FIRST: Check scam database - if found, immediately block
@@ -340,8 +366,50 @@ export function performSafetyReview(url: string): SafetyReviewResult {
     checkTld(domain),
     checkSubdomains(domain),
     checkIpAddress(domain),
+    checkUrlShortener(domain),
     checkFakeInvitation(url, domain),
   ];
+
+  // Add Google Safe Browsing check if result is provided
+  if (safeBrowsingResult) {
+    if (safeBrowsingResult.isThreat) {
+      checks.unshift({
+        id: 'google_safe_browsing',
+        name: 'Google Safe Browsing',
+        description: safeBrowsingResult.threatDescription || 'This URL has been flagged as dangerous by Google Safe Browsing',
+        passed: false,
+        severity: 'danger',
+      });
+    } else if (safeBrowsingResult.isApiAvailable) {
+      checks.push({
+        id: 'google_safe_browsing',
+        name: 'Google Safe Browsing',
+        description: 'Not flagged by Google Safe Browsing',
+        passed: true,
+        severity: 'info',
+      });
+    } else {
+      checks.push({
+        id: 'google_safe_browsing',
+        name: 'Google Safe Browsing',
+        description: 'Verification service currently offline',
+        passed: true,
+        severity: 'warning',
+      });
+    }
+  }
+
+  // If GSB flagged it, override risk to blocked
+  if (safeBrowsingResult?.isThreat) {
+    return {
+      url,
+      domain,
+      riskLevel: 'blocked',
+      checks,
+      summary: 'Google Safe Browsing has flagged this website as dangerous. It may contain malware or be a phishing attempt.',
+      recommendation: 'DO NOT visit this website. Google has identified it as a security threat.',
+    };
+  }
 
   const riskLevel = calculateRiskLevel(checks);
 
@@ -354,4 +422,3 @@ export function performSafetyReview(url: string): SafetyReviewResult {
     recommendation: generateRecommendation(riskLevel),
   };
 }
-

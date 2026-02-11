@@ -39,28 +39,79 @@ export const SafetyPinService = {
       throw new Error('Safety PIN must be exactly 4 digits');
     }
     await secureStorage.save(STORAGE_KEYS.SAFETY_PIN, pin);
-    // Record timestamp for rate limiting (1 change per 24h)
-    await secureStorage.save(STORAGE_KEYS.PIN_LAST_CHANGED, Date.now().toString());
+
+    // Update rate limit history (limit: 3 changes per 24h)
+    const historyStr = await secureStorage.get(STORAGE_KEYS.PIN_LAST_CHANGED);
+    let history: number[] = [];
+    const now = Date.now();
+    const oneDayMs = 24 * 60 * 60 * 1000;
+
+    if (historyStr) {
+      try {
+        // Try parsing as JSON array
+        const parsed = JSON.parse(historyStr);
+        if (Array.isArray(parsed)) {
+          history = parsed;
+        } else {
+          // Legacy: single timestamp
+          const ts = parseInt(historyStr, 10);
+          if (!isNaN(ts)) history = [ts];
+        }
+      } catch {
+        // Legacy: plain string
+        const ts = parseInt(historyStr, 10);
+        if (!isNaN(ts)) history = [ts];
+      }
+    }
+
+    // Filter out entries older than 24h
+    history = history.filter(ts => now - ts < oneDayMs);
+
+    // Add new timestamp
+    history.push(now);
+
+    await secureStorage.save(STORAGE_KEYS.PIN_LAST_CHANGED, JSON.stringify(history));
 
     // Log PIN creation
     await SecurityEventLogger.logEvent('pin_created', 'Safety PIN created');
   },
 
   /**
-   * Check if PIN change is allowed (rate limit: 1 per 24h)
+   * Check if PIN change is allowed (rate limit: 3 per 24h)
    */
   async canChangePin(): Promise<{ allowed: boolean; waitTimeMs?: number }> {
-    const lastChangedStr = await secureStorage.get(STORAGE_KEYS.PIN_LAST_CHANGED);
-    if (!lastChangedStr) return { allowed: true };
+    const historyStr = await secureStorage.get(STORAGE_KEYS.PIN_LAST_CHANGED);
+    if (!historyStr) return { allowed: true };
 
-    const lastChanged = parseInt(lastChangedStr, 10);
+    let history: number[] = [];
     const now = Date.now();
     const oneDayMs = 24 * 60 * 60 * 1000;
+    const MAX_CHANGES = 3;
 
-    if (now - lastChanged < oneDayMs) {
+    try {
+      const parsed = JSON.parse(historyStr);
+      if (Array.isArray(parsed)) {
+        history = parsed.map(ts => typeof ts === 'string' ? parseInt(ts, 10) : ts);
+      } else {
+        const ts = parseInt(historyStr, 10);
+        if (!isNaN(ts)) history = [ts];
+      }
+    } catch {
+      const ts = parseInt(historyStr, 10);
+      if (!isNaN(ts)) history = [ts];
+    }
+
+    // Filter relevant window
+    const recentChanges = history.filter(ts => now - ts < oneDayMs);
+
+    if (recentChanges.length >= MAX_CHANGES) {
+      // Sort to find oldest change in current window
+      recentChanges.sort((a, b) => a - b);
+      const oldestChange = recentChanges[0];
+
       return {
         allowed: false,
-        waitTimeMs: oneDayMs - (now - lastChanged)
+        waitTimeMs: (oldestChange + oneDayMs) - now
       };
     }
 

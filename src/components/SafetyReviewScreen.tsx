@@ -1,8 +1,11 @@
 import { useState, useEffect } from 'react';
-import { ArrowLeft, Shield, ShieldAlert, ShieldX, CheckCircle, AlertTriangle, XCircle, ExternalLink, X } from 'lucide-react';
+import { ArrowLeft, Shield, ShieldAlert, ShieldX, CheckCircle, AlertTriangle, XCircle, ExternalLink, X, ArrowRight, Globe, Award } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { performSafetyReview, SafetyReviewResult, SafetyCheck, RiskLevel } from '@/lib/safetyReview';
+import { SafeBrowsingResult } from '@/lib/services/GoogleSafeBrowsing';
+import { ResolvedUrlResult } from '@/lib/services/UrlResolver';
+import DomainReputation from '@/lib/services/DomainReputation';
 import { SafetyHistoryService, FamilyModeService } from '@/lib/storage';
 import { cn } from '@/lib/utils';
 import { HighRiskConfirmation } from './HighRiskConfirmation';
@@ -18,6 +21,8 @@ interface SafetyReviewScreenProps {
   source?: string;
   onCancel: () => void;
   onProceed: () => void;
+  safeBrowsingResult?: SafeBrowsingResult;
+  redirectInfo?: ResolvedUrlResult;
 }
 
 /**
@@ -26,7 +31,7 @@ interface SafetyReviewScreenProps {
  * Shows link analysis results with calm, non-fear-based language.
  * Uses assistive wording - "helps you decide" not "protects you".
  */
-export function SafetyReviewScreen({ url, source, onCancel, onProceed }: SafetyReviewScreenProps) {
+export function SafetyReviewScreen({ url, source, onCancel, onProceed, safeBrowsingResult, redirectInfo }: SafetyReviewScreenProps) {
   const { t, refreshStats } = useApp();
   const [review, setReview] = useState<SafetyReviewResult | null>(null);
   const [isAnalyzing, setIsAnalyzing] = useState(true);
@@ -82,7 +87,7 @@ export function SafetyReviewScreen({ url, source, onCancel, onProceed }: SafetyR
 
       // Simulate brief analysis time for user experience
       await new Promise(resolve => setTimeout(resolve, 1200));
-      const result = performSafetyReview(url);
+      const result = performSafetyReview(url, safeBrowsingResult);
       setReview(result);
       setIsAnalyzing(false);
 
@@ -249,6 +254,14 @@ export function SafetyReviewScreen({ url, source, onCancel, onProceed }: SafetyR
   const failedChecks = review.checks.filter(c => !c.passed);
   const passedChecks = review.checks.filter(c => c.passed);
 
+  // Domain reputation
+  const finalDomain = review.domain;
+  const reputation = DomainReputation.getReputation(finalDomain);
+
+  // Redirect chain state
+  const [showRedirectChain, setShowRedirectChain] = useState(false);
+  const hasRedirects = redirectInfo && redirectInfo.totalRedirects > 0;
+
   return (
     <div
       className="fixed inset-0 z-50 bg-background flex flex-col animate-fade-in"
@@ -293,11 +306,86 @@ export function SafetyReviewScreen({ url, source, onCancel, onProceed }: SafetyR
           </div>
         </div>
 
+        {/* Domain Reputation Badge */}
+        {reputation.isKnown && (
+          <div className={cn(
+            "flex items-center justify-center gap-2 py-2 px-4 rounded-full mx-auto mb-4 text-sm font-medium",
+            reputation.tier === 'top-100'
+              ? 'bg-amber-500/10 text-amber-600 border border-amber-500/20'
+              : 'bg-blue-500/10 text-blue-600 border border-blue-500/20'
+          )}>
+            <Award className="w-4 h-4" aria-hidden="true" />
+            <span>
+              {reputation.tier === 'top-100' ? 'Verified Popular Site' : 'Known Site'}
+            </span>
+          </div>
+        )}
+
         {/* Domain Preview */}
         <Card className="p-4 mb-4 bg-muted/50">
           <p className="text-sm text-muted-foreground mb-1">{t.stopScreen.linkDestination}</p>
           <p className="font-medium text-foreground break-all">{review.domain}</p>
         </Card>
+
+        {/* Redirect Chain */}
+        {hasRedirects && (
+          <Card className="mb-4 overflow-hidden">
+            <button
+              onClick={() => setShowRedirectChain(!showRedirectChain)}
+              className="w-full flex items-center justify-between p-4 hover:bg-muted/50 transition-colors"
+              aria-expanded={showRedirectChain}
+            >
+              <span className="font-medium text-foreground flex items-center gap-2">
+                <Globe className="w-5 h-5 text-muted-foreground" aria-hidden="true" />
+                Redirect Path
+                <span className={cn(
+                  "text-xs px-2 py-0.5 rounded-full",
+                  redirectInfo!.isSuspiciousRedirect
+                    ? 'bg-warning/10 text-warning'
+                    : 'bg-muted text-muted-foreground'
+                )}>
+                  {redirectInfo!.totalRedirects} hop{redirectInfo!.totalRedirects > 1 ? 's' : ''}
+                </span>
+              </span>
+              <span className="text-sm text-muted-foreground">
+                {showRedirectChain ? t.common.hide : t.common.show}
+              </span>
+            </button>
+
+            {showRedirectChain && (
+              <div className="px-4 pb-4 space-y-1">
+                {redirectInfo!.redirectChain.map((hop, i) => {
+                  const isLast = i === redirectInfo!.redirectChain.length - 1;
+                  const prevDomain = i > 0 ? redirectInfo!.redirectChain[i - 1].domain : null;
+                  const isCrossDomain = prevDomain !== null && prevDomain !== hop.domain;
+
+                  return (
+                    <div key={i} className="flex items-center gap-2">
+                      {i > 0 && (
+                        <ArrowRight className={cn(
+                          "w-3 h-3 flex-shrink-0",
+                          isCrossDomain ? 'text-warning' : 'text-muted-foreground'
+                        )} aria-hidden="true" />
+                      )}
+                      <span className={cn(
+                        "text-sm break-all",
+                        isLast ? 'font-medium text-foreground' : 'text-muted-foreground',
+                        isCrossDomain && 'text-warning'
+                      )}>
+                        {hop.domain || hop.url}
+                      </span>
+                      {hop.type !== 'origin' && (
+                        <span className="text-xs text-muted-foreground/60 flex-shrink-0">
+                          ({hop.type})
+                        </span>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+          </Card>
+        )}
 
         {/* Summary */}
         <Card className="p-4 mb-4">

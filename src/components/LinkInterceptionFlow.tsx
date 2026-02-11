@@ -174,6 +174,8 @@ export function LinkInterceptionFlow() {
           source={currentLink.source}
           onCancel={handleReviewCancel}
           onProceed={handleReviewProceed}
+          safeBrowsingResult={currentLink.safeBrowsingResult}
+          redirectInfo={currentLink.redirectInfo}
         />
       );
 

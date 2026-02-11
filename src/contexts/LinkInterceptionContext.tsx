@@ -2,8 +2,9 @@ import React, { createContext, useContext, useState, useEffect, ReactNode } from
 import { useApp } from './AppContext';
 import { logger } from '@/lib/utils/logger';
 import { SecureLocalStorage } from '@/lib/storage/SecureLocalStorage';
-import PhishGuard, { PhishGuardResult, KNOWN_BRANDS } from '@/lib/services/PhishGuard';
-import { UrlResolver } from '@/lib/services/UrlResolver';
+import PhishGuard, { PhishGuardResult, KNOWN_BRANDS, ThreatLevel } from '@/lib/services/PhishGuard';
+import { UrlResolver, ResolvedUrlResult } from '@/lib/services/UrlResolver';
+import GoogleSafeBrowsing, { SafeBrowsingResult } from '@/lib/services/GoogleSafeBrowsing';
 
 export interface InterceptedLink {
   url: string;
@@ -11,6 +12,8 @@ export interface InterceptedLink {
   source?: string; // e.g., "WhatsApp", "SMS", "Email"
   timestamp: Date;
   securityAnalysis?: PhishGuardResult;
+  safeBrowsingResult?: SafeBrowsingResult;
+  redirectInfo?: ResolvedUrlResult;
 }
 
 interface LinkInterceptionContextType {
@@ -289,24 +292,74 @@ export function LinkInterceptionProvider({ children }: LinkInterceptionProviderP
         return;
       }
 
-      // Resolve final URL (follow redirects)
+      // Resolve final URL (follow redirects) with chain tracking
       let finalUrl = url;
       let securityAnalysis;
+      let redirectInfo: ResolvedUrlResult | undefined;
 
       try {
-        finalUrl = await UrlResolver.resolveFinalUrl(url);
+        redirectInfo = await UrlResolver.resolveWithChain(url);
+        finalUrl = redirectInfo.finalUrl;
       } catch (error) {
         logger.error('UrlResolver failed, using original URL', error);
         finalUrl = url;
       }
 
+      // Run PhishGuard analysis and Google Safe Browsing check in parallel
+      let safeBrowsingResult: SafeBrowsingResult | undefined;
       try {
-        // Perform PhishGuard analysis on the FINAL URL
-        securityAnalysis = PhishGuard.analyzeUrl(finalUrl);
+        const [phishGuardResult, gsbResult] = await Promise.all([
+          Promise.resolve(PhishGuard.analyzeUrl(finalUrl)),
+          GoogleSafeBrowsing.checkUrl(finalUrl).catch(err => {
+            logger.error('Google Safe Browsing check failed', err);
+            return undefined;
+          }),
+        ]);
+
+        securityAnalysis = phishGuardResult;
+        safeBrowsingResult = gsbResult;
+
+        // If GSB found a threat, enhance the PhishGuard result
+        if (safeBrowsingResult?.isThreat) {
+          securityAnalysis = {
+            ...securityAnalysis,
+            isSuspicious: true,
+            threatLevel: 'danger',
+            score: Math.max(securityAnalysis.score, 80),
+            reasons: [
+              ...securityAnalysis.reasons,
+              `Google Safe Browsing: ${safeBrowsingResult.threatDescription || safeBrowsingResult.threatType}`,
+            ],
+          };
+        }
+
+        // If redirect chain is suspicious, add to reasons
+        if (redirectInfo?.isSuspiciousRedirect) {
+          const redirectReasons: string[] = [];
+          if (redirectInfo.crossDomainHops >= 2) {
+            redirectReasons.push(`Suspicious redirect chain: ${redirectInfo.crossDomainHops} cross-domain hops detected`);
+          }
+          if (redirectInfo.totalRedirects >= 4) {
+            redirectReasons.push(`Long redirect chain: ${redirectInfo.totalRedirects} redirects before reaching destination`);
+          }
+          if (redirectReasons.length > 0) {
+            securityAnalysis = {
+              ...securityAnalysis,
+              score: Math.min(100, securityAnalysis.score + 15),
+              reasons: [...securityAnalysis.reasons, ...redirectReasons],
+            };
+            // Re-evaluate threat level after adding redirect penalty
+            if (securityAnalysis.score >= 50) {
+              securityAnalysis = { ...securityAnalysis, isSuspicious: true, threatLevel: 'danger' };
+            } else if (securityAnalysis.score >= 35) {
+              securityAnalysis = { ...securityAnalysis, threatLevel: 'warning' };
+            }
+          }
+        }
       } catch (error) {
         logger.error('PhishGuard analysis failed', error);
         // Fallback analysis (safe)
-        securityAnalysis = { score: 0, isSuspicious: false, reasons: [], details: {} } as any;
+        securityAnalysis = { score: 0, isSuspicious: false, threatLevel: 'safe' as ThreatLevel, reasons: [], details: { brandImpersonationScore: 0, tldScore: 0, structureScore: 0, keywordScore: 0 } };
       }
 
       const link: InterceptedLink = {
@@ -315,6 +368,8 @@ export function LinkInterceptionProvider({ children }: LinkInterceptionProviderP
         source,
         timestamp: new Date(),
         securityAnalysis,
+        safeBrowsingResult,
+        redirectInfo,
       };
       setCurrentLink(link);
 
@@ -341,6 +396,7 @@ export function LinkInterceptionProvider({ children }: LinkInterceptionProviderP
         securityAnalysis: {
           score: 0,
           isSuspicious: false,
+          threatLevel: 'safe' as ThreatLevel,
           reasons: ['Error during analysis'],
           details: {
             brandImpersonationScore: 0,

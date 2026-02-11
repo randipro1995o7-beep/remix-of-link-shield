@@ -13,6 +13,10 @@ const config: CapacitorConfig = {
       serverClientId: '507578257201-0q919hibo7n20426aj2n0bcl32qaif4v.apps.googleusercontent.com',
       forceCodeForRefreshToken: true,
     },
+    FirebaseAuthentication: {
+      skipNativeAuth: false,
+      providers: ["phone"],
+    },
   },
 };
 

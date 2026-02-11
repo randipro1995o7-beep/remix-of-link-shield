@@ -1,6 +1,14 @@
 import { logger } from '@/lib/utils/logger';
 
-// EmailJS Configuration
+/**
+ * Email OTP Service via SendGrid (through EmailJS SMTP relay)
+ * 
+ * Uses EmailJS as the HTTP API to send emails, with SendGrid
+ * configured as the SMTP transport on the EmailJS dashboard.
+ * This avoids exposing SendGrid API keys in the client.
+ */
+
+// EmailJS Configuration pointing to SendGrid-backed service
 export const EMAILJS_CONFIG = {
     SERVICE_ID: 'service_e4revsj',
     TEMPLATE_ID: 'template_kkqksco',
@@ -10,7 +18,7 @@ export const EMAILJS_CONFIG = {
 
 export const EmailService = {
     /**
-     * Send OTP email
+     * Send OTP email via SendGrid (through EmailJS relay)
      */
     async sendOTP(email: string, otp: string) {
         if (EMAILJS_CONFIG.PUBLIC_KEY === 'YOUR_PUBLIC_KEY') {
@@ -39,28 +47,17 @@ export const EmailService = {
             });
 
             if (response.ok) {
-                logger.info('Email sent successfully');
+                logger.info('Email OTP sent successfully via SendGrid/EmailJS');
                 return { success: true };
             } else {
                 const errorText = await response.text();
-                logger.error('Email sending failed', errorText);
+                logger.error('Email OTP sending failed', errorText);
                 return { success: false, error: errorText || 'Failed to send email' };
             }
         } catch (error: any) {
-            logger.error('Email sending failed', error);
+            logger.error('Email OTP sending failed', error);
             return { success: false, error: error.message || 'Failed to send email' };
         }
-    },
-
-    /**
-     * Send OTP to phone (via EmailJS - requires email-to-sms gateway or similar configuration)
-     * For now, this reuses the email mechanism.
-     */
-    async sendPhoneOTP(phone: string, otp: string) {
-        // In a real scenario, this would send to number@carrier.com or use an SMS extension
-        // For this implementation, we assume the input might be an email address representing the phone
-        // or we simply log it if it's just a raw number without a gateway.
-        return this.sendOTP(phone, otp);
     },
 
     /**
