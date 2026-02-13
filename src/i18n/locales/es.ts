@@ -72,6 +72,9 @@ export const es: TranslationKeys = {
         add: 'Añadir',
         invalidUrl: 'Introduzca un dominio o URL válido',
         addedDate: 'Añadido',
+        userAdded: 'Añadido por ti',
+        systemDefault: 'Verificado por el sistema',
+        verified: 'Socio oficial',
     },
 
     permissions: {

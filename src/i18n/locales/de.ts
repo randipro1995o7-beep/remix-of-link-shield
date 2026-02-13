@@ -72,6 +72,9 @@ export const de: TranslationKeys = {
         add: 'Hinzufügen',
         invalidUrl: 'Bitte geben Sie eine gültige Domain oder URL ein',
         addedDate: 'Hinzugefügt am',
+        userAdded: 'Von Ihnen hinzugefügt',
+        systemDefault: 'Systemverifiziert',
+        verified: 'Offizieller Partner',
     },
 
     permissions: {

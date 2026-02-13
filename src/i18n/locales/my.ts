@@ -72,6 +72,9 @@ export const my: TranslationKeys = {
         add: 'ထည့်ရန်',
         invalidUrl: 'ကျေးဇူးပြု၍ မှန်ကန်သော ဒိုမိန်း သို့မဟုတ် URL ကို ထည့်ပါ',
         addedDate: 'ထည့်သွင်းသည့်ရက်စွဲ',
+        userAdded: 'သင်ထည့်သွင်းထားသည်',
+        systemDefault: 'စနစ်အတည်ပြု',
+        verified: 'တရားဝင်မိတ်ဖက်',
     },
 
     permissions: {

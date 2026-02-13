@@ -72,6 +72,9 @@ export const tl: TranslationKeys = {
         add: 'Idagdag',
         invalidUrl: 'Mangyaring maglagay ng wastong domain o URL',
         addedDate: 'Idinagdag',
+        userAdded: 'Idinagdag mo',
+        systemDefault: 'Na-verify ng sistema',
+        verified: 'Opisyal na partner',
     },
 
     permissions: {

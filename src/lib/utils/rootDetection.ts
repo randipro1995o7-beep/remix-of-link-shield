@@ -37,7 +37,7 @@ export async function detectRoot(): Promise<RootDetectionResult> {
     const indicators: string[] = [];
 
     // Check 1: Check for debugging mode
-    if (__DEV__ || import.meta.env.DEV) {
+    if (import.meta.env.DEV) {
         indicators.push('Running in development mode');
     }
 
@@ -105,7 +105,7 @@ export async function checkSecurityEnvironment(): Promise<{
     }
 
     // Check 2: Debugger detection
-    const isDebugging = import.meta.env.DEV || __DEV__;
+    const isDebugging = import.meta.env.DEV;
     if (isDebugging) {
         warnings.push('App running in debug mode');
     }

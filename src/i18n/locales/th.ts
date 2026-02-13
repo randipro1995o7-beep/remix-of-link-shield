@@ -72,6 +72,9 @@ export const th: TranslationKeys = {
         add: 'เพิ่ม',
         invalidUrl: 'โปรดป้อนโดเมนหรือ URL ที่ถูกต้อง',
         addedDate: 'เพิ่มเมื่อ',
+        userAdded: 'เพิ่มโดยคุณ',
+        systemDefault: 'ระบบยืนยัน',
+        verified: 'พาร์ทเนอร์ทางการ',
     },
 
     permissions: {

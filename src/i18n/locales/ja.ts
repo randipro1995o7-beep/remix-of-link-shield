@@ -72,6 +72,9 @@ export const ja: TranslationKeys = {
         add: '追加',
         invalidUrl: '有効なドメインまたはURLを入力してください',
         addedDate: '追加日',
+        userAdded: 'あなたが追加',
+        systemDefault: 'システム検証済み',
+        verified: '公式パートナー',
     },
 
     permissions: {

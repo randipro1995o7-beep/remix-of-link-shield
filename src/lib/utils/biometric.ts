@@ -68,7 +68,7 @@ export async function checkBiometricAvailability(): Promise<BiometricCapability>
         logger.error('Failed to check biometric availability', err);
         return {
             isAvailable: false,
-            reason: error?.message || 'Error checking biometric hardware',
+            reason: err?.message || 'Error checking biometric hardware',
         };
     }
 }
