@@ -10,36 +10,14 @@ import { App } from '@capacitor/app';
 import { QRScannerScreen } from '@/components/QRScannerScreen';
 
 export default function Protection() {
-  const { state, t, setProtectionEnabled, grantPermission } = useApp();
-  const [isDefaultHandler, setIsDefaultHandler] = useState<boolean | null>(null);
+
+  const { state, t, setProtectionEnabled, grantPermission, checkDefaultHandler } = useApp();
   const [showQRScanner, setShowQRScanner] = useState(false);
 
-  // Check if app is set as default link handler
-  const checkDefaultStatus = useCallback(async () => {
-    try {
-      const result = await LinkShield.isLinkHandlerEnabled();
-      setIsDefaultHandler(result.enabled);
-    } catch (e) {
-      console.error('Failed to check link handler status:', e);
-      setIsDefaultHandler(null);
-    }
-  }, []);
-
+  // Re-check default status when entering this screen
   useEffect(() => {
-    // Check on mount
-    checkDefaultStatus();
-
-    // Also check when app comes back to foreground (e.g., after user changes settings)
-    const listener = App.addListener('appStateChange', ({ isActive }) => {
-      if (isActive) {
-        checkDefaultStatus();
-      }
-    });
-
-    return () => {
-      listener.then(l => l.remove());
-    };
-  }, [checkDefaultStatus]);
+    checkDefaultHandler();
+  }, [checkDefaultHandler]);
 
   const allPermissionsGranted =
     state.permissions.accessibility &&
@@ -72,7 +50,7 @@ export default function Protection() {
       await LinkShield.openAppLinkSettings();
       // Re-check status after user returns from settings (with 1s delay for UI update)
       setTimeout(() => {
-        checkDefaultStatus();
+        checkDefaultHandler();
       }, 1000);
     } catch (e) {
       console.error('Failed to open app link settings:', e);
@@ -135,7 +113,7 @@ export default function Protection() {
                 <p className="text-sm text-warning">
                   {t.safety.permissionsNeeded}
                 </p>
-              ) : !isDefaultHandler ? (
+              ) : !state.isDefaultHandler ? (
                 <p className="text-sm text-warning mt-1">
                   {state.language === 'id'
                     ? 'Atur sebagai default terlebih dahulu'
@@ -156,7 +134,7 @@ export default function Protection() {
             size="lg"
             disabled={
               (!canEnableSafety && !state.isProtectionEnabled) ||
-              (!isDefaultHandler && !state.isProtectionEnabled)
+              (!state.isDefaultHandler && !state.isProtectionEnabled)
             }
             className={cn(
               "w-full max-w-xs transition-all duration-300",
@@ -174,11 +152,11 @@ export default function Protection() {
           {/* Only show/highlight if not enabled, or always show for config */}
           <Button
             onClick={handleOpenAppLinkSettings}
-            variant={isDefaultHandler ? "outline" : "default"} // Highlight if needed
+            variant={state.isDefaultHandler ? "outline" : "default"} // Highlight if needed
             size="sm"
             className={cn(
               "gap-2 mt-2",
-              !isDefaultHandler && !state.isProtectionEnabled && "animate-pulse ring-2 ring-primary/20"
+              !state.isDefaultHandler && !state.isProtectionEnabled && "animate-pulse ring-2 ring-primary/20"
             )}
           >
             <ExternalLink className="w-4 h-4" />
@@ -186,32 +164,30 @@ export default function Protection() {
           </Button>
 
           {/* Default Handler Status Note */}
-          {isDefaultHandler !== null && (
-            <div className={cn(
-              "flex items-center gap-2 text-sm mt-1",
-              isDefaultHandler ? "text-success" : "text-warning"
-            )}>
-              {isDefaultHandler ? (
-                <>
-                  <CheckCircle className="w-4 h-4" />
-                  <span>
-                    {state.language === 'id'
-                      ? 'Aplikasi sudah diatur sebagai default'
-                      : 'App is set as default link handler'}
-                  </span>
-                </>
-              ) : (
-                <>
-                  <AlertTriangle className="w-4 h-4" />
-                  <span>
-                    {state.language === 'id'
-                      ? 'Anda belum mengatur aplikasi sebagai default'
-                      : 'App is not set as default link handler'}
-                  </span>
-                </>
-              )}
-            </div>
-          )}
+          <div className={cn(
+            "flex items-center gap-2 text-sm mt-1",
+            state.isDefaultHandler ? "text-success" : "text-warning"
+          )}>
+            {state.isDefaultHandler ? (
+              <>
+                <CheckCircle className="w-4 h-4" />
+                <span>
+                  {state.language === 'id'
+                    ? 'Aplikasi sudah diatur sebagai default'
+                    : 'App is set as default link handler'}
+                </span>
+              </>
+            ) : (
+              <>
+                <AlertTriangle className="w-4 h-4" />
+                <span>
+                  {state.language === 'id'
+                    ? 'Anda belum mengatur aplikasi sebagai default'
+                    : 'App is not set as default link handler'}
+                </span>
+              </>
+            )}
+          </div>
         </div>
       </Card>
 

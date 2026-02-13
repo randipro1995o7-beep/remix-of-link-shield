@@ -166,6 +166,16 @@ export const id: TranslationKeys = {
         dismiss: 'Lewati',
     },
 
+    communityReputation: {
+        title: 'Kepercayaan Komunitas',
+        description: 'pengguna mempercayai situs web ini',
+        votes: 'suara',
+        voteSafe: 'Tandai Aman',
+        voteSuspicious: 'Lapor Mencurigakan',
+        thankYou: 'Terima kasih atas laporan Anda!',
+        noReports: 'Belum ada laporan komunitas',
+    },
+
     blocked: {
         title: 'Tautan Berbahaya Diblokir',
         dangerTitle: 'Tautan Ini Berbahaya',
@@ -242,6 +252,19 @@ export const id: TranslationKeys = {
         blockedDesc: 'Terlalu banyak percobaan salah. Silakan coba lagi nanti.',
         guardianPinTitle: 'Persetujuan Wali Diperlukan',
         guardianPinDesc: 'Orang dewasa terpercaya perlu memasukkan PIN Wali',
+    },
+
+    terms: {
+        title: 'Syarat & Privasi',
+        subtitle: 'Mohon tinjau dan setujui kebijakan kami untuk melanjutkan',
+        termsTitle: 'Syarat Layanan',
+        privacyTitle: 'Kebijakan Privasi',
+        agreeLabel: 'Saya setuju dengan Syarat Layanan dan Kebijakan Privasi',
+        continue: 'Lanjutkan',
+        readMore: 'Baca Kebijakan Lengkap',
+        intro: 'Dengan menggunakan Safety SHIELD, Anda setuju untuk melindungi diri sendiri dan orang lain.',
+        termsContent: 'Safety SHIELD disediakan "seadanya" untuk membantu Anda menganalisis tautan. Kami tidak menjamin deteksi 100% dari semua ancaman. Anda bertanggung jawab atas tindakan Anda sendiri saat menjelajahi web. Kami tidak bertanggung jawab atas kerugian apa pun yang timbul dari penggunaan aplikasi ini.',
+        privacyContent: 'Data Anda tetap di perangkat Anda. Kami tidak mengumpulkan riwayat penelusuran, informasi pribadi, atau PIN Keamanan Anda. Semua analisis tautan dilakukan secara lokal di ponsel Anda. Kami tidak membagikan data apa pun dengan pihak ketiga.',
     },
 
     privacy: {

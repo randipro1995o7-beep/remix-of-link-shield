@@ -260,6 +260,20 @@ export interface TranslationKeys {
         guardianPinDesc: string;
     };
 
+    // Terms & Privacy Onboarding
+    terms: {
+        title: string;
+        subtitle: string;
+        termsTitle: string;
+        privacyTitle: string;
+        agreeLabel: string;
+        continue: string;
+        readMore: string;
+        intro: string;
+        termsContent: string;
+        privacyContent: string;
+    };
+
     // Privacy & About
     privacy: {
         title: string;

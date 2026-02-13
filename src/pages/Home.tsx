@@ -58,7 +58,8 @@ export default function Home() {
         "p-4 border-l-4 transition-all duration-300",
         state.isPanicMode
           ? "bg-destructive/10 border-l-destructive shadow-lg shadow-destructive/20 border-destructive"
-          : "bg-card border-l-transparent hover:border-l-destructive/50"
+          : "bg-card border-l-transparent hover:border-l-destructive/50",
+        !state.isProtectionEnabled && "opacity-50 pointer-events-none grayscale"
       )}>
         <div className="flex items-center justify-between gap-4">
           <div className="flex items-center gap-3 overflow-hidden">
@@ -82,6 +83,7 @@ export default function Home() {
           <Switch
             checked={state.isPanicMode}
             onCheckedChange={(checked) => setPanicMode(checked)}
+            disabled={!state.isProtectionEnabled}
             aria-label="Toggle Panic Mode"
             className={cn(state.isPanicMode && "data-[state=checked]:bg-destructive")}
           />

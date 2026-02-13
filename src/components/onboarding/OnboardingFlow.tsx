@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { LanguageSelectionScreen } from './LanguageSelectionScreen';
+import { TermsPrivacyScreen } from './TermsPrivacyScreen';
 import { InteractiveTutorial } from './InteractiveTutorial';
 import { PinSetupScreen } from './PinSetupScreen';
 import { RecoveryOptionsScreen } from '@/components/RecoveryOptionsScreen';
@@ -9,7 +10,7 @@ import { Language } from '@/i18n/translations';
 
 const ONBOARDING_COMPLETE_KEY = 'safetyshield_onboarding_complete';
 
-type OnboardingStep = 'language' | 'tutorial' | 'pin' | 'recovery' | 'complete';
+type OnboardingStep = 'language' | 'terms' | 'tutorial' | 'pin' | 'recovery' | 'complete';
 
 interface OnboardingFlowProps {
     children: React.ReactNode;
@@ -20,7 +21,10 @@ interface OnboardingFlowProps {
  * 
  * Shown once when user first opens the app.
  * Step 1: Language selection
- * Step 2: PIN creation
+ * Step 2: Terms & Privacy
+ * Step 3: Tutorial
+ * Step 4: PIN creation
+ * Step 5: Recovery Options
  * After completion, saves flag and never shows again.
  */
 export function OnboardingFlow({ children }: OnboardingFlowProps) {
@@ -58,6 +62,11 @@ export function OnboardingFlow({ children }: OnboardingFlowProps) {
     };
 
     const handleLanguageContinue = () => {
+        // Go to Terms & Privacy instead of Tutorial
+        setStep('terms');
+    };
+
+    const handleTermsContinue = () => {
         setStep('tutorial');
     };
 
@@ -117,7 +126,16 @@ export function OnboardingFlow({ children }: OnboardingFlowProps) {
         );
     }
 
-    // Step 2: Tutorial
+    // Step 2: Terms & Privacy
+    if (step === 'terms') {
+        return (
+            <TermsPrivacyScreen
+                onContinue={handleTermsContinue}
+            />
+        );
+    }
+
+    // Step 3: Tutorial
     if (step === 'tutorial') {
         return (
             <InteractiveTutorial
@@ -127,12 +145,12 @@ export function OnboardingFlow({ children }: OnboardingFlowProps) {
         );
     }
 
-    // Step 3: PIN setup
+    // Step 4: PIN setup
     if (step === 'pin') {
         return <PinSetupScreen onComplete={handlePinComplete} />;
     }
 
-    // Step 4: Recovery Options
+    // Step 5: Recovery Options
     if (step === 'recovery') {
         return (
             <RecoveryOptionsScreen

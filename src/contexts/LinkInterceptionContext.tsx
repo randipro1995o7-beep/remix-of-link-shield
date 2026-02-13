@@ -285,11 +285,14 @@ export function LinkInterceptionProvider({ children }: LinkInterceptionProviderP
 
       // Heuristic safe check — bypass review for obviously safe links
       // Uses trusted domains list, HTTPS, PhishGuard score, file extension, and reputation checks
-      const heuristicResult = SafeLinkHeuristic.check(url, domain || '');
-      if (heuristicResult.isSafe) {
-        logger.info('Heuristic bypass: link is safe', { domain, reason: heuristicResult.reason });
-        openInExternalBrowser(url);
-        return;
+      // SKIP if Panic Mode is active (Strict Mode)
+      if (!currentState.isPanicMode) {
+        const heuristicResult = SafeLinkHeuristic.check(url, domain || '');
+        if (heuristicResult.isSafe) {
+          logger.info('Heuristic bypass: link is safe', { domain, reason: heuristicResult.reason });
+          openInExternalBrowser(url);
+          return;
+        }
       }
 
       // Resolve final URL (follow redirects) with chain tracking
@@ -410,7 +413,8 @@ export function LinkInterceptionProvider({ children }: LinkInterceptionProviderP
             tldScore: 0,
             structureScore: 0,
             keywordScore: 0,
-            pathAnalysisScore: 0
+            pathAnalysisScore: 0,
+            mlScore: 0
           }
         }
       });

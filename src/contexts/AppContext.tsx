@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useReducer, useEffect, ReactNode, useCallback } from 'react';
 import { Preferences } from '@capacitor/preferences';
+import { App } from '@capacitor/app';
 import { Language, getTranslation, TranslationKeys } from '@/i18n/translations';
 import LinkShield from '@/plugins/LinkShield';
 import { SafetyHistoryService } from '@/lib/storage';
@@ -37,6 +38,9 @@ interface AppState {
 
   // Panic Mode
   isPanicMode: boolean;
+
+  // Default Link Handler Status
+  isDefaultHandler: boolean;
 }
 
 // Action Types
@@ -52,7 +56,8 @@ type AppAction =
   | { type: 'SET_ERROR'; payload: string | null }
   | { type: 'LOAD_PERSISTED_STATE'; payload: Partial<AppState> }
   | { type: 'RESET_STATE' }
-  | { type: 'SET_PANIC_MODE'; payload: boolean };
+  | { type: 'SET_PANIC_MODE'; payload: boolean }
+  | { type: 'SET_DEFAULT_HANDLER'; payload: boolean };
 
 // Initial State
 const initialState: AppState = {
@@ -74,6 +79,7 @@ const initialState: AppState = {
   error: null,
   theme: 'light',
   isPanicMode: false,
+  isDefaultHandler: false,
 };
 
 // Reducer
@@ -138,6 +144,9 @@ function appReducer(state: AppState, action: AppAction): AppState {
     case 'SET_PANIC_MODE':
       return { ...state, isPanicMode: action.payload };
 
+    case 'SET_DEFAULT_HANDLER':
+      return { ...state, isDefaultHandler: action.payload };
+
     default:
       return state;
   }
@@ -156,6 +165,7 @@ interface AppContextType {
   clearError: () => void;
   refreshStats: () => Promise<void>;
   setPanicMode: (enabled: boolean) => void;
+  checkDefaultHandler: () => Promise<void>;
 }
 
 // Create Context
@@ -196,6 +206,52 @@ export function AppProvider({ children }: AppProviderProps) {
       console.error('Failed to persist state:', error);
     }
   }, []);
+
+  // Check default handler status
+  const checkDefaultHandler = useCallback(async () => {
+    try {
+      const result = await LinkShield.isLinkHandlerEnabled();
+      const isDefault = result.enabled;
+
+      dispatch({ type: 'SET_DEFAULT_HANDLER', payload: isDefault });
+
+      // Auto-OFF Logic: If protection is enabled but we are no longer default, disable it.
+      // We check state.isProtectionEnabled inside the callback, but since this callback 
+      // is a dependency of effects, we need to be careful with stale closures.
+      // However, we can't easily access the latest state here without adding it to dependencies,
+      // which might cause loops.
+      // Instead, we'll handle the side effect in a useEffect that listens to changes in isDefaultHandler.
+    } catch (e) {
+      console.error('Failed to check link handler status:', e);
+      dispatch({ type: 'SET_DEFAULT_HANDLER', payload: false });
+    }
+  }, []);
+
+  // Effect to handle Auto-OFF logic when isDefaultHandler changes or is initially checked
+  useEffect(() => {
+    if (state.isInitialized && state.isProtectionEnabled && !state.isDefaultHandler) {
+      console.log('App is no longer default handler. Disabling protection.');
+      dispatch({ type: 'SET_PROTECTION_ENABLED', payload: false });
+      dispatch({ type: 'SET_PANIC_MODE', payload: false }); // Also disable panic mode
+    }
+  }, [state.isDefaultHandler, state.isProtectionEnabled, state.isInitialized]);
+
+  // App State Change Listener (Resume/Pause)
+  useEffect(() => {
+    // Check on mount
+    checkDefaultHandler();
+
+    // Check on resume
+    const listener = App.addListener('appStateChange', ({ isActive }) => {
+      if (isActive) {
+        checkDefaultHandler();
+      }
+    });
+
+    return () => {
+      listener.then(l => l.remove());
+    };
+  }, [checkDefaultHandler]);
 
   // Load persisted state on mount
   useEffect(() => {
@@ -324,6 +380,10 @@ export function AppProvider({ children }: AppProviderProps) {
   };
 
   const setPanicMode = (enabled: boolean) => {
+    if (enabled && !state.isProtectionEnabled) {
+      console.warn("Cannot enable Panic Mode when protection is disabled.");
+      return;
+    }
     dispatch({ type: 'SET_PANIC_MODE', payload: enabled });
   }
 
@@ -357,6 +417,7 @@ export function AppProvider({ children }: AppProviderProps) {
     clearError,
     refreshStats,
     setPanicMode,
+    checkDefaultHandler,
   };
 
   // Initial stats load

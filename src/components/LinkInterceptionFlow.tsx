@@ -4,18 +4,19 @@ import { SafetyPinCreation } from './SafetyPinCreation';
 import { SafetyPinVerification } from './SafetyPinVerification';
 import { SafetyReviewScreen } from './SafetyReviewScreen';
 import { BlockedLinkScreen } from './BlockedLinkScreen';
+import { PanicBlockedScreen } from './PanicBlockedScreen';
 import { SkipConfirmationDialog } from './SkipConfirmationDialog';
 import { useLinkInterception } from '@/contexts/LinkInterceptionContext';
 import { useSafetyPin } from '@/contexts/SafetyPinContext';
 import { useApp } from '@/contexts/AppContext';
 import { toast } from 'sonner';
 
-type FlowStep = 'stop' | 'pin-create' | 'pin-verify' | 'safety-review' | 'allowed' | 'blocked';
+type FlowStep = 'stop' | 'pin-create' | 'pin-verify' | 'safety-review' | 'allowed' | 'blocked' | 'panic-blocked';
 
 export function LinkInterceptionFlow() {
   const { currentLink, allowLink, blockLink } = useLinkInterception();
   const { hasSafetyPin, resetVerification, isLoading: pinLoading, error: pinError } = useSafetyPin();
-  const { t } = useApp();
+  const { t, state } = useApp();
   const [step, setStep] = useState<FlowStep>('stop');
   const [showSkipConfirmation, setShowSkipConfirmation] = useState(false);
 
@@ -30,6 +31,9 @@ export function LinkInterceptionFlow() {
       // Strict Blocking: Check PhishGuard analysis immediately
       if (currentLink.securityAnalysis?.isSuspicious) {
         setStep('blocked');
+      } else if (state.isPanicMode) {
+        // Panic Mode: Immediate block for anything not autowhitelisted
+        setStep('panic-blocked');
       } else {
         setStep('stop');
       }
@@ -42,7 +46,7 @@ export function LinkInterceptionFlow() {
     } else if (!currentLink) {
       previousLinkUrl.current = null;
     }
-  }, [currentLink?.url]); // Only depend on the URL, not the whole object or resetVerification
+  }, [currentLink?.url, state.isPanicMode]); // Only depend on the URL, not the whole object or resetVerification
 
   // Fail-safe: if there's a PIN error, block the link
   useEffect(() => {
@@ -132,6 +136,14 @@ export function LinkInterceptionFlow() {
         blockLink();
         return null;
       }
+
+    case 'panic-blocked':
+      return (
+        <PanicBlockedScreen
+          onClose={blockLink}
+          onUnlockRequest={handleContinue} // Redirect to PIN flow to unlock
+        />
+      );
 
     case 'stop':
       return (

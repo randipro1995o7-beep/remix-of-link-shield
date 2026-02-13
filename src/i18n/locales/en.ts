@@ -254,6 +254,19 @@ export const en: TranslationKeys = {
         guardianPinDesc: 'A trusted adult needs to enter the Guardian PIN',
     },
 
+    terms: {
+        title: 'Terms & Privacy',
+        subtitle: 'Please review and accept our policies to continue',
+        termsTitle: 'Terms of Service',
+        privacyTitle: 'Privacy Policy',
+        agreeLabel: 'I agree to the Terms of Service and Privacy Policy',
+        continue: 'Continue',
+        readMore: 'Read Full Policy',
+        intro: 'By using Safety SHIELD, you agree to protect yourself and others.',
+        termsContent: 'Safety SHIELD is provided "as is" to help you analyze links. We do not guarantee 100% detection of all threats. You are responsible for your own actions when browsing the web. We are not liable for any damages arising from the use of this app.',
+        privacyContent: 'Your data stays on your device. We do not collect your browsing history, personal information, or Safety PIN. All link analysis is performed locally on your phone. We do not share any data with third parties.',
+    },
+
     privacy: {
         title: 'Privacy Policy',
         intro: 'Safety SHIELD is designed with your privacy as a priority.',
