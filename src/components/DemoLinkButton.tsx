@@ -16,7 +16,7 @@ export function DemoLinkButton({
   const { interceptLink } = useLinkInterception();
 
   const handleClick = () => {
-    interceptLink(url, source);
+    interceptLink(url, source, true);
   };
 
   return (

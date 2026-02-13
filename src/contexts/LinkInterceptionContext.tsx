@@ -21,7 +21,7 @@ export interface InterceptedLink {
 
 interface LinkInterceptionContextType {
   currentLink: InterceptedLink | null;
-  interceptLink: (url: string, source?: string) => void;
+  interceptLink: (url: string, source?: string, isDemo?: boolean) => void;
   clearLink: () => void;
   allowLink: () => void;
   blockLink: () => void;
@@ -257,7 +257,7 @@ export function LinkInterceptionProvider({ children }: LinkInterceptionProviderP
     }
   }, [state.isInitialized, pendingUrl]);
 
-  const interceptLink = React.useCallback(async (url: string, source?: string) => {
+  const interceptLink = React.useCallback(async (url: string, source?: string, isDemo?: boolean) => {
     try {
       const currentState = stateRef.current;
 
@@ -267,8 +267,8 @@ export function LinkInterceptionProvider({ children }: LinkInterceptionProviderP
         return;
       }
 
-      // If protection is disabled, bypass everything and open directly
-      if (!currentState.isProtectionEnabled) {
+      // If protection is disabled and NOT a demo, bypass everything and open directly
+      if (!currentState.isProtectionEnabled && !isDemo) {
         openInExternalBrowser(url);
         return;
       }
