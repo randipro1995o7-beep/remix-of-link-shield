@@ -94,7 +94,7 @@ export function BlockedLinkScreen({ url, domain, scamCategory, onClose }: Blocke
             <div className="flex-1 overflow-y-auto px-4 pt-6 pb-40">
                 {/* Large Warning Icon */}
                 <div className="flex justify-center mb-6">
-                    <div className="w-24 h-24 rounded-full bg-destructive/20 flex items-center justify-center animate-pulse">
+                    <div className="w-24 h-24 rounded-full bg-destructive/20 flex items-center justify-center animate-scale-in">
                         <ShieldX className="w-14 h-14 text-destructive" aria-hidden="true" />
                     </div>
                 </div>

@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { StatusCard } from '@/components/StatusCard';
 import { StatsDisplay } from '@/components/StatsDisplay';
 import { DemoLinkButton } from '@/components/DemoLinkButton';
+import { SafetyStatsChart } from '@/components/SafetyStatsChart';
 import { useApp } from '@/contexts/AppContext';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -55,9 +56,14 @@ export default function Home() {
         <StatsDisplay />
       </section>
 
+      {/* Activity Chart */}
+      <section aria-label="Safety Activity Chart">
+        <SafetyStatsChart />
+      </section>
+
       {/* Demo Section - only shown for testing */}
       {state.isProtectionEnabled && (
-        <Card className="p-4 card-elevated">
+        <Card className="p-4 card-elevated animate-scale-in">
           <h3 className="font-medium text-foreground mb-3">
             {t.home.testSafety}
           </h3>

@@ -1,0 +1,39 @@
+
+> vite_react_shadcn_ts@0.0.0 build
+> vite build
+
+[36mvite v5.4.19 [32mbuilding for production...[36m[39m
+transforming...
+Browserslist: browsers data (caniuse-lite) is 8 months old. Please run:
+  npx update-browserslist-db@latest
+  Why you should do it regularly: https://github.com/browserslist/update-db#readme
+[32m✓[39m 3388 modules transformed.
+rendering chunks...
+[1m[33m[plugin:vite:reporter][39m[22m [33m[plugin vite:reporter] 
+(!) C:/Users/randy/AndroidStudioProjects/remix-of-link-shield-1/node_modules/@capacitor/app/dist/esm/index.js is dynamically imported by C:/Users/randy/AndroidStudioProjects/remix-of-link-shield-1/src/hooks/useShareIntent.ts but also statically imported by C:/Users/randy/AndroidStudioProjects/remix-of-link-shield-1/src/App.tsx, C:/Users/randy/AndroidStudioProjects/remix-of-link-shield-1/src/hooks/useSecurityStatusNotification.ts, C:/Users/randy/AndroidStudioProjects/remix-of-link-shield-1/src/pages/Protection.tsx, dynamic import will not move module into another chunk.
+[39m
+[1m[33m[plugin:vite:reporter][39m[22m [33m[plugin vite:reporter] 
+(!) C:/Users/randy/AndroidStudioProjects/remix-of-link-shield-1/src/plugins/LinkShield.ts is dynamically imported by C:/Users/randy/AndroidStudioProjects/remix-of-link-shield-1/src/components/onboarding/OnboardingFlow.tsx but also statically imported by C:/Users/randy/AndroidStudioProjects/remix-of-link-shield-1/src/contexts/AppContext.tsx, C:/Users/randy/AndroidStudioProjects/remix-of-link-shield-1/src/hooks/useSecurityStatusNotification.ts, C:/Users/randy/AndroidStudioProjects/remix-of-link-shield-1/src/pages/Protection.tsx, dynamic import will not move module into another chunk.
+[39m
+computing gzip size...
+[2mdist/[22m[32mindex.html                 [39m[1m[2m    1.16 kB[22m[1m[22m[2m │ gzip:   0.50 kB[22m
+[2mdist/[22m[35massets/index-BwIhFzOW.css  [39m[1m[2m   82.62 kB[22m[1m[22m[2m │ gzip:  14.38 kB[22m
+[2mdist/[22m[36massets/index-Dx5P46cs.js   [39m[1m[2m    0.34 kB[22m[1m[22m[2m │ gzip:   0.24 kB[22m
+[2mdist/[22m[36massets/web-8lNyewe_.js     [39m[1m[2m    0.38 kB[22m[1m[22m[2m │ gzip:   0.25 kB[22m
+[2mdist/[22m[36massets/base-cul0LfZa.js    [39m[1m[2m    0.68 kB[22m[1m[22m[2m │ gzip:   0.44 kB[22m
+[2mdist/[22m[36massets/native-v6ycNNtv.js  [39m[1m[2m    0.70 kB[22m[1m[22m[2m │ gzip:   0.34 kB[22m
+[2mdist/[22m[36massets/web-H6ON3iGQ.js     [39m[1m[2m    0.76 kB[22m[1m[22m[2m │ gzip:   0.35 kB[22m
+[2mdist/[22m[36massets/web-BftBUf-Q.js     [39m[1m[2m    0.76 kB[22m[1m[22m[2m │ gzip:   0.35 kB[22m
+[2mdist/[22m[36massets/web-BczH5E_D.js     [39m[1m[2m    0.94 kB[22m[1m[22m[2m │ gzip:   0.47 kB[22m
+[2mdist/[22m[36massets/web-Dq4dFyuu.js     [39m[1m[2m    1.25 kB[22m[1m[22m[2m │ gzip:   0.58 kB[22m
+[2mdist/[22m[36massets/web-BT54_Fu3.js     [39m[1m[2m    2.05 kB[22m[1m[22m[2m │ gzip:   0.82 kB[22m
+[2mdist/[22m[36massets/web-Aib9dHVL.js     [39m[1m[2m    3.46 kB[22m[1m[22m[2m │ gzip:   1.11 kB[22m
+[2mdist/[22m[36massets/web-DXJtDDO3.js     [39m[1m[2m   12.56 kB[22m[1m[22m[2m │ gzip:   2.84 kB[22m
+[2mdist/[22m[36massets/web-C8-BslkG.js     [39m[1m[33m  803.72 kB[39m[22m[2m │ gzip: 210.80 kB[22m
+[2mdist/[22m[36massets/index-BV01y-ve.js   [39m[1m[33m1,396.80 kB[39m[22m[2m │ gzip: 407.88 kB[22m
+[33m
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.[39m
+[32m✓ built in 14.02s[39m

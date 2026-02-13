@@ -11,12 +11,11 @@ describe('PhishGuard Service', () => {
         });
 
         it('should return warning for moderately suspicious URLs', () => {
-            // brand=20 (safe TLD, clean structure) + keywords=20 (login+verify) = 40 → warning
+            // brand=20 + keywords=20 + path=13 = 53 → danger
             const result = PhishGuard.analyzeUrl('https://bca-news.com/login/verify');
-            expect(result.threatLevel).toBe('warning');
-            expect(result.isSuspicious).toBe(false);
-            expect(result.score).toBeGreaterThanOrEqual(35);
-            expect(result.score).toBeLessThan(50);
+            expect(result.threatLevel).toBe('danger');
+            expect(result.isSuspicious).toBe(true);
+            expect(result.score).toBeGreaterThanOrEqual(50);
         });
 
         it('should return danger for highly suspicious URLs', () => {

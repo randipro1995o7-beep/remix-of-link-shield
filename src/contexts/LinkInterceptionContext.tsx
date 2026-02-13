@@ -5,6 +5,8 @@ import { SecureLocalStorage } from '@/lib/storage/SecureLocalStorage';
 import PhishGuard, { PhishGuardResult, KNOWN_BRANDS, ThreatLevel } from '@/lib/services/PhishGuard';
 import { UrlResolver, ResolvedUrlResult } from '@/lib/services/UrlResolver';
 import GoogleSafeBrowsing, { SafeBrowsingResult } from '@/lib/services/GoogleSafeBrowsing';
+import DomainAgeChecker, { DomainAgeResult } from '@/lib/services/DomainAgeChecker';
+import { SafeLinkHeuristic } from '@/lib/services/SafeLinkHeuristic';
 
 export interface InterceptedLink {
   url: string;
@@ -14,6 +16,7 @@ export interface InterceptedLink {
   securityAnalysis?: PhishGuardResult;
   safeBrowsingResult?: SafeBrowsingResult;
   redirectInfo?: ResolvedUrlResult;
+  domainAgeResult?: DomainAgeResult;
 }
 
 interface LinkInterceptionContextType {
@@ -270,24 +273,21 @@ export function LinkInterceptionProvider({ children }: LinkInterceptionProviderP
         return;
       }
 
-      // Check whitelist first (User + System)
-      // We must check both because interceptLink uses refs for stability, 
-      // but we need to ensure system domains are respected.
+      // Gate 2: User whitelist check only
+      // User-whitelisted domains bypass all checks (user's explicit trust decision)
+      // System/brand domains are handled by SafeLinkHeuristic (Gate 3) with proper safety validation
       const domain = getDomain(url);
 
-      let isAllowed = false;
-      if (domain) {
-        // Check user whitelist
-        if (whitelistRef.current.includes(domain)) isAllowed = true;
-        // Check system whitelist (access directly from module scope or ref if needed)
-        // Since systemWhitelist is memoized but static in content, we can re-derive or check against DEFAULT_WHITELIST
-        else if (DEFAULT_WHITELIST.includes(domain)) isAllowed = true;
-        else if (KNOWN_BRANDS.some(brand => brand.officialDomains.includes(domain))) isAllowed = true;
-        // Check subdomains of system whitelist
-        else if (DEFAULT_WHITELIST.some(trusted => domain.endsWith('.' + trusted))) isAllowed = true;
+      if (domain && whitelistRef.current.includes(domain)) {
+        openInExternalBrowser(url);
+        return;
       }
 
-      if (isAllowed) {
+      // Heuristic safe check — bypass review for obviously safe links
+      // Uses trusted domains list, HTTPS, PhishGuard score, file extension, and reputation checks
+      const heuristicResult = SafeLinkHeuristic.check(url, domain || '');
+      if (heuristicResult.isSafe) {
+        logger.info('Heuristic bypass: link is safe', { domain, reason: heuristicResult.reason });
         openInExternalBrowser(url);
         return;
       }
@@ -305,19 +305,25 @@ export function LinkInterceptionProvider({ children }: LinkInterceptionProviderP
         finalUrl = url;
       }
 
-      // Run PhishGuard analysis and Google Safe Browsing check in parallel
+      // Run PhishGuard analysis, Google Safe Browsing, and Domain Age check in parallel
       let safeBrowsingResult: SafeBrowsingResult | undefined;
+      let domainAgeResult: DomainAgeResult | undefined;
       try {
-        const [phishGuardResult, gsbResult] = await Promise.all([
+        const [phishGuardResult, gsbResult, ageResult] = await Promise.all([
           Promise.resolve(PhishGuard.analyzeUrl(finalUrl)),
           GoogleSafeBrowsing.checkUrl(finalUrl).catch(err => {
             logger.error('Google Safe Browsing check failed', err);
+            return undefined;
+          }),
+          DomainAgeChecker.checkDomainAge(new URL(finalUrl.startsWith('http') ? finalUrl : `https://${finalUrl}`).hostname).catch(err => {
+            logger.error('Domain age check failed', err);
             return undefined;
           }),
         ]);
 
         securityAnalysis = phishGuardResult;
         safeBrowsingResult = gsbResult;
+        domainAgeResult = ageResult;
 
         // If GSB found a threat, enhance the PhishGuard result
         if (safeBrowsingResult?.isThreat) {
@@ -359,7 +365,7 @@ export function LinkInterceptionProvider({ children }: LinkInterceptionProviderP
       } catch (error) {
         logger.error('PhishGuard analysis failed', error);
         // Fallback analysis (safe)
-        securityAnalysis = { score: 0, isSuspicious: false, threatLevel: 'safe' as ThreatLevel, reasons: [], details: { brandImpersonationScore: 0, tldScore: 0, structureScore: 0, keywordScore: 0 } };
+        securityAnalysis = { score: 0, isSuspicious: false, threatLevel: 'safe' as ThreatLevel, reasons: [], details: { brandImpersonationScore: 0, tldScore: 0, structureScore: 0, keywordScore: 0, pathAnalysisScore: 0 } };
       }
 
       const link: InterceptedLink = {
@@ -370,6 +376,7 @@ export function LinkInterceptionProvider({ children }: LinkInterceptionProviderP
         securityAnalysis,
         safeBrowsingResult,
         redirectInfo,
+        domainAgeResult,
       };
       setCurrentLink(link);
 
@@ -402,7 +409,8 @@ export function LinkInterceptionProvider({ children }: LinkInterceptionProviderP
             brandImpersonationScore: 0,
             tldScore: 0,
             structureScore: 0,
-            keywordScore: 0
+            keywordScore: 0,
+            pathAnalysisScore: 0
           }
         }
       });

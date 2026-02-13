@@ -21,6 +21,8 @@ export const en: TranslationKeys = {
         testSafety: 'Try It Out',
         testSafetyDesc: 'Tap below to see what happens when you receive a link',
         simulateLink: 'See Safety Flow Demo',
+        activity: 'Weekly Activity',
+        last7Days: 'Links scanned in last 7 days',
     },
 
     safety: {
@@ -140,6 +142,16 @@ export const en: TranslationKeys = {
         cancelAndClose: 'Cancel & Close Link',
         openAnyway: 'Open Anyway',
         disclaimer: 'Safety SHIELD helps you pause and think, but cannot guarantee any website is completely safe. Always be thoughtful with personal information.',
+    },
+
+    feedback: {
+        question: 'Was our review accurate?',
+        yesSafe: 'Yes, this site is safe',
+        noUnsafe: 'No, it looked suspicious',
+        thanksSafe: 'Thanks! We\'ll remember this site is safe for you.',
+        thanksUnsafe: 'Thanks! We\'ll be more careful with this site.',
+        autoTrusted: 'This site has been added to your trusted list!',
+        dismiss: 'Skip',
     },
 
     blocked: {

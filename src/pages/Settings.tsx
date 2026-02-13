@@ -57,7 +57,7 @@ function SettingsItem({ icon: Icon, title, subtitle, onClick, rightElement, badg
 
   const className = `
     w-full flex items-center gap-4 p-4 text-left rounded-xl
-    transition-all duration-200 ease-out
+    transition-all duration-200 ease-out animate-scale-in
     ${isClickable
       ? 'hover:bg-muted/50 active:bg-muted active:scale-[0.98] cursor-pointer'
       : 'cursor-default'

@@ -4,6 +4,7 @@
 import { getScamInfo, getCategoryLabel, ScamCategory } from './scamDatabase';
 
 import { isTrustedDomain } from './trustedDomains';
+import { DomainAgeResult } from './services/DomainAgeChecker';
 
 export type RiskLevel = 'low' | 'medium' | 'high' | 'blocked';
 
@@ -66,11 +67,12 @@ const KNOWN_SHORTENERS = new Set([
 
 // Extract domain from URL
 function extractDomain(url: string): string {
+  if (!url) return '';
   try {
     const urlObj = new URL(url);
     return urlObj.hostname.toLowerCase().replace('www.', '');
   } catch {
-    return url;
+    return url || '';
   }
 }
 
@@ -211,6 +213,105 @@ function checkIpAddress(domain: string): SafetyCheck {
   };
 }
 
+// Check domain registration age
+function checkDomainAge(domainAgeResult?: DomainAgeResult): SafetyCheck | null {
+  if (!domainAgeResult || !domainAgeResult.isLookupAvailable || domainAgeResult.ageInDays === null) {
+    return null; // Lookup unavailable or failed — skip silently
+  }
+
+  const days = domainAgeResult.ageInDays;
+
+  if (days < 30) {
+    return {
+      id: 'domain_age',
+      name: 'Domain Registration Age',
+      description: `This domain was registered only ${days} day${days !== 1 ? 's' : ''} ago — very new domains are commonly used in phishing`,
+      passed: false,
+      severity: 'danger',
+    };
+  } else if (days < 180) {
+    return {
+      id: 'domain_age',
+      name: 'Domain Registration Age',
+      description: `This domain was registered ${days} days ago — relatively new`,
+      passed: false,
+      severity: 'warning',
+    };
+  } else {
+    const years = Math.floor(days / 365);
+    const label = years >= 1 ? `${years}+ year${years > 1 ? 's' : ''}` : `${days} days`;
+    return {
+      id: 'domain_age',
+      name: 'Domain Registration Age',
+      description: `Domain has been registered for ${label}`,
+      passed: true,
+      severity: 'info',
+    };
+  }
+}
+
+// Check for Homoglyph / Lookalike Domains
+function checkHomoglyph(domain: string): SafetyCheck {
+  const needsPunycdoeCheck = domain.includes('xn--');
+  const hasInvisible = /[\u200B-\u200D\uFEFF]/.test(domain);
+
+  // Mixed script detection (Simplified for safety review)
+  // We check if the domain contains characters from different scripts in the same label
+  const params = domain.split('.');
+  let hasMixed = false;
+  for (const part of params) {
+    const cleanPart = part.replace(/^xn--/, ''); // Ignore punycode prefix for script check if we decoded it, but here we check raw
+    // We'll stick to a simpler regex approach for the sync check
+    // Latin + Cyrillic OR Latin + Greek
+    const hasLatin = /[a-z]/.test(cleanPart);
+    const hasCyrillic = /[\u0400-\u04FF]/.test(cleanPart);
+    const hasGreek = /[\u0370-\u03FF]/.test(cleanPart);
+
+    if ((hasLatin && hasCyrillic) || (hasLatin && hasGreek) || (hasCyrillic && hasGreek)) {
+      hasMixed = true;
+      break;
+    }
+  }
+
+  if (needsPunycdoeCheck) {
+    return {
+      id: 'homoglyph',
+      name: 'Special Characters',
+      description: 'This domain uses "Punycode" (starts with xn--), which is often used to disguise fake websites.',
+      passed: false, // IDNs are rare enough in this context to warn about
+      severity: 'warning'
+    };
+  }
+
+  if (hasInvisible) {
+    return {
+      id: 'homoglyph',
+      name: 'Hidden Characters',
+      description: 'This domain contains invisible characters, a clear sign of a phishing attempt.',
+      passed: false,
+      severity: 'danger'
+    };
+  }
+
+  if (hasMixed) {
+    return {
+      id: 'homoglyph',
+      name: 'Lookalike Domain',
+      description: 'This domain mixes alphabets (e.g., English and Russian letters) to look like a legitimate site.',
+      passed: false,
+      severity: 'danger'
+    };
+  }
+
+  return {
+    id: 'homoglyph',
+    name: 'Character Safety',
+    description: 'No suspicious character mixing or hiding detected',
+    passed: true,
+    severity: 'info'
+  };
+}
+
 // Check for fake invitation patterns (e.g. .apk files, suspicious wording)
 function checkFakeInvitation(url: string, domain: string): SafetyCheck {
   const lowerUrl = url.toLowerCase();
@@ -333,8 +434,11 @@ function generateRecommendation(riskLevel: RiskLevel): string {
   }
 }
 
-// Main safety review function
-export function performSafetyReview(url: string, safeBrowsingResult?: { isThreat: boolean; threatDescription?: string; isApiAvailable: boolean }): SafetyReviewResult {
+export function performSafetyReview(
+  url: string,
+  safeBrowsingResult?: { isThreat: boolean; threatDescription?: string; isApiAvailable: boolean },
+  domainAgeResult?: DomainAgeResult
+): SafetyReviewResult {
   const domain = extractDomain(url);
 
   // FIRST: Check scam database - if found, immediately block
@@ -365,10 +469,23 @@ export function performSafetyReview(url: string, safeBrowsingResult?: { isThreat
     checkSuspiciousPatterns(url),
     checkTld(domain),
     checkSubdomains(domain),
+    checkHomoglyph(domain),
     checkIpAddress(domain),
     checkUrlShortener(domain),
     checkFakeInvitation(url, domain),
   ];
+
+  // Add domain age check if result is available
+  const domainAgeCheck = checkDomainAge(domainAgeResult);
+  if (domainAgeCheck) {
+    // Insert after trusted domain check for logical flow
+    const trustedIdx = checks.findIndex(c => c.id === 'trusted');
+    if (trustedIdx >= 0) {
+      checks.splice(trustedIdx + 1, 0, domainAgeCheck);
+    } else {
+      checks.push(domainAgeCheck);
+    }
+  }
 
   // Add Google Safe Browsing check if result is provided
   if (safeBrowsingResult) {

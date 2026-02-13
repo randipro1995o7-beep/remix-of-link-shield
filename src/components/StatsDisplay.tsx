@@ -13,7 +13,7 @@ import { format } from 'date-fns';
 export function StatsDisplay() {
   const { state, t } = useApp();
   const { linksChecked, threatsBlocked, protectedSince } = state.protectionStats;
-  
+
   const stats = [
     {
       icon: Link2,
@@ -31,27 +31,27 @@ export function StatsDisplay() {
       label: t.home.safetyActiveSince,
     },
   ];
-  
+
   return (
-    <div className="grid grid-cols-1 gap-3" role="list" aria-label="Safety statistics">
+    <div className="grid grid-cols-2 md:grid-cols-3 gap-3" role="list" aria-label="Safety statistics">
       {stats.map((stat, index) => (
         <Card
           key={index}
-          className="p-4 flex items-center gap-4 card-elevated bg-card"
+          className={`p-3 flex flex-col items-center text-center gap-2 card-elevated bg-card ${index === 2 ? 'col-span-2 md:col-span-1' : ''}`}
           role="listitem"
           aria-label={`${stat.label}: ${stat.value}`}
         >
-          <div 
-            className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0"
+          <div
+            className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0 mb-1"
             aria-hidden="true"
           >
-            <stat.icon className="w-6 h-6 text-primary" />
+            <stat.icon className="w-5 h-5 text-primary" />
           </div>
-          <div className="flex-1 min-w-0">
-            <p className="text-2xl font-semibold text-foreground">
+          <div className="flex-1 min-w-0 w-full">
+            <p className="text-xl font-bold text-foreground leading-tight">
               {stat.value}
             </p>
-            <p className="text-sm text-muted-foreground truncate">
+            <p className="text-xs text-muted-foreground truncate w-full px-1">
               {stat.label}
             </p>
           </div>

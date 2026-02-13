@@ -1,4 +1,4 @@
-import { TranslationKeys } from '../types';
+﻿import { TranslationKeys } from '../types';
 
 export const ko: TranslationKeys = {
     appName: 'Safety SHIELD',
@@ -140,6 +140,16 @@ export const ko: TranslationKeys = {
         cancelAndClose: '취소 및 링크 닫기',
         openAnyway: '그래도 열기',
         disclaimer: 'Safety SHIELD은 멈추고 생각하는 것을 돕지만 어떤 웹사이트도 완전히 안전하다고 보장할 수는 없습니다. 개인 정보에 항상 주의하세요.',
+    },
+
+    feedback: {
+        question: 'Was our review accurate?',
+        yesSafe: 'Yes, this site is safe',
+        noUnsafe: 'No, it looked suspicious',
+        thanksSafe: 'Thanks! We\'ll remember this site is safe for you.',
+        thanksUnsafe: 'Thanks! We\'ll be more careful with this site.',
+        autoTrusted: 'This site has been added to your trusted list!',
+        dismiss: 'Skip',
     },
 
     blocked: {

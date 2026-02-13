@@ -1,4 +1,4 @@
-import { TranslationKeys } from '../types';
+﻿import { TranslationKeys } from '../types';
 
 export const ja: TranslationKeys = {
     appName: 'Safety SHIELD',
@@ -140,6 +140,16 @@ export const ja: TranslationKeys = {
         cancelAndClose: 'キャンセルして閉じる',
         openAnyway: 'とにかく開く',
         disclaimer: 'Safety SHIELDは確認を促しますが、ウェブサイトの完全な安全性を保証するものではありません。個人情報の取り扱いには常に注意してください。',
+    },
+
+    feedback: {
+        question: 'Was our review accurate?',
+        yesSafe: 'Yes, this site is safe',
+        noUnsafe: 'No, it looked suspicious',
+        thanksSafe: 'Thanks! We\'ll remember this site is safe for you.',
+        thanksUnsafe: 'Thanks! We\'ll be more careful with this site.',
+        autoTrusted: 'This site has been added to your trusted list!',
+        dismiss: 'Skip',
     },
 
     blocked: {

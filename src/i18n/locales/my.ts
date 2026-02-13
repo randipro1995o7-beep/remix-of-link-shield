@@ -1,4 +1,4 @@
-import { TranslationKeys } from '../types';
+﻿import { TranslationKeys } from '../types';
 
 export const my: TranslationKeys = {
     appName: 'Safety SHIELD',
@@ -140,6 +140,16 @@ export const my: TranslationKeys = {
         cancelAndClose: 'ပယ်ဖျက်ပြီး လင့်ခ်ကိုပိတ်ရန်',
         openAnyway: 'ဆက်ဖွင့်ရန်',
         disclaimer: 'Safety SHIELD သည် သင့်အား ရပ်တန့်ပြီး စဉ်းစားရန် ကူညီပေးသော်လည်း မည်သည့်ဝဘ်ဆိုက်မဆို လုံးဝလုံခြုံသည်ဟု အာမမခံနိုင်ပါ။ ကိုယ်ရေးအချက်အလက်များနှင့်ပတ်သက်၍ အမြဲသတိထားပါ။',
+    },
+
+    feedback: {
+        question: 'Was our review accurate?',
+        yesSafe: 'Yes, this site is safe',
+        noUnsafe: 'No, it looked suspicious',
+        thanksSafe: 'Thanks! We\'ll remember this site is safe for you.',
+        thanksUnsafe: 'Thanks! We\'ll be more careful with this site.',
+        autoTrusted: 'This site has been added to your trusted list!',
+        dismiss: 'Skip',
     },
 
     blocked: {

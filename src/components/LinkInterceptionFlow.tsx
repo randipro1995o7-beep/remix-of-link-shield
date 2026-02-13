@@ -176,6 +176,7 @@ export function LinkInterceptionFlow() {
           onProceed={handleReviewProceed}
           safeBrowsingResult={currentLink.safeBrowsingResult}
           redirectInfo={currentLink.redirectInfo}
+          domainAgeResult={currentLink.domainAgeResult}
         />
       );
 

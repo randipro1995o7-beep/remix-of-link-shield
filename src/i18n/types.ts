@@ -24,6 +24,8 @@ export interface TranslationKeys {
         testSafety: string;
         testSafetyDesc: string;
         simulateLink: string;
+        activity?: string;
+        last7Days?: string;
     };
 
     // Safety screen
@@ -150,6 +152,17 @@ export interface TranslationKeys {
         cancelAndClose: string;
         openAnyway: string;
         disclaimer: string;
+    };
+
+    // User Feedback
+    feedback: {
+        question: string;
+        yesSafe: string;
+        noUnsafe: string;
+        thanksSafe: string;
+        thanksUnsafe: string;
+        autoTrusted: string;
+        dismiss: string;
     };
 
     // Blocked Link Screen

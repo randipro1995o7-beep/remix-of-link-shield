@@ -106,13 +106,16 @@ export function SafetyPinProvider({ children }: SafetyPinProviderProps) {
         setError(null);
         return true;
       } else {
-        if (result.error && result.error !== 'Authentication cancelled') {
-          setError(result.error);
-        }
+        // Do NOT set global error on bio failure, so we don't kill the link flow.
+        // The biometric prompt usually handles its own feedback.
+        // if (result.error && result.error !== 'Authentication cancelled') {
+        //   setError(result.error);
+        // }
         return false;
       }
     } catch (err) {
       logger.error('Biometric verification failed', err);
+      // Keep real error
       setError('Biometric verification failed');
       return false;
     }
@@ -127,11 +130,13 @@ export function SafetyPinProvider({ children }: SafetyPinProviderProps) {
         setError(null);
         return true;
       } else {
-        setError('Incorrect PIN');
+        // Do NOT set global error for incorrect PIN, as it triggers fail-safe in LinkInterceptionFlow
+        // Just return false and let the caller handle the UI feedback (shake/toast)
         return false;
       }
     } catch (err) {
       logger.error('Failed to verify Safety PIN', err);
+      // Keep this for actual system errors
       setError('Verification failed');
       return false;
     }

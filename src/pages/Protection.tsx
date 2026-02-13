@@ -111,7 +111,7 @@ export default function Protection() {
             className={cn(
               "w-24 h-24 rounded-full flex items-center justify-center transition-all duration-500",
               state.isProtectionEnabled
-                ? "bg-success/10 status-safe"
+                ? "bg-success/10 status-safe animate-pulse-soft"
                 : "bg-muted"
             )}
           >

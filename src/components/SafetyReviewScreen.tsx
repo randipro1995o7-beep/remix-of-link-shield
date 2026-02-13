@@ -5,6 +5,7 @@ import { Card } from '@/components/ui/card';
 import { performSafetyReview, SafetyReviewResult, SafetyCheck, RiskLevel } from '@/lib/safetyReview';
 import { SafeBrowsingResult } from '@/lib/services/GoogleSafeBrowsing';
 import { ResolvedUrlResult } from '@/lib/services/UrlResolver';
+import { DomainAgeResult } from '@/lib/services/DomainAgeChecker';
 import DomainReputation from '@/lib/services/DomainReputation';
 import { SafetyHistoryService, FamilyModeService } from '@/lib/storage';
 import { cn } from '@/lib/utils';
@@ -15,6 +16,7 @@ import { BlockedLinkScreen } from './BlockedLinkScreen';
 import { useApp } from '@/contexts/AppContext';
 import { Haptics, NotificationType } from '@capacitor/haptics';
 import { playWarningSound, playDangerSound } from '@/lib/alertSound';
+import { UserFeedbackService, FeedbackType } from '@/lib/services/UserFeedbackService';
 
 interface SafetyReviewScreenProps {
   url: string;
@@ -23,6 +25,7 @@ interface SafetyReviewScreenProps {
   onProceed: () => void;
   safeBrowsingResult?: SafeBrowsingResult;
   redirectInfo?: ResolvedUrlResult;
+  domainAgeResult?: DomainAgeResult;
 }
 
 /**
@@ -31,7 +34,7 @@ interface SafetyReviewScreenProps {
  * Shows link analysis results with calm, non-fear-based language.
  * Uses assistive wording - "helps you decide" not "protects you".
  */
-export function SafetyReviewScreen({ url, source, onCancel, onProceed, safeBrowsingResult, redirectInfo }: SafetyReviewScreenProps) {
+export function SafetyReviewScreen({ url, source, onCancel, onProceed, safeBrowsingResult, redirectInfo, domainAgeResult }: SafetyReviewScreenProps) {
   const { t, refreshStats } = useApp();
   const [review, setReview] = useState<SafetyReviewResult | null>(null);
   const [isAnalyzing, setIsAnalyzing] = useState(true);
@@ -40,6 +43,8 @@ export function SafetyReviewScreen({ url, source, onCancel, onProceed, safeBrows
   const [showGuardianPin, setShowGuardianPin] = useState(false);
   const [showSafetyPin, setShowSafetyPin] = useState(false);
   const [familyModeEnabled, setFamilyModeEnabled] = useState(false);
+  const [feedbackGiven, setFeedbackGiven] = useState<FeedbackType | null>(null);
+  const [feedbackMessage, setFeedbackMessage] = useState<string | null>(null);
 
   // Risk level display configuration - using assistive language
   const riskConfig: Record<RiskLevel, {
@@ -81,32 +86,51 @@ export function SafetyReviewScreen({ url, source, onCancel, onProceed, safeBrows
 
   useEffect(() => {
     const init = async () => {
-      // Check family mode status
-      const isFamilyMode = await FamilyModeService.isEnabled();
-      setFamilyModeEnabled(isFamilyMode);
+      try {
+        // Check family mode status
+        const isFamilyMode = await FamilyModeService.isEnabled();
+        setFamilyModeEnabled(isFamilyMode);
 
-      // Simulate brief analysis time for user experience
-      await new Promise(resolve => setTimeout(resolve, 1200));
-      const result = performSafetyReview(url, safeBrowsingResult);
-      setReview(result);
-      setIsAnalyzing(false);
+        // Simulate brief analysis time for user experience
+        await new Promise(resolve => setTimeout(resolve, 1200));
+        const result = performSafetyReview(url, safeBrowsingResult, domainAgeResult);
 
-      // Play audio alert and haptic feedback for high-risk or blocked links
-      if (result.riskLevel === 'high' || result.riskLevel === 'blocked') {
-        // Play audio alert
-        if (result.riskLevel === 'blocked') {
-          await playDangerSound();
-        } else {
-          await playWarningSound();
+        if (!result) {
+          throw new Error('Safety review returned null');
         }
 
-        // Also vibrate
-        try {
-          await Haptics.notification({ type: NotificationType.Warning });
-        } catch (e) {
-          // Haptics not available, ignore silently
-          console.debug('Haptics not available:', e);
+        setReview(result);
+        setIsAnalyzing(false);
+
+        // Play audio alert and haptic feedback for high-risk or blocked links
+        if (result.riskLevel === 'high' || result.riskLevel === 'blocked') {
+          // Play audio alert
+          if (result.riskLevel === 'blocked') {
+            await playDangerSound().catch(e => console.warn('Failed to play danger sound', e));
+          } else {
+            await playWarningSound().catch(e => console.warn('Failed to play warning sound', e));
+          }
+
+          // Also vibrate
+          try {
+            await Haptics.notification({ type: NotificationType.Warning });
+          } catch (e) {
+            // Haptics not available, ignore silently
+            console.debug('Haptics not available:', e);
+          }
         }
+      } catch (error) {
+        console.error('Error during safety review initialization:', error);
+        // Fallback to a safe default if analysis fails
+        setReview({
+          url,
+          domain: new URL(url).hostname || url,
+          riskLevel: 'medium', // Default to caution on error
+          checks: [],
+          summary: 'We encountered an error while analyzing this link. Proceed with caution.',
+          recommendation: 'Be careful properly verifying the URL before continuing.',
+        });
+        setIsAnalyzing(false);
       }
     };
 
@@ -247,12 +271,12 @@ export function SafetyReviewScreen({ url, source, onCancel, onProceed, safeBrows
     );
   }
 
-  const config = riskConfig[review.riskLevel];
+  const config = review?.riskLevel && riskConfig[review.riskLevel] ? riskConfig[review.riskLevel] : riskConfig['medium'];
   const RiskIcon = config.icon;
 
   // Separate failed and passed checks
-  const failedChecks = review.checks.filter(c => !c.passed);
-  const passedChecks = review.checks.filter(c => c.passed);
+  const failedChecks = review?.checks ? review.checks.filter(c => !c.passed) : [];
+  const passedChecks = review?.checks ? review.checks.filter(c => c.passed) : [];
 
   // Domain reputation
   const finalDomain = review.domain;
@@ -282,12 +306,12 @@ export function SafetyReviewScreen({ url, source, onCancel, onProceed, safeBrows
       </div>
 
       {/* Scrollable Content */}
-      <div className="flex-1 overflow-y-auto px-4 pb-32">
+      <div className="flex-1 overflow-y-auto px-4 pb-32 animate-slide-up">
         {/* Risk Level Badge */}
         <div className="flex justify-center pt-4 pb-6">
           <div
             className={cn(
-              "flex items-center gap-3 px-6 py-4 rounded-2xl border-2",
+              "flex items-center gap-3 px-6 py-4 rounded-2xl border-2 animate-scale-in",
               config.bgColor,
               config.borderColor
             )}
@@ -300,7 +324,7 @@ export function SafetyReviewScreen({ url, source, onCancel, onProceed, safeBrows
                 {config.title}
               </p>
               <p className="text-sm text-muted-foreground">
-                {t.safetyReview.basedOnChecks}
+                {t.safetyReview?.basedOnChecks || 'Based on our review'}
               </p>
             </div>
           </div>
@@ -466,6 +490,51 @@ export function SafetyReviewScreen({ url, source, onCancel, onProceed, safeBrows
           <h3 className="font-medium text-foreground mb-2">{t.safetyReview.ourRecommendation}</h3>
           <p className="text-muted-foreground">{review.recommendation}</p>
         </Card>
+
+        {/* User Feedback Prompt */}
+        {!feedbackGiven && (
+          <div className="mt-4 p-4 rounded-xl bg-muted/30 border border-border">
+            <p className="text-sm font-medium text-foreground mb-3 text-center">
+              {t.feedback.question}
+            </p>
+            <div className="flex gap-2">
+              <button
+                onClick={async () => {
+                  const result = await UserFeedbackService.recordFeedback(review.domain, 'safe');
+                  setFeedbackGiven('safe');
+                  setFeedbackMessage(
+                    result.autoTrusted ? t.feedback.autoTrusted : t.feedback.thanksSafe
+                  );
+                }}
+                className="flex-1 py-2.5 px-3 rounded-xl bg-emerald-500/10 text-emerald-600 text-sm font-medium hover:bg-emerald-500/20 transition-colors border border-emerald-500/20"
+              >
+                {t.feedback.yesSafe}
+              </button>
+              <button
+                onClick={async () => {
+                  await UserFeedbackService.recordFeedback(review.domain, 'unsafe');
+                  setFeedbackGiven('unsafe');
+                  setFeedbackMessage(t.feedback.thanksUnsafe);
+                }}
+                className="flex-1 py-2.5 px-3 rounded-xl bg-red-500/10 text-red-500 text-sm font-medium hover:bg-red-500/20 transition-colors border border-red-500/20"
+              >
+                {t.feedback.noUnsafe}
+              </button>
+            </div>
+          </div>
+        )}
+
+        {/* Feedback Confirmation */}
+        {feedbackMessage && (
+          <div className={cn(
+            "mt-3 p-3 rounded-xl text-sm text-center font-medium animate-fade-in",
+            feedbackGiven === 'safe'
+              ? 'bg-emerald-500/10 text-emerald-600'
+              : 'bg-amber-500/10 text-amber-600'
+          )}>
+            {feedbackMessage}
+          </div>
+        )}
       </div>
 
       {/* Fixed Bottom Actions */}

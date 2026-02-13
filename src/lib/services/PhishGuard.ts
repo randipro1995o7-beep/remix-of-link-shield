@@ -1,4 +1,5 @@
 import DomainReputation from './DomainReputation';
+import { PhishingModel } from '../ml/PhishingModel';
 
 export type ThreatLevel = 'safe' | 'warning' | 'danger';
 
@@ -12,6 +13,8 @@ export interface PhishGuardResult {
         tldScore: number;
         structureScore: number;
         keywordScore: number;
+        pathAnalysisScore: number;
+        mlScore: number;
     };
 }
 
@@ -192,7 +195,7 @@ const UNICODE_CONFUSABLES: Record<string, string> = {
     '\u00E8': 'e', // è
     '\u00E9': 'e', // é
     '\u00EA': 'e', // ê
-    '\u00EB': 'e', // ë
+    '\u00EB': 'e', //ë
     '\u00EC': 'i', // ì
     '\u00ED': 'i', // í
     '\u00EE': 'i', // î
@@ -231,6 +234,8 @@ class PhishGuardService {
     private static readonly TLD_SCORE_MAX = 20;
     private static readonly STRUCTURE_SCORE_MAX = 20;
     private static readonly KEYWORD_SCORE_MAX = 20;
+    private static readonly PATH_SCORE_MAX = 15;
+    private static readonly ML_SCORE_MAX = 20;
     private static readonly SUSPICIOUS_THRESHOLD = 50; // Total score >= 50 means danger (blocked)
     private static readonly WARNING_THRESHOLD = 35;    // Total score 35-49 means warning (shown in review)
 
@@ -398,7 +403,94 @@ class PhishGuardService {
     private hasCleanStructure(domain: string): boolean {
         const dotCount = (domain.match(/\./g) || []).length;
         const hyphenCount = (domain.match(/-/g) || []).length;
-        return dotCount <= 3 && hyphenCount <= 1;
+        return dotCount <= 3 && hyphenCount <= 2;
+    }
+
+    /**
+     * Analyze URL path patterns for phishing indicators.
+     * Checks for login/payment pages on non-official domains,
+     * Base64 payloads, encoded user data, and deep nesting.
+     */
+    private analyzePathPatterns(urlObj: URL, domain: string, isOfficialBrand: boolean): { score: number; reasons: string[] } {
+        let score = 0;
+        const reasons: string[] = [];
+        const path = urlObj.pathname.toLowerCase();
+        const search = urlObj.search.toLowerCase();
+        const fullPathAndQuery = path + search;
+
+        // Skip path analysis for official brand domains — their login pages are legitimate
+        if (isOfficialBrand) {
+            return { score: 0, reasons: [] };
+        }
+
+        // 1. Login/Payment page patterns on non-official domains
+        const sensitivePathPatterns = [
+            /\/(login|signin|sign-in|log-in|masuk)\b/,
+            /\/(payment|checkout|bayar|pembayaran)\b/,
+            /\/(verify|verification|verifikasi)\b/,
+            /\/(reset-password|forgot-password|lupa-password)\b/,
+            /\/(update-billing|billing-info|card-update)\b/,
+            /\/(confirm-identity|identity-check)\b/,
+            /\/(otp|one-time|2fa|two-factor)\b/,
+        ];
+
+        let sensitivePathCount = 0;
+        for (const pattern of sensitivePathPatterns) {
+            if (pattern.test(path)) {
+                sensitivePathCount++;
+            }
+        }
+
+        if (sensitivePathCount >= 1) {
+            score += 8;
+            reasons.push('URL contains login/payment page pattern on non-official domain');
+        }
+        if (sensitivePathCount >= 2) {
+            score += 5; // Multiple sensitive patterns = very suspicious
+        }
+
+        // 2. Base64 encoded payloads in URL (common in phishing redirects)
+        // Look for Base64-like strings (20+ chars of base64 alphabet)
+        const base64Pattern = /[A-Za-z0-9+/=]{40,}/;
+        if (base64Pattern.test(fullPathAndQuery)) {
+            score += 5;
+            reasons.push('URL contains suspicious encoded data (possible payload)');
+        }
+
+        // 3. Encoded user data in URL (email, phone number patterns)
+        // Check for email patterns in query params (phishing pages pre-fill victim email)
+        const emailInUrl = /[?&][^=]*=([^&]*@[^&]*\.[^&]+)/;
+        const phoneInUrl = /[?&][^=]*=(\+?\d{10,})/;
+        if (emailInUrl.test(fullPathAndQuery)) {
+            score += 5;
+            reasons.push('URL contains email address — possible pre-filled phishing page');
+        } else if (phoneInUrl.test(fullPathAndQuery)) {
+            score += 3;
+            reasons.push('URL contains phone number in parameters');
+        }
+
+        // 4. Excessive path depth (> 5 segments = suspicious for phishing hiding)
+        const pathSegments = path.split('/').filter(s => s.length > 0);
+        if (pathSegments.length > 5) {
+            score += 3;
+            reasons.push(`Deeply nested URL path (${pathSegments.length} levels)`);
+        }
+
+        // 5. Path mimicking known brand paths (e.g., /myaccount, /bankapp)
+        const brandMimicPatterns = [
+            /\/(myaccount|my-account|akun-saya)\//,
+            /\/(netbanking|internet-banking|mobile-banking)\//,
+            /\/(wallet|e-wallet|ewallet)\//,
+        ];
+        for (const pattern of brandMimicPatterns) {
+            if (pattern.test(path)) {
+                score += 5;
+                reasons.push('URL path mimics known banking/financial service paths');
+                break;
+            }
+        }
+
+        return { score: Math.min(score, PhishGuardService.PATH_SCORE_MAX), reasons };
     }
 
     public analyzeUrl(urlStr: string): PhishGuardResult {
@@ -425,7 +517,9 @@ class PhishGuardService {
                     brandImpersonationScore: 0,
                     tldScore: 0,
                     structureScore: 0,
-                    keywordScore: 0
+                    keywordScore: 0,
+                    pathAnalysisScore: 0,
+                    mlScore: 0
                 }
             };
         }
@@ -541,6 +635,19 @@ class PhishGuardService {
         score += keywordScore;
 
 
+        // 5b. URL Path Analysis (0-15)
+        // Check for suspicious path patterns like login pages, Base64 payloads, etc.
+        const isOfficialBrand = KNOWN_BRANDS.some(brand =>
+            brand.officialDomains.some(official =>
+                domain === official || domain.endsWith('.' + official)
+            )
+        );
+        const pathAnalysis = urlObj ? this.analyzePathPatterns(urlObj, domain, isOfficialBrand) : { score: 0, reasons: [] };
+        let pathAnalysisScore = pathAnalysis.score;
+        score += pathAnalysisScore;
+        reasons.push(...pathAnalysis.reasons);
+
+
         // 6. Domain Reputation Adjustment
         // Reduce score for well-known legitimate domains to prevent false positives
         const reputation = DomainReputation.getReputation(domain);
@@ -552,7 +659,24 @@ class PhishGuardService {
             }
         }
 
-        // 7. Determine threat level
+        // 7. On-Device ML Analysis (0-20)
+        // Uses lightweight Random Forest model to predict phishing probability
+        let mlScore = 0;
+        try {
+            const mlProbability = PhishingModel.predict(urlStr);
+            if (mlProbability > 0.7) {
+                mlScore = 20;
+                reasons.push(`Machine Learning model detected high phishing probability (${(mlProbability * 100).toFixed(0)}%)`);
+            } else if (mlProbability > 0.5) {
+                mlScore = 10;
+                reasons.push(`Machine Learning model detected suspicious patterns`);
+            }
+        } catch (e) {
+            console.error('ML Prediction failed', e);
+        }
+        score += mlScore;
+
+        // 8. Determine threat level
         let threatLevel: ThreatLevel = 'safe';
         if (score >= PhishGuardService.SUSPICIOUS_THRESHOLD) {
             threatLevel = 'danger';
@@ -569,7 +693,9 @@ class PhishGuardService {
                 brandImpersonationScore: brandScore,
                 tldScore,
                 structureScore: Math.min(structureScore, PhishGuardService.STRUCTURE_SCORE_MAX),
-                keywordScore
+                keywordScore,
+                pathAnalysisScore,
+                mlScore
             }
         };
     }

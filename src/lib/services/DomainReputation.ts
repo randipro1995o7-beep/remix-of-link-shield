@@ -88,6 +88,15 @@ class DomainReputationService {
      * Get the reputation of a domain
      */
     getReputation(domain: string): DomainReputationResult {
+        if (!domain) {
+            return {
+                domain: '',
+                tier: 'unknown',
+                scoreAdjustment: 0,
+                isKnown: false,
+            };
+        }
+
         const normalizedDomain = domain.toLowerCase().replace(/^www\./, '');
 
         // Check top 100 first

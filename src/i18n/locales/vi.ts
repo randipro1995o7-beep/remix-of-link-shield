@@ -1,4 +1,4 @@
-import { TranslationKeys } from '../types';
+﻿import { TranslationKeys } from '../types';
 
 export const vi: TranslationKeys = {
     appName: 'Safety SHIELD',
@@ -140,6 +140,16 @@ export const vi: TranslationKeys = {
         cancelAndClose: 'Hủy & Đóng Liên kết',
         openAnyway: 'Vẫn Mở',
         disclaimer: 'Safety SHIELD giúp bạn dừng lại và suy nghĩ, nhưng không thể đảm bảo bất kỳ trang web nào là hoàn toàn an toàn. Luôn cẩn thận với thông tin cá nhân.',
+    },
+
+    feedback: {
+        question: 'Was our review accurate?',
+        yesSafe: 'Yes, this site is safe',
+        noUnsafe: 'No, it looked suspicious',
+        thanksSafe: 'Thanks! We\'ll remember this site is safe for you.',
+        thanksUnsafe: 'Thanks! We\'ll be more careful with this site.',
+        autoTrusted: 'This site has been added to your trusted list!',
+        dismiss: 'Skip',
     },
 
     blocked: {

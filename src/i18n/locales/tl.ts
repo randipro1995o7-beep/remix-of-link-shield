@@ -1,4 +1,4 @@
-import { TranslationKeys } from '../types';
+﻿import { TranslationKeys } from '../types';
 
 export const tl: TranslationKeys = {
     appName: 'Safety SHIELD',
@@ -140,6 +140,16 @@ export const tl: TranslationKeys = {
         cancelAndClose: 'Kanselahin at Isara ang Link',
         openAnyway: 'Buksan Pa Rin',
         disclaimer: 'Tinutulungan ka ng Safety SHIELD na huminto at mag-isip, ngunit hindi magagarantiyahan na ang anumang website ay ganap na ligtas. Laging maging maingat sa personal na impormasyon.',
+    },
+
+    feedback: {
+        question: 'Was our review accurate?',
+        yesSafe: 'Yes, this site is safe',
+        noUnsafe: 'No, it looked suspicious',
+        thanksSafe: 'Thanks! We\'ll remember this site is safe for you.',
+        thanksUnsafe: 'Thanks! We\'ll be more careful with this site.',
+        autoTrusted: 'This site has been added to your trusted list!',
+        dismiss: 'Skip',
     },
 
     blocked: {

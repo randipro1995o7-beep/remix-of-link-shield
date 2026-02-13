@@ -21,6 +21,8 @@ export const id: TranslationKeys = {
         testSafety: 'Coba Sekarang',
         testSafetyDesc: 'Ketuk di bawah untuk melihat apa yang terjadi saat Anda menerima tautan',
         simulateLink: 'Lihat Demo Keamanan',
+        activity: 'Aktivitas Mingguan',
+        last7Days: 'Tautan dipindai dalam 7 hari terakhir',
     },
 
     safety: {
@@ -140,6 +142,16 @@ export const id: TranslationKeys = {
         cancelAndClose: 'Batalkan & Tutup Tautan',
         openAnyway: 'Buka Tetap',
         disclaimer: 'Safety SHIELD membantu Anda berhenti dan berpikir, tetapi tidak dapat menjamin situs web mana pun sepenuhnya aman. Selalu berhati-hati dengan informasi pribadi.',
+    },
+
+    feedback: {
+        question: 'Apakah tinjauan kami tepat?',
+        yesSafe: 'Ya, situs ini aman',
+        noUnsafe: 'Tidak, terlihat mencurigakan',
+        thanksSafe: 'Terima kasih! Kami akan mengingat situs ini aman untuk Anda.',
+        thanksUnsafe: 'Terima kasih! Kami akan lebih berhati-hati dengan situs ini.',
+        autoTrusted: 'Situs ini ditambahkan ke daftar terpercaya Anda!',
+        dismiss: 'Lewati',
     },
 
     blocked: {

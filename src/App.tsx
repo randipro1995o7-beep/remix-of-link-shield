@@ -8,7 +8,7 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { AppProvider } from "@/contexts/AppContext";
+import { AppProvider, useApp } from "@/contexts/AppContext";
 import { SafetyPinProvider } from "@/contexts/SafetyPinContext";
 import { LinkInterceptionProvider } from "@/contexts/LinkInterceptionContext";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
@@ -29,6 +29,8 @@ import NotFound from "./pages/NotFound";
 const queryClient = new QueryClient();
 
 function AppContent() {
+  const { state } = useApp(); // Access state for theme
+
   // Initialize share intent listener
   useShareIntent();
 
@@ -42,18 +44,26 @@ function AppContent() {
     });
   }, []);
 
+  // Update Status Bar based on Theme
   useEffect(() => {
-    // Set status bar to light (dark icons on light background)
     const setStatusBar = async () => {
       try {
-        await StatusBar.setStyle({ style: Style.Light });
-        await StatusBar.setBackgroundColor({ color: '#FFFFFF' });
+        if (state.theme === 'tokyo-night') {
+          // Dark Mode: Dark Blue background (#1a1b26) for visibility
+          await StatusBar.setStyle({ style: Style.Dark });
+          await StatusBar.setBackgroundColor({ color: '#1a1b26' });
+        } else {
+          // Revert to default style (Light) when not in Dark Mode
+          // We must reset this, otherwise the dark color persists.
+          await StatusBar.setStyle({ style: Style.Light });
+          await StatusBar.setBackgroundColor({ color: '#FFFFFF' });
+        }
       } catch (error) {
         console.warn('Status bar plugin error:', error);
       }
     };
     setStatusBar();
-  }, []);
+  }, [state.theme]); // Re-run when theme changes
 
   useEffect(() => {
     // Listen for deep links (e.g. Firebase Auth links)
