@@ -72,6 +72,9 @@ export const ko: TranslationKeys = {
         add: '추가',
         invalidUrl: '유효한 도메인 또는 URL을 입력하세요',
         addedDate: '추가됨',
+        userAdded: '사용자 추가',
+        systemDefault: '시스템 인증',
+        verified: '공식 파트너',
     },
 
     permissions: {

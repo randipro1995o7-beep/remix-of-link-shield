@@ -72,6 +72,9 @@ export const ptBr: TranslationKeys = {
         add: 'Adicionar',
         invalidUrl: 'Por favor, insira um domínio ou URL válido',
         addedDate: 'Adicionado em',
+        userAdded: 'Adicionado por você',
+        systemDefault: 'Verificado pelo sistema',
+        verified: 'Parceiro oficial',
     },
 
     permissions: {

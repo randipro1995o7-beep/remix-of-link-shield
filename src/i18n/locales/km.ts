@@ -72,6 +72,9 @@ export const km: TranslationKeys = {
         add: 'បន្ថែម',
         invalidUrl: 'សូមបញ្ចូលដែន ឬ URL ដែលត្រឹមត្រូវ',
         addedDate: 'បានបន្ថែម',
+        userAdded: 'បន្ថែមដោយអ្នក',
+        systemDefault: 'ផ្ទៀងផ្ទាត់ដោយប្រព័ន្ធ',
+        verified: 'ដៃគូផ្លូវការ',
     },
 
     permissions: {

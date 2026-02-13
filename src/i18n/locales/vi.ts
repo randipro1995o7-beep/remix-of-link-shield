@@ -72,6 +72,9 @@ export const vi: TranslationKeys = {
         add: 'Thêm',
         invalidUrl: 'Vui lòng nhập tên miền hoặc URL hợp lệ',
         addedDate: 'Đã thêm',
+        userAdded: 'Bạn đã thêm',
+        systemDefault: 'Hệ thống xác minh',
+        verified: 'Đối tác chính thức',
     },
 
     permissions: {

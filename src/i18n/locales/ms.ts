@@ -72,6 +72,9 @@ export const ms: TranslationKeys = {
         add: 'Tambah',
         invalidUrl: 'Sila masukkan domain atau URL yang sah',
         addedDate: 'Ditambah',
+        userAdded: 'Ditambah oleh Anda',
+        systemDefault: 'Disahkan Sistem',
+        verified: 'Rakan Rasmi',
     },
 
     permissions: {

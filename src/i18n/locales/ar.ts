@@ -72,6 +72,9 @@ export const ar: TranslationKeys = {
         add: 'إضافة',
         invalidUrl: 'الرجاء إدخال نطاق أو رابط صحيح',
         addedDate: 'أضيف في',
+        userAdded: 'أضفته أنت',
+        systemDefault: 'تم التحقق من النظام',
+        verified: 'شريك رسمي',
     },
 
     permissions: {

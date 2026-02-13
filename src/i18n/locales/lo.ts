@@ -72,6 +72,9 @@ export const lo: TranslationKeys = {
         add: 'ເພີ່ມ',
         invalidUrl: 'ກະລຸນາໃສ່ໂດເມນ ຫຼື URL ທີ່ຖືກຕ້ອງ',
         addedDate: 'ເພີ່ມເມື່ອ',
+        userAdded: 'ເພີ່ມໂດຍທ່ານ',
+        systemDefault: 'ຢືນຢັນໂດຍລະບົບ',
+        verified: 'ຄູ່ຮ່ວມງານທາງການ',
     },
 
     permissions: {

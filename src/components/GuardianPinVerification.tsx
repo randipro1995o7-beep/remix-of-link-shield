@@ -82,7 +82,7 @@ export function GuardianPinVerification({ onSuccess, onCancel }: GuardianPinVeri
         <PinPad 
           title={t.familyMode.guardianPinTitle}
           subtitle={t.familyMode.guardianPinDesc}
-          onComplete={handlePinEntry}
+          onPinComplete={handlePinEntry}
           error={showError ? `${t.safetyPin.incorrectError} ${remainingAttempts} ${t.safetyPin.attemptsRemaining}` : undefined}
           showCancel={false}
         />

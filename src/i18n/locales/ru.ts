@@ -72,6 +72,9 @@ export const ru: TranslationKeys = {
         add: 'Добавить',
         invalidUrl: 'Пожалуйста, введите действительный домен или URL',
         addedDate: 'Добавлено',
+        userAdded: 'Добавлено вами',
+        systemDefault: 'Проверено системой',
+        verified: 'Официальный партнёр',
     },
 
     permissions: {
