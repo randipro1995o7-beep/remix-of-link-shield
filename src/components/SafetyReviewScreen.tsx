@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { ArrowLeft, Shield, ShieldAlert, ShieldX, CheckCircle, AlertTriangle, XCircle, ExternalLink, X, ArrowRight, Globe, Award } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
@@ -46,43 +46,57 @@ export function SafetyReviewScreen({ url, source, onCancel, onProceed, safeBrows
   const [feedbackGiven, setFeedbackGiven] = useState<FeedbackType | null>(null);
   const [feedbackMessage, setFeedbackMessage] = useState<string | null>(null);
 
+  const [isProceeding, setIsProceeding] = useState(false);
+  const [showRedirectChain, setShowRedirectChain] = useState(false);
+
+  // Redirect chain state
+  const hasRedirects = redirectInfo && redirectInfo.totalRedirects > 0;
+
   // Risk level display configuration - using assistive language
-  const riskConfig: Record<RiskLevel, {
-    icon: typeof Shield;
-    title: string;
-    bgColor: string;
-    iconColor: string;
-    borderColor: string;
-  }> = {
-    low: {
-      icon: Shield,
-      title: t.safetyReview.riskLow,
-      bgColor: 'bg-success/10',
-      iconColor: 'text-success',
-      borderColor: 'border-success/20',
-    },
-    medium: {
-      icon: ShieldAlert,
-      title: t.safetyReview.riskMedium,
-      bgColor: 'bg-warning/10',
-      iconColor: 'text-warning',
-      borderColor: 'border-warning/20',
-    },
-    high: {
-      icon: ShieldX,
-      title: t.safetyReview.riskHigh,
-      bgColor: 'bg-destructive/10',
-      iconColor: 'text-destructive',
-      borderColor: 'border-destructive/20',
-    },
-    blocked: {
-      icon: ShieldX,
-      title: t.blocked.title,
-      bgColor: 'bg-destructive/20',
-      iconColor: 'text-destructive',
-      borderColor: 'border-destructive/30',
-    },
-  };
+  // Memoize and check for translation availability to prevent crashes
+  const riskConfig = useMemo(() => {
+    if (!t?.safetyReview) {
+      console.warn('SafetyReviewScreen: Translation keys missing');
+      return null;
+    }
+
+    return {
+      low: {
+        icon: Shield,
+        title: t.safetyReview.riskLow,
+        bgColor: 'bg-success/10',
+        iconColor: 'text-success',
+        borderColor: 'border-success/20',
+      },
+      medium: {
+        icon: ShieldAlert,
+        title: t.safetyReview.riskMedium,
+        bgColor: 'bg-warning/10',
+        iconColor: 'text-warning',
+        borderColor: 'border-warning/20',
+      },
+      high: {
+        icon: ShieldX,
+        title: t.safetyReview.riskHigh,
+        bgColor: 'bg-destructive/10',
+        iconColor: 'text-destructive',
+        borderColor: 'border-destructive/20',
+      },
+      blocked: {
+        icon: ShieldX,
+        title: t.blocked?.title || 'Blocked',
+        bgColor: 'bg-destructive/20',
+        iconColor: 'text-destructive',
+        borderColor: 'border-destructive/30',
+      },
+    } as Record<RiskLevel, {
+      icon: typeof Shield;
+      title: string;
+      bgColor: string;
+      iconColor: string;
+      borderColor: string;
+    }>;
+  }, [t]);
 
   useEffect(() => {
     const init = async () => {
@@ -183,6 +197,7 @@ export function SafetyReviewScreen({ url, source, onCancel, onProceed, safeBrows
   };
 
   const recordAndProceed = async () => {
+    setIsProceeding(true); // Show loading state
     if (review) {
       // Use 'high' for blocked links in history (storage type compatibility)
       const storedRiskLevel = review.riskLevel === 'blocked' ? 'high' : review.riskLevel;
@@ -220,19 +235,28 @@ export function SafetyReviewScreen({ url, source, onCancel, onProceed, safeBrows
     return <AlertTriangle className="w-5 h-5 text-warning flex-shrink-0" aria-hidden="true" />;
   }
 
-  if (isAnalyzing || !review) {
+  // Show generic loading if analyzing or proceeding
+  if (isAnalyzing || isProceeding || !review) {
     return (
       <div
         className="fixed inset-0 z-50 bg-background flex flex-col items-center justify-center animate-fade-in"
         role="status"
         aria-live="polite"
-        aria-label={t.safetyReview.analyzing}
+        aria-label={isProceeding ? "Proceeding to link..." : t.safetyReview.analyzing}
       >
         <div className="w-20 h-20 rounded-full bg-primary/10 flex items-center justify-center mb-6 animate-gentle-pulse">
-          <Shield className="w-10 h-10 text-primary" aria-hidden="true" />
+          {isProceeding ? (
+            <ExternalLink className="w-10 h-10 text-primary" aria-hidden="true" />
+          ) : (
+            <Shield className="w-10 h-10 text-primary" aria-hidden="true" />
+          )}
         </div>
-        <h2 className="text-title text-foreground mb-2">{t.safetyReview.analyzing}</h2>
-        <p className="text-muted-foreground">{t.safetyReview.analyzingDesc}</p>
+        <h2 className="text-title text-foreground mb-2">
+          {isProceeding ? "Opening Link..." : t.safetyReview.analyzing}
+        </h2>
+        <p className="text-muted-foreground">
+          {isProceeding ? "Please wait while we redirect you." : t.safetyReview.analyzingDesc}
+        </p>
       </div>
     );
   }
@@ -271,7 +295,12 @@ export function SafetyReviewScreen({ url, source, onCancel, onProceed, safeBrows
     );
   }
 
-  const config = review?.riskLevel && riskConfig[review.riskLevel] ? riskConfig[review.riskLevel] : riskConfig['medium'];
+  const config = (riskConfig && review?.riskLevel && riskConfig[review.riskLevel])
+    ? riskConfig[review.riskLevel]
+    : (riskConfig ? riskConfig['medium'] : null);
+
+  if (!config) return null; // Fallback if translations are truly broken
+
   const RiskIcon = config.icon;
 
   // Separate failed and passed checks
@@ -282,9 +311,7 @@ export function SafetyReviewScreen({ url, source, onCancel, onProceed, safeBrows
   const finalDomain = review.domain;
   const reputation = DomainReputation.getReputation(finalDomain);
 
-  // Redirect chain state
-  const [showRedirectChain, setShowRedirectChain] = useState(false);
-  const hasRedirects = redirectInfo && redirectInfo.totalRedirects > 0;
+  // Redirect chain state (moved to top)
 
   return (
     <div
