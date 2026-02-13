@@ -56,7 +56,7 @@ export default function Home() {
       </section>
 
       {/* Demo Section - only shown for testing */}
-      {state.isProtectionEnabled && (
+      {(state.isProtectionEnabled || true) && (
         <Card className="p-4 card-elevated">
           <h3 className="font-medium text-foreground mb-3">
             {t.home.testSafety}
