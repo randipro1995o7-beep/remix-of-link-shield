@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 interface Props {
   children: ReactNode;
   fallback?: ReactNode;
+  onReset?: () => void;
 }
 
 interface State {
@@ -27,12 +28,13 @@ export class ErrorBoundary extends Component<Props, State> {
   public componentDidCatch(error: Error, errorInfo: ErrorInfo) {
     console.error('ErrorBoundary caught an error:', error, errorInfo);
     this.setState({ errorInfo });
-    
+
     // Here you could send error to a logging service
     // logErrorToService(error, errorInfo);
   }
 
   private handleRetry = () => {
+    this.props.onReset?.();
     this.setState({ hasError: false, error: null, errorInfo: null });
   };
 
@@ -54,7 +56,7 @@ export class ErrorBoundary extends Component<Props, State> {
             <div className="w-20 h-20 mx-auto rounded-full bg-destructive/10 flex items-center justify-center">
               <AlertCircle className="w-10 h-10 text-destructive" />
             </div>
-            
+
             {/* Error Message */}
             <div className="space-y-2">
               <h1 className="text-title text-foreground">
@@ -64,7 +66,7 @@ export class ErrorBoundary extends Component<Props, State> {
                 Don't worry, your protection is still active. Let's get you back on track.
               </p>
             </div>
-            
+
             {/* Action Buttons */}
             <div className="flex flex-col gap-3 pt-4">
               <Button
@@ -75,7 +77,7 @@ export class ErrorBoundary extends Component<Props, State> {
                 <RefreshCw className="w-5 h-5" />
                 Try Again
               </Button>
-              
+
               <Button
                 onClick={this.handleGoHome}
                 variant="outline"
@@ -86,7 +88,7 @@ export class ErrorBoundary extends Component<Props, State> {
                 Go Home
               </Button>
             </div>
-            
+
             {/* Technical details (collapsed by default for non-technical users) */}
             {process.env.NODE_ENV === 'development' && this.state.error && (
               <details className="mt-6 text-left p-4 bg-muted rounded-lg">
@@ -121,7 +123,7 @@ export function ErrorFallback({ error, resetErrorBoundary }: ErrorFallbackProps)
         <div className="w-20 h-20 mx-auto rounded-full bg-destructive/10 flex items-center justify-center">
           <AlertCircle className="w-10 h-10 text-destructive" />
         </div>
-        
+
         <div className="space-y-2">
           <h1 className="text-title text-foreground">
             Something went wrong
@@ -130,7 +132,7 @@ export function ErrorFallback({ error, resetErrorBoundary }: ErrorFallbackProps)
             {error.message || "An unexpected error occurred"}
           </p>
         </div>
-        
+
         <Button onClick={resetErrorBoundary} size="lg" className="w-full gap-2">
           <RefreshCw className="w-5 h-5" />
           Try Again

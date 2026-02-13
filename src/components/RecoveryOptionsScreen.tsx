@@ -143,7 +143,8 @@ export function RecoveryOptionsScreen({ onBack, onComplete, isOnboarding }: Reco
                 </div>
 
                 {/* Phone Section */}
-                <Card className="p-4 space-y-4">
+                {/* Phone Section - Hidden as per requirement */}
+                {/* <Card className="p-4 space-y-4">
                     <div className="flex items-center gap-3">
                         <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
                             <Phone className="w-5 h-5 text-primary" />
@@ -191,7 +192,7 @@ export function RecoveryOptionsScreen({ onBack, onComplete, isOnboarding }: Reco
                             }
                         </Button>
                     )}
-                </Card>
+                </Card> */}
 
                 {/* Email Section */}
                 <Card className="p-4 space-y-4">

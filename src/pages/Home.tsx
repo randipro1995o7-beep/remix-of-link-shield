@@ -6,8 +6,10 @@ import { SafetyStatsChart } from '@/components/SafetyStatsChart';
 import { useApp } from '@/contexts/AppContext';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { QrCode } from 'lucide-react';
+import { Switch } from '@/components/ui/switch';
+import { QrCode, Lock, Unlock, ShieldAlert } from 'lucide-react';
 import { QRScannerScreen } from '@/components/QRScannerScreen';
+import { cn } from '@/lib/utils';
 
 /**
  * Home Page
@@ -16,7 +18,7 @@ import { QRScannerScreen } from '@/components/QRScannerScreen';
  * No absolute security claims.
  */
 export default function Home() {
-  const { t, state } = useApp();
+  const { t, state, setPanicMode } = useApp();
   const [showQRScanner, setShowQRScanner] = useState(false);
 
   // Show QR Scanner overlay
@@ -50,6 +52,41 @@ export default function Home() {
 
       {/* Status Card */}
       <StatusCard />
+
+      {/* Panic Mode Control */}
+      <Card className={cn(
+        "p-4 border-l-4 transition-all duration-300",
+        state.isPanicMode
+          ? "bg-destructive/10 border-l-destructive shadow-lg shadow-destructive/20 border-destructive"
+          : "bg-card border-l-transparent hover:border-l-destructive/50"
+      )}>
+        <div className="flex items-center justify-between gap-4">
+          <div className="flex items-center gap-3 overflow-hidden">
+            <div className={cn(
+              "p-2.5 rounded-full transition-colors flex-shrink-0",
+              state.isPanicMode ? "bg-destructive text-destructive-foreground animate-pulse" : "bg-muted text-muted-foreground"
+            )}>
+              {state.isPanicMode ? <Lock className="w-5 h-5" /> : <Unlock className="w-5 h-5" />}
+            </div>
+            <div>
+              <h3 className={cn("font-semibold truncate", state.isPanicMode ? "text-destructive" : "text-foreground")}>
+                Panic Mode
+              </h3>
+              <p className="text-xs text-muted-foreground line-clamp-2">
+                {state.isPanicMode
+                  ? "Blocking all unknown links for maximum safety."
+                  : "Turn on to block everything except trusted sites."}
+              </p>
+            </div>
+          </div>
+          <Switch
+            checked={state.isPanicMode}
+            onCheckedChange={(checked) => setPanicMode(checked)}
+            aria-label="Toggle Panic Mode"
+            className={cn(state.isPanicMode && "data-[state=checked]:bg-destructive")}
+          />
+        </div>
+      </Card>
 
       {/* Stats */}
       <section aria-label="Safety statistics">

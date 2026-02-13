@@ -3,6 +3,18 @@ import { TranslationKeys } from '../types';
 export const id: TranslationKeys = {
     appName: 'Safety SHIELD',
     tagline: 'Berhenti, pikir, baru klik',
+    safetyTips: [
+        'Jangan pernah bagikan kode OTP atau PIN kepada siapapun.',
+        'Periksa URL dengan teliti sebelum memasukkan data pribadi.',
+        'Hati-hati terhadap pesan mendesak dari nomor tidak dikenal.',
+        'Bank tidak pernah meminta PIN atau password melalui telepon.',
+        'Pastikan aplikasi Anda selalu diperbarui ke versi terbaru.',
+        'Gunakan password yang kuat dan unik untuk setiap akun.',
+        'Hindari menggunakan WiFi publik untuk transaksi perbankan.',
+        'Aktifkan verifikasi 2 langkah (2FA) di semua akun penting.',
+        'Jangan unduh file dari situs yang tidak terpercaya.',
+        'Laporkan aktivitas mencurigakan kepada penyedia layanan.',
+    ],
 
     nav: {
         home: 'Beranda',

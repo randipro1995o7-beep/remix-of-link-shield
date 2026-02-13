@@ -7,16 +7,19 @@ import { SafeBrowsingResult } from '@/lib/services/GoogleSafeBrowsing';
 import { ResolvedUrlResult } from '@/lib/services/UrlResolver';
 import { DomainAgeResult } from '@/lib/services/DomainAgeChecker';
 import DomainReputation from '@/lib/services/DomainReputation';
+import { ReputationService, ReputationScore } from '@/lib/services/ReputationService';
 import { SafetyHistoryService, FamilyModeService } from '@/lib/storage';
 import { cn } from '@/lib/utils';
 import { HighRiskConfirmation } from './HighRiskConfirmation';
 import { GuardianPinVerification } from './GuardianPinVerification';
 import { SafetyPinVerification } from './SafetyPinVerification';
 import { BlockedLinkScreen } from './BlockedLinkScreen';
+import { PanicBlockedScreen } from './PanicBlockedScreen';
 import { useApp } from '@/contexts/AppContext';
 import { Haptics, NotificationType } from '@capacitor/haptics';
 import { playWarningSound, playDangerSound } from '@/lib/alertSound';
 import { UserFeedbackService, FeedbackType } from '@/lib/services/UserFeedbackService';
+import { SafeLinkHeuristic } from '@/lib/services/SafeLinkHeuristic';
 
 interface SafetyReviewScreenProps {
   url: string;
@@ -35,16 +38,19 @@ interface SafetyReviewScreenProps {
  * Uses assistive wording - "helps you decide" not "protects you".
  */
 export function SafetyReviewScreen({ url, source, onCancel, onProceed, safeBrowsingResult, redirectInfo, domainAgeResult }: SafetyReviewScreenProps) {
-  const { t, refreshStats } = useApp();
+  const { t, refreshStats, state, setPanicMode } = useApp();
   const [review, setReview] = useState<SafetyReviewResult | null>(null);
   const [isAnalyzing, setIsAnalyzing] = useState(true);
   const [showAllChecks, setShowAllChecks] = useState(false);
   const [showHighRiskConfirm, setShowHighRiskConfirm] = useState(false);
   const [showGuardianPin, setShowGuardianPin] = useState(false);
   const [showSafetyPin, setShowSafetyPin] = useState(false);
+  const [showPanicUnlock, setShowPanicUnlock] = useState(false);
   const [familyModeEnabled, setFamilyModeEnabled] = useState(false);
   const [feedbackGiven, setFeedbackGiven] = useState<FeedbackType | null>(null);
   const [feedbackMessage, setFeedbackMessage] = useState<string | null>(null);
+  const [reputationScore, setReputationScore] = useState<ReputationScore | null>(null);
+  const [showRedirectChain, setShowRedirectChain] = useState(false);
 
   // Risk level display configuration - using assistive language
   const riskConfig: Record<RiskLevel, {
@@ -84,12 +90,41 @@ export function SafetyReviewScreen({ url, source, onCancel, onProceed, safeBrows
     },
   };
 
+  // Determine if Panic Mode blocking applies
+  const isPanicBlocked = (() => {
+    if (!state.isPanicMode) return false;
+
+    try {
+      const domain = new URL(url).hostname || url;
+      // Check if it's whitelisted (Trusted System Domain OR Auto-Trusted by User)
+      const heuristic = SafeLinkHeuristic.check(url, domain);
+
+      // If it is a Trusted Domain (System) or Auto-Trusted (User), we ALLOW it (no block)
+      if (heuristic.signals.isTrustedDomain) {
+        return false;
+      }
+
+      return true; // Block everything else
+    } catch {
+      return true; // Block on error
+    }
+  })();
+
   useEffect(() => {
     const init = async () => {
       try {
         // Check family mode status
         const isFamilyMode = await FamilyModeService.isEnabled();
         setFamilyModeEnabled(isFamilyMode);
+
+        // Fetch crowd reputation
+        try {
+          const domain = new URL(url).hostname || url;
+          const crowdRep = await ReputationService.getReputation(domain);
+          setReputationScore(crowdRep);
+        } catch (e) {
+          console.warn('Failed to fetch reputation', e);
+        }
 
         // Simulate brief analysis time for user experience
         await new Promise(resolve => setTimeout(resolve, 1200));
@@ -209,6 +244,13 @@ export function SafetyReviewScreen({ url, source, onCancel, onProceed, safeBrows
     await recordAndProceed();
   };
 
+  const handlePanicUnlockVerified = async () => {
+    setShowPanicUnlock(false);
+    setPanicMode(false); // Disable Panic Mode
+    // Don't auto-proceed, let user review the link now that it's unlocked
+    // The screen will re-render and show normal review
+  };
+
   // Check result icons
   function CheckIcon({ check }: { check: SafetyCheck }) {
     if (check.passed) {
@@ -218,6 +260,39 @@ export function SafetyReviewScreen({ url, source, onCancel, onProceed, safeBrows
       return <XCircle className="w-5 h-5 text-destructive flex-shrink-0" aria-hidden="true" />;
     }
     return <AlertTriangle className="w-5 h-5 text-warning flex-shrink-0" aria-hidden="true" />;
+  }
+
+  // Handle Panic Mode Unlock (PIN Verification)
+  if (showPanicUnlock) {
+    // Use Guardian PIN if family mode is on, otherwise Safety PIN (or just Guardian PIN for Panic?)
+    // Let's use Safety PIN as default, but Guardian PIN is stricter. 
+    // Panic Mode implies user feels unsafe, so maybe Safety PIN is enough to prove identity.
+
+    if (familyModeEnabled) {
+      return (
+        <GuardianPinVerification
+          onSuccess={handlePanicUnlockVerified}
+          onCancel={() => setShowPanicUnlock(false)}
+        />
+      );
+    }
+
+    return (
+      <SafetyPinVerification
+        onSuccess={handlePanicUnlockVerified}
+        onCancel={() => setShowPanicUnlock(false)}
+      />
+    );
+  }
+
+  // Show Panic Blocked Screen
+  if (isPanicBlocked) {
+    return (
+      <PanicBlockedScreen
+        onClose={onCancel}
+        onUnlockRequest={() => setShowPanicUnlock(true)}
+      />
+    );
   }
 
   if (isAnalyzing || !review) {
@@ -283,7 +358,6 @@ export function SafetyReviewScreen({ url, source, onCancel, onProceed, safeBrows
   const reputation = DomainReputation.getReputation(finalDomain);
 
   // Redirect chain state
-  const [showRedirectChain, setShowRedirectChain] = useState(false);
   const hasRedirects = redirectInfo && redirectInfo.totalRedirects > 0;
 
   return (
@@ -343,6 +417,80 @@ export function SafetyReviewScreen({ url, source, onCancel, onProceed, safeBrows
               {reputation.tier === 'top-100' ? 'Verified Popular Site' : 'Known Site'}
             </span>
           </div>
+        )}
+
+        {/* Community Reputation Card */}
+        {reputationScore && (
+          <Card className="p-4 mb-4 bg-card border shadow-sm">
+            <div className="flex items-center justify-between mb-3">
+              <h3 className="font-semibold text-foreground flex items-center gap-2">
+                <Globe className="w-4 h-4 text-primary" />
+                {t.communityReputation.title}
+              </h3>
+              <span className={cn(
+                "text-xs font-medium px-2 py-0.5 rounded-full",
+                reputationScore.score >= 70 ? "bg-success/10 text-success" :
+                  reputationScore.score >= 40 ? "bg-warning/10 text-warning" : "bg-destructive/10 text-destructive"
+              )}>
+                {reputationScore.label}
+              </span>
+            </div>
+
+            <div className="flex items-center gap-4 mb-4">
+              <div className="relative w-16 h-16 flex items-center justify-center">
+                <svg className="w-full h-full transform -rotate-90">
+                  <circle cx="32" cy="32" r="28" stroke="currentColor" strokeWidth="4" fill="transparent" className="text-muted/20" />
+                  <circle cx="32" cy="32" r="28" stroke="currentColor" strokeWidth="4" fill="transparent"
+                    strokeDasharray={175.93}
+                    strokeDashoffset={175.93 - (175.93 * reputationScore.score) / 100}
+                    className={cn(
+                      reputationScore.score >= 70 ? "text-success" :
+                        reputationScore.score >= 40 ? "text-warning" : "text-destructive"
+                    )}
+                  />
+                </svg>
+                <span className="absolute text-sm font-bold">{reputationScore.score}%</span>
+              </div>
+              <div>
+                <p className="text-sm font-medium">
+                  {reputationScore.totalVotes > 0
+                    ? `${reputationScore.score}% ${t.communityReputation.description}`
+                    : t.communityReputation.noReports}
+                </p>
+                <p className="text-xs text-muted-foreground">
+                  {reputationScore.totalVotes} {t.communityReputation.votes}
+                </p>
+              </div>
+            </div>
+
+            {/* Voting Actions */}
+            {!reputationScore.vote ? (
+              <div className="flex gap-2">
+                <Button
+                  variant="outline" size="sm" className="flex-1 h-9 text-xs border-success/30 hover:bg-success/5 text-success hover:text-success"
+                  onClick={async () => {
+                    const newScore = await ReputationService.submitVote(review!.domain, 'safe');
+                    setReputationScore(newScore);
+                  }}
+                >
+                  {t.communityReputation.voteSafe}
+                </Button>
+                <Button
+                  variant="outline" size="sm" className="flex-1 h-9 text-xs border-warning/30 hover:bg-warning/5 text-warning hover:text-warning"
+                  onClick={async () => {
+                    const newScore = await ReputationService.submitVote(review!.domain, 'unsafe');
+                    setReputationScore(newScore);
+                  }}
+                >
+                  {t.communityReputation.voteSuspicious}
+                </Button>
+              </div>
+            ) : (
+              <div className="text-center text-xs text-muted-foreground py-1 bg-muted/30 rounded-lg">
+                {t.communityReputation.thankYou}
+              </div>
+            )}
+          </Card>
         )}
 
         {/* Domain Preview */}
@@ -492,7 +640,7 @@ export function SafetyReviewScreen({ url, source, onCancel, onProceed, safeBrows
         </Card>
 
         {/* User Feedback Prompt */}
-        {!feedbackGiven && (
+        {!feedbackGiven && !reputationScore?.vote && (
           <div className="mt-4 p-4 rounded-xl bg-muted/30 border border-border">
             <p className="text-sm font-medium text-foreground mb-3 text-center">
               {t.feedback.question}

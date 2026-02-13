@@ -107,7 +107,7 @@ function AppContent() {
 }
 
 const App = () => (
-  <ErrorBoundary>
+  <ErrorBoundary onReset={() => window.location.reload()}>
     <QueryClientProvider client={queryClient}>
       <AppProvider>
         <SafetyPinProvider>

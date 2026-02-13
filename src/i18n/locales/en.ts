@@ -3,6 +3,18 @@ import { TranslationKeys } from '../types';
 export const en: TranslationKeys = {
     appName: 'Safety SHIELD',
     tagline: 'Pause, think, then click',
+    safetyTips: [
+        'Never share your OTP or PIN with anyone.',
+        'Check the URL carefully before entering personal data.',
+        'Be wary of urgent messages from unknown numbers.',
+        'Banks never ask for your PIN or password over the phone.',
+        'Keep your apps updated to the latest version.',
+        'Use strong and unique passwords for every account.',
+        'Avoid using public WiFi for banking transactions.',
+        'Enable 2-step verification (2FA) on all important accounts.',
+        'Do not download files from untrusted sites.',
+        'Report suspicious activity to your service provider.',
+    ],
 
     nav: {
         home: 'Home',
@@ -152,6 +164,16 @@ export const en: TranslationKeys = {
         thanksUnsafe: 'Thanks! We\'ll be more careful with this site.',
         autoTrusted: 'This site has been added to your trusted list!',
         dismiss: 'Skip',
+    },
+
+    communityReputation: {
+        title: 'Community Trust',
+        description: 'users trust this website',
+        votes: 'votes',
+        voteSafe: 'Mark as Safe',
+        voteSuspicious: 'Report Suspicious',
+        thankYou: 'Thanks for your report!',
+        noReports: 'No community reports yet',
     },
 
     blocked: {

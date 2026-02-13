@@ -4,6 +4,7 @@ export interface TranslationKeys {
     // App general
     appName: string;
     tagline: string;
+    safetyTips: string[];
 
     // Navigation
     nav: {
@@ -163,6 +164,17 @@ export interface TranslationKeys {
         thanksUnsafe: string;
         autoTrusted: string;
         dismiss: string;
+    };
+
+    // Community Reputation
+    communityReputation: {
+        title: string;
+        description: string;
+        votes: string;
+        voteSafe: string;
+        voteSuspicious: string;
+        thankYou: string;
+        noReports: string;
     };
 
     // Blocked Link Screen

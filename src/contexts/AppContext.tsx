@@ -34,6 +34,9 @@ interface AppState {
   isInitialized: boolean;
   error: string | null;
   theme: 'light' | 'dark' | 'tokyo-night';
+
+  // Panic Mode
+  isPanicMode: boolean;
 }
 
 // Action Types
@@ -48,7 +51,8 @@ type AppAction =
   | { type: 'SET_INITIALIZED'; payload: boolean }
   | { type: 'SET_ERROR'; payload: string | null }
   | { type: 'LOAD_PERSISTED_STATE'; payload: Partial<AppState> }
-  | { type: 'RESET_STATE' };
+  | { type: 'RESET_STATE' }
+  | { type: 'SET_PANIC_MODE'; payload: boolean };
 
 // Initial State
 const initialState: AppState = {
@@ -69,6 +73,7 @@ const initialState: AppState = {
   isInitialized: false,
   error: null,
   theme: 'light',
+  isPanicMode: false,
 };
 
 // Reducer
@@ -130,6 +135,9 @@ function appReducer(state: AppState, action: AppAction): AppState {
     case 'RESET_STATE':
       return { ...initialState, isInitialized: true, isLoading: false };
 
+    case 'SET_PANIC_MODE':
+      return { ...state, isPanicMode: action.payload };
+
     default:
       return state;
   }
@@ -147,6 +155,7 @@ interface AppContextType {
   grantPermission: (key: keyof PermissionStatus) => void;
   clearError: () => void;
   refreshStats: () => Promise<void>;
+  setPanicMode: (enabled: boolean) => void;
 }
 
 // Create Context
@@ -176,6 +185,7 @@ export function AppProvider({ children }: AppProviderProps) {
         permissions: stateToSave.permissions,
         isProtectionEnabled: stateToSave.isProtectionEnabled,
         theme: stateToSave.theme,
+        isPanicMode: stateToSave.isPanicMode,
       };
       await Preferences.set({
         key: STORAGE_KEY,
@@ -237,6 +247,10 @@ export function AppProvider({ children }: AppProviderProps) {
             LinkShield.setProtectionEnabled({ enabled: parsed.isProtectionEnabled }).catch(() => { });
           }
 
+          if (typeof parsed.isPanicMode === 'boolean') {
+            loadedState.isPanicMode = parsed.isPanicMode;
+          }
+
           dispatch({ type: 'LOAD_PERSISTED_STATE', payload: loadedState });
         }
 
@@ -283,7 +297,7 @@ export function AppProvider({ children }: AppProviderProps) {
 
     // Save to Capacitor Preferences
     saveState(state);
-  }, [state.language, state.notificationsEnabled, state.protectionStats, state.isProtectionEnabled, state.permissions, state.isInitialized, state.theme, saveState]);
+  }, [state.language, state.notificationsEnabled, state.protectionStats, state.isProtectionEnabled, state.permissions, state.isInitialized, state.theme, state.isPanicMode, saveState]);
 
   // Get translations for current language
   const t = getTranslation(state.language);
@@ -308,6 +322,10 @@ export function AppProvider({ children }: AppProviderProps) {
   const clearError = () => {
     dispatch({ type: 'SET_ERROR', payload: null });
   };
+
+  const setPanicMode = (enabled: boolean) => {
+    dispatch({ type: 'SET_PANIC_MODE', payload: enabled });
+  }
 
   const refreshStats = useCallback(async () => {
     try {
@@ -338,6 +356,7 @@ export function AppProvider({ children }: AppProviderProps) {
     grantPermission,
     clearError,
     refreshStats,
+    setPanicMode,
   };
 
   // Initial stats load

@@ -40,7 +40,7 @@ export function useSecurityStatusNotification() {
                 : t.settings.protectionInactive;
 
             const body = isProtected
-                ? t.settings.protectionActiveDesc
+                ? t.safetyTips[Math.floor(Math.random() * t.safetyTips.length)]
                 : t.settings.protectionInactiveDesc;
 
             // 5. Schedule (Update) Notification

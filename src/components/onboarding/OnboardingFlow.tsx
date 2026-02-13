@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { LanguageSelectionScreen } from './LanguageSelectionScreen';
+import { InteractiveTutorial } from './InteractiveTutorial';
 import { PinSetupScreen } from './PinSetupScreen';
 import { RecoveryOptionsScreen } from '@/components/RecoveryOptionsScreen';
 import { useApp } from '@/contexts/AppContext';
@@ -8,7 +9,7 @@ import { Language } from '@/i18n/translations';
 
 const ONBOARDING_COMPLETE_KEY = 'safetyshield_onboarding_complete';
 
-type OnboardingStep = 'language' | 'pin' | 'recovery' | 'complete';
+type OnboardingStep = 'language' | 'tutorial' | 'pin' | 'recovery' | 'complete';
 
 interface OnboardingFlowProps {
     children: React.ReactNode;
@@ -57,6 +58,10 @@ export function OnboardingFlow({ children }: OnboardingFlowProps) {
     };
 
     const handleLanguageContinue = () => {
+        setStep('tutorial');
+    };
+
+    const handleTutorialComplete = () => {
         setStep('pin');
     };
 
@@ -112,12 +117,22 @@ export function OnboardingFlow({ children }: OnboardingFlowProps) {
         );
     }
 
-    // Step 2: PIN setup
+    // Step 2: Tutorial
+    if (step === 'tutorial') {
+        return (
+            <InteractiveTutorial
+                onComplete={handleTutorialComplete}
+                onSkip={handleTutorialComplete}
+            />
+        );
+    }
+
+    // Step 3: PIN setup
     if (step === 'pin') {
         return <PinSetupScreen onComplete={handlePinComplete} />;
     }
 
-    // Step 3: Recovery Options
+    // Step 4: Recovery Options
     if (step === 'recovery') {
         return (
             <RecoveryOptionsScreen
