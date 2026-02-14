@@ -267,6 +267,27 @@ export const en: TranslationKeys = {
         privacyContent: 'Your data stays on your device. We do not collect your browsing history, personal information, or Safety PIN. All link analysis is performed locally on your phone. We do not share any data with third parties.',
     },
 
+    finalOnboarding: {
+        title: 'Almost Done!',
+        subtitle: 'Two important things to keep you safe',
+        panicTitle: 'Panic Mode',
+        panicDesc: 'In an emergency, use Panic Mode to block all unknown links instantly.',
+        defaultTitle: 'Set as Default',
+        defaultDesc: 'Safety SHIELD works best when it handles all your links. Make it your default browser app.',
+        finishButton: 'Got it, let\'s go!',
+    },
+
+    homeGuide: {
+        welcome: 'Turn on Protection',
+        clickEnable: 'Please enter the Security Layer to activate the application.',
+        dismiss: 'Dismiss',
+        successTitle: 'You are Protected!',
+        successDesc: 'Great job! The app is now active.',
+        panicTitle: 'Maximum Security',
+        panicDesc: 'Enable Panic Mode to block EVERYTHING except trusted sites. Highly recommended!',
+        next: 'Next',
+    },
+
     privacy: {
         title: 'Privacy Policy',
         intro: 'Safety SHIELD is designed with your privacy as a priority.',

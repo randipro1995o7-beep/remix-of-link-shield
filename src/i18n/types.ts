@@ -274,6 +274,29 @@ export interface TranslationKeys {
         privacyContent: string;
     };
 
+    // Final Onboarding (Panic & Default)
+    finalOnboarding: {
+        title: string;
+        subtitle: string;
+        panicTitle: string;
+        panicDesc: string;
+        defaultTitle: string;
+        defaultDesc: string;
+        finishButton: string;
+    };
+
+    // Home Interactive Guide
+    homeGuide: {
+        welcome: string;
+        clickEnable: string;
+        dismiss: string;
+        successTitle: string;
+        successDesc: string;
+        panicTitle: string;
+        panicDesc: string;
+        next: string;
+    };
+
     // Privacy & About
     privacy: {
         title: string;

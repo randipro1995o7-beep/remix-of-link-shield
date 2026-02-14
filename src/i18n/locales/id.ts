@@ -267,6 +267,27 @@ export const id: TranslationKeys = {
         privacyContent: 'Data Anda tetap di perangkat Anda. Kami tidak mengumpulkan riwayat penelusuran, informasi pribadi, atau PIN Keamanan Anda. Semua analisis tautan dilakukan secara lokal di ponsel Anda. Kami tidak membagikan data apa pun dengan pihak ketiga.',
     },
 
+    finalOnboarding: {
+        title: 'Hampir Selesai!',
+        subtitle: 'Dua hal penting untuk menjaga keamanan Anda',
+        panicTitle: 'Mode Panik',
+        panicDesc: 'Dalam keadaan darurat, gunakan Mode Panik untuk memblokir semua tautan tak dikenal secara instan.',
+        defaultTitle: 'Jadikah Default',
+        defaultDesc: 'Safety SHIELD bekerja paling baik saat menangani semua tautan Anda. Jadikan ini sebagai aplikasi browser default Anda.',
+        finishButton: 'Mengerti, ayo mulai!',
+    },
+
+    homeGuide: {
+        welcome: 'Aktifkan Perlindungan',
+        clickEnable: 'Silahkan masuk ke layer keamanan untuk mengaktifkan aplikasi.',
+        dismiss: 'Tutup',
+        successTitle: 'Aplikasi Telah Aktif!',
+        successDesc: 'Kerja bagus! Perangkat Anda kini terlindungi.',
+        panicTitle: 'Keamanan Tertinggi',
+        panicDesc: 'Aktifkan Mode Panik untuk memblokir SEMUANYA kecuali situs terpercaya. Sangat disarankan!',
+        next: 'Lanjut',
+    },
+
     privacy: {
         title: 'Kebijakan Privasi',
         intro: 'Safety SHIELD dirancang dengan privasi Anda sebagai prioritas.',

@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
-import { ArrowLeft, Phone, Mail, CheckCircle, Shield } from 'lucide-react';
+import { ArrowLeft, Mail, CheckCircle, Shield, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { useApp } from '@/contexts/AppContext';
 import { RecoveryService } from '@/lib/storage';
 import { toast } from 'sonner';
+import { cn } from '@/lib/utils';
 
 interface RecoveryOptionsScreenProps {
     onBack: () => void;
@@ -12,51 +13,34 @@ interface RecoveryOptionsScreenProps {
     isOnboarding?: boolean;
 }
 
-/**
- * Recovery Options Screen
- * 
- * Allows user to set up recovery phone and/or email for PIN reset.
- * Simple save only - Verification happens during PIN reset flow.
- */
 export function RecoveryOptionsScreen({ onBack, onComplete, isOnboarding }: RecoveryOptionsScreenProps) {
     const { state } = useApp();
-    const [phone, setPhone] = useState('');
     const [email, setEmail] = useState('');
-    const [existingPhone, setExistingPhone] = useState<string | null>(null);
     const [existingEmail, setExistingEmail] = useState<string | null>(null);
     const [isLoading, setIsLoading] = useState(true);
     const [isSaving, setIsSaving] = useState(false);
-    const [activeField, setActiveField] = useState<'phone' | 'email' | null>(null);
 
     const isIndonesian = state.language === 'id';
 
     const t = {
-        title: isIndonesian ? 'Pengaturan Pemulihan' : 'Recovery Setup',
+        title: isIndonesian ? 'Amankan Akun Anda' : 'Secure Your Account',
         subtitle: isIndonesian
-            ? 'Tambahkan nomor HP atau email untuk reset PIN jika lupa'
-            : 'Add phone or email to reset PIN if forgotten',
-        phoneLabel: isIndonesian ? 'Nomor HP' : 'Phone Number',
-        phonePlaceholder: isIndonesian ? 'Contoh: 08123456789' : 'e.g., 08123456789',
-        emailLabel: 'Email',
-        emailPlaceholder: isIndonesian ? 'Contoh: email@gmail.com' : 'e.g., email@gmail.com',
-        save: isIndonesian ? 'Simpan' : 'Save',
-        skip: isIndonesian ? 'Lewati' : 'Skip',
-        saved: isIndonesian ? 'Tersimpan' : 'Saved',
-        saveSuccess: isIndonesian ? 'Pengaturan pemulihan disimpan!' : 'Recovery options saved!',
-        invalidPhone: isIndonesian ? 'Nomor HP tidak valid' : 'Invalid phone number',
-        invalidEmail: isIndonesian ? 'Email tidak valid' : 'Invalid email address',
-        whyImportant: isIndonesian
-            ? 'Jika Anda lupa PIN, opsi ini akan digunakan untuk verifikasi identitas Anda.'
-            : 'If you forget your PIN, these options will be used to verify your identity.',
-        cancel: isIndonesian ? 'Batal' : 'Cancel',
+            ? 'Tambahkan email untuk memulihkan PIN jika Anda lupa.'
+            : 'Add an email to recover your PIN if you forget it.',
+        emailPlaceholder: 'name@example.com',
+        save: isIndonesian ? 'Simpan & Lanjut' : 'Save & Continue',
+        skip: isIndonesian ? 'Lewati untuk sekarang' : 'Skip for now',
+        saveSuccess: isIndonesian ? 'Email pemulihan disimpan!' : 'Recovery email saved!',
+        invalidEmail: isIndonesian ? 'Format email tidak valid' : 'Invalid email format',
+        secureNote: isIndonesian
+            ? 'Email Anda hanya disimpan lokal di perangkat ini.'
+            : 'Your email is stored locally on this device only.',
     };
 
     useEffect(() => {
         const loadExisting = async () => {
             try {
-                const maskedPhone = await RecoveryService.getMaskedPhone();
                 const maskedEmail = await RecoveryService.getMaskedEmail();
-                setExistingPhone(maskedPhone);
                 setExistingEmail(maskedEmail);
             } catch (e) {
                 console.error('Failed to load recovery options:', e);
@@ -66,38 +50,27 @@ export function RecoveryOptionsScreen({ onBack, onComplete, isOnboarding }: Reco
         loadExisting();
     }, []);
 
-    const resetForm = () => {
-        setActiveField(null);
-        setPhone('');
-        setEmail('');
-    };
-
-    const handleSavePhone = async () => {
-        if (!phone.trim()) return;
-
-        setIsSaving(true);
-        try {
-            await RecoveryService.saveRecoveryPhone(phone);
-            const masked = await RecoveryService.getMaskedPhone();
-            setExistingPhone(masked);
-            resetForm();
-            toast.success(t.saveSuccess);
-        } catch (e) {
-            toast.error(t.invalidPhone);
-        }
-        setIsSaving(false);
-    };
-
     const handleSaveEmail = async () => {
-        if (!email.trim()) return;
+        if (!email.trim() && !existingEmail) return;
+
+        // If field is empty but we have existing, just continue
+        if (!email.trim() && existingEmail) {
+            handleComplete();
+            return;
+        }
+
+        if (!email.includes('@')) {
+            toast.error(t.invalidEmail);
+            return;
+        }
 
         setIsSaving(true);
         try {
             await RecoveryService.saveRecoveryEmail(email);
             const masked = await RecoveryService.getMaskedEmail();
             setExistingEmail(masked);
-            resetForm();
             toast.success(t.saveSuccess);
+            handleComplete();
         } catch (e) {
             toast.error(t.invalidEmail);
         }
@@ -113,152 +86,90 @@ export function RecoveryOptionsScreen({ onBack, onComplete, isOnboarding }: Reco
     };
 
     if (isLoading) {
-        return (
-            <div className="fixed inset-0 z-50 bg-background flex items-center justify-center">
-                <div className="w-12 h-12 rounded-full bg-primary/10 animate-pulse" />
-            </div>
-        );
+        return <div className="fixed inset-0 bg-background" />;
     }
 
     return (
-        <div className="fixed inset-0 z-50 bg-background flex flex-col animate-fade-in">
-            {/* Header */}
-            <div className="flex items-center justify-between p-4 safe-area-top border-b border-border">
-                <button
-                    onClick={onBack}
-                    className="w-12 h-12 flex items-center justify-center rounded-full hover:bg-muted transition-colors"
-                >
-                    <ArrowLeft className="w-6 h-6 text-foreground" />
-                </button>
-                <h1 className="font-semibold text-foreground">{t.title}</h1>
-                <div className="w-12" />
-            </div>
+        <div className="fixed inset-0 z-50 bg-background flex flex-col animate-in slide-in-from-right duration-500">
+            {/* Minimal Header */}
+            {!isOnboarding && (
+                <div className="safe-area-top p-4">
+                    <button
+                        onClick={onBack}
+                        className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-muted transition-colors"
+                    >
+                        <ArrowLeft className="w-6 h-6" />
+                    </button>
+                </div>
+            )}
 
-            {/* Content */}
-            <div className="flex-1 overflow-y-auto p-4 space-y-6">
-                {/* Info Banner */}
-                <div className="flex items-start gap-3 p-4 bg-primary/5 rounded-xl border border-primary/10">
-                    <Shield className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
-                    <p className="text-sm text-muted-foreground">{t.whyImportant}</p>
+            {/* Main Content - Centered */}
+            <div className="flex-1 flex flex-col items-center justify-center px-6 -mt-12">
+
+                <div className="w-24 h-24 rounded-3xl bg-blue-50 dark:bg-blue-900/20 flex items-center justify-center mb-8 shadow-sm">
+                    <Mail className="w-12 h-12 text-blue-500" />
                 </div>
 
-                {/* Phone Section */}
-                {/* Phone Section - Hidden as per requirement */}
-                {/* <Card className="p-4 space-y-4">
-                    <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
-                            <Phone className="w-5 h-5 text-primary" />
-                        </div>
-                        <div className="flex-1">
-                            <p className="font-medium text-foreground">{t.phoneLabel}</p>
-                            {existingPhone && (
-                                <p className="text-sm text-success flex items-center gap-1">
-                                    <CheckCircle className="w-3 h-3" />
-                                    {existingPhone}
-                                </p>
+                <h1 className="text-2xl font-bold text-center mb-3">
+                    {t.title}
+                </h1>
+
+                <p className="text-muted-foreground text-center mb-8 max-w-xs leading-relaxed">
+                    {t.subtitle}
+                </p>
+
+                {/* Input Area */}
+                <div className="w-full max-w-sm space-y-4">
+                    <div className="relative">
+                        <input
+                            type="email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            placeholder={existingEmail || t.emailPlaceholder}
+                            className={cn(
+                                "w-full h-16 px-6 rounded-2xl bg-muted/50 border-2 border-transparent focus:border-primary/20 focus:bg-background focus:ring-4 focus:ring-primary/10 outline-none transition-all text-lg",
+                                email && "border-primary/50 bg-background"
                             )}
-                        </div>
+                        />
+                        {existingEmail && !email && (
+                            <div className="absolute right-4 top-1/2 -translate-y-1/2 flex items-center gap-1 text-success text-xs font-medium bg-success/10 px-2 py-1 rounded-full pointer-events-none">
+                                <CheckCircle className="w-3 h-3" />
+                                <span>Saved</span>
+                            </div>
+                        )}
                     </div>
 
-                    {activeField === 'phone' ? (
-                        <div className="space-y-3 animate-fade-in">
-                            <input
-                                type="tel"
-                                value={phone}
-                                onChange={(e) => setPhone(e.target.value)}
-                                placeholder={t.phonePlaceholder}
-                                className="w-full px-4 py-3 rounded-xl bg-muted border border-border focus:border-primary focus:outline-none transition-colors"
-                                autoFocus
-                            />
-                            <div className="flex gap-2">
-                                <Button variant="outline" onClick={resetForm} className="flex-1">
-                                    {t.cancel}
-                                </Button>
-                                <Button onClick={handleSavePhone} disabled={!phone.trim() || isSaving} className="flex-1">
-                                    {t.save}
-                                </Button>
-                            </div>
-                        </div>
-                    ) : (
-                        <Button
-                            variant="outline"
-                            onClick={() => { resetForm(); setActiveField('phone'); }}
-                            disabled={activeField !== null}
-                            className="w-full"
+                    <Button
+                        onClick={handleSaveEmail}
+                        disabled={isSaving || (!email && !existingEmail)}
+                        size="lg"
+                        className="w-full h-14 text-lg font-semibold rounded-2xl shadow-lg shadow-primary/20 hover:shadow-primary/30 transition-all"
+                    >
+                        {isSaving ? (
+                            <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                        ) : (
+                            <>
+                                {t.save}
+                                <ArrowRight className="w-5 h-5 ml-2" />
+                            </>
+                        )}
+                    </Button>
+
+                    {isOnboarding && (
+                        <button
+                            onClick={handleComplete}
+                            className="w-full py-3 text-sm text-muted-foreground hover:text-foreground transition-colors"
                         >
-                            {existingPhone
-                                ? (isIndonesian ? 'Ubah Nomor' : 'Change Number')
-                                : (isIndonesian ? 'Tambah Nomor' : 'Add Number')
-                            }
-                        </Button>
+                            {t.skip}
+                        </button>
                     )}
-                </Card> */}
+                </div>
 
-                {/* Email Section */}
-                <Card className="p-4 space-y-4">
-                    <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
-                            <Mail className="w-5 h-5 text-primary" />
-                        </div>
-                        <div className="flex-1">
-                            <p className="font-medium text-foreground">{t.emailLabel}</p>
-                            {existingEmail && (
-                                <p className="text-sm text-success flex items-center gap-1">
-                                    <CheckCircle className="w-3 h-3" />
-                                    {existingEmail}
-                                </p>
-                            )}
-                        </div>
-                    </div>
-
-                    {activeField === 'email' ? (
-                        <div className="space-y-3 animate-fade-in">
-                            <input
-                                type="email"
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
-                                placeholder={t.emailPlaceholder}
-                                className="w-full px-4 py-3 rounded-xl bg-muted border border-border focus:border-primary focus:outline-none transition-colors"
-                                autoFocus
-                            />
-                            <div className="flex gap-2">
-                                <Button variant="outline" onClick={resetForm} className="flex-1">
-                                    {t.cancel}
-                                </Button>
-                                <Button onClick={handleSaveEmail} disabled={!email.trim() || isSaving} className="flex-1">
-                                    {t.save}
-                                </Button>
-                            </div>
-                        </div>
-                    ) : (
-                        <Button
-                            variant="outline"
-                            onClick={() => { resetForm(); setActiveField('email'); }}
-                            disabled={activeField !== null}
-                            className="w-full"
-                        >
-                            {existingEmail
-                                ? (isIndonesian ? 'Ubah Email' : 'Change Email')
-                                : (isIndonesian ? 'Tambah Email' : 'Add Email')
-                            }
-                        </Button>
-                    )}
-                </Card>
-            </div>
-
-            {/* Bottom Action */}
-            <div className="p-4 border-t border-border safe-area-bottom">
-                <Button
-                    onClick={handleComplete}
-                    size="lg"
-                    className="w-full"
-                    disabled={activeField !== null}
-                >
-                    {isOnboarding && !existingPhone && !existingEmail
-                        ? t.skip
-                        : (isIndonesian ? 'Selesai' : 'Done')
-                    }
-                </Button>
+                {/* Privacy Note */}
+                <div className="flex items-center gap-2 mt-12 text-xs text-muted-foreground bg-muted/50 px-4 py-2 rounded-full">
+                    <Shield className="w-3 h-3" />
+                    <span>{t.secureNote}</span>
+                </div>
             </div>
         </div>
     );

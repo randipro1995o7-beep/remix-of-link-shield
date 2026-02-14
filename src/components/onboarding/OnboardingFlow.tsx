@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import { LanguageSelectionScreen } from './LanguageSelectionScreen';
 import { TermsPrivacyScreen } from './TermsPrivacyScreen';
+import { FinalOnboardingScreen } from './FinalOnboardingScreen';
+import { OpeningScreen } from './OpeningScreen';
 import { InteractiveTutorial } from './InteractiveTutorial';
 import { PinSetupScreen } from './PinSetupScreen';
 import { RecoveryOptionsScreen } from '@/components/RecoveryOptionsScreen';
@@ -10,7 +12,7 @@ import { Language } from '@/i18n/translations';
 
 const ONBOARDING_COMPLETE_KEY = 'safetyshield_onboarding_complete';
 
-type OnboardingStep = 'language' | 'terms' | 'tutorial' | 'pin' | 'recovery' | 'complete';
+type OnboardingStep = 'language' | 'terms' | 'tutorial' | 'pin' | 'recovery' | 'final' | 'complete';
 
 interface OnboardingFlowProps {
     children: React.ReactNode;
@@ -85,6 +87,11 @@ export function OnboardingFlow({ children }: OnboardingFlowProps) {
     };
 
     const handleRecoveryComplete = async () => {
+        // Proceed to final education screen
+        setStep('final');
+    };
+
+    const handleFinalComplete = async () => {
         // Mark onboarding as complete
         localStorage.setItem(ONBOARDING_COMPLETE_KEY, 'true');
 
@@ -99,14 +106,11 @@ export function OnboardingFlow({ children }: OnboardingFlowProps) {
         setStep('complete');
     };
 
-    // Show loading while checking status
+    // Show premium opening screen while loading or checking status
+    // We keep this visible for at least a few seconds via the OpeningScreen component
     if (isLoading || pinLoading) {
         return (
-            <div className="fixed inset-0 z-50 bg-background flex items-center justify-center">
-                <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center animate-pulse">
-                    <div className="w-8 h-8 rounded-full bg-primary/20" />
-                </div>
-            </div>
+            <OpeningScreen onComplete={() => setIsLoading(false)} />
         );
     }
 
@@ -157,6 +161,15 @@ export function OnboardingFlow({ children }: OnboardingFlowProps) {
                 isOnboarding
                 onBack={() => setStep('pin')}
                 onComplete={handleRecoveryComplete}
+            />
+        );
+    }
+
+    // Step 6: Final Education (Panic & Default)
+    if (step === 'final') {
+        return (
+            <FinalOnboardingScreen
+                onComplete={handleFinalComplete}
             />
         );
     }

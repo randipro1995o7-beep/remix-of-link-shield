@@ -1,4 +1,4 @@
-import { Globe, Check, ChevronRight, Search } from 'lucide-react';
+import { Check, ChevronRight, Search, Globe, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
@@ -11,18 +11,20 @@ const LANGUAGE_OPTIONS: { code: Language; name: string; nativeName: string; flag
     { code: 'id', name: 'Indonesian', nativeName: 'Bahasa Indonesia', flag: '🇮🇩' },
     { code: 'ms', name: 'Malay', nativeName: 'Bahasa Melayu', flag: '🇲🇾' },
     { code: 'th', name: 'Thai', nativeName: 'ไทย', flag: '🇹🇭' },
-    { code: 'tl', name: 'Filipino', nativeName: 'Tagalog', flag: '🇵🇭' },
     { code: 'vi', name: 'Vietnamese', nativeName: 'Tiếng Việt', flag: '🇻🇳' },
+    { code: 'tl', name: 'Filipino', nativeName: 'Tagalog', flag: '🇵🇭' },
     { code: 'lo', name: 'Lao', nativeName: 'ລາວ', flag: '🇱🇦' },
     { code: 'my', name: 'Burmese', nativeName: 'မြန်မာစာ', flag: '🇲🇲' },
     { code: 'km', name: 'Khmer', nativeName: 'ខ្មែរ', flag: '🇰🇭' },
     { code: 'ja', name: 'Japanese', nativeName: '日本語', flag: '🇯🇵' },
+    { code: 'ko', name: 'Korean', nativeName: '한국어', flag: '🇰🇷' },
+
     { code: 'es', name: 'Spanish', nativeName: 'Español', flag: '🇪🇸' },
     { code: 'ru', name: 'Russian', nativeName: 'Русский', flag: '🇷🇺' },
     { code: 'ar', name: 'Arabic', nativeName: 'العربية', flag: '🇸🇦' },
-    { code: 'ko', name: 'Korean', nativeName: '한국어', flag: '🇰🇷' },
     { code: 'de', name: 'German', nativeName: 'Deutsch', flag: '🇩🇪' },
     { code: 'pt-br', name: 'Portuguese (Brazil)', nativeName: 'Português (Brasil)', flag: '🇧🇷' },
+
 ];
 
 interface LanguageSelectionScreenProps {
@@ -34,8 +36,7 @@ interface LanguageSelectionScreenProps {
 /**
  * LanguageSelectionScreen - First onboarding screen
  * 
- * Shown when user first opens the app.
- * Clean, simple design for choosing preferred language.
+ * Redesigned for a premium, modern feel.
  */
 export function LanguageSelectionScreen({
     selectedLanguage,
@@ -50,103 +51,120 @@ export function LanguageSelectionScreen({
     );
 
     return (
-        <div className="fixed inset-0 z-50 bg-background flex flex-col animate-fade-in">
-            {/* Header */}
-            <div className="flex flex-col items-center pt-8 pb-4 px-6 bg-background/80 backdrop-blur-md sticky top-0 z-10 border-b border-border/50">
-                <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mb-4 ring-4 ring-primary/5">
-                    <Globe className="w-8 h-8 text-primary" />
+        <div className="fixed inset-0 z-50 bg-background flex flex-col animate-in fade-in duration-500">
+            {/* Header Area */}
+            <div className="pt-12 pb-6 px-6 bg-background/95 backdrop-blur-xl sticky top-0 z-20 border-b border-border/40 shadow-sm">
+                <div className="flex items-center gap-3 mb-6">
+                    <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center shadow-inner">
+                        <Globe className="w-6 h-6 text-primary" />
+                    </div>
+                    <div>
+                        <h1 className="text-2xl font-bold tracking-tight text-foreground">
+                            Welcome
+                        </h1>
+                        <p className="text-muted-foreground text-sm">
+                            Select your language to continue
+                        </p>
+                    </div>
                 </div>
 
-                <h1 className="text-xl font-bold text-foreground text-center">
-                    Select Language / Pilih Bahasa
-                </h1>
-
-                {/* Search Bar */}
-                <div className="w-full max-w-sm mt-4 relative">
-                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
+                {/* Search Bar - Modernized */}
+                <div className="relative group">
+                    <Search className="absolute left-3.5 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4 transition-colors group-focus-within:text-primary" />
                     <input
                         type="text"
                         placeholder="Search language..."
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
-                        className="w-full pl-9 pr-4 py-2 rounded-lg bg-muted/50 border border-border focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all text-sm"
+                        className="w-full pl-10 pr-4 py-3 rounded-xl bg-muted/40 border border-transparent focus:border-primary/20 focus:bg-background focus:ring-4 focus:ring-primary/10 outline-none transition-all duration-300 text-sm placeholder:text-muted-foreground/70"
                     />
                 </div>
             </div>
 
             {/* Scrollable Content */}
-            <div className="flex-1 overflow-y-auto px-4 py-4 scrollbar-hide">
-                <div className="w-full max-w-sm mx-auto space-y-3 pb-24">
-                    {filteredLanguages.map((lang) => (
-                        <Card
-                            key={lang.code}
-                            className={cn(
-                                "relative overflow-hidden transition-all duration-300 transform",
-                                "cursor-pointer active:scale-[0.98]",
-                                selectedLanguage === lang.code
-                                    ? "border-primary bg-primary/5 shadow-md scale-[1.02] ring-2 ring-primary/20"
-                                    : "border-border/50 hover:border-primary/50 hover:bg-muted/30"
-                            )}
-                            onClick={() => onLanguageSelect(lang.code)}
-                            role="button"
-                            tabIndex={0}
-                            aria-pressed={selectedLanguage === lang.code}
-                        >
-                            <div className="p-4 flex items-center gap-4">
-                                {/* Flag with shadow */}
-                                <span className="text-3xl filter drop-shadow-sm transition-transform duration-300 group-hover:scale-110" role="img" aria-label={lang.name}>
-                                    {lang.flag}
-                                </span>
+            <div className="flex-1 overflow-y-auto px-6 py-4 scrollbar-hide">
+                <div className="space-y-3 pb-32">
+                    {filteredLanguages.map((lang, index) => {
+                        const isSelected = selectedLanguage === lang.code;
+                        return (
+                            <div
+                                key={lang.code}
+                                className={cn(
+                                    "group relative overflow-hidden rounded-xl transition-all duration-300 cursor-pointer",
+                                    "hover:shadow-md active:scale-[0.98]",
+                                    isSelected
+                                        ? "ring-2 ring-primary shadow-lg shadow-primary/10 bg-primary/5"
+                                        : "border border-border/40 bg-card/50 hover:bg-card hover:border-border"
+                                )}
+                                onClick={() => onLanguageSelect(lang.code)}
+                                style={{ animationDelay: `${index * 50}ms` }}
+                            >
+                                <div className="p-4 flex items-center gap-4">
+                                    <span className="text-3xl drop-shadow-sm transition-transform duration-300 group-hover:scale-110 origin-center">
+                                        {lang.flag}
+                                    </span>
 
-                                {/* Language info */}
-                                <div className="flex-1">
-                                    <p className={cn(
-                                        "font-semibold transition-colors",
-                                        selectedLanguage === lang.code ? "text-primary" : "text-foreground"
+                                    <div className="flex-1 min-w-0">
+                                        <p className={cn(
+                                            "font-semibold text-base truncate transition-colors",
+                                            isSelected ? "text-primary" : "text-foreground"
+                                        )}>
+                                            {lang.nativeName}
+                                        </p>
+                                        <p className="text-xs text-muted-foreground truncate">
+                                            {lang.name}
+                                        </p>
+                                    </div>
+
+                                    <div className={cn(
+                                        "w-6 h-6 rounded-full flex items-center justify-center transition-all duration-300",
+                                        isSelected
+                                            ? "bg-primary text-primary-foreground scale-100 shadow-sm"
+                                            : "bg-muted/50 text-transparent scale-90"
                                     )}>
-                                        {lang.nativeName}
-                                    </p>
-                                    <p className="text-xs text-muted-foreground">{lang.name}</p>
+                                        <Check className="w-3.5 h-3.5" strokeWidth={3} />
+                                    </div>
                                 </div>
 
-                                {/* Selection Indicator */}
-                                <div className={cn(
-                                    "w-6 h-6 rounded-full flex items-center justify-center transition-all duration-300",
-                                    selectedLanguage === lang.code
-                                        ? "bg-primary scale-100 opacity-100"
-                                        : "bg-muted scale-90 opacity-0"
-                                )}>
-                                    <Check className="w-4 h-4 text-primary-foreground" />
-                                </div>
+                                {/* Active State Background Decoration */}
+                                {isSelected && (
+                                    <div className="absolute inset-0 bg-gradient-to-r from-primary/10 via-transparent to-transparent opacity-50 pointer-events-none" />
+                                )}
                             </div>
-
-                            {/* Animated Background for active state */}
-                            {selectedLanguage === lang.code && (
-                                <div className="absolute inset-0 bg-primary/5 -z-10 animate-in fade-in duration-300" />
-                            )}
-                        </Card>
-                    ))}
+                        );
+                    })}
 
                     {filteredLanguages.length === 0 && (
-                        <div className="text-center py-8 text-muted-foreground">
-                            <p>No language found matching "{searchQuery}"</p>
+                        <div className="text-center py-12 space-y-3 animate-in fade-in slide-in-from-bottom-4">
+                            <div className="w-16 h-16 rounded-full bg-muted flex items-center justify-center mx-auto mb-2">
+                                <Search className="w-6 h-6 text-muted-foreground" />
+                            </div>
+                            <p className="text-muted-foreground font-medium">No language found</p>
+                            <Button
+                                variant="outline"
+                                size="sm"
+                                onClick={() => setSearchQuery('')}
+                                className="rounded-full"
+                            >
+                                Clear search
+                            </Button>
                         </div>
                     )}
                 </div>
             </div>
 
             {/* Floating Bottom Button */}
-            <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-background via-background to-transparent pt-12 safe-area-bottom">
-                <div className="max-w-sm mx-auto">
-                    <Button
-                        onClick={onContinue}
-                        size="lg"
-                        className="w-full h-14 text-lg gap-2 shadow-lg shadow-primary/20 hover:shadow-primary/30 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]"
-                    >
+            <div className="absolute bottom-0 left-0 right-0 p-6 pt-12 bg-gradient-to-t from-background via-background/95 to-transparent z-20 safe-area-bottom">
+                <Button
+                    onClick={onContinue}
+                    size="lg"
+                    className="w-full h-14 text-lg font-semibold rounded-2xl shadow-xl shadow-primary/25 hover:shadow-primary/40 hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 group"
+                >
+                    <span className="mr-2">
                         {selectedLanguage === 'id' ? 'Lanjutkan' : 'Continue'}
-                        <ChevronRight className="w-5 h-5 animate-pulse" />
-                    </Button>
-                </div>
+                    </span>
+                    <ChevronRight className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" />
+                </Button>
             </div>
         </div>
     );

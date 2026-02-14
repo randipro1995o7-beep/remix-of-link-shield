@@ -9,6 +9,7 @@ import { Button } from '@/components/ui/button';
 import { Switch } from '@/components/ui/switch';
 import { QrCode, Lock, Unlock, ShieldAlert } from 'lucide-react';
 import { QRScannerScreen } from '@/components/QRScannerScreen';
+import { HomeGuideOverlay } from '@/components/home/HomeGuideOverlay';
 import { cn } from '@/lib/utils';
 
 /**
@@ -116,6 +117,9 @@ export default function Home() {
           />
         </Card>
       )}
+
+      {/* Interactive Onboarding Guide */}
+      <HomeGuideOverlay />
     </div>
   );
 }
