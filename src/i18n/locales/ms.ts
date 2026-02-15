@@ -21,6 +21,10 @@ export const ms: TranslationKeys = {
         testSafety: 'Cuba Sekarang',
         testSafetyDesc: 'Ketik di bawah untuk melihat apa yang berlaku apabila anda menerima pautan',
         simulateLink: 'Lihat Demo Keselamatan',
+        panicMode: 'Panic Mode',
+        panicModeActiveDesc: 'Blocking all unknown links for maximum safety.',
+        panicModeInactiveDesc: 'Turn on to block everything except trusted sites.',
+        togglePanicMode: 'Toggle Panic Mode',
     },
 
     safety: {
@@ -56,6 +60,17 @@ export const ms: TranslationKeys = {
         premiumDesc: 'Sejarah lanjutan, Mod Keluarga & banyak lagi',
         whitelist: 'Laman Dipercayai',
         whitelistDesc: 'Urus laman yang melangkau pemeriksaan keselamatan',
+    },
+
+    biometrics: {
+        touchId: 'Touch ID',
+        faceId: 'Face ID',
+        fingerprint: 'Fingerprint',
+        faceAuthentication: 'Face Recognition',
+        irisAuthentication: 'Iris Recognition',
+        biometric: 'Biometric',
+        enabled: 'Enabled for quick access',
+        disabled: 'Enable biometric unlock',
     },
 
     whitelist: {

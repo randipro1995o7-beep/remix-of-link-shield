@@ -21,6 +21,10 @@ export const km: TranslationKeys = {
         testSafety: 'សាកល្បងវា',
         testSafetyDesc: 'ចុចខាងក្រោមដើម្បីមើលអ្វីដែលកើតឡើងនៅពេលអ្នកទទួលបានតំណ',
         simulateLink: 'មើលការបង្ហាញសុវត្ថិភាព',
+        panicMode: 'Panic Mode',
+        panicModeActiveDesc: 'Blocking all unknown links for maximum safety.',
+        panicModeInactiveDesc: 'Turn on to block everything except trusted sites.',
+        togglePanicMode: 'Toggle Panic Mode',
     },
 
     safety: {
@@ -56,6 +60,17 @@ export const km: TranslationKeys = {
         premiumDesc: 'ប្រវត្តិបន្ថែម មុខងារគ្រួសារ និងច្រើនទៀត',
         whitelist: 'គេហទំព័រគួរឱ្យទុកចិត្ត',
         whitelistDesc: 'គ្រប់គ្រងគេហទំព័រដែលរំលងការត្រួតពិនិត្យសុវត្ថិភាព',
+    },
+
+    biometrics: {
+        touchId: 'Touch ID',
+        faceId: 'Face ID',
+        fingerprint: 'Fingerprint',
+        faceAuthentication: 'Face Recognition',
+        irisAuthentication: 'Iris Recognition',
+        biometric: 'Biometric',
+        enabled: 'Enabled for quick access',
+        disabled: 'Enable biometric unlock',
     },
 
     whitelist: {

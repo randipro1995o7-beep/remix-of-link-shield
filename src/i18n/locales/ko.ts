@@ -21,6 +21,10 @@ export const ko: TranslationKeys = {
         testSafety: '테스트해 보세요',
         testSafetyDesc: '링크를 받았을 때 어떻게 되는지 보려면 아래를 탭하세요',
         simulateLink: '안전 데모 보기',
+        panicMode: '패닉 모드',
+        panicModeActiveDesc: '최대 안전을 위해 모든 알 수 없는 링크 차단.',
+        panicModeInactiveDesc: '신뢰할 수 있는 사이트를 제외한 모든 것을 차단하려면 켜세요.',
+        togglePanicMode: '패닉 모드 전환',
     },
 
     safety: {
@@ -56,6 +60,17 @@ export const ko: TranslationKeys = {
         premiumDesc: '추가 기록, 가족 모드 등',
         whitelist: '신뢰할 수 있는 사이트',
         whitelistDesc: '안전 검사를 건너뛰는 사이트 관리',
+    },
+
+    biometrics: {
+        touchId: 'Touch ID',
+        faceId: 'Face ID',
+        fingerprint: '지문',
+        faceAuthentication: '얼굴 인식',
+        irisAuthentication: '홍채 인식',
+        biometric: '생체 인식',
+        enabled: '빠른 액세스를 위해 활성화됨',
+        disabled: '생체 인식 잠금 해제 활성화',
     },
 
     whitelist: {

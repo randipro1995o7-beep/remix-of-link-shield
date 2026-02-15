@@ -21,6 +21,10 @@ export const my: TranslationKeys = {
         testSafety: 'စမ်းသပ်ကြည့်ပါ',
         testSafetyDesc: 'လင့်ခ်တစ်ခုရရှိသောအခါ ဘာဖြစ်မည်ကိုကြည့်ရန် အောက်တွင်နှိပ်ပါ',
         simulateLink: 'လုံခြုံရေးအစမ်းပြသမှုကို ကြည့်ပါ',
+        panicMode: 'Panic Mode',
+        panicModeActiveDesc: 'Blocking all unknown links for maximum safety.',
+        panicModeInactiveDesc: 'Turn on to block everything except trusted sites.',
+        togglePanicMode: 'Toggle Panic Mode',
     },
 
     safety: {
@@ -56,6 +60,17 @@ export const my: TranslationKeys = {
         premiumDesc: 'မှတ်တမ်းအပြည့်အစုံ၊ မိသားစုမုဒ် နှင့် အခြားအရာများ',
         whitelist: 'ယုံကြည်စိတ်ချရသော ဝဘ်ဆိုက်များ',
         whitelistDesc: 'လုံခြုံရေးစစ်ဆေးမှု ကျော်လွှားမည့် ဝဘ်ဆိုက်များကို စီမံပါ',
+    },
+
+    biometrics: {
+        touchId: 'Touch ID',
+        faceId: 'Face ID',
+        fingerprint: 'Fingerprint',
+        faceAuthentication: 'Face Recognition',
+        irisAuthentication: 'Iris Recognition',
+        biometric: 'Biometric',
+        enabled: 'Enabled for quick access',
+        disabled: 'Enable biometric unlock',
     },
 
     whitelist: {

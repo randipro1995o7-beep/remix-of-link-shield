@@ -21,6 +21,10 @@ export const vi: TranslationKeys = {
         testSafety: 'Dùng Thử',
         testSafetyDesc: 'Nhấn bên dưới để xem điều gì xảy ra khi bạn nhận được liên kết',
         simulateLink: 'Xem Demo',
+        panicMode: 'Panic Mode',
+        panicModeActiveDesc: 'Blocking all unknown links for maximum safety.',
+        panicModeInactiveDesc: 'Turn on to block everything except trusted sites.',
+        togglePanicMode: 'Toggle Panic Mode',
     },
 
     safety: {
@@ -56,6 +60,17 @@ export const vi: TranslationKeys = {
         premiumDesc: 'Lịch sử mở rộng, Chế độ Gia đình & nhiều hơn nữa',
         whitelist: 'Trang web Tin cậy',
         whitelistDesc: 'Quản lý các trang web bỏ qua kiểm tra an toàn',
+    },
+
+    biometrics: {
+        touchId: 'Touch ID',
+        faceId: 'Face ID',
+        fingerprint: 'Fingerprint',
+        faceAuthentication: 'Face Recognition',
+        irisAuthentication: 'Iris Recognition',
+        biometric: 'Biometric',
+        enabled: 'Enabled for quick access',
+        disabled: 'Enable biometric unlock',
     },
 
     whitelist: {

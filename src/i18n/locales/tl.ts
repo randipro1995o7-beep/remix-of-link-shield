@@ -21,6 +21,10 @@ export const tl: TranslationKeys = {
         testSafety: 'Subukan Ito',
         testSafetyDesc: 'I-tap sa ibaba para makita kung ano ang mangyayari kapag nakatanggap ka ng link',
         simulateLink: 'Tingnan ang Demo',
+        panicMode: 'Panic Mode',
+        panicModeActiveDesc: 'Blocking all unknown links for maximum safety.',
+        panicModeInactiveDesc: 'Turn on to block everything except trusted sites.',
+        togglePanicMode: 'Toggle Panic Mode',
     },
 
     safety: {
@@ -56,6 +60,17 @@ export const tl: TranslationKeys = {
         premiumDesc: 'Pinalawak na kasaysayan, Family Mode at iba pa',
         whitelist: 'Mga Pinagkakatiwalaang Site',
         whitelistDesc: 'Pamahalaan ang mga site na lumalagpas sa pagsusuri',
+    },
+
+    biometrics: {
+        touchId: 'Touch ID',
+        faceId: 'Face ID',
+        fingerprint: 'Fingerprint',
+        faceAuthentication: 'Face Recognition',
+        irisAuthentication: 'Iris Recognition',
+        biometric: 'Biometric',
+        enabled: 'Enabled for quick access',
+        disabled: 'Enable biometric unlock',
     },
 
     whitelist: {

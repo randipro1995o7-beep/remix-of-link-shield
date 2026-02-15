@@ -21,6 +21,10 @@ export const es: TranslationKeys = {
         testSafety: 'Pruébelo',
         testSafetyDesc: 'Toque a continuación para ver qué sucede cuando recibe un enlace',
         simulateLink: 'Ver demostración de seguridad',
+        panicMode: 'Panic Mode',
+        panicModeActiveDesc: 'Bloqueando todos los enlaces desconocidos para máxima seguridad.',
+        panicModeInactiveDesc: 'Activar para bloquear todo excepto sitios de confianza.',
+        togglePanicMode: 'Alternar Panic Mode',
     },
 
     safety: {
@@ -56,6 +60,17 @@ export const es: TranslationKeys = {
         premiumDesc: 'Más historial, modo familiar y más',
         whitelist: 'Sitios de confianza',
         whitelistDesc: 'Gestione los sitios que omiten las comprobaciones de seguridad',
+    },
+
+    biometrics: {
+        touchId: 'Touch ID',
+        faceId: 'Face ID',
+        fingerprint: 'Huella digital',
+        faceAuthentication: 'Reconocimiento facial',
+        irisAuthentication: 'Reconocimiento de iris',
+        biometric: 'Biométrico',
+        enabled: 'Habilitado para acceso rápido',
+        disabled: 'Habilitar desbloqueo biométrico',
     },
 
     whitelist: {

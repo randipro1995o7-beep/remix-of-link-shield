@@ -21,6 +21,10 @@ export const de: TranslationKeys = {
         testSafety: 'Testen',
         testSafetyDesc: 'Tippen Sie unten, um zu sehen, was passiert, wenn Sie einen Link erhalten',
         simulateLink: 'Sicherheitsdemo ansehen',
+        panicMode: 'Panikmodus',
+        panicModeActiveDesc: 'Blockieren aller unbekannten Links für maximale Sicherheit.',
+        panicModeInactiveDesc: 'Einschalten, um alles außer vertrauenswürdigen Websites zu blockieren.',
+        togglePanicMode: 'Panikmodus umschalten',
     },
 
     safety: {
@@ -56,6 +60,17 @@ export const de: TranslationKeys = {
         premiumDesc: 'Mehr Verlauf, Familienmodus und mehr',
         whitelist: 'Vertrauenswürdige Websites',
         whitelistDesc: 'Websites verwalten, die Sicherheitsprüfungen überspringen',
+    },
+
+    biometrics: {
+        touchId: 'Touch ID',
+        faceId: 'Face ID',
+        fingerprint: 'Fingerabdruck',
+        faceAuthentication: 'Gesichtserkennung',
+        irisAuthentication: 'Iriserkennung',
+        biometric: 'Biometrisch',
+        enabled: 'Für schnellen Zugriff aktiviert',
+        disabled: 'Biometrisches Entsperren aktivieren',
     },
 
     whitelist: {

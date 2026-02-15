@@ -21,6 +21,10 @@ export const ru: TranslationKeys = {
         testSafety: 'Протестировать',
         testSafetyDesc: 'Нажмите ниже, чтобы увидеть, что происходит при получении ссылки',
         simulateLink: 'Смотреть демо безопасности',
+        panicMode: 'Режим паники',
+        panicModeActiveDesc: 'Блокировка всех неизвестных ссылок для максимальной безопасности.',
+        panicModeInactiveDesc: 'Включите, чтобы блокировать все, кроме доверенных сайтов.',
+        togglePanicMode: 'Переключить режим паники',
     },
 
     safety: {
@@ -56,6 +60,17 @@ export const ru: TranslationKeys = {
         premiumDesc: 'Больше истории, семейный режим и другое',
         whitelist: 'Доверенные сайты',
         whitelistDesc: 'Управление сайтами, пропускающими проверку безопасности',
+    },
+
+    biometrics: {
+        touchId: 'Touch ID',
+        faceId: 'Face ID',
+        fingerprint: 'Отпечаток пальца',
+        faceAuthentication: 'Распознавание лица',
+        irisAuthentication: 'Распознавание радужки',
+        biometric: 'Биометрия',
+        enabled: 'Включено для быстрого доступа',
+        disabled: 'Включить биометрическую разблокировку',
     },
 
     whitelist: {

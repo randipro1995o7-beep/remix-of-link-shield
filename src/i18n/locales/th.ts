@@ -21,6 +21,10 @@ export const th: TranslationKeys = {
         testSafety: 'ลองใช้งาน',
         testSafetyDesc: 'แตะด้านล่างเพื่อดูว่าจะเกิดอะไรขึ้นเมื่อคุณได้รับลิงก์',
         simulateLink: 'ดูตัวอย่างขั้นตอนความปลอดภัย',
+        panicMode: 'Panic Mode',
+        panicModeActiveDesc: 'Blocking all unknown links for maximum safety.',
+        panicModeInactiveDesc: 'Turn on to block everything except trusted sites.',
+        togglePanicMode: 'Toggle Panic Mode',
     },
 
     safety: {
@@ -56,6 +60,17 @@ export const th: TranslationKeys = {
         premiumDesc: 'ประวัติเพิ่มเติม, โหมดครอบครัว และอื่นๆ',
         whitelist: 'เว็บไซต์ที่เชื่อถือได้',
         whitelistDesc: 'จัดการเว็บไซต์ที่ข้ามการตรวจสอบความปลอดภัย',
+    },
+
+    biometrics: {
+        touchId: 'Touch ID',
+        faceId: 'Face ID',
+        fingerprint: 'Fingerprint',
+        faceAuthentication: 'Face Recognition',
+        irisAuthentication: 'Iris Recognition',
+        biometric: 'Biometric',
+        enabled: 'Enabled for quick access',
+        disabled: 'Enable biometric unlock',
     },
 
     whitelist: {

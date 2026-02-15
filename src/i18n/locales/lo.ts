@@ -21,6 +21,10 @@ export const lo: TranslationKeys = {
         testSafety: 'ທົດລອງໃຊ້',
         testSafetyDesc: 'ແຕະຂ້າງລຸ່ມນີ້ເພື່ອເບິ່ງວ່າຈະເກີດຫຍັງຂຶ້ນເມື່ອທ່ານໄດ້ຮັບລິ້ງ',
         simulateLink: 'ເບິ່ງຕົວຢ່າງຂັ້ນຕອນຄວາມປອດໄພ',
+        panicMode: 'Panic Mode',
+        panicModeActiveDesc: 'Blocking all unknown links for maximum safety.',
+        panicModeInactiveDesc: 'Turn on to block everything except trusted sites.',
+        togglePanicMode: 'Toggle Panic Mode',
     },
 
     safety: {
@@ -56,6 +60,17 @@ export const lo: TranslationKeys = {
         premiumDesc: 'ປະຫວັດເພີ່ມເຕີມ, ໂຫມດຄອບຄົວ ແລະ ອື່ນໆ',
         whitelist: 'ເວັບໄຊທີ່ເຊື່ອຖືໄດ້',
         whitelistDesc: 'ຈັດການເວັບໄຊທີ່ຂ້າມການກວດສອບຄວາມປອດໄພ',
+    },
+
+    biometrics: {
+        touchId: 'Touch ID',
+        faceId: 'Face ID',
+        fingerprint: 'Fingerprint',
+        faceAuthentication: 'Face Recognition',
+        irisAuthentication: 'Iris Recognition',
+        biometric: 'Biometric',
+        enabled: 'Enabled for quick access',
+        disabled: 'Enable biometric unlock',
     },
 
     whitelist: {

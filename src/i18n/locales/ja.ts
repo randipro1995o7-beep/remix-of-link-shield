@@ -21,6 +21,10 @@ export const ja: TranslationKeys = {
         testSafety: '試してみる',
         testSafetyDesc: 'リンクを受け取ったときの動作を確認するにはここをタップ',
         simulateLink: 'デモを見る',
+        panicMode: 'Panic Mode',
+        panicModeActiveDesc: 'Blocking all unknown links for maximum safety.',
+        panicModeInactiveDesc: 'Turn on to block everything except trusted sites.',
+        togglePanicMode: 'Toggle Panic Mode',
     },
 
     safety: {
@@ -56,6 +60,17 @@ export const ja: TranslationKeys = {
         premiumDesc: '履歴の拡張、ファミリーモードなど',
         whitelist: '信頼できるサイト',
         whitelistDesc: '保護チェックをスキップするサイトを管理',
+    },
+
+    biometrics: {
+        touchId: 'Touch ID',
+        faceId: 'Face ID',
+        fingerprint: 'Fingerprint',
+        faceAuthentication: 'Face Recognition',
+        irisAuthentication: 'Iris Recognition',
+        biometric: 'Biometric',
+        enabled: 'Enabled for quick access',
+        disabled: 'Enable biometric unlock',
     },
 
     whitelist: {

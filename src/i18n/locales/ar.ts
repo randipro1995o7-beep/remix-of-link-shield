@@ -21,6 +21,10 @@ export const ar: TranslationKeys = {
         testSafety: 'جربه الآن',
         testSafetyDesc: 'اضغط أدناه لترى ماذا يحدث عند استلام رابط',
         simulateLink: 'شاهد عرض الأمان',
+        panicMode: 'وضع الذعر',
+        panicModeActiveDesc: 'حظر جميع الروابط غير المعروفة لأقصى درجات الأمان.',
+        panicModeInactiveDesc: 'شغّل لحظر كل شيء باستثناء المواقع الموثوقة.',
+        togglePanicMode: 'تبديل وضع الذعر',
     },
 
     safety: {
@@ -56,6 +60,17 @@ export const ar: TranslationKeys = {
         premiumDesc: 'سجل إضافي، وضع العائلة والمزيد',
         whitelist: 'المواقع الموثوقة',
         whitelistDesc: 'إدارة المواقع التي تتخطى فحص الأمان',
+    },
+
+    biometrics: {
+        touchId: 'Touch ID',
+        faceId: 'Face ID',
+        fingerprint: 'بصمة الإصبع',
+        faceAuthentication: 'التعرف على الوجه',
+        irisAuthentication: 'التعرف على القزحية',
+        biometric: 'بيومتري',
+        enabled: 'ممكن للوصول السريع',
+        disabled: 'تفعيل الفتح البيومتري',
     },
 
     whitelist: {
