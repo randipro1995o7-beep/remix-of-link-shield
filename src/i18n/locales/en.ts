@@ -315,6 +315,12 @@ export const en: TranslationKeys = {
         madeWith: 'Made with care for everyday people',
     },
 
+    news: {
+        title: 'Latest Security News',
+        noNews: 'No news available at the moment.',
+        readMore: 'Read full article',
+    },
+
     errors: {
         generic: 'Something didn\'t work',
         genericDesc: 'We couldn\'t complete this action. To be safe, the link has been cancelled.',

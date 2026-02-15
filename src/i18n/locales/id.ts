@@ -315,6 +315,12 @@ export const id: TranslationKeys = {
         madeWith: 'Dibuat dengan kepedulian untuk orang-orang biasa',
     },
 
+    news: {
+        title: 'Berita Keamanan Terbaru',
+        noNews: 'Tidak ada berita saat ini.',
+        readMore: 'Baca artikel lengkap',
+    },
+
     errors: {
         generic: 'Sesuatu tidak berhasil',
         genericDesc: 'Kami tidak dapat menyelesaikan tindakan ini. Agar aman, tautan telah dibatalkan.',

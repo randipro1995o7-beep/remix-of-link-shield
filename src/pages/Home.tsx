@@ -10,6 +10,7 @@ import { Switch } from '@/components/ui/switch';
 import { QrCode, Lock, Unlock, ShieldAlert } from 'lucide-react';
 import { QRScannerScreen } from '@/components/QRScannerScreen';
 import { HomeGuideOverlay } from '@/components/home/HomeGuideOverlay';
+import { NewsSection } from '@/components/home/NewsSection';
 import { cn } from '@/lib/utils';
 
 /**
@@ -99,6 +100,11 @@ export default function Home() {
       {/* Activity Chart */}
       <section aria-label="Safety Activity Chart">
         <SafetyStatsChart />
+      </section>
+
+      {/* News Section */}
+      <section aria-label="Security News">
+        <NewsSection />
       </section>
 
       {/* Demo Section - only shown for testing */}

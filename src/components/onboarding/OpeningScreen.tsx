@@ -24,7 +24,7 @@ export function OpeningScreen({ onComplete }: OpeningScreenProps) {
 
     return (
         <div className={cn(
-            "fixed inset-0 z-[100] bg-[#1a1b26] flex flex-col items-center justify-center transition-opacity duration-500",
+            "fixed inset-0 z-[100] bg-[#000000] flex flex-col items-center justify-center transition-opacity duration-500",
             phase === 'fade-out' ? "opacity-0 pointer-events-none" : "opacity-100"
         )}>
             <div className="relative">
@@ -39,7 +39,7 @@ export function OpeningScreen({ onComplete }: OpeningScreenProps) {
                     "relative w-24 h-24 bg-primary rounded-[2rem] flex items-center justify-center shadow-2xl shadow-primary/30 transition-all duration-1000 cubic-bezier(0.34, 1.56, 0.64, 1)",
                     phase === 'initial' ? "scale-50 rotate-12 opacity-0" : "scale-100 rotate-0 opacity-100"
                 )}>
-                    <ShieldCheck className="w-12 h-12 text-[#1a1b26] stroke-[2.5]" />
+                    <ShieldCheck className="w-12 h-12 text-background stroke-[2.5]" />
                 </div>
             </div>
 

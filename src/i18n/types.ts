@@ -325,6 +325,13 @@ export interface TranslationKeys {
         madeWith: string;
     };
 
+    // News
+    news: {
+        title: string;
+        noNews: string;
+        readMore: string;
+    };
+
     // Errors
     errors: {
         generic: string;

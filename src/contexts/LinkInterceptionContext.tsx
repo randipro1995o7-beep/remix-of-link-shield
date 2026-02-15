@@ -5,6 +5,7 @@ import { SecureLocalStorage } from '@/lib/storage/SecureLocalStorage';
 import PhishGuard, { PhishGuardResult, KNOWN_BRANDS, ThreatLevel } from '@/lib/services/PhishGuard';
 import { UrlResolver, ResolvedUrlResult } from '@/lib/services/UrlResolver';
 import GoogleSafeBrowsing, { SafeBrowsingResult } from '@/lib/services/GoogleSafeBrowsing';
+import PhishTankService, { PhishTankResult } from '@/lib/services/PhishTankService'; // [NEW]
 import DomainAgeChecker, { DomainAgeResult } from '@/lib/services/DomainAgeChecker';
 import { SafeLinkHeuristic } from '@/lib/services/SafeLinkHeuristic';
 
@@ -15,8 +16,10 @@ export interface InterceptedLink {
   timestamp: Date;
   securityAnalysis?: PhishGuardResult;
   safeBrowsingResult?: SafeBrowsingResult;
+  phishTankResult?: PhishTankResult; // [NEW]
   redirectInfo?: ResolvedUrlResult;
   domainAgeResult?: DomainAgeResult;
+  isDemo?: boolean;
 }
 
 interface LinkInterceptionContextType {
@@ -48,7 +51,12 @@ const DEFAULT_WHITELIST = [
   'twitter.com',
   'whatsapp.com',
   'linkedin.com',
-  'safeguard-7c1a9.firebaseapp.com' // Firebase Auth domain - tidak boleh di-intercept
+  'linkedin.com',
+];
+
+// Domains that should ALWAYS be bypassed but NOT shown in the UI
+const HIDDEN_FAILSAFE_DOMAINS = [
+  'safeguard-7c1a9.firebaseapp.com' // Firebase Auth
 ];
 
 interface LinkInterceptionProviderProps {
@@ -283,6 +291,13 @@ export function LinkInterceptionProvider({ children }: LinkInterceptionProviderP
         return;
       }
 
+      // Gate 2b: Hidden Failsafe Domains (Firebase Auth, etc)
+      // These are internal trusted domains that shouldn't appear in the user's UI list
+      if (domain && HIDDEN_FAILSAFE_DOMAINS.some(d => domain.endsWith(d))) {
+        openInExternalBrowser(url);
+        return;
+      }
+
       // Heuristic safe check — bypass review for obviously safe links
       // Uses trusted domains list, HTTPS, PhishGuard score, file extension, and reputation checks
       // SKIP if Panic Mode is active (Strict Mode)
@@ -311,8 +326,9 @@ export function LinkInterceptionProvider({ children }: LinkInterceptionProviderP
       // Run PhishGuard analysis, Google Safe Browsing, and Domain Age check in parallel
       let safeBrowsingResult: SafeBrowsingResult | undefined;
       let domainAgeResult: DomainAgeResult | undefined;
+      let phishTankResult: PhishTankResult | undefined;
       try {
-        const [phishGuardResult, gsbResult, ageResult] = await Promise.all([
+        const [phishGuardResult, gsbResult, ageResult, ptResult] = await Promise.all([
           Promise.resolve(PhishGuard.analyzeUrl(finalUrl)),
           GoogleSafeBrowsing.checkUrl(finalUrl).catch(err => {
             logger.error('Google Safe Browsing check failed', err);
@@ -322,11 +338,16 @@ export function LinkInterceptionProvider({ children }: LinkInterceptionProviderP
             logger.error('Domain age check failed', err);
             return undefined;
           }),
+          PhishTankService.checkUrl(finalUrl).catch(err => { // [NEW]
+            logger.error('PhishTank check failed', err);
+            return undefined;
+          }),
         ]);
 
         securityAnalysis = phishGuardResult;
         safeBrowsingResult = gsbResult;
         domainAgeResult = ageResult;
+        phishTankResult = ptResult;
 
         // If GSB found a threat, enhance the PhishGuard result
         if (safeBrowsingResult?.isThreat) {
@@ -338,6 +359,20 @@ export function LinkInterceptionProvider({ children }: LinkInterceptionProviderP
             reasons: [
               ...securityAnalysis.reasons,
               `Google Safe Browsing: ${safeBrowsingResult.threatDescription || safeBrowsingResult.threatType}`,
+            ],
+          };
+        }
+
+        // [NEW] If PhishTank found a threat
+        if (phishTankResult?.isPhishing) {
+          securityAnalysis = {
+            ...securityAnalysis,
+            isSuspicious: true,
+            threatLevel: 'danger',
+            score: Math.max(securityAnalysis.score, 85), // Higher score for verified phishing
+            reasons: [
+              ...securityAnalysis.reasons,
+              `PhishTank: Identified as a known phishing site${phishTankResult.isVerified ? ' (Verified)' : ''}`,
             ],
           };
         }
@@ -378,8 +413,10 @@ export function LinkInterceptionProvider({ children }: LinkInterceptionProviderP
         timestamp: new Date(),
         securityAnalysis,
         safeBrowsingResult,
+        phishTankResult, // [NEW]
         redirectInfo,
         domainAgeResult,
+        isDemo,
       };
       setCurrentLink(link);
 
@@ -427,8 +464,10 @@ export function LinkInterceptionProvider({ children }: LinkInterceptionProviderP
 
   const allowLink = async () => {
     if (currentLink) {
-      // Auto-add to whitelist when user manually approves
-      addToWhitelist(currentLink.url);
+      // Auto-add to whitelist when user manually approves, UNLESS it's a demo link
+      if (!currentLink.isDemo) {
+        addToWhitelist(currentLink.url);
+      }
       await openInExternalBrowser(currentLink.url);
     }
     setCurrentLink(null);

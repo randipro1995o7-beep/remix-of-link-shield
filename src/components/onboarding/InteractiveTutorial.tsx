@@ -188,7 +188,7 @@ export function InteractiveTutorial({ onComplete, onSkip }: InteractiveTutorialP
                 {step === 'intercept' && (
                     <Card className="w-full max-w-sm border-0 shadow-2xl overflow-hidden animate-in zoom-in-90 duration-300 ring-4 ring-destructive/20">
                         <div className="bg-destructive p-8 text-center text-destructive-foreground relative overflow-hidden">
-                            <div className="absolute inset-0 bg-[url('/noise.png')] opacity-10 mix-blend-overlay" />
+                            <div className="absolute inset-0 bg-[url('/noise.svg')] opacity-10 mix-blend-overlay" />
                             <ShieldAlert className="w-20 h-20 mx-auto mb-4 animate-[pulse_2s_ease-in-out_infinite]" />
                             <h2 className="text-2xl font-bold tracking-tight">
                                 {isIndonesian ? 'ANCAMAN TERDETEKSI' : 'THREAT DETECTED'}
