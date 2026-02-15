@@ -1,4 +1,4 @@
-export type Language = 'en' | 'id' | 'ms' | 'th' | 'tl' | 'vi' | 'lo' | 'my' | 'km' | 'ja' | 'es' | 'ru' | 'ar' | 'ko' | 'de' | 'pt-br';
+export type Language = 'en' | 'id' | 'ms' | 'th' | 'tl' | 'vi' | 'lo' | 'my' | 'km' | 'ja' | 'es' | 'ru' | 'ar' | 'ko' | 'de' | 'pt-br' | 'zh';
 
 export interface TranslationKeys {
     // App general
@@ -27,6 +27,10 @@ export interface TranslationKeys {
         simulateLink: string;
         activity?: string;
         last7Days?: string;
+        panicMode: string;
+        panicModeActiveDesc: string;
+        panicModeInactiveDesc: string;
+        togglePanicMode: string;
     };
 
     // Safety screen
@@ -64,6 +68,18 @@ export interface TranslationKeys {
         premiumDesc: string;
         whitelist: string;
         whitelistDesc: string;
+    };
+
+    // Biometrics
+    biometrics: {
+        touchId: string;
+        faceId: string;
+        fingerprint: string;
+        faceAuthentication: string;
+        irisAuthentication: string;
+        biometric: string;
+        enabled: string;
+        disabled: string;
     };
 
     // Whitelist

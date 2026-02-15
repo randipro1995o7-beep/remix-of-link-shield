@@ -24,7 +24,7 @@ const LANGUAGE_OPTIONS: { code: Language; name: string; nativeName: string; flag
     { code: 'ar', name: 'Arabic', nativeName: 'العربية', flag: '🇸🇦' },
     { code: 'de', name: 'German', nativeName: 'Deutsch', flag: '🇩🇪' },
     { code: 'pt-br', name: 'Portuguese (Brazil)', nativeName: 'Português (Brasil)', flag: '🇧🇷' },
-
+    { code: 'zh', name: 'Chinese (Simplified)', nativeName: '简体中文', flag: '🇨🇳' },
 ];
 
 interface LanguageSelectionScreenProps {
@@ -161,7 +161,7 @@ export function LanguageSelectionScreen({
                     className="w-full h-14 text-lg font-semibold rounded-2xl shadow-xl shadow-primary/25 hover:shadow-primary/40 hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 group"
                 >
                     <span className="mr-2">
-                        {selectedLanguage === 'id' ? 'Lanjutkan' : 'Continue'}
+                        {selectedLanguage === 'id' ? 'Lanjutkan' : selectedLanguage === 'zh' ? '继续' : 'Continue'}
                     </span>
                     <ChevronRight className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" />
                 </Button>

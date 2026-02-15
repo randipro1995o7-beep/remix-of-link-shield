@@ -35,6 +35,10 @@ export const en: TranslationKeys = {
         simulateLink: 'See Safety Flow Demo',
         activity: 'Weekly Activity',
         last7Days: 'Links scanned in last 7 days',
+        panicMode: 'Panic Mode',
+        panicModeActiveDesc: 'Blocking all unknown links for maximum safety.',
+        panicModeInactiveDesc: 'Turn on to block everything except trusted sites.',
+        togglePanicMode: 'Toggle Panic Mode',
     },
 
     safety: {
@@ -70,6 +74,17 @@ export const en: TranslationKeys = {
         premiumDesc: 'Extended history, Family Mode & more',
         whitelist: 'Trusted Sites',
         whitelistDesc: 'Manage sites that skip safety checks',
+    },
+
+    biometrics: {
+        touchId: 'Touch ID',
+        faceId: 'Face ID',
+        fingerprint: 'Fingerprint',
+        faceAuthentication: 'Face Recognition',
+        irisAuthentication: 'Iris Recognition',
+        biometric: 'Biometric',
+        enabled: 'Enabled for quick access',
+        disabled: 'Enable biometric unlock',
     },
 
     whitelist: {

@@ -35,6 +35,10 @@ export const id: TranslationKeys = {
         simulateLink: 'Lihat Demo Keamanan',
         activity: 'Aktivitas Mingguan',
         last7Days: 'Tautan dipindai dalam 7 hari terakhir',
+        panicMode: 'Mode Panik',
+        panicModeActiveDesc: 'Memblokir semua tautan tidak dikenal demi keamanan maksimal.',
+        panicModeInactiveDesc: 'Aktifkan untuk memblokir semuanya kecuali situs terpercaya.',
+        togglePanicMode: 'Beralih Mode Panik',
     },
 
     safety: {
@@ -70,6 +74,17 @@ export const id: TranslationKeys = {
         premiumDesc: 'Riwayat lengkap, Mode Keluarga & lainnya',
         whitelist: 'Situs Terpercaya',
         whitelistDesc: 'Kelola situs yang melewati pemeriksaan',
+    },
+
+    biometrics: {
+        touchId: 'Touch ID',
+        faceId: 'Face ID',
+        fingerprint: 'Sidik Jari',
+        faceAuthentication: 'Pengenalan Wajah',
+        irisAuthentication: 'Pengenalan Iris',
+        biometric: 'Biometrik',
+        enabled: 'Diaktifkan untuk akses cepat',
+        disabled: 'Aktifkan buka kunci biometrik',
     },
 
     whitelist: {

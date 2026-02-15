@@ -4,7 +4,7 @@ import { NewsService, NewsItem } from '@/lib/services/NewsService';
 import { useApp } from '@/contexts/AppContext';
 import { Newspaper, ExternalLink, Loader2, ImageOff } from 'lucide-react';
 import { formatDistanceToNow } from 'date-fns';
-import { enUS, id, es, ja, ptBR, ru, ar, de, km, ko, ms, th, vi } from 'date-fns/locale';
+import { enUS, id, es, ja, ptBR, ru, ar, de, km, ko, ms, th, vi, zhCN } from 'date-fns/locale';
 import { Browser } from '@capacitor/browser';
 
 export function NewsSection() {
@@ -44,6 +44,7 @@ export function NewsSection() {
             case 'vi': return vi;
             case 'tl': return enUS; // Tagalog fallback
             case 'my': return enUS; // Burmese fallback
+            case 'zh': return zhCN;
             default: return enUS;
         }
     };

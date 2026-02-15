@@ -73,6 +73,8 @@ export class NewsService {
                 return 'https://news.google.com/rss/search?q=cybersecurity&hl=en-US&gl=LA&ceid=US:en'; // Fallback to English content for Laos
             case 'my': // Burmese
                 return 'https://news.google.com/rss/search?q=cybersecurity&hl=en-US&gl=MM&ceid=US:en'; // Fallback to English content for Myanmar
+            case 'zh': // Chinese (Simplified)
+                return 'https://news.google.com/rss/search?q=%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8&hl=zh-CN&gl=SG&ceid=SG:zh-CN';
             // For KM, LO, MY specifically, Google News localized RSS availability is spotty. Using English query/interface often yields better "International/Local" mix.
             default: // English (Global/US)
                 return 'https://news.google.com/rss/search?q=cybersecurity&hl=en-US&gl=US&ceid=US:en';

@@ -16,6 +16,8 @@ import { ko } from './locales/ko';
 import { de } from './locales/de';
 import { ptBr } from './locales/pt-br';
 
+import { zh } from './locales/zh';
+
 const translations: Record<Language, TranslationKeys> = {
   en,
   id,
@@ -33,6 +35,7 @@ const translations: Record<Language, TranslationKeys> = {
   ko,
   de,
   'pt-br': ptBr,
+  zh,
 };
 
 export const getTranslation = (lang: Language): TranslationKeys => {

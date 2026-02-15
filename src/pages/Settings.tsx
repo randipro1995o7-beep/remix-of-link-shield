@@ -261,8 +261,19 @@ export default function Settings() {
         {biometricAvailable && (
           <SettingsItem
             icon={Fingerprint}
-            title={biometricType}
-            subtitle={biometricEnabled ? 'Enabled for quick access' : 'Enable biometric unlock'}
+            title={(() => {
+              // Map raw biometric type to translation key
+              const type = biometricType.toLowerCase().replace(/\s+/g, '');
+              // Check if key exists in t.biometrics, else default to 'biometric'
+              // We use type casting or checking because type is string
+              if (type === 'faceid') return t.biometrics.faceId;
+              if (type === 'touchid') return t.biometrics.touchId;
+              if (type === 'fingerprint') return t.biometrics.fingerprint;
+              if (type === 'faceauthentication' || type === 'facerecognition') return t.biometrics.faceAuthentication;
+              if (type === 'irisauthentication' || type === 'irisrecognition') return t.biometrics.irisAuthentication;
+              return t.biometrics.biometric;
+            })()}
+            subtitle={biometricEnabled ? t.biometrics.enabled : t.biometrics.disabled}
             rightElement={
               <Switch
                 size="lg"

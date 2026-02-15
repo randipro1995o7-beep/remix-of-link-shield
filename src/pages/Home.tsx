@@ -73,12 +73,12 @@ export default function Home() {
             </div>
             <div>
               <h3 className={cn("font-semibold truncate", state.isPanicMode ? "text-destructive" : "text-foreground")}>
-                Panic Mode
+                {t.home.panicMode}
               </h3>
               <p className="text-xs text-muted-foreground line-clamp-2">
                 {state.isPanicMode
-                  ? "Blocking all unknown links for maximum safety."
-                  : "Turn on to block everything except trusted sites."}
+                  ? t.home.panicModeActiveDesc
+                  : t.home.panicModeInactiveDesc}
               </p>
             </div>
           </div>
@@ -86,7 +86,7 @@ export default function Home() {
             checked={state.isPanicMode}
             onCheckedChange={(checked) => setPanicMode(checked)}
             disabled={!state.isProtectionEnabled}
-            aria-label="Toggle Panic Mode"
+            aria-label={t.home.togglePanicMode}
             className={cn(state.isPanicMode && "data-[state=checked]:bg-destructive")}
           />
         </div>
