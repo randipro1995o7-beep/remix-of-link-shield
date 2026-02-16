@@ -153,9 +153,9 @@ export default function Protection() {
           <Button
             onClick={handleOpenAppLinkSettings}
             variant={state.isDefaultHandler ? "outline" : "default"} // Highlight if needed
-            size="sm"
+            size="lg"
             className={cn(
-              "gap-2 mt-2",
+              "w-full max-w-xs transition-all duration-300 gap-2 mt-4",
               !state.isDefaultHandler && !state.isProtectionEnabled && "animate-pulse ring-2 ring-primary/20"
             )}
           >
@@ -165,7 +165,7 @@ export default function Protection() {
 
           {/* Default Handler Status Note */}
           <div className={cn(
-            "flex items-center gap-2 text-sm mt-1",
+            "flex items-center justify-center gap-2 text-sm mt-3 text-center",
             state.isDefaultHandler ? "text-success" : "text-warning"
           )}>
             {state.isDefaultHandler ? (

@@ -40,6 +40,7 @@ const languages: { code: Language; label: string; nativeLabel: string }[] = [
   { code: 'ko', label: 'Korean', nativeLabel: '한국어' },
   { code: 'de', label: 'German', nativeLabel: 'Deutsch' },
   { code: 'pt-br', label: 'Portuguese (Brazil)', nativeLabel: 'Português (Brasil)' },
+  { code: 'zh', label: 'Chinese (Simplified)', nativeLabel: '简体中文' },
 ];
 
 interface SettingsItemProps {

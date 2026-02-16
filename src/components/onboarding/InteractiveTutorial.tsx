@@ -71,7 +71,7 @@ export function InteractiveTutorial({ onComplete, onSkip }: InteractiveTutorialP
             <div className="px-6 pt-12 pb-2 text-center transition-all duration-500">
                 {step === 'welcome' && (
                     <div className="animate-in slide-in-from-top-4 fade-in duration-700">
-                        <div className="w-20 h-20 bg-primary/10 rounded-3xl flex items-center justify-center mx-auto mb-6 rotate-3">
+                        <div className="w-20 h-20 bg-primary/10 rounded-3xl flex items-center justify-center mx-auto mb-6">
                             <ShieldCheck className="w-10 h-10 text-primary" />
                         </div>
                         <h1 className="text-3xl font-bold mb-3 tracking-tight">

@@ -93,7 +93,7 @@ export function PinSetupScreen({ onComplete }: PinSetupScreenProps) {
 
                 <div className={cn(
                     "w-20 h-20 rounded-3xl flex items-center justify-center mb-6 shadow-lg transition-all duration-500",
-                    step === 'create' ? "bg-primary text-primary-foreground rotate-3" : "bg-success text-success-foreground -rotate-3"
+                    step === 'create' ? "bg-primary text-primary-foreground" : "bg-success text-success-foreground"
                 )}>
                     {step === 'create' ? (
                         <Lock className="w-10 h-10" />
