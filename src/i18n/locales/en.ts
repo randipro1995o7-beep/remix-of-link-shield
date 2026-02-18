@@ -39,6 +39,8 @@ export const en: TranslationKeys = {
         panicModeActiveDesc: 'Blocking all unknown links for maximum safety.',
         panicModeInactiveDesc: 'Turn on to block everything except trusted sites.',
         togglePanicMode: 'Toggle Panic Mode',
+        scamEducationTitle: 'Know all types of online scams',
+        scamEducationDesc: 'Complete guide to recognizing signs & solutions',
     },
 
     safety: {
@@ -49,6 +51,10 @@ export const en: TranslationKeys = {
         disableSafety: 'Pause Safety Steps',
         permissionsNeeded: 'We need some permissions first',
         grantPermissions: 'Grant Permissions',
+        setDefaultFirst: 'Set as default first',
+        setAsDefault: 'Set as Default Link Handler',
+        defaultHandlerSet: 'App is set as default link handler',
+        defaultHandlerNotSet: 'App is not set as default link handler',
     },
 
     settings: {
@@ -74,6 +80,20 @@ export const en: TranslationKeys = {
         premiumDesc: 'Extended history, Family Mode & more',
         whitelist: 'Trusted Sites',
         whitelistDesc: 'Manage sites that skip safety checks',
+        changePin: 'Change Safety PIN',
+        changePinDesc: 'Change PIN for link verification',
+        recovery: 'Password Recovery',
+        recoveryDesc: 'Set email & phone for PIN reset',
+        securityLogs: 'Security Logs',
+        securityLogsDesc: 'View security activity & audit trail',
+        selectLanguage: 'Select application language',
+        findAnswers: 'Find answers or get in touch',
+        faq: 'FAQ',
+        faq1: 'How does Safety SHIELD work?',
+        faq1Desc: 'Safety SHIELD helps you pause before opening links. This gives you time to consider link safety.',
+        faq2: 'Is my data safe?',
+        faq2Desc: 'Yes! All data is stored locally on your device. Nothing is sent to servers.',
+        contactUs: 'Contact Us',
     },
 
     biometrics: {
@@ -189,6 +209,93 @@ export const en: TranslationKeys = {
         voteSuspicious: 'Report Suspicious',
         thankYou: 'Thanks for your report!',
         noReports: 'No community reports yet',
+    },
+
+    scamEducation: {
+        title: 'Know Your Scams',
+        subtitle: 'Learn about common online threats',
+        readMore: 'Tap to read more...',
+        signs: 'Warning Signs:',
+        solution: 'Prevention & Solution:',
+        scams: {
+            phishing: {
+                title: 'Phishing (Data Theft)',
+                desc: 'Scammers send fake emails/messages looking official (like from a bank or courier) to steal your password or PIN.',
+                signs: [
+                    'Sender uses free email (gmail.com)',
+                    'Urgent action required ("Account will be blocked!")',
+                    'Strange or shortened links (bit.ly)',
+                    'Generic greeting'
+                ],
+                solution: 'Matches official advice: Never click links from suspicious messages. Contact the official institution directly.'
+            },
+            jobs: {
+                title: 'Fake Job Offers',
+                desc: 'High salary offers for simple tasks (like liking videos), but you are asked to deposit money first.',
+                signs: [
+                    'Salary is too good to be true',
+                    'Asked to deposit money to "unlock tasks"',
+                    'Communication only via telegram/whatsapp',
+                    'No official interview process'
+                ],
+                solution: 'Remember: If you have to pay to work, it is a SCAM. Never transfer money to "employers".'
+            },
+            apk: {
+                title: 'APK File Scam',
+                desc: 'Scammers send malicious app files (.apk) disguised as "Wedding Invitation" or "Package Photo".',
+                signs: [
+                    'File ends with .apk',
+                    'Sender claims to be courier or old friend',
+                    'Urgent request to open the file',
+                    'Odd file icon'
+                ],
+                solution: 'NEVER install/open .apk files from chat apps. These can steal SMS OTPs and drain bank accounts.'
+            },
+            giveaway: {
+                title: 'Fake Giveaways',
+                desc: 'You are told you won a prize but must pay an "admin fee" or "tax" first.',
+                signs: [
+                    'You never entered a contest',
+                    'Asked to transfer fee first',
+                    'Urgent deadline to claim',
+                    'Fake testimonials'
+                ],
+                solution: 'Legitimate prizes never ask for transfer fees. Taxes are deducted from the prize or paid officially.'
+            },
+            love_scam: {
+                title: 'Romance Scam',
+                desc: 'Scammers build a romantic relationship online, then ask for money for an "emergency".',
+                signs: [
+                    'Online relationship moves very fast',
+                    'Claims to be overseas/military/rich',
+                    'Always has an excuse to borrow money',
+                    'Refuses video calls'
+                ],
+                solution: 'Never send money to someone you haven\'t met in person. Block immediately if they ask for money.'
+            },
+            quishing: {
+                title: 'Quishing (QR Phishing)',
+                desc: 'Scammers paste fake QR stickers in public places or send them via email. Scanning leads to a fake site.',
+                signs: [
+                    'Sticker is pasted over another code',
+                    'QR sent without context',
+                    'Site asks for personal data',
+                    'URL looks strange'
+                ],
+                solution: 'Check physical QR stickers for tampering. Use Safety SHIELD to scan so URLs are checked first.'
+            },
+            digital_arrest: {
+                title: 'Digital Arrest',
+                desc: 'Scammers pose as police/judges on Video Call, claiming you are involved in a crime and holding a "digital trial".',
+                signs: [
+                    'Caller wears uniform (often fake backdrop)',
+                    'Claims your ID was found at crime scene',
+                    'Forbids you from hanging up',
+                    'Demands transfer to "safe account"'
+                ],
+                solution: 'Police/Judges NEVER conduct trials via personal Video Call. Hang up and verify at the nearest police station.'
+            }
+        }
     },
 
     blocked: {
@@ -365,5 +472,90 @@ export const en: TranslationKeys = {
         show: 'Show',
         hide: 'Hide',
         close: 'Close',
+        next: 'Next',
+        previous: 'Previous',
+        more: 'More',
+        email: 'Email',
+        twitter: 'Twitter / X',
+    },
+
+    a11y: {
+        close: 'Close',
+        previousSlide: 'Previous slide',
+        nextSlide: 'Next slide',
+        morePages: 'More pages',
+        more: 'More',
+    },
+
+    stats: {
+        safe: 'Safe',
+        risky: 'Risky',
+    },
+
+    recovery: {
+        saved: 'Saved',
+    },
+
+    premium: {
+        currTitle: 'Premium',
+    },
+
+    tutorial: {
+        online: 'Online',
+    },
+
+    languageSelection: {
+        notFound: 'No language found',
+    },
+
+    securityDashboard: {
+        title: 'Security Dashboard',
+        metrics: {
+            authAttempts: 'Auth Attempts',
+            failedLogins: 'Failed Logins',
+            rootDetected: 'Root Detected',
+            activeLocks: 'Active Locks',
+            last24h: 'Last 24h',
+            current: 'Current',
+        },
+        filters: {
+            eventType: 'Event Type:',
+            severity: 'Severity:',
+            allTypes: 'All Types',
+            authSuccess: 'Auth Success',
+            authFailure: 'Auth Failure',
+            accountLocked: 'Account Locked',
+            otpGenerated: 'OTP Generated',
+            otpVerified: 'OTP Verified',
+            otpFailed: 'OTP Failed',
+            rootDetected: 'Root Detected',
+            allSeverities: 'All Severities',
+            info: 'Info',
+            warning: 'Warning',
+            critical: 'Critical',
+        },
+        empty: 'No security events found',
+        loading: 'Loading security data...',
+    },
+
+    privacyDetails: {
+        technicalTitle: 'Technical Details',
+        storedEncrypted: 'Safety PIN stored using Android encrypted preferences',
+        localHistory: 'Link history stored locally on device only',
+        noNetwork: 'No network requests made for link analysis',
+        noThirdParty: 'No third-party SDKs for analytics or advertising',
+    },
+
+    aboutDetails: {
+        whatWeDo: 'What Safety SHIELD Does',
+        pauseLinks: 'Adds a pause before opening external links',
+        basicInfo: 'Shows basic information about the link destination',
+        thinkFirst: 'Helps you think before clicking unfamiliar links',
+        privateHistory: 'Keeps your link history private on your device',
+    },
+
+    notFound: {
+        title: '404',
+        message: 'Oops! Page not found',
     },
 };

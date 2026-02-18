@@ -31,6 +31,8 @@ export interface TranslationKeys {
         panicModeActiveDesc: string;
         panicModeInactiveDesc: string;
         togglePanicMode: string;
+        scamEducationTitle: string;
+        scamEducationDesc: string;
     };
 
     // Safety screen
@@ -42,6 +44,10 @@ export interface TranslationKeys {
         disableSafety: string;
         permissionsNeeded: string;
         grantPermissions: string;
+        setDefaultFirst: string;
+        setAsDefault: string;
+        defaultHandlerSet: string;
+        defaultHandlerNotSet: string;
     };
 
     // Settings screen
@@ -68,6 +74,20 @@ export interface TranslationKeys {
         premiumDesc: string;
         whitelist: string;
         whitelistDesc: string;
+        changePin: string;
+        changePinDesc: string;
+        recovery: string;
+        recoveryDesc: string;
+        securityLogs: string;
+        securityLogsDesc: string;
+        selectLanguage: string;
+        findAnswers: string;
+        faq: string;
+        faq1: string;
+        faq1Desc: string;
+        faq2: string;
+        faq2Desc: string;
+        contactUs: string;
     };
 
     // Biometrics
@@ -191,6 +211,24 @@ export interface TranslationKeys {
         voteSuspicious: string;
         thankYou: string;
         noReports: string;
+    };
+
+    // Scam Education
+    scamEducation: {
+        title: string;
+        subtitle: string;
+        readMore: string;
+        signs: string;
+        solution: string;
+        scams: {
+            phishing: { title: string; desc: string; solution: string; signs: string[] };
+            jobs: { title: string; desc: string; solution: string; signs: string[] };
+            apk: { title: string; desc: string; solution: string; signs: string[] };
+            giveaway: { title: string; desc: string; solution: string; signs: string[] };
+            love_scam: { title: string; desc: string; solution: string; signs: string[] };
+            quishing: { title: string; desc: string; solution: string; signs: string[] };
+            digital_arrest: { title: string; desc: string; solution: string; signs: string[] };
+        };
     };
 
     // Blocked Link Screen
@@ -379,5 +417,100 @@ export interface TranslationKeys {
         show: string;
         hide: string;
         close: string;
-    };
+        next: string;
+        previous: string;
+        more: string;
+        email: string;
+        twitter: string;
+    },
+
+    // Accessibility (Screen Readers)
+    a11y: {
+        close: string;
+        previousSlide: string;
+        nextSlide: string;
+        morePages: string;
+        more: string;
+    },
+
+    // Stats
+    stats: {
+        safe: string;
+        risky: string;
+    },
+
+    // Recovery
+    recovery: {
+        saved: string;
+    },
+
+    // Premium
+    premium: { // Extending existing if needed or checking
+        currTitle: string; // "Premium"
+    },
+
+    // Interactive Tutorial
+    tutorial: {
+        online: string;
+    },
+
+    // Language Selection
+    languageSelection: {
+        notFound: string;
+    },
+
+    // Security Dashboard
+    securityDashboard: {
+        title: string;
+        metrics: {
+            authAttempts: string;
+            failedLogins: string;
+            rootDetected: string;
+            activeLocks: string;
+            last24h: string;
+            current: string;
+        };
+        filters: {
+            eventType: string;
+            severity: string;
+            allTypes: string;
+            authSuccess: string;
+            authFailure: string;
+            accountLocked: string;
+            otpGenerated: string;
+            otpVerified: string;
+            otpFailed: string;
+            rootDetected: string;
+            allSeverities: string;
+            info: string;
+            warning: string;
+            critical: string;
+        };
+        empty: string;
+        loading: string;
+    },
+
+    // Privacy Policy Details
+    privacyDetails: {
+        technicalTitle: string;
+        storedEncrypted: string;
+        localHistory: string;
+        noNetwork: string;
+        noThirdParty: string;
+    },
+
+    // About Page Details
+    aboutDetails: {
+        whatWeDo: string;
+        pauseLinks: string;
+        basicInfo: string;
+        thinkFirst: string;
+        privateHistory: string;
+    },
+
+    // Not Found Page
+    notFound: {
+        title: string;
+        message: string;
+    },
 }

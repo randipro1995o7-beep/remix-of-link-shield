@@ -25,6 +25,8 @@ export const th: TranslationKeys = {
         panicModeActiveDesc: 'Blocking all unknown links for maximum safety.',
         panicModeInactiveDesc: 'Turn on to block everything except trusted sites.',
         togglePanicMode: 'Toggle Panic Mode',
+        scamEducationTitle: 'Know all types of online scams',
+        scamEducationDesc: 'Complete guide to recognizing signs & solutions',
     },
 
     safety: {
@@ -34,7 +36,11 @@ export const th: TranslationKeys = {
         enableSafety: 'เปิดขั้นตอนความปลอดภัย',
         disableSafety: 'หยุดขั้นตอนความปลอดภัยชั่วคราว',
         permissionsNeeded: 'เราต้องการการอนุญาตบางอย่างก่อน',
-        grantPermissions: 'ให้การอนุญาต',
+        grantPermissions: 'อนุญาต',
+        setDefaultFirst: 'Set as default first',
+        setAsDefault: 'Set as Default Link Handler',
+        defaultHandlerSet: 'App is set as default link handler',
+        defaultHandlerNotSet: 'App is not set as default link handler',
     },
 
     settings: {
@@ -60,6 +66,20 @@ export const th: TranslationKeys = {
         premiumDesc: 'ประวัติเพิ่มเติม, โหมดครอบครัว และอื่นๆ',
         whitelist: 'เว็บไซต์ที่เชื่อถือได้',
         whitelistDesc: 'จัดการเว็บไซต์ที่ข้ามการตรวจสอบความปลอดภัย',
+        changePin: 'Change Safety PIN',
+        changePinDesc: 'Change PIN for link verification',
+        recovery: 'Password Recovery',
+        recoveryDesc: 'Set email & phone for PIN reset',
+        securityLogs: 'Security Logs',
+        securityLogsDesc: 'View security activity & audit trail',
+        selectLanguage: 'Select application language',
+        findAnswers: 'Find answers or get in touch',
+        faq: 'FAQ',
+        faq1: 'How does Safety SHIELD work?',
+        faq1Desc: 'Safety SHIELD helps you pause before opening links. This gives you time to consider link safety.',
+        faq2: 'Is my data safe?',
+        faq2Desc: 'Yes! All data is stored locally on your device. Nothing is sent to servers.',
+        contactUs: 'Contact Us',
     },
 
     biometrics: {
@@ -73,23 +93,120 @@ export const th: TranslationKeys = {
         disabled: 'Enable biometric unlock',
     },
 
+    communityReputation: {
+        title: 'ความเชื่อมั่นของชุมชน',
+        description: 'ผู้ใช้เชื่อถือเว็บไซต์นี้',
+        votes: 'โหวต',
+        voteSafe: 'ทำเครื่องหมายว่าปลอดภัย',
+        voteSuspicious: 'รายงานว่าน่าสงสัย',
+        thankYou: 'ขอบคุณสำหรับการรายงาน!',
+        noReports: 'ยังไม่มีรายงานจากชุมชน',
+    },
+
     whitelist: {
         title: 'เว็บไซต์ที่เชื่อถือได้',
-        description: 'เว็บไซต์เหล่านี้จะข้ามการตรวจสอบความปลอดภัยและเปิดทันที',
+        description: 'เว็บไซต์เหล่านี้จะข้ามการตรวจสอบความปลอดภัยของ Safety SHIELD',
         empty: 'ยังไม่มีเว็บไซต์ที่เชื่อถือได้',
-        emptyDesc: 'เว็บไซต์ที่คุณทำเครื่องหมายว่า "เชื่อถือเสมอ" จะปรากฏที่นี่',
-        remove: 'ลบออก',
-        removeConfirmTitle: 'ลบออกจากที่เชื่อถือได้?',
-        removeConfirmDesc: 'เว็บไซต์นี้จะถูกตรวจสอบอีกครั้งในการเข้าชมครั้งถัดไป',
+        emptyDesc: 'เว็บไซต์ที่คุณทำเครื่องหมายว่า "เชื่อถือได้" จะปรากฏที่นี่',
+        remove: 'ลบ',
+        removeConfirmTitle: 'ลบเว็บไซต์นี้?',
+        removeConfirmDesc: 'Safety SHIELD จะเริ่มตรวจสอบลิงก์จากเว็บไซต์นี้อีกครั้ง',
         domain: 'โดเมน',
-        addSite: 'เพิ่มเว็บไซต์ที่เชื่อถือได้ใหม่',
-        enterUrl: 'example.com หรือวางลิงก์',
+        addSite: 'เพิ่มเว็บไซต์',
+        enterUrl: 'ป้อน URL (เช่น example.com)',
         add: 'เพิ่ม',
-        invalidUrl: 'โปรดป้อนโดเมนหรือ URL ที่ถูกต้อง',
+        invalidUrl: 'URL ไม่ถูกต้อง',
         addedDate: 'เพิ่มเมื่อ',
-        userAdded: 'เพิ่มโดยคุณ',
-        systemDefault: 'ระบบยืนยัน',
-        verified: 'พาร์ทเนอร์ทางการ',
+        userAdded: 'คุณเพิ่ม',
+        systemDefault: 'ค่าเริ่มต้น',
+        verified: 'ตรวจสอบแล้ว',
+    },
+
+    scamEducation: {
+        title: 'รู้ทันกลโกง',
+        subtitle: 'เรียนรู้ภัยคุกคามออนไลน์',
+        readMore: 'แตะเพื่ออ่านเพิ่มเติม...',
+        signs: 'สัญญาณเตือน:',
+        solution: 'การป้องกันและแก้ไข:',
+        scams: {
+            phishing: {
+                title: 'Phishing (ขโมยข้อมูล)',
+                desc: 'มิจฉาชีพส่งอีเมล/ข้อความปลอมที่ดูเหมือนจริง (เช่น ธนาคาร) เพื่อขโมยรหัสผ่านหรือ PIN',
+                signs: [
+                    'ใช้อีเมลฟรี (gmail.com)',
+                    'เร่งให้รีบทำ ("บัญชีจะถูกระงับ!")',
+                    'ลิงก์แปลกๆ (bit.ly)',
+                    'ขอ PIN/รหัสผ่าน'
+                ],
+                solution: 'ห้ามคลิกลิงก์จากข้อความที่น่าสงสัย ติดต่อธนาคารโดยตรง'
+            },
+            jobs: {
+                title: 'งานปลอม',
+                desc: 'รายได้สูงสำหรับงานง่ายๆ (เช่น กดไลค์) แต่ต้องโอนเงินก่อน',
+                signs: [
+                    'รายได้สูงเกินจริง',
+                    'ต้องโอนเงินเพื่อ "เริ่มงาน"',
+                    'คุยผ่าน Telegram/WhatsApp เท่านั้น',
+                    'ไม่มีการสัมภาษณ์เป็นทางการ'
+                ],
+                solution: 'จำไว้: ถ้าต้องจ่ายเงินเพื่อทำงาน นั่นคือการโกง อย่าโอนเงินเด็ดขาด'
+            },
+            apk: {
+                title: 'หลอกติดตั้ง APK',
+                desc: 'ส่งไฟล์แอปอันตราย (.apk) อ้างว่าเป็น "การ์ดแต่งงาน" หรือ "รูปพัสดุ"',
+                signs: [
+                    'ไฟล์ลงท้ายด้วย .apk',
+                    'อ้างว่าเป็นขนส่งหรือเพื่อนเก่า',
+                    'เร่งให้เปิดไฟล์',
+                    'ไอคอนไฟล์ดูแปลกๆ'
+                ],
+                solution: 'ห้ามติดตั้ง/เปิดไฟล์ .apk จากแชทเด็ดขาด มันสามารถขโมย OTP และดูดเงินหมดบัญชี'
+            },
+            giveaway: {
+                title: 'รางวัลปลอม',
+                desc: 'แจ้งว่าคุณได้รับรางวัลแต่ต้องจ่าย "ค่าธรรมเนียม" หรือ "ภาษี" ก่อน',
+                signs: [
+                    'คุณไม่เคยร่วมกิจกรรม',
+                    'ขอให้โอนเงินก่อน',
+                    'เร่งให้รีบรับรางวัล',
+                    'รีวิวปลอม'
+                ],
+                solution: 'รางวัลจริงไม่ต้องจ่ายก่อน ภาษีจะหัก ณ ที่จ่าย'
+            },
+            love_scam: {
+                title: 'Romance Scam',
+                desc: 'สร้างความสัมพันธ์ออนไลน์ แล้วหลอกยืมเงินเพราะ "ฉุกเฉิน"',
+                signs: [
+                    'ความสัมพันธ์ไปไวมาก',
+                    'อ้างว่าอยู่ต่างประเทศ/รวย/เป็นทหาร',
+                    'มีเหตุผลขอยืมเงินเสมอ',
+                    'ไม่ยอมวิดีโอคอล'
+                ],
+                solution: 'อย่าโอนเงินให้คนที่ยังไม่เคยเจอตัวจริง บล็อกทันทีถ้าขอยืมเงิน'
+            },
+            quishing: {
+                title: 'Quishing (QR Phishing)',
+                desc: 'แปะ QR Code ปลอมทับของจริงในที่สาธารณะ เมื่อสแกนจะไปเว็บปลอม',
+                signs: [
+                    'มีสติ๊กเกอร์ QR แปะทับ',
+                    'QR ส่งมาแบบไม่มีที่มา',
+                    'เว็บขอข้อมูลส่วนตัว',
+                    'URL ดูแปลกๆ'
+                ],
+                solution: 'ตรวจสอบสติ๊กเกอร์ QR ให้ดี ใช้ Safety SHIELD สแกนเพื่อตรวจสอบ URL ก่อน'
+            },
+            digital_arrest: {
+                title: 'Digital Arrest',
+                desc: 'ปลอมเป็นตำรวจ/ศาล วิดีโอคอลหา อ้างว่าคุณพัวพันคดีและสั่ง "ไต่สวนออนไลน์"',
+                signs: [
+                    'ใส่เครื่องแบบ (มักเป็นฉากหลังปลอม)',
+                    'อ้างว่าพบบัตรประชาชนในที่เกิดเหตุ',
+                    'ห้ามวางสาย',
+                    'ให้โอนเงินไป "บัญชีปลอดภัย" เพื่อตรวจสอบ'
+                ],
+                solution: 'ตำรวจ/ศาล ไม่มีการไต่สวนผ่านวิดีโอคอลส่วนตัว วางสายและไปสถานีตำรวจใกล้บ้าน'
+            }
+        }
     },
 
     permissions: {
@@ -300,7 +417,13 @@ export const th: TranslationKeys = {
         loading: 'กำลังโหลด...',
         show: 'แสดง',
         hide: 'ซ่อน',
+
         close: 'ปิด',
+        next: 'ถัดไป',
+        previous: 'ย้อนกลับ',
+        more: 'เพิ่มเติม',
+        email: 'อีเมล',
+        twitter: 'Twitter / X',
     },
     // Missing keys added to prevent crash
     safetyTips: [
@@ -315,49 +438,111 @@ export const th: TranslationKeys = {
         'Do not download files from untrusted sites.',
         'Report suspicious activity to your service provider.',
     ],
-    communityReputation: {
-        title: 'Community Trust',
-        description: 'users trust this website',
-        votes: 'votes',
-        voteSafe: 'Mark as Safe',
-        voteSuspicious: 'Report Suspicious',
-        thankYou: 'Thanks for your report!',
-        noReports: 'No community reports yet',
-    },
+
     terms: {
-        title: 'Terms & Privacy',
-        subtitle: 'Please review and accept our policies to continue',
-        termsTitle: 'Terms of Service',
-        privacyTitle: 'Privacy Policy',
-        agreeLabel: 'I agree to the Terms of Service and Privacy Policy',
-        continue: 'Continue',
-        readMore: 'Read Full Policy',
-        intro: 'By using Safety SHIELD, you agree to protect yourself and others.',
-        termsContent: 'Safety SHIELD is provided "as is" to help you analyze links. We do not guarantee 100% detection of all threats. You are responsible for your own actions when browsing the web. We are not liable for any damages arising from the use of this app.',
-        privacyContent: 'Your data stays on your device. We do not collect your browsing history, personal information, or Safety PIN. All link analysis is performed locally on your phone. We do not share any data with third parties.',
+        title: 'ข้อกำหนดและความเป็นส่วนตัว',
+        subtitle: 'โปรดตรวจสอบและยอมรับนโยบายของเราเพื่อดำเนินการต่อ',
+        termsTitle: 'เงื่อนไขการให้บริการ',
+        privacyTitle: 'นโยบายความเป็นส่วนตัว',
+        agreeLabel: 'ฉันยอมรับเงื่อนไขการให้บริการและนโยบายความเป็นส่วนตัว',
+        continue: 'ดำเนินการต่อ',
+        readMore: 'อ่านนโยบายฉบับเต็ม',
+        intro: 'การใช้ Safety SHIELD แสดงว่าคุณตกลงที่จะปกป้องตนเองและผู้อื่น',
+        termsContent: 'Safety SHIELD ให้บริการ "ตามสภาพ" เพื่อช่วยคุณวิเคราะห์ลิงก์ เราไม่รับประกันการตรวจจับภัยคุกคามทั้งหมด 100% คุณต้องรับผิดชอบต่อการกระทำของคุณเองเมื่อท่องเว็บ เราไม่รับผิดชอบต่อความเสียหายใดๆ ที่เกิดจากการใช้แอปนี้',
+        privacyContent: 'ข้อมูลของคุณจะอยู่บนอุปกรณ์ของคุณ เราไม่เก็บประวัติการท่องเว็บ ข้อมูลส่วนบุคคล หรือ PIN ความปลอดภัยของคุณ การวิเคราะห์ลิงก์ทั้งหมดทำในเครื่องโทรศัพท์ของคุณ เราไม่แบ่งปันข้อมูลใดๆ กับบุคคลที่สาม',
     },
     finalOnboarding: {
-        title: 'Almost Done!',
-        subtitle: 'Two important things to keep you safe',
-        panicTitle: 'Panic Mode',
-        panicDesc: 'In an emergency, use Panic Mode to block all unknown links instantly.',
-        defaultTitle: 'Set as Default',
-        defaultDesc: 'Safety SHIELD works best when it handles all your links. Make it your default browser app.',
-        finishButton: 'Got it, let\'s go!',
+        title: 'เกือบเสร็จแล้ว!',
+        subtitle: 'สองสิ่งที่สำคัญเพื่อความปลอดภัยของคุณ',
+        panicTitle: 'โหมดตื่นตระหนก',
+        panicDesc: 'ในกรณีฉุกเฉิน ใช้โหมดตื่นตระหนกเพื่อบล็อกลิงก์ที่ไม่รู้จักทั้งหมดทันที',
+        defaultTitle: 'ตั้งเป็นค่าเริ่มต้น',
+        defaultDesc: 'Safety SHIELD ทำงานได้ดีที่สุดเมื่อจัดการลิงก์ทั้งหมดของคุณ ตั้งเป็นแอปเบราว์เซอร์เริ่มต้นของคุณ',
+        finishButton: 'เข้าใจแล้ว ไปกันเลย!',
     },
     homeGuide: {
-        welcome: 'Turn on Protection',
-        clickEnable: 'Please enter the Security Layer to activate the application.',
-        dismiss: 'Dismiss',
-        successTitle: 'You are Protected!',
-        successDesc: 'Great job! The app is now active.',
-        panicTitle: 'Maximum Security',
-        panicDesc: 'Enable Panic Mode to block EVERYTHING except trusted sites. Highly recommended!',
-        next: 'Next',
+        welcome: 'เปิดการป้องกัน',
+        clickEnable: 'โปรดเข้าสู่ Security Layer เพื่อเปิดใช้งานแอปพลิเคชัน',
+        dismiss: 'ปิด',
+        successTitle: 'คุณได้รับการป้องกันแล้ว!',
+        successDesc: 'เยี่ยมมาก! แอปใช้งานได้แล้ว',
+        panicTitle: 'ความปลอดภัยสูงสุด',
+        panicDesc: 'เปิดโหมดตื่นตระหนกเพื่อบล็อกทุกอย่างยกเว้นเว็บไซต์ที่เชื่อถือได้ แนะนำเป็นอย่างยิ่ง!',
+        next: 'ถัดไป',
     },
     news: {
-        title: 'Latest Security News',
-        noNews: 'No news available at the moment.',
-        readMore: 'Read full article',
+        title: 'ข่าวความปลอดภัยล่าสุด',
+        noNews: 'ไม่มีข่าวสารในขณะนี้',
+        readMore: 'อ่านบทความเต็ม',
+    },
+    a11y: {
+        close: 'ปิด',
+        previousSlide: 'สไลด์ก่อนหน้า',
+        nextSlide: 'สไลด์ถัดไป',
+        morePages: 'หน้าเพิ่มเติม',
+        more: 'เพิ่มเติม',
+    },
+    stats: {
+        safe: 'ปลอดภัย',
+        risky: 'มีความเสี่ยง',
+    },
+    recovery: {
+        saved: 'บันทึกแล้ว',
+    },
+    premium: {
+        currTitle: 'พรีเมียม',
+    },
+    tutorial: {
+        online: 'ออนไลน์',
+    },
+    languageSelection: {
+        notFound: 'ไม่พบภาษา',
+    },
+    securityDashboard: {
+        title: 'แดชบอร์ดความปลอดภัย',
+        metrics: {
+            authAttempts: 'ความพยายามเข้าสู่ระบบ',
+            failedLogins: 'เข้าสู่ระบบล้มเหลว',
+            rootDetected: 'ตรวจพบ Root',
+            activeLocks: 'การล็อกที่ใช้งาน',
+            last24h: '24 ชม. ล่าสุด',
+            current: 'ปัจจุบัน',
+        },
+        filters: {
+            eventType: 'ประเภทเหตุการณ์:',
+            severity: 'ความรุนแรง:',
+            allTypes: 'ทุกประเภท',
+            authSuccess: 'เข้าสู่ระบบสำเร็จ',
+            authFailure: 'เข้าสู่ระบบล้มเหลว',
+            accountLocked: 'บัญชีถูกล็อก',
+            otpGenerated: 'สร้าง OTP แล้ว',
+            otpVerified: 'ยืนยัน OTP แล้ว',
+            otpFailed: 'OTP ล้มเหลว',
+            rootDetected: 'ตรวจพบ Root',
+            allSeverities: 'ทุกระดับ',
+            info: 'ข้อมูล',
+            warning: 'คำเตือน',
+            critical: 'วิกฤต',
+        },
+        empty: 'ไม่พบเหตุการณ์ความปลอดภัย',
+        loading: 'กำลังโหลดข้อมูล...',
+    },
+    privacyDetails: {
+        technicalTitle: 'ข้อมูลทางเทคนิค',
+        storedEncrypted: 'PIN ความปลอดภัยถูกจัดเก็บด้วยการเข้ารหัสของ Android',
+        localHistory: 'ประวัติลิงก์ถูกจัดเก็บไว้ในอุปกรณ์เท่านั้น',
+        noNetwork: 'ไม่มีการร้องขอเครือข่ายสำหรับการวิเคราะห์ลิงก์',
+        noThirdParty: 'ไม่มี SDK บุคคลที่สามสำหรับการวิเคราะห์หรือโฆษณา',
+    },
+    aboutDetails: {
+        whatWeDo: 'Safety SHIELD ทำอะไร',
+        pauseLinks: 'เพิ่มการหยุดชั่วคราวก่อนเปิดลิงก์ภายนอก',
+        basicInfo: 'แสดงข้อมูลพื้นฐานเกี่ยวกับปลายทางของลิงก์',
+        thinkFirst: 'ช่วยให้คุณคิดก่อนคลิกลิงก์ที่ไม่รู้จัก',
+        privateHistory: 'รักษาประวัติลิงก์ของคุณให้เป็นส่วนตัวบนอุปกรณ์ของคุณ',
+    },
+    notFound: {
+        title: '404',
+        message: 'อุย! ไม่พบหน้าที่คุณค้นหา',
     },
 };

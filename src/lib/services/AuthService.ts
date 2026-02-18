@@ -16,8 +16,14 @@ import { logger } from '@/lib/utils/logger';
 import { Capacitor } from '@capacitor/core';
 import { FirebaseAuthentication } from '@capacitor-firebase/authentication';
 
+import { getFirestore } from 'firebase/firestore';
+
 const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
 const auth = getAuth(app);
+const db = getFirestore(app);
+
+export const firebaseApp = app;
+export const firebaseDb = db;
 
 export const AuthService = {
     /**

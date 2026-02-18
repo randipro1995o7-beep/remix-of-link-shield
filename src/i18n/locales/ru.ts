@@ -25,6 +25,8 @@ export const ru: TranslationKeys = {
         panicModeActiveDesc: 'Блокировка всех неизвестных ссылок для максимальной безопасности.',
         panicModeInactiveDesc: 'Включите, чтобы блокировать все, кроме доверенных сайтов.',
         togglePanicMode: 'Переключить режим паники',
+        scamEducationTitle: 'Знайте все виды онлайн-мошенничества',
+        scamEducationDesc: 'Полное руководство по распознаванию признаков и решений',
     },
 
     safety: {
@@ -33,8 +35,12 @@ export const ru: TranslationKeys = {
         disabled: 'Меры безопасности выключены',
         enableSafety: 'Включить меры безопасности',
         disableSafety: 'Приостановить меры безопасности',
-        permissionsNeeded: 'Сначала нам нужны некоторые разрешения',
+        permissionsNeeded: 'Нам нужны некоторые разрешения',
         grantPermissions: 'Предоставить разрешения',
+        setDefaultFirst: 'Сначала установите по умолчанию',
+        setAsDefault: 'Установить как обработчик ссылок по умолчанию',
+        defaultHandlerSet: 'Приложение установлено как обработчик ссылок по умолчанию',
+        defaultHandlerNotSet: 'Приложение не установлено как обработчик ссылок по умолчанию',
     },
 
     settings: {
@@ -60,6 +66,20 @@ export const ru: TranslationKeys = {
         premiumDesc: 'Больше истории, семейный режим и другое',
         whitelist: 'Доверенные сайты',
         whitelistDesc: 'Управление сайтами, пропускающими проверку безопасности',
+        changePin: 'Change Safety PIN',
+        changePinDesc: 'Change PIN for link verification',
+        recovery: 'Password Recovery',
+        recoveryDesc: 'Set email & phone for PIN reset',
+        securityLogs: 'Security Logs',
+        securityLogsDesc: 'View security activity & audit trail',
+        selectLanguage: 'Select application language',
+        findAnswers: 'Find answers or get in touch',
+        faq: 'FAQ',
+        faq1: 'How does Safety SHIELD work?',
+        faq1Desc: 'Safety SHIELD helps you pause before opening links. This gives you time to consider link safety.',
+        faq2: 'Is my data safe?',
+        faq2Desc: 'Yes! All data is stored locally on your device. Nothing is sent to servers.',
+        contactUs: 'Contact Us',
     },
 
     biometrics: {
@@ -301,6 +321,81 @@ export const ru: TranslationKeys = {
         show: 'Показать',
         hide: 'Скрыть',
         close: 'Закрыть',
+        next: 'Далее',
+        previous: 'Назад',
+        more: 'Еще',
+        email: 'Email',
+        twitter: 'Twitter / X',
+    },
+    a11y: {
+        close: 'Закрыть',
+        previousSlide: 'Предыдущий слайд',
+        nextSlide: 'Следующий слайд',
+        morePages: 'Больше страниц',
+        more: 'Еще',
+    },
+    stats: {
+        safe: 'Безопасно',
+        risky: 'Рискованно',
+    },
+    recovery: {
+        saved: 'Сохранено',
+    },
+    premium: {
+        currTitle: 'Премиум',
+    },
+    tutorial: {
+        online: 'Онлайн',
+    },
+    languageSelection: {
+        notFound: 'Язык не найден',
+    },
+    securityDashboard: {
+        title: 'Панель безопасности',
+        metrics: {
+            authAttempts: 'Попытки входа',
+            failedLogins: 'Неудачные входы',
+            rootDetected: 'Root обнаружен',
+            activeLocks: 'Активные блокировки',
+            last24h: 'За 24ч',
+            current: 'Текущий',
+        },
+        filters: {
+            eventType: 'Тип события:',
+            severity: 'Важность:',
+            allTypes: 'Все типы',
+            authSuccess: 'Успешный вход',
+            authFailure: 'Ошибка входа',
+            accountLocked: 'Аккаунт заблокирован',
+            otpGenerated: 'OTP создан',
+            otpVerified: 'OTP подтвержден',
+            otpFailed: 'Ошибка OTP',
+            rootDetected: 'Root обнаружен',
+            allSeverities: 'Все уровни',
+            info: 'Инфо',
+            warning: 'Предупреждение',
+            critical: 'Критично',
+        },
+        empty: 'События безопасности не найдены',
+        loading: 'Загрузка данных безопасности...',
+    },
+    privacyDetails: {
+        technicalTitle: 'Технические детали',
+        storedEncrypted: 'PIN безопасности хранится с использованием шифрования Android',
+        localHistory: 'История ссылок хранится только локально на устройстве',
+        noNetwork: 'Никаких сетевых запросов для анализа ссылок',
+        noThirdParty: 'Никаких сторонних SDK для аналитики или рекламы',
+    },
+    aboutDetails: {
+        whatWeDo: 'Что делает Safety SHIELD',
+        pauseLinks: 'Добавляет паузу перед открытием внешних ссылок',
+        basicInfo: 'Показывает основную информацию о назначении ссылки',
+        thinkFirst: 'Помогает вам подумать перед нажатием на неизвестную ссылку',
+        privateHistory: 'Сохраняет историю ссылок конфиденциальной на вашем устройстве',
+    },
+    notFound: {
+        title: '404',
+        message: 'Ой! Страница не найдена',
     },
     // Missing keys added to prevent crash
     safetyTips: [
@@ -324,40 +419,127 @@ export const ru: TranslationKeys = {
         thankYou: 'Thanks for your report!',
         noReports: 'No community reports yet',
     },
+
+    scamEducation: {
+        title: 'Типы мошенничества',
+        subtitle: 'Узнайте о распространенных онлайн-угрозах',
+        readMore: 'Нажмите, чтобы читать далее...',
+        signs: 'Тревожные признаки:',
+        solution: 'Предотвращение и решение:',
+        scams: {
+            phishing: {
+                title: 'Фишинг (Кража данных)',
+                desc: 'Мошенники отправляют поддельные письма/сообщения, похожие на официальные (например, от банка), чтобы украсть пароли или PIN-коды.',
+                signs: [
+                    'Использование бесплатной почты (gmail.com)',
+                    'Срочность действий ("Аккаунт будет заблокирован!")',
+                    'Странные ссылки (bit.ly)',
+                    'Запрос PIN-кода/пароля'
+                ],
+                solution: 'Никогда не переходите по ссылкам из подозрительных сообщений. Свяжитесь с банком напрямую.'
+            },
+            jobs: {
+                title: 'Фальшивые вакансии',
+                desc: 'Высокий доход за простые задачи (например, лайки видео), но требуется предоплата.',
+                signs: [
+                    'Нереалистично высокий доход',
+                    'Требование оплаты для "начала работы"',
+                    'Общение только через Telegram/WhatsApp',
+                    'Нет официального собеседования'
+                ],
+                solution: 'Помните: если нужно платить, чтобы работать, это мошенничество. Не отправляйте деньги.'
+            },
+            apk: {
+                title: 'Мошенничество с APK',
+                desc: 'Отправка вредоносного файла приложения (.apk) под видом "приглашения на свадьбу" или "фото посылки".',
+                signs: [
+                    'Файл заканчивается на .apk',
+                    'Представляется курьером или старым другом',
+                    'Торопит открыть файл',
+                    'Иконка файла выглядит странно'
+                ],
+                solution: 'Никогда не устанавливайте/открывайте .apk файлы из чатов. Они могут украсть пароли и списать деньги со счетов.'
+            },
+            giveaway: {
+                title: 'Фальшивые розыгрыши',
+                desc: 'Сообщение о выигрыше, но сначала нужно оплатить "комиссию" или "налоги".',
+                signs: [
+                    'Вы не участвовали в конкурсе',
+                    'Просьба оплатить заранее',
+                    'Срочность в получении приза',
+                    'Фальшивые отзывы'
+                ],
+                solution: 'Настоящие призы не требуют предоплаты. Налоги вычитаются из суммы приза.'
+            },
+            love_scam: {
+                title: 'Романтическое мошенничество',
+                desc: 'Создание романтических отношений онлайн, затем просьба денег из-за "чрезвычайной ситуации".',
+                signs: [
+                    'Отношения развиваются слишком быстро',
+                    'Заявляет, что живет за границей/богат/военный',
+                    'Всегда есть причина занять денег',
+                    'Отказывается от видеозвонков'
+                ],
+                solution: 'Не отправляйте деньги тем, кого никогда не видели лично. Блокируйте сразу при просьбе денег.'
+            },
+            quishing: {
+                title: 'Квишинг (QR-фишинг)',
+                desc: 'Наклеивание поддельного QR-кода поверх настоящего в общественных местах. При сканировании ведет на фальшивый сайт.',
+                signs: [
+                    'QR-наклейка поверх другой',
+                    'QR прислан без источника',
+                    'Сайт запрашивает личные данные',
+                    'URL выглядит странно'
+                ],
+                solution: 'Внимательно проверяйте QR-наклейки. Используйте Safety SHIELD для сканирования и проверки URL.'
+            },
+            digital_arrest: {
+                title: 'Цифровой арест',
+                desc: 'Выдает себя за полицию/судью по видеосвязи, заявляет о причастности к преступлению и назначает "онлайн-допрос".',
+                signs: [
+                    'Носит форму (часто фальшивый фон)',
+                    'Утверждает, что нашел ID на месте преступления',
+                    'Запрещает вешать трубку',
+                    'Требует перевода на "безопасный счет"'
+                ],
+                solution: 'Полиция/суд не проводят допросы по личной видеосвязи. Повесьте трубку и идите в ближайший участок.'
+            }
+        }
+    },
     terms: {
-        title: 'Terms & Privacy',
-        subtitle: 'Please review and accept our policies to continue',
-        termsTitle: 'Terms of Service',
-        privacyTitle: 'Privacy Policy',
-        agreeLabel: 'I agree to the Terms of Service and Privacy Policy',
-        continue: 'Continue',
-        readMore: 'Read Full Policy',
-        intro: 'By using Safety SHIELD, you agree to protect yourself and others.',
-        termsContent: 'Safety SHIELD is provided "as is" to help you analyze links. We do not guarantee 100% detection of all threats. You are responsible for your own actions when browsing the web. We are not liable for any damages arising from the use of this app.',
-        privacyContent: 'Your data stays on your device. We do not collect your browsing history, personal information, or Safety PIN. All link analysis is performed locally on your phone. We do not share any data with third parties.',
+        title: 'Условия и конфиденциальность',
+        subtitle: 'Пожалуйста, ознакомьтесь и примите наши правила, чтобы продолжить',
+        termsTitle: 'Условия использования',
+        privacyTitle: 'Политика конфиденциальности',
+        agreeLabel: 'Я согласен с Условиями использования и Политикой конфиденциальности',
+        continue: 'Продолжить',
+        readMore: 'Читать полную политику',
+        intro: 'Используя Safety SHIELD, вы соглашаетесь защищать себя и других.',
+        termsContent: 'Safety SHIELD предоставляется "как есть", чтобы помочь вам анализировать ссылки. Мы не гарантируем 100% обнаружение всех угроз. Вы несете ответственность за свои действия при просмотре веб-страниц. Мы не несем ответственности за любой ущерб, возникший в результате использования этого приложения.',
+        privacyContent: 'Ваши данные остаются на вашем устройстве. Мы не собираем историю просмотров, личную информацию или PIN безопасности. Весь анализ ссылок выполняется локально на вашем телефоне. Мы не передаем никакие данные третьим лицам.',
     },
     finalOnboarding: {
-        title: 'Almost Done!',
-        subtitle: 'Two important things to keep you safe',
-        panicTitle: 'Panic Mode',
-        panicDesc: 'In an emergency, use Panic Mode to block all unknown links instantly.',
-        defaultTitle: 'Set as Default',
-        defaultDesc: 'Safety SHIELD works best when it handles all your links. Make it your default browser app.',
-        finishButton: 'Got it, let\'s go!',
+        title: 'Почти готово!',
+        subtitle: 'Две важные вещи для вашей безопасности',
+        panicTitle: 'Режим паники',
+        panicDesc: 'В случае чрезвычайной ситуации используйте режим паники, чтобы мгновенно заблокировать все неизвестные ссылки.',
+        defaultTitle: 'Установить по умолчанию',
+        defaultDesc: 'Safety SHIELD работает лучше всего, когда обрабатывает все ваши ссылки. Сделайте его браузером по умолчанию.',
+        finishButton: 'Понятно, поехали!',
     },
     homeGuide: {
-        welcome: 'Turn on Protection',
-        clickEnable: 'Please enter the Security Layer to activate the application.',
-        dismiss: 'Dismiss',
-        successTitle: 'You are Protected!',
-        successDesc: 'Great job! The app is now active.',
-        panicTitle: 'Maximum Security',
-        panicDesc: 'Enable Panic Mode to block EVERYTHING except trusted sites. Highly recommended!',
-        next: 'Next',
+        welcome: 'Включить защиту',
+        clickEnable: 'Пожалуйста, войдите в уровень безопасности, чтобы активировать приложение.',
+        dismiss: 'Закрыть',
+        successTitle: 'Вы защищены!',
+        successDesc: 'Отличная работа! Приложение теперь активно.',
+        panicTitle: 'Максимальная безопасность',
+        panicDesc: 'Включите режим паники, чтобы заблокировать ВСЕ, кроме доверенных сайтов. Настоятельно рекомендуется!',
+        next: 'Далее',
     },
     news: {
-        title: 'Latest Security News',
-        noNews: 'No news available at the moment.',
-        readMore: 'Read full article',
+        title: 'Последние новости безопасности',
+        noNews: 'На данный момент новостей нет.',
+        readMore: 'Читать статью полностью',
     },
 };

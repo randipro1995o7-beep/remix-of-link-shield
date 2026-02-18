@@ -25,6 +25,8 @@ export const ms: TranslationKeys = {
         panicModeActiveDesc: 'Blocking all unknown links for maximum safety.',
         panicModeInactiveDesc: 'Turn on to block everything except trusted sites.',
         togglePanicMode: 'Toggle Panic Mode',
+        scamEducationTitle: 'Know all types of online scams',
+        scamEducationDesc: 'Complete guide to recognizing signs & solutions',
     },
 
     safety: {
@@ -35,6 +37,10 @@ export const ms: TranslationKeys = {
         disableSafety: 'Jeda Langkah Keselamatan',
         permissionsNeeded: 'Kami memerlukan beberapa kebenaran dahulu',
         grantPermissions: 'Berikan Kebenaran',
+        setDefaultFirst: 'Set as default first',
+        setAsDefault: 'Set as Default Link Handler',
+        defaultHandlerSet: 'App is set as default link handler',
+        defaultHandlerNotSet: 'App is not set as default link handler',
     },
 
     settings: {
@@ -60,6 +66,20 @@ export const ms: TranslationKeys = {
         premiumDesc: 'Sejarah lanjutan, Mod Keluarga & banyak lagi',
         whitelist: 'Laman Dipercayai',
         whitelistDesc: 'Urus laman yang melangkau pemeriksaan keselamatan',
+        changePin: 'Change Safety PIN',
+        changePinDesc: 'Change PIN for link verification',
+        recovery: 'Password Recovery',
+        recoveryDesc: 'Set email & phone for PIN reset',
+        securityLogs: 'Security Logs',
+        securityLogsDesc: 'View security activity & audit trail',
+        selectLanguage: 'Select application language',
+        findAnswers: 'Find answers or get in touch',
+        faq: 'FAQ',
+        faq1: 'How does Safety SHIELD work?',
+        faq1Desc: 'Safety SHIELD helps you pause before opening links. This gives you time to consider link safety.',
+        faq2: 'Is my data safe?',
+        faq2Desc: 'Yes! All data is stored locally on your device. Nothing is sent to servers.',
+        contactUs: 'Contact Us',
     },
 
     biometrics: {
@@ -301,6 +321,81 @@ export const ms: TranslationKeys = {
         show: 'Tunjukkan',
         hide: 'Sembunyikan',
         close: 'Tutup',
+        next: 'Seterusnya',
+        previous: 'Sebelumnya',
+        more: 'Lagi',
+        email: 'Emel',
+        twitter: 'Twitter / X',
+    },
+    a11y: {
+        close: 'Đóng',
+        previousSlide: 'Slide trước',
+        nextSlide: 'Slide tiếp theo',
+        morePages: 'Thêm trang',
+        more: 'Thêm',
+    },
+    stats: {
+        safe: 'An toàn',
+        risky: 'Rủi ro',
+    },
+    recovery: {
+        saved: 'Đã lưu',
+    },
+    premium: {
+        currTitle: 'Premium',
+    },
+    tutorial: {
+        online: 'Trực tuyến',
+    },
+    languageSelection: {
+        notFound: 'Không tìm thấy ngôn ngữ',
+    },
+    securityDashboard: {
+        title: 'Bảng điều khiển Bảo mật',
+        metrics: {
+            authAttempts: 'Nỗ lực Đăng nhập',
+            failedLogins: 'Đăng nhập Thất bại',
+            rootDetected: 'Phát hiện Root',
+            activeLocks: 'Khóa Đang hoạt động',
+            last24h: '24g qua',
+            current: 'Hiện tại',
+        },
+        filters: {
+            eventType: 'Loại sự kiện:',
+            severity: 'Mức độ:',
+            allTypes: 'Tất cả loại',
+            authSuccess: 'Đăng nhập Thành công',
+            authFailure: 'Đăng nhập Thất bại',
+            accountLocked: 'Tài khoản bị khóa',
+            otpGenerated: 'Đã tạo OTP',
+            otpVerified: 'Đã xác minh OTP',
+            otpFailed: 'OTP Thất bại',
+            rootDetected: 'Phát hiện Root',
+            allSeverities: 'Tất cả mức độ',
+            info: 'Thông tin',
+            warning: 'Cảnh báo',
+            critical: 'Nghiêm trọng',
+        },
+        empty: 'Không tìm thấy sự kiện bảo mật',
+        loading: 'Đang tải dữ liệu bảo mật...',
+    },
+    privacyDetails: {
+        technicalTitle: 'Chi tiết Kỹ thuật',
+        storedEncrypted: 'Mã PIN An toàn được lưu trữ bằng mã hóa Android',
+        localHistory: 'Lịch sử liên kết chỉ được lưu trữ trên thiết bị',
+        noNetwork: 'Không có yêu cầu mạng nào được thực hiện để phân tích liên kết',
+        noThirdParty: 'Không có SDK bên thứ ba để phân tích hoặc quảng cáo',
+    },
+    aboutDetails: {
+        whatWeDo: 'Safety SHIELD Làm gì',
+        pauseLinks: 'Thêm một khoảng dừng trước khi mở liên kết bên ngoài',
+        basicInfo: 'Hiển thị thông tin cơ bản về đích đến của liên kết',
+        thinkFirst: 'Giúp bạn suy nghĩ trước khi nhấp vào liên kết lạ',
+        privateHistory: 'Giữ lịch sử liên kết của bạn riêng tư trên thiết bị',
+    },
+    notFound: {
+        title: '404',
+        message: 'Rất tiếc! Không tìm thấy trang',
     },
     // Missing keys added to prevent crash
     safetyTips: [
@@ -316,48 +411,137 @@ export const ms: TranslationKeys = {
         'Report suspicious activity to your service provider.',
     ],
     communityReputation: {
-        title: 'Community Trust',
-        description: 'users trust this website',
-        votes: 'votes',
-        voteSafe: 'Mark as Safe',
-        voteSuspicious: 'Report Suspicious',
-        thankYou: 'Thanks for your report!',
-        noReports: 'No community reports yet',
+        title: 'Kepercayaan Komuniti',
+        description: 'pengguna mempercayai laman web ini',
+        votes: 'undi',
+        voteSafe: 'Tandai Selamat',
+        voteSuspicious: 'Lapor Mencurigakan',
+        thankYou: 'Terima kasih atas laporan anda!',
+        noReports: 'Tiada laporan komuniti lagi',
+    },
+
+    scamEducation: {
+        title: 'Kenali Jenis Scam',
+        subtitle: 'Ketahui ancaman dalam talian',
+        readMore: 'Tekan untuk baca lagi...',
+        signs: 'Tanda Amaran:',
+        solution: 'Pencegahan & Solusi:',
+        scams: {
+            phishing: {
+                title: 'Phishing (Kecurian Data)',
+                desc: 'Penipu menghantar e-mel/mesej palsu yang kelihatan rasmi (seperti dari bank atau kurier) untuk mencuri kata laluan atau PIN anda.',
+                signs: [
+                    'Penghantar guna e-mel percuma (gmail.com)',
+                    'Tindakan segera diperlukan ("Akaun akan disekat!")',
+                    'Pautan pelik atau dipendekkan (bit.ly)',
+                    'Meminta data peribadi seperti PIN/kata laluan'
+                ],
+                solution: 'Jangan klik pautan dari mesej yang mencurigakan. Hubungi institusi rasmi secara terus.'
+            },
+            jobs: {
+                title: 'Tawaran Kerja Palsu',
+                desc: 'Tawaran gaji tinggi untuk tugas mudah (seperti like video), tetapi anda diminta deposit wang dahulu.',
+                signs: [
+                    'Gaji terlalu lumayan',
+                    'Diminta deposit wang untuk "buka tugasan"',
+                    'Komunikasi hanya melalui Telegram/WhatsApp',
+                    'Tiada temuduga rasmi'
+                ],
+                solution: 'Ingat: Jika anda perlu bayar untuk bekerja, itu adalah SCAM. Jangan pindahkan wang kepada "majikan".'
+            },
+            apk: {
+                title: 'Scam Fail APK',
+                desc: 'Penipu hantar fail aplikasi (.apk) menyamar sebagai "Jemputan Kahwin" atau "Foto Bungkusan".',
+                signs: [
+                    'Fail berakhir dengan .apk',
+                    'Penghantar mengaku kurier atau kawan lama',
+                    'Mendesak untuk buka fail',
+                    'Ikon fail nampak pelik'
+                ],
+                solution: 'JANGAN install/buka fail .apk dari chat. Ia boleh curi OTP SMS dan kosongkan akaun bank.'
+            },
+            giveaway: {
+                title: 'Hadiah Palsu',
+                desc: 'Anda diberitahu menang hadiah tetapi perlu bayar "yuran admin" atau "cukai" dahulu.',
+                signs: [
+                    'Anda tidak pernah masuk peraduan',
+                    'Diminta bayar yuran dahulu',
+                    'Desakan masa untuk tuntut',
+                    'Testimoni palsu'
+                ],
+                solution: 'Hadiah sebenar tidak minta bayaran pendahuluan. Cukai ditolak dari hadiah atau dibayar secara rasmi.'
+            },
+            love_scam: {
+                title: 'Love Scam',
+                desc: 'Penipu bina hubungan romantik dalam talian, kemudian minta wang untuk "kecemasan".',
+                signs: [
+                    'Hubungan berkembang terlalu cepat',
+                    'Mengaku berada di luar negara/tentera/orang kaya',
+                    'Sentiasa ada alasan nak pinjam wang',
+                    'Menolak panggilan video'
+                ],
+                solution: 'Jangan hantar wang kepada orang yang belum pernah jumpa. Sekat segera jika minta wang.'
+            },
+            quishing: {
+                title: 'Quishing (Phishing QR)',
+                desc: 'Penipu tampal pelekat QR palsu di tempat awam atau hantar melalui e-mel. Imbasan bawa ke laman palsu.',
+                signs: [
+                    'Pelekat QR ditampal atas kod asal',
+                    'QR dihantar tanpa konteks',
+                    'Laman web minta data peribadi',
+                    'URL nampak pelik'
+                ],
+                solution: 'Periksa fizikal pelekat QR. Gunakan Safety SHIELD untuk imbas supaya URL diperiksa dahulu.'
+            },
+            digital_arrest: {
+                title: 'Digital Arrest (Tahanan Digital)',
+                desc: 'Penipu menyamar polis/hakim melalui Video Call, dakwa anda terlibat jenayah dan buat "perbicaraan digital".',
+                signs: [
+                    'Pemanggil pakai seragam (latar belakang palsu)',
+                    'Dakwa ID anda dijumpai di tempat jenayah',
+                    'Larang letak telefon',
+                    'Minta pindah wang ke "akaun selamat" untuk audit'
+                ],
+                solution: 'Polis/Hakim TIDAK PERNAH buat perbicaraan melalui Video Call peribadi. Letak telefon dan sahkan di balai polis berdekatan.'
+            }
+        }
     },
     terms: {
-        title: 'Terms & Privacy',
-        subtitle: 'Please review and accept our policies to continue',
-        termsTitle: 'Terms of Service',
-        privacyTitle: 'Privacy Policy',
-        agreeLabel: 'I agree to the Terms of Service and Privacy Policy',
-        continue: 'Continue',
-        readMore: 'Read Full Policy',
-        intro: 'By using Safety SHIELD, you agree to protect yourself and others.',
-        termsContent: 'Safety SHIELD is provided "as is" to help you analyze links. We do not guarantee 100% detection of all threats. You are responsible for your own actions when browsing the web. We are not liable for any damages arising from the use of this app.',
-        privacyContent: 'Your data stays on your device. We do not collect your browsing history, personal information, or Safety PIN. All link analysis is performed locally on your phone. We do not share any data with third parties.',
+        title: 'Terma & Privasi',
+        subtitle: 'Sila semak dan terima polisi kami untuk meneruskan',
+        termsTitle: 'Terma Perkhidmatan',
+        privacyTitle: 'Polisi Privasi',
+        agreeLabel: 'Saya setuju dengan Terma Perkhidmatan dan Polisi Privasi',
+        continue: 'Teruskan',
+        readMore: 'Baca Polisi Penuh',
+        intro: 'Dengan menggunakan Safety SHIELD, anda bersetuju untuk melindungi diri sendiri dan orang lain.',
+        termsContent: 'Safety SHIELD disediakan "seadanya" untuk membantu anda menganalisis pautan. Kami tidak menjamin 100% pengesanan semua ancaman. Anda bertanggungjawab atas tindakan anda sendiri semasa melayari web. Kami tidak bertanggungjawab atas sebarang kerosakan yang timbul daripada penggunaan aplikasi ini.',
+        privacyContent: 'Data anda kekal pada peranti anda. Kami tidak mengumpul sejarah penyemakan imbas, maklumat peribadi, atau PIN Keselamatan anda. Semua analisis pautan dilakukan secara tempatan pada telefon anda. Kami tidak berkongsi sebarang data dengan pihak ketiga.',
     },
     finalOnboarding: {
-        title: 'Almost Done!',
-        subtitle: 'Two important things to keep you safe',
-        panicTitle: 'Panic Mode',
-        panicDesc: 'In an emergency, use Panic Mode to block all unknown links instantly.',
-        defaultTitle: 'Set as Default',
-        defaultDesc: 'Safety SHIELD works best when it handles all your links. Make it your default browser app.',
-        finishButton: 'Got it, let\'s go!',
+        title: 'Hampir Selesai!',
+        subtitle: 'Dua perkara penting untuk keselamatan anda',
+        panicTitle: 'Mod Panik',
+        panicDesc: 'Dalam kecemasan, gunakan Mod Panik untuk menyekat semua pautan yang tidak diketahui serta-merta.',
+        defaultTitle: 'Tetapkan sebagai Lalai',
+        defaultDesc: 'Safety SHIELD berfungsi terbaik apabila ia mengendalikan semua pautan anda. Jadikan ia aplikasi penyemak imbas lalai anda.',
+        finishButton: 'Faham, jom mulakan!',
     },
     homeGuide: {
-        welcome: 'Turn on Protection',
-        clickEnable: 'Please enter the Security Layer to activate the application.',
-        dismiss: 'Dismiss',
-        successTitle: 'You are Protected!',
-        successDesc: 'Great job! The app is now active.',
-        panicTitle: 'Maximum Security',
-        panicDesc: 'Enable Panic Mode to block EVERYTHING except trusted sites. Highly recommended!',
-        next: 'Next',
+        welcome: 'Hidupkan Perlindungan',
+        clickEnable: 'Sila masukkan Lapisan Keselamatan untuk mengaktifkan aplikasi.',
+        dismiss: 'Tutup',
+        successTitle: 'Anda Dilindungi!',
+        successDesc: 'Kerja bagus! Aplikasi kini aktif.',
+        panicTitle: 'Keselamatan Maksimum',
+        panicDesc: 'Aktifkan Mod Panik untuk menyekat SEMUANYA kecuali laman web yang dipercayai. Sangat disyorkan!',
+        next: 'Seterusnya',
     },
     news: {
-        title: 'Latest Security News',
-        noNews: 'No news available at the moment.',
-        readMore: 'Read full article',
+        title: 'Berita Keselamatan Terkini',
+        noNews: 'Tiada berita tersedia pada masa ini.',
+        readMore: 'Baca artikel penuh',
     },
+
+
 };

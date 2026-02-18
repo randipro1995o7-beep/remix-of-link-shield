@@ -10,8 +10,10 @@ import { Switch } from '@/components/ui/switch';
 import { QrCode, Lock, Unlock, ShieldAlert } from 'lucide-react';
 import { QRScannerScreen } from '@/components/QRScannerScreen';
 import { HomeGuideOverlay } from '@/components/home/HomeGuideOverlay';
+import { ScamEducationScreen } from '@/components/education/ScamEducationScreen';
 import { NewsSection } from '@/components/home/NewsSection';
 import { cn } from '@/lib/utils';
+import { BookOpen } from 'lucide-react';
 
 /**
  * Home Page
@@ -22,10 +24,16 @@ import { cn } from '@/lib/utils';
 export default function Home() {
   const { t, state, setPanicMode } = useApp();
   const [showQRScanner, setShowQRScanner] = useState(false);
+  const [showEducation, setShowEducation] = useState(false);
 
   // Show QR Scanner overlay
   if (showQRScanner) {
     return <QRScannerScreen onClose={() => setShowQRScanner(false)} />;
+  }
+
+  // Show Scam Education overlay
+  if (showEducation) {
+    return <ScamEducationScreen />;
   }
 
   return (
@@ -89,6 +97,26 @@ export default function Home() {
             aria-label={t.home.togglePanicMode}
             className={cn(state.isPanicMode && "data-[state=checked]:bg-destructive")}
           />
+        </div>
+      </Card>
+
+      {/* Scam Education Button */}
+      <Card
+        className="p-4 border-l-4 border-l-primary bg-primary/5 hover:bg-primary/10 transition-colors cursor-pointer active:scale-98"
+        onClick={() => setShowEducation(true)}
+      >
+        <div className="flex items-center gap-3">
+          <div className="p-2.5 rounded-full bg-primary/10 text-primary flex-shrink-0">
+            <BookOpen className="w-5 h-5" />
+          </div>
+          <div className="flex-1">
+            <h3 className="font-semibold text-foreground">
+              {t.home.scamEducationTitle}
+            </h3>
+            <p className="text-xs text-muted-foreground">
+              {t.home.scamEducationDesc}
+            </p>
+          </div>
         </div>
       </Card>
 

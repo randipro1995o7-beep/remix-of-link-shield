@@ -24,7 +24,9 @@ export const ar: TranslationKeys = {
         panicMode: 'وضع الذعر',
         panicModeActiveDesc: 'حظر جميع الروابط غير المعروفة لأقصى درجات الأمان.',
         panicModeInactiveDesc: 'شغّل لحظر كل شيء باستثناء المواقع الموثوقة.',
-        togglePanicMode: 'تبديل وضع الذعر',
+        togglePanicMode: 'Toggle Panic Mode',
+        scamEducationTitle: 'Know all types of online scams',
+        scamEducationDesc: 'Complete guide to recognizing signs & solutions',
     },
 
     safety: {
@@ -35,6 +37,10 @@ export const ar: TranslationKeys = {
         disableSafety: 'إيقاف مؤقت لخطوات الأمان',
         permissionsNeeded: 'نحتاج لبعض الأذونات أولاً',
         grantPermissions: 'منح الأذونات',
+        setDefaultFirst: 'Set as default first',
+        setAsDefault: 'Set as Default Link Handler',
+        defaultHandlerSet: 'App is set as default link handler',
+        defaultHandlerNotSet: 'App is not set as default link handler',
     },
 
     settings: {
@@ -60,6 +66,20 @@ export const ar: TranslationKeys = {
         premiumDesc: 'سجل إضافي، وضع العائلة والمزيد',
         whitelist: 'المواقع الموثوقة',
         whitelistDesc: 'إدارة المواقع التي تتخطى فحص الأمان',
+        changePin: 'Change Safety PIN',
+        changePinDesc: 'Change PIN for link verification',
+        recovery: 'Password Recovery',
+        recoveryDesc: 'Set email & phone for PIN reset',
+        securityLogs: 'Security Logs',
+        securityLogsDesc: 'View security activity & audit trail',
+        selectLanguage: 'Select application language',
+        findAnswers: 'Find answers or get in touch',
+        faq: 'FAQ',
+        faq1: 'How does Safety SHIELD work?',
+        faq1Desc: 'Safety SHIELD helps you pause before opening links. This gives you time to consider link safety.',
+        faq2: 'Is my data safe?',
+        faq2Desc: 'Yes! All data is stored locally on your device. Nothing is sent to servers.',
+        contactUs: 'Contact Us',
     },
 
     biometrics: {
@@ -301,6 +321,81 @@ export const ar: TranslationKeys = {
         show: 'إظهار',
         hide: 'إخفاء',
         close: 'إغلاق',
+        next: 'التالي',
+        previous: 'السابق',
+        more: 'المزيد',
+        email: 'البريد الإلكتروني',
+        twitter: 'تويتر / X',
+    },
+    a11y: {
+        close: 'إغلاق',
+        previousSlide: 'الشريحة السابقة',
+        nextSlide: 'الشريحة التالية',
+        morePages: 'المزيد من الصفحات',
+        more: 'المزيد',
+    },
+    stats: {
+        safe: 'آمن',
+        risky: 'خطر',
+    },
+    recovery: {
+        saved: 'تم الحفظ',
+    },
+    premium: {
+        currTitle: 'بريميوم',
+    },
+    tutorial: {
+        online: 'متصل',
+    },
+    languageSelection: {
+        notFound: 'اللغة غير موجودة',
+    },
+    securityDashboard: {
+        title: 'لوحة التحكم الأمنية',
+        metrics: {
+            authAttempts: 'محاولات المصادقة',
+            failedLogins: 'تسجيلات الدخول الفاشلة',
+            rootDetected: 'تم اكتشاف Root',
+            activeLocks: 'الأقفال النشطة',
+            last24h: 'آخر 24 ساعة',
+            current: 'الحالي',
+        },
+        filters: {
+            eventType: 'نوع الحدث:',
+            severity: 'الخطورة:',
+            allTypes: 'كل الأنواع',
+            authSuccess: 'نجاح المصادقة',
+            authFailure: 'فشل المصادقة',
+            accountLocked: 'الحساب مغلق',
+            otpGenerated: 'تم توليد OTP',
+            otpVerified: 'تم التحقق من OTP',
+            otpFailed: 'فشل OTP',
+            rootDetected: 'تم اكتشاف Root',
+            allSeverities: 'كل المستويات',
+            info: 'معلومات',
+            warning: 'تحذير',
+            critical: 'حرج',
+        },
+        empty: 'لم يتم العثور على أحداث أمنية',
+        loading: 'جاري تحميل البيانات الأمنية...',
+    },
+    privacyDetails: {
+        technicalTitle: 'التفاصيل التقنية',
+        storedEncrypted: 'يتم تخزين رمز الأمان باستخدام تشفير Android',
+        localHistory: 'يتم تخزين سجل الروابط محليًا على الجهاز فقط',
+        noNetwork: 'لا توجد طلبات شبكة لتحليل الروابط',
+        noThirdParty: 'لا توجد SDKs تابعة لجهات خارجية للتحليلات أو الإعلانات',
+    },
+    aboutDetails: {
+        whatWeDo: 'ماذا يفعل Safety SHIELD',
+        pauseLinks: 'يضيف توقفًا مؤقتًا قبل فتح الروابط الخارجية',
+        basicInfo: 'يعرض معلومات أساسية حول وجهة الرابط',
+        thinkFirst: 'يساعدك على التفكير قبل النقر فوق رابط غير معروف',
+        privateHistory: 'يحافظ على سرية سجل الروابط الخاص بك على جهازك',
+    },
+    notFound: {
+        title: '404',
+        message: 'عذراً! الصفحة غير موجودة',
     },
     // Missing keys added to prevent crash
     safetyTips: [
@@ -324,40 +419,127 @@ export const ar: TranslationKeys = {
         thankYou: 'Thanks for your report!',
         noReports: 'No community reports yet',
     },
+
+    scamEducation: {
+        title: 'تعرف على الاحتيال',
+        subtitle: 'تعرف على التهديدات الشائعة عبر الإنترنت',
+        readMore: 'اضغط لقراءة المزيد...',
+        signs: 'علامات التحذير:',
+        solution: 'الوقاية والحل:',
+        scams: {
+            phishing: {
+                title: 'التصيد الاحتيالي (سرقة البيانات)',
+                desc: 'يرسل المحتالون رسائل بريد إلكتروني/رسائل مزيفة تبدو رسمية (مثل البنك) لسرقة كلمات المرور أو أرقام التعريف الشخصية.',
+                signs: [
+                    'استخدام بريد إلكتروني مجاني (gmail.com)',
+                    'إلحاح لاتخاذ إجراء ("سيتم تعليق الحساب!")',
+                    'روابط غريبة (bit.ly)',
+                    'طلب رقم التعريف الشخصي/كلمة المرور'
+                ],
+                solution: 'لا تنقر أبداً على الروابط من الرسائل المشبوهة. اتصل بالبنك مباشرة.'
+            },
+            jobs: {
+                title: 'وظائف وهمية',
+                desc: 'دخل مرتفع لمهام سهلة (مثل الإعجاب بالفيديوهات) ولكن يتطلب دفع المال أولاً.',
+                signs: [
+                    'دخل مرتفع بشكل غير واقعي',
+                    'طلب دفع المال لبدء العمل',
+                    'التواصل عبر Telegram/WhatsApp فقط',
+                    'لا توجد مقابلة رسمية'
+                ],
+                solution: 'تذكر: إذا كان عليك الدفع للعمل، فهذا احتيال. لا ترسل المال.'
+            },
+            apk: {
+                title: 'احتيال ملفات APK',
+                desc: 'إرسال ملف تطبيق ضار (.apk) بدعوى أنه "دعوة زفاف" أو "صورة طرد".',
+                signs: [
+                    'الملف ينتهي بـ .apk',
+                    'يدعي أنه ساعي بريد أو صديق قديم',
+                    'يحثك على فتح الملف',
+                    'أيقونة الملف تبدو غريبة'
+                ],
+                solution: 'لا تقم أبداً بتثبيت/فتح ملفات .apk من الدردشة. يمكنها سرقة كلمات المرور وسحب الأموال من الحساب.'
+            },
+            giveaway: {
+                title: 'جوائز وهمية',
+                desc: 'إخبارك بأنك فزت بجائزة ولكن يجب عليك دفع "رسوم" أو "ضرائب" أولاً.',
+                signs: [
+                    'لم تشارك في أي مسابقة',
+                    'طلب دفع المال مقدماً',
+                    'إلحاح لاستلام الجائزة فوراً',
+                    'شهادات مزيفة'
+                ],
+                solution: 'الجوائز الحقيقية لا تطلب الدفع مقدماً. يتم خصم الضرائب من الجائزة.'
+            },
+            love_scam: {
+                title: 'احتيال رومانسي',
+                desc: 'بناء علاقة عاطفية عبر الإنترنت ثم طلب المال بسبب "حالة طارئة".',
+                signs: [
+                    'تطور العلاقة بسرعة كبيرة',
+                    'يدعي أنه في الخارج/ثري/جندي',
+                    'دائماً لديه سبب لطلب المال',
+                    'يرفض مكالمات الفيديو'
+                ],
+                solution: 'لا ترسل المال لشخص لم تقابله شخصياً أبداً. احظره فوراً إذا طلب المال.'
+            },
+            quishing: {
+                title: 'Quishing (التصيد عبر QR)',
+                desc: 'لصق رمز QR مزيف فوق الرمز الحقيقي في الأماكن العامة. عند المسح، يأخذك لموقع مزيف.',
+                signs: [
+                    'وجود ملصق QR فوق الآخر',
+                    'رمز QR مرسل بدون مصدر',
+                    'الموقع يطلب بيانات شخصية',
+                    'عنوان URL يبدو غريباً'
+                ],
+                solution: 'افحص ملصق QR جيداً. استخدم Safety SHIELD للمسح والتحقق من الرابط أولاً.'
+            },
+            digital_arrest: {
+                title: 'الاعتقال الرقمي',
+                desc: 'انتحال صفة شرطة/قاضي عبر مكالمة فيديو، وادعاء تورطك في جريمة ويأمر بـ "تحقيق عبر الإنترنت".',
+                signs: [
+                    'يرتدي زياً رسمياً (غالباً خلفية مزيفة)',
+                    'يدعي العثور على بطاقة هويتك في مسرح جريمة',
+                    'يمنعك من إنهاء المكالمة',
+                    'يطلب تحويل المال لـ "حساب آمن" للتحقق'
+                ],
+                solution: 'الشرطة/القضاء لا يجرون تحقيقات عبر مكالمات الفيديو الشخصية. أغلق الخط وتوجه لأقرب مركز شرطة.'
+            }
+        }
+    },
     terms: {
-        title: 'Terms & Privacy',
-        subtitle: 'Please review and accept our policies to continue',
-        termsTitle: 'Terms of Service',
-        privacyTitle: 'Privacy Policy',
-        agreeLabel: 'I agree to the Terms of Service and Privacy Policy',
-        continue: 'Continue',
-        readMore: 'Read Full Policy',
-        intro: 'By using Safety SHIELD, you agree to protect yourself and others.',
-        termsContent: 'Safety SHIELD is provided "as is" to help you analyze links. We do not guarantee 100% detection of all threats. You are responsible for your own actions when browsing the web. We are not liable for any damages arising from the use of this app.',
-        privacyContent: 'Your data stays on your device. We do not collect your browsing history, personal information, or Safety PIN. All link analysis is performed locally on your phone. We do not share any data with third parties.',
+        title: 'الشروط والخصوصية',
+        subtitle: 'يرجى مراجعة وقبول سياساتنا للمتابعة',
+        termsTitle: 'شروط الخدمة',
+        privacyTitle: 'سياسة الخصوصية',
+        agreeLabel: 'أوافق على شروط الخدمة وسياسة الخصوصية',
+        continue: 'متابعة',
+        readMore: 'قراءة السياسة الكاملة',
+        intro: 'باستخدام Safety SHIELD، فإنك توافق على حماية نفسك والآخرين.',
+        termsContent: 'يتم تقديم Safety SHIELD "كما هو" لمساعدتك في تحليل الروابط. نحن لا نضمن كشف 100% من جميع التهديدات. أنت مسؤول عن أفعالك عند تصفح الويب. نحن لسنا مسؤولين عن أي أضرار تنشأ عن استخدام هذا التطبيق.',
+        privacyContent: 'بياناتك تبقى على جهازك. نحن لا نجمع سجل التصفح الخاص بك، أو المعلومات الشخصية، أو رمز PIN للأمان. يتم إجراء جميع تحليلات الروابط محليًا على هاتفك. نحن لا نشارك أي بيانات مع أطراف ثالثة.',
     },
     finalOnboarding: {
-        title: 'Almost Done!',
-        subtitle: 'Two important things to keep you safe',
-        panicTitle: 'Panic Mode',
-        panicDesc: 'In an emergency, use Panic Mode to block all unknown links instantly.',
-        defaultTitle: 'Set as Default',
-        defaultDesc: 'Safety SHIELD works best when it handles all your links. Make it your default browser app.',
-        finishButton: 'Got it, let\'s go!',
+        title: 'أوشكت على الانتهاء!',
+        subtitle: 'شيئان مهمان للحفاظ على سلامتك',
+        panicTitle: 'وضع الذعر',
+        panicDesc: 'في حالة الطوارئ، استخدم وضع الذعر لحظر جميع الروابط غير المعروفة فورًا.',
+        defaultTitle: 'تعيين كافتراضي',
+        defaultDesc: 'يعمل Safety SHIELD بشكل أفضل عندما يتعامل مع جميع روابطك. اجعله تطبيق المتصفح الافتراضي الخاص بك.',
+        finishButton: 'فهمت، لنبدأ!',
     },
     homeGuide: {
-        welcome: 'Turn on Protection',
-        clickEnable: 'Please enter the Security Layer to activate the application.',
-        dismiss: 'Dismiss',
-        successTitle: 'You are Protected!',
-        successDesc: 'Great job! The app is now active.',
-        panicTitle: 'Maximum Security',
-        panicDesc: 'Enable Panic Mode to block EVERYTHING except trusted sites. Highly recommended!',
-        next: 'Next',
+        welcome: 'تشغيل الحماية',
+        clickEnable: 'يرجى إدخال طبقة الأمان لتنشيط التطبيق.',
+        dismiss: 'تجاهل',
+        successTitle: 'أنت محمي!',
+        successDesc: 'عمل رائع! التطبيق نشط الآن.',
+        panicTitle: 'أمان قصوى',
+        panicDesc: 'قم بتمكين وضع الذعر لحظر كل شيء باستثناء المواقع الموثوقة. موصى به بشدة!',
+        next: 'التالي',
     },
     news: {
-        title: 'Latest Security News',
-        noNews: 'No news available at the moment.',
-        readMore: 'Read full article',
+        title: 'أحدث أخبار الأمن',
+        noNews: 'لا توجد أخبار متاحة في الوقت الحالي.',
+        readMore: 'قراءة المقال كاملاً',
     },
 };

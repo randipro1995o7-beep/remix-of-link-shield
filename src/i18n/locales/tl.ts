@@ -22,9 +22,11 @@ export const tl: TranslationKeys = {
         testSafetyDesc: 'I-tap sa ibaba para makita kung ano ang mangyayari kapag nakatanggap ka ng link',
         simulateLink: 'Tingnan ang Demo',
         panicMode: 'Panic Mode',
-        panicModeActiveDesc: 'Blocking all unknown links for maximum safety.',
-        panicModeInactiveDesc: 'Turn on to block everything except trusted sites.',
-        togglePanicMode: 'Toggle Panic Mode',
+        panicModeActiveDesc: 'Hinaharangan ang lahat ng hindi kilalang link para sa maximum na kaligtasan.',
+        panicModeInactiveDesc: 'I-on para harangin ang lahat maliban sa mga pinagkakatiwalaang site.',
+        togglePanicMode: 'I-toggle ang Panic Mode',
+        scamEducationTitle: 'Alamin ang mga uri ng online scam',
+        scamEducationDesc: 'Buong gabay sa pagtukoy ng mga palatandaan at solusyon',
     },
 
     safety: {
@@ -35,6 +37,10 @@ export const tl: TranslationKeys = {
         disableSafety: 'I-pause ang Mga Hakbang sa Kaligtasan',
         permissionsNeeded: 'Kailangan namin ng ilang pahintulot muna',
         grantPermissions: 'Magbigay ng Pahintulot',
+        setDefaultFirst: 'I-set muna bilang default',
+        setAsDefault: 'I-set bilang Default Link Handler',
+        defaultHandlerSet: 'Naka-set na ang app bilang default link handler',
+        defaultHandlerNotSet: 'Hindi pa naka-set ang app bilang default',
     },
 
     settings: {
@@ -60,6 +66,20 @@ export const tl: TranslationKeys = {
         premiumDesc: 'Pinalawak na kasaysayan, Family Mode at iba pa',
         whitelist: 'Mga Pinagkakatiwalaang Site',
         whitelistDesc: 'Pamahalaan ang mga site na lumalagpas sa pagsusuri',
+        changePin: 'Palitan ang Safety PIN',
+        changePinDesc: 'Palitan ang PIN para sa pag-verify ng link',
+        recovery: 'Pagbawi ng Password',
+        recoveryDesc: 'Mag-set ng email at phone para sa reset',
+        securityLogs: 'Mga Log ng Seguridad',
+        securityLogsDesc: 'Tingnan ang aktibidad ng seguridad',
+        selectLanguage: 'Pumili ng wika ng app',
+        findAnswers: 'Humanap ng sagot o makipag-ugnayan',
+        faq: 'Mga Madalas Itanong (FAQ)',
+        faq1: 'Paano gumagana ang Safety SHIELD?',
+        faq1Desc: 'Tinutulungan ka nitong huminto muna bago magbukas ng mga link.',
+        faq2: 'Ligtas ba ang data ko?',
+        faq2Desc: 'Oo! Lahat ng data ay naka-imbak nang lokal sa iyong device.',
+        contactUs: 'Makipag-ugnayan sa Amin',
     },
 
     biometrics: {
@@ -301,6 +321,11 @@ export const tl: TranslationKeys = {
         show: 'Ipakita',
         hide: 'Itago',
         close: 'Isara',
+        next: 'Susunod',
+        previous: 'Nakaraan',
+        more: 'Higit pa',
+        email: 'Email',
+        twitter: 'Twitter / X',
     },
     // Missing keys added to prevent crash
     safetyTips: [
@@ -316,48 +341,206 @@ export const tl: TranslationKeys = {
         'Report suspicious activity to your service provider.',
     ],
     communityReputation: {
-        title: 'Community Trust',
-        description: 'users trust this website',
-        votes: 'votes',
-        voteSafe: 'Mark as Safe',
-        voteSuspicious: 'Report Suspicious',
-        thankYou: 'Thanks for your report!',
-        noReports: 'No community reports yet',
+        title: 'Tiwala ng Komunidad',
+        description: 'ang nagtitiwala sa website na ito',
+        votes: 'boto',
+        voteSafe: 'Markahang Ligtas',
+        voteSuspicious: 'I-report na Kahina-hinala',
+        thankYou: 'Salamat sa iyong ulat!',
+        noReports: 'Wala pang ulat mula sa komunidad',
+    },
+
+    scamEducation: {
+        title: 'Alamin ang mga Scam',
+        subtitle: 'Matuto tungkol sa mga banta online',
+        readMore: 'I-tap para magbasa pa...',
+        signs: 'Mga Babala:',
+        solution: 'Pag-iwas at Solusyon:',
+        scams: {
+            phishing: {
+                title: 'Phishing (Pagnanakaw ng Data)',
+                desc: 'Nagpapadala ang scammers ng pekeng email/mensahe na mukhang opisyal (tulad ng bangko) para nakawin ang password o PIN mo.',
+                signs: [
+                    'Gumagamit ng libreng email (gmail.com)',
+                    'Minamadali ka ("Maba-block ang account!")',
+                    'Kakaiba o pinaikling link (bit.ly)',
+                    'Hinihingi ang PIN o password'
+                ],
+                solution: 'Huwag i-click ang link mula sa kahina-hinalang mensahe. Tumawag direkta sa bangko.'
+            },
+            jobs: {
+                title: 'Pekeng Trabaho',
+                desc: 'Malaking sahod para sa simpleng gawain, pero hihingan ka ng pera o deposit muna.',
+                signs: [
+                    'Sobrang laki ng sahod',
+                    'Hinihingan ng deposit para sa "tasks"',
+                    'Usapan sa Telegram/WhatsApp lang',
+                    'Walang opisyal na interview'
+                ],
+                solution: 'Tandaan: Kung ikaw ang magbabayad para magtrabaho, SCAM yan. Huwag magpadala ng pera.'
+            },
+            apk: {
+                title: 'APK File Scam',
+                desc: 'Nagpapadala ng malicious app files (.apk) na kunwari ay "Wedding Invitation" o "Package Photo".',
+                signs: [
+                    'Nagtatapos sa .apk ang file',
+                    'Nagpapanggap na courier o kaibigan',
+                    'Pinipilit kang buksan ang file',
+                    'Kakaiba ang icon ng file'
+                ],
+                solution: 'HUWAG i-install/buksan ang .apk files mula sa chat. Kaya nitong nakawin ang OTP at ubusin ang laman ng bangko mo.'
+            },
+            giveaway: {
+                title: 'Pekeng Papremyo',
+                desc: 'Nanalo ka daw ng premyo pero kailangan magbayad ng "admin fee" o tax muna.',
+                signs: [
+                    'Hindi ka naman sumali sa contest',
+                    'Hinihingan ng bayad bago makuha',
+                    'Minamadali ang pag-claim',
+                    'Pekeng testimonials'
+                ],
+                solution: 'Ang totoong premyo ay hindi humihingi ng bayad. Ang tax ay binabawas sa premyo.'
+            },
+            love_scam: {
+                title: 'Love Scam',
+                desc: 'Makikipagrelasyon online, tapos hihiram ng pera para sa "emergency".',
+                signs: [
+                    'Mabilis mahulog ang loob',
+                    'Nasa abroad/sundalo/mayaman daw',
+                    'Laging may dahilan para humiram',
+                    'Ayaw mag-video call'
+                ],
+                solution: 'Huwag magpadala ng pera sa taong hindi mo pa nakikita sa personal. I-block agad.'
+            },
+            quishing: {
+                title: 'Quishing (QR Phishing)',
+                desc: 'Nagdidikit ng pekeng QR code sa mga pampublikong lugar. Ang pag-scan ay magdadala sa pekeng site.',
+                signs: [
+                    'Nakatapal ang QR sa ibabaw ng orihinal',
+                    'QR na walang context',
+                    'Nanghihingi ng personal data ang site',
+                    'Kakaiba ang URL'
+                ],
+                solution: 'Suriin ang QR sticker kung may nakatapal. Gamitin ang Safety SHIELD pang-scan.'
+            },
+            digital_arrest: {
+                title: 'Digital Arrest',
+                desc: 'Nagpapanggap na pulis/judge sa Video Call, sinasabing sangkot ka sa krimen at may "digital hearing".',
+                signs: [
+                    'Naka-uniporme (madalas fake background)',
+                    'Sinasabing nagamit ang ID mo sa krimen',
+                    'Bawal ibaba ang tawag',
+                    'Papalipat ng pera sa "safe account"'
+                ],
+                solution: 'HINDI nagsasagawa ng hearing ang Pulis/Judge sa Video Call. Ibaba at pumunta sa presinto.'
+            }
+        }
     },
     terms: {
-        title: 'Terms & Privacy',
-        subtitle: 'Please review and accept our policies to continue',
-        termsTitle: 'Terms of Service',
-        privacyTitle: 'Privacy Policy',
-        agreeLabel: 'I agree to the Terms of Service and Privacy Policy',
-        continue: 'Continue',
-        readMore: 'Read Full Policy',
-        intro: 'By using Safety SHIELD, you agree to protect yourself and others.',
-        termsContent: 'Safety SHIELD is provided "as is" to help you analyze links. We do not guarantee 100% detection of all threats. You are responsible for your own actions when browsing the web. We are not liable for any damages arising from the use of this app.',
-        privacyContent: 'Your data stays on your device. We do not collect your browsing history, personal information, or Safety PIN. All link analysis is performed locally on your phone. We do not share any data with third parties.',
+        title: 'Mga Tuntunin at Pribasidad',
+        subtitle: 'Pakisuri at tanggapin ang aming mga patakaran para magpatuloy',
+        termsTitle: 'Mga Tuntunin ng Serbisyo',
+        privacyTitle: 'Patakaran sa Pribasidad',
+        agreeLabel: 'Sumasang-ayon ako sa Mga Tuntunin ng Serbisyo at Patakaran sa Pribasidad',
+        continue: 'Magpatuloy',
+        readMore: 'Basahin ang Buong Patakaran',
+        intro: 'Sa paggamit ng Safety SHIELD, sumasang-ayon kang protektahan ang sarili at iba.',
+        termsContent: 'Ang Safety SHIELD ay ibinibigay nang "as is" para tulungan kang suriin ang mga link. Hindi namin ginagarantiya ang 100% na pag-detect sa lahat ng banta. Ikaw ang responsable sa iyong mga aksyon habang nagba-browse sa web. Hindi kami mananagot sa anumang pinsalang dulot ng paggamit ng app na ito.',
+        privacyContent: 'Ang iyong data ay mananatili sa iyong device. Hindi kami nangongolekta ng iyong browsing history, personal na impormasyon, o Safety PIN. Ang lahat ng pagsusuri ng link ay ginagawa nang lokal sa iyong telepono. Hindi kami nagbabahagi ng data sa mga third party.',
     },
     finalOnboarding: {
-        title: 'Almost Done!',
-        subtitle: 'Two important things to keep you safe',
+        title: 'Malapit na!',
+        subtitle: 'Dalawang mahalagang bagay para sa iyong kaligtasan',
         panicTitle: 'Panic Mode',
-        panicDesc: 'In an emergency, use Panic Mode to block all unknown links instantly.',
-        defaultTitle: 'Set as Default',
-        defaultDesc: 'Safety SHIELD works best when it handles all your links. Make it your default browser app.',
-        finishButton: 'Got it, let\'s go!',
+        panicDesc: 'Sa emergency, gamitin ang Panic Mode para harangin ang lahat ng hindi kilalang link agad.',
+        defaultTitle: 'I-set bilang Default',
+        defaultDesc: 'Pinakamahusay na gumagana ang Safety SHIELD kapag hinahawakan nito ang lahat ng link mo. Gawin itong default browser app.',
+        finishButton: 'Sige, tara na!',
     },
     homeGuide: {
-        welcome: 'Turn on Protection',
-        clickEnable: 'Please enter the Security Layer to activate the application.',
-        dismiss: 'Dismiss',
-        successTitle: 'You are Protected!',
-        successDesc: 'Great job! The app is now active.',
+        welcome: 'I-on ang Proteksyon',
+        clickEnable: 'Pakipasok ang Security Layer para i-activate ang application.',
+        dismiss: 'Isara',
+        successTitle: 'Ikaw ay Protektado!',
+        successDesc: 'Mahusay! Aktibo na ang app.',
         panicTitle: 'Maximum Security',
-        panicDesc: 'Enable Panic Mode to block EVERYTHING except trusted sites. Highly recommended!',
-        next: 'Next',
+        panicDesc: 'I-enable ang Panic Mode para harangin ang LAHAT maliban sa mga trusted sites. Highly recommended!',
+        next: 'Sunod',
     },
     news: {
-        title: 'Latest Security News',
-        noNews: 'No news available at the moment.',
-        readMore: 'Read full article',
+        title: 'Pinakabagong Balitang Panseguridad',
+        noNews: 'Walang balita sa ngayon.',
+        readMore: 'Basahin ang buong artikulo',
+    },
+
+    a11y: {
+        close: 'Isara',
+        previousSlide: 'Nakaraang slide',
+        nextSlide: 'Susunod na slide',
+        morePages: 'Higit pang mga pahina',
+        more: 'Higit pa',
+    },
+    stats: {
+        safe: 'Ligtas',
+        risky: 'Mapanganib',
+    },
+    recovery: {
+        saved: 'Na-save',
+    },
+    premium: {
+        currTitle: 'Premium',
+    },
+    tutorial: {
+        online: 'Online',
+    },
+    languageSelection: {
+        notFound: 'Walang nahanap na wika',
+    },
+    securityDashboard: {
+        title: 'Dashboard ng Seguridad',
+        metrics: {
+            authAttempts: 'Mga Pagtatangka',
+            failedLogins: 'Nabigong Pag-login',
+            rootDetected: 'Natukoy na Root',
+            activeLocks: 'Aktibong Kandado',
+            last24h: 'Huling 24o',
+            current: 'Kasalukuyan',
+        },
+        filters: {
+            eventType: 'Uri ng Kaganapan:',
+            severity: 'Kalubhaan:',
+            allTypes: 'Lahat ng Uri',
+            authSuccess: 'Matagumpay na Pag-login',
+            authFailure: 'Nabigong Pag-login',
+            accountLocked: 'Naka-lock na Account',
+            otpGenerated: 'Nilikha ang OTP',
+            otpVerified: 'Na-verify ang OTP',
+            otpFailed: 'Nabigo ang OTP',
+            rootDetected: 'Natukoy na Root',
+            allSeverities: 'Lahat ng Antas',
+            info: 'Impormasyon',
+            warning: 'Babala',
+            critical: 'Kritikal',
+        },
+        empty: 'Walang natagpuang kaganapan sa seguridad',
+        loading: 'Naglo-load ng data ng seguridad...',
+    },
+    privacyDetails: {
+        technicalTitle: 'Teknikal na Detalye',
+        storedEncrypted: 'Ang Safety PIN ay naka-imbak gamit ang Android encryption',
+        localHistory: 'Ang kasaysayan ng link ay naka-imbak lamang sa device',
+        noNetwork: 'Walang network request para sa pagsusuri ng link',
+        noThirdParty: 'Walang third-party SDK para sa analytics o ads',
+    },
+    aboutDetails: {
+        whatWeDo: 'Ano ang Ginagawa ng Safety SHIELD',
+        pauseLinks: 'Nagdadagdag ng pause bago buksan ang mga external link',
+        basicInfo: 'Nagpapakita ng pangunahing impormasyon tungkol sa link',
+        thinkFirst: 'Tinutulungan kang mag-isip bago mag-click ng hindi kilalang link',
+        privateHistory: 'Pinapanatiling pribado ang iyong kasaysayan ng link sa device',
+    },
+    notFound: {
+        title: '404',
+        message: 'Naku! Hindi makita ang pahina',
     },
 };

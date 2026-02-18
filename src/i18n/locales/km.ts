@@ -25,6 +25,8 @@ export const km: TranslationKeys = {
         panicModeActiveDesc: 'Blocking all unknown links for maximum safety.',
         panicModeInactiveDesc: 'Turn on to block everything except trusted sites.',
         togglePanicMode: 'Toggle Panic Mode',
+        scamEducationTitle: 'Know all types of online scams',
+        scamEducationDesc: 'Complete guide to recognizing signs & solutions',
     },
 
     safety: {
@@ -34,7 +36,11 @@ export const km: TranslationKeys = {
         enableSafety: 'បើកជំហានសុវត្ថិភាព',
         disableSafety: 'ផ្អាកជំហានសុវត្ថិភាព',
         permissionsNeeded: 'យើងត្រូវការការអនុញ្ញាតខ្លះជាមុនសិន',
-        grantPermissions: 'ផ្តល់ការអនុញ្ញាត',
+        grantPermissions: 'អនុញ្ញាត',
+        setDefaultFirst: 'Set as default first',
+        setAsDefault: 'Set as Default Link Handler',
+        defaultHandlerSet: 'App is set as default link handler',
+        defaultHandlerNotSet: 'App is not set as default link handler',
     },
 
     settings: {
@@ -60,6 +66,20 @@ export const km: TranslationKeys = {
         premiumDesc: 'ប្រវត្តិបន្ថែម មុខងារគ្រួសារ និងច្រើនទៀត',
         whitelist: 'គេហទំព័រគួរឱ្យទុកចិត្ត',
         whitelistDesc: 'គ្រប់គ្រងគេហទំព័រដែលរំលងការត្រួតពិនិត្យសុវត្ថិភាព',
+        changePin: 'Change Safety PIN',
+        changePinDesc: 'Change PIN for link verification',
+        recovery: 'Password Recovery',
+        recoveryDesc: 'Set email & phone for PIN reset',
+        securityLogs: 'Security Logs',
+        securityLogsDesc: 'View security activity & audit trail',
+        selectLanguage: 'Select application language',
+        findAnswers: 'Find answers or get in touch',
+        faq: 'FAQ',
+        faq1: 'How does Safety SHIELD work?',
+        faq1Desc: 'Safety SHIELD helps you pause before opening links. This gives you time to consider link safety.',
+        faq2: 'Is my data safe?',
+        faq2Desc: 'Yes! All data is stored locally on your device. Nothing is sent to servers.',
+        contactUs: 'Contact Us',
     },
 
     biometrics: {
@@ -301,6 +321,81 @@ export const km: TranslationKeys = {
         show: 'បង្ហាញ',
         hide: 'លាក់',
         close: 'បិទ',
+        next: 'បន្ទាប់',
+        previous: 'មុន',
+        more: 'បន្ថែម',
+        email: 'អ៊ីមែល',
+        twitter: 'Twitter / X',
+    },
+    a11y: {
+        close: 'បិទ',
+        previousSlide: 'ស្លាយមុន',
+        nextSlide: 'ស្លាយបន្ទាប់',
+        morePages: 'ទំព័រ​បន្ថែម',
+        more: 'បន្ថែម',
+    },
+    stats: {
+        safe: 'សុវត្ថិភាព',
+        risky: 'ហានិភ័យ',
+    },
+    recovery: {
+        saved: 'បានរក្សាទុក',
+    },
+    premium: {
+        currTitle: 'ពិសេស',
+    },
+    tutorial: {
+        online: 'អនឡាញ',
+    },
+    languageSelection: {
+        notFound: 'រកមិនឃើញភាសា',
+    },
+    securityDashboard: {
+        title: 'ផ្ទាំងគ្រប់គ្រងសុវត្ថិភាព',
+        metrics: {
+            authAttempts: 'ការប៉ុនប៉ងចូល',
+            failedLogins: 'ការចូលបរាជ័យ',
+            rootDetected: 'បានរកឃើញ Root',
+            activeLocks: 'ការចាក់សោសកម្ម',
+            last24h: '24 ម៉ោងចុងក្រោយ',
+            current: 'បច្ចុប្បន្ន',
+        },
+        filters: {
+            eventType: 'ប្រភេទព្រឹត្តិការណ៍:',
+            severity: 'កម្រិតធ្ងន់ធ្ងរ:',
+            allTypes: 'គ្រប់ប្រភេទ',
+            authSuccess: 'ការចូលជោគជ័យ',
+            authFailure: 'ការចូលបរាជ័យ',
+            accountLocked: 'គណនីត្រូវបានចាក់សោ',
+            otpGenerated: 'OTP ត្រូវបានបង្កើត',
+            otpVerified: 'OTP ត្រូវបានផ្ទៀងផ្ទាត់',
+            otpFailed: 'OTP បរាជ័យ',
+            rootDetected: 'បានរកឃើញ Root',
+            allSeverities: 'គ្រប់កម្រិត',
+            info: 'ព័ត៌មាន',
+            warning: 'ការព្រមាន',
+            critical: 'ធ្ងន់ធ្ងរ',
+        },
+        empty: 'រកមិនឃើញព្រឹត្តិការណ៍សុវត្ថិភាពទេ',
+        loading: 'កំពុងផ្ទុកទិន្នន័យសុវត្ថិភាព...',
+    },
+    privacyDetails: {
+        technicalTitle: 'ព័ត៌មានលម្អិតបច្ចេកទេស',
+        storedEncrypted: 'PIN សុវត្ថិភាពត្រូវបានរក្សាទុកដោយប្រើការអ៊ិនគ្រីប Android',
+        localHistory: 'ប្រវត្តិតំណត្រូវបានរក្សាទុកក្នុងឧបករណ៍ប៉ុណ្ណោះ',
+        noNetwork: 'មិនមានសំណើបណ្តាញសម្រាប់ការវិភាគតំណទេ',
+        noThirdParty: 'មិនមាន SDK ភាគីទីបីសម្រាប់ការវិភាគ ឬការផ្សាយពាណិជ្ជកម្មទេ',
+    },
+    aboutDetails: {
+        whatWeDo: 'អ្វីដែល Safety SHIELD ធ្វើ',
+        pauseLinks: 'បន្ថែមការផ្អាកមុនពេលបើកតំណខាងក្រៅ',
+        basicInfo: 'បង្ហាញព័ត៌មានមូលដ្ឋានអំពីគោលដៅតំណ',
+        thinkFirst: 'ជួយអ្នកគិតមុនពេលចុចតំណដែលមិនស្គាល់',
+        privateHistory: 'រក្សាប្រវត្តិតំណរបស់អ្នកជាឯកជននៅលើឧបករណ៍របស់អ្នក',
+    },
+    notFound: {
+        title: '404',
+        message: 'អូ! រកមិនឃើញទំព័រ',
     },
     // Missing keys added to prevent crash
     safetyTips: [
@@ -324,40 +419,127 @@ export const km: TranslationKeys = {
         thankYou: 'Thanks for your report!',
         noReports: 'No community reports yet',
     },
+
+    scamEducation: {
+        title: 'ស្វែងយល់ពីការបោកប្រាស់',
+        subtitle: 'ស្វែងយល់ពីការគំរាមកំហែងតាមអ៊ីនធឺណិត',
+        readMore: 'ចុចដើម្បីអានបន្ថែម...',
+        signs: 'សញ្ញាព្រមាន:',
+        solution: 'ការការពារ និងដំណោះស្រាយ:',
+        scams: {
+            phishing: {
+                title: 'Phishing (លួចទិន្នន័យ)',
+                desc: 'អ្នកបោកប្រាស់ផ្ញើអ៊ីមែល/សារក្លែងក្លាយដែលមើលទៅដូចជាផ្លូវការ (ដូចជាធនាគារ) ដើម្បីលួចពាក្យសម្ងាត់ ឬ PIN',
+                signs: [
+                    'ប្រើអ៊ីមែលឥតគិតថ្លៃ (gmail.com)',
+                    'តម្រូវឱ្យធ្វើសកម្មភាពបន្ទាន់ ("គណនីនឹងត្រូវផ្អាក!")',
+                    'តំណចម្លែក (bit.ly)',
+                    'ស្នើសុំ PIN/ពាក្យសម្ងាត់'
+                ],
+                solution: 'កុំចុចលើតំណពីសារដែលគួរឱ្យសង្ស័យ។ ទាក់ទងធនាគារដោយផ្ទាល់។'
+            },
+            jobs: {
+                title: 'ការងារក្លែងក្លាយ',
+                desc: 'ប្រាក់ខែខ្ពស់សម្រាប់ការងារងាយស្រួល (ដូចជា like វីដេអូ) ប៉ុន្តែតម្រូវឱ្យអ្នកដាក់ប្រាក់ជាមុន។',
+                signs: [
+                    'ប្រាក់ខែខ្ពស់ពេក',
+                    'តម្រូវឱ្យដាក់ប្រាក់ដើម្បី "បើកការងារ"',
+                    'ទំនាក់ទំនងតាម Telegram/WhatsApp ប៉ុណ្ណោះ',
+                    'គ្មានការសម្ភាសន៍ផ្លូវការ'
+                ],
+                solution: 'ចងចាំ៖ ប្រសិនបើអ្នកត្រូវបង់ប្រាក់ដើម្បីធ្វើការ នោះគឺជាការបោកប្រាស់។ កុំផ្ទេរប្រាក់។'
+            },
+            apk: {
+                title: 'បោកបញ្ឆោតឯកសារ APK',
+                desc: 'ផ្ញើឯកសារកម្មវិធីដែលមានគ្រោះថ្នាក់ (.apk) ដោយអះអាងថាជា "លិខិតអញ្ជើញអាពាហ៍ពិពាហ៍" ឬ "រូបថតកញ្ចប់"',
+                signs: [
+                    'ឯកសារបញ្ចប់ដោយ .apk',
+                    'អះអាងថាជាអ្នកដឹកជញ្ជូន ឬមិត្តចាស់',
+                    'បង្ខំឱ្យបើកឯកសារ',
+                    'រូបតំណាងឯកសារមើលទៅចម្លែក'
+                ],
+                solution: 'កុំដំឡើង/បើកឯកសារ .apk ពីការជជែក។ វាអាចលួច OTP និងដកប្រាក់អស់ពីគណនី។'
+            },
+            giveaway: {
+                title: 'រង្វាន់ក្លែងក្លាយ',
+                desc: 'ប្រាប់ថាអ្នកឈ្នះរង្វាន់ ប៉ុន្តែត្រូវបង់ "ថ្លៃរដ្ឋបាល" ឬ "ពន្ធ" ជាមុនសិន។',
+                signs: [
+                    'អ្នកមិនដែលចូលរួមការប្រកួតទេ',
+                    'ស្នើសុំឱ្យបង់ប្រាក់ជាមុន',
+                    'បង្ខំឱ្យទទួលរង្វាន់ជាបន្ទាន់',
+                    'សក្ខីកម្មក្លែងក្លាយ'
+                ],
+                solution: 'រង្វាន់ពិតមិនស្នើសុំការបង់ប្រាក់ជាមុនទេ។ ពន្ធនឹងត្រូវកាត់ចេញពីរង្វាន់។'
+            },
+            love_scam: {
+                title: 'Romance Scam',
+                desc: 'បង្កើតទំនាក់ទំនងស្នេហាតាមអ៊ីនធឺណិត បន្ទាប់មកខ្ចីប្រាក់ព្រោះ "មានអាសន្ន"',
+                signs: [
+                    'ទំនាក់ទំនងរីកចម្រើនលឿនពេក',
+                    'អះអាងថានៅបរទេស/មានទ្រព្យសម្បត្តិ/ជាទាហាន',
+                    'តែងតែមានហេតុផលដើម្បីខ្ចីប្រាក់',
+                    'បដិសេធការហៅវីដេអូ'
+                ],
+                solution: 'កុំផ្ទេរប្រាក់ឱ្យមនុស្សដែលមិនធ្លាប់ជួបផ្ទាល់។ ទប់ស្កាត់ជាបន្ទាន់ប្រសិនបើស្នើសុំខ្ចីប្រាក់។'
+            },
+            quishing: {
+                title: 'Quishing (QR Phishing)',
+                desc: 'បិទភ្ជាប់ QR Code ក្លែងក្លាយពីលើរបស់ពិតនៅកន្លែងសាធារណៈ។ នៅពេលស្កេន វានឹងទៅកាន់គេហទំព័រក្លែងក្លាយ។',
+                signs: [
+                    'មានស្ទីគ័រ QR បិទភ្ជាប់ពីលើ',
+                    'QR ផ្ញើមកដោយគ្មានប្រភព',
+                    'គេហទំព័រស្នើសុំទិន្នន័យផ្ទាល់ខ្លួន',
+                    'URL មើលទៅចម្លែក'
+                ],
+                solution: 'ពិនិត្យមើលស្ទីគ័រ QR ឱ្យបានច្បាស់លាស់។ ប្រើ Safety SHIELD ដើម្បីស្កេននិងពិនិត្យ URL ជាមុន។'
+            },
+            digital_arrest: {
+                title: 'Digital Arrest',
+                desc: 'ក្លែងបន្លំជាប៉ូលីស/ចៅក្រម ហៅវីដេអូ អះអាងថាអ្នកពាក់ព័ន្ធនឹងបទល្មើស និងបញ្ជាឱ្យ "សវនាការតាមអ៊ីនធឺណិត"',
+                signs: [
+                    'ពាក់ឯកសណ្ឋាន (ជាញឹកញាប់ជាផ្ទៃខាងក្រោយក្លែងក្លាយ)',
+                    'អះអាងថារកឃើញអត្តសញ្ញាណប័ណ្ណនៅកន្លែងកើតហេតុ',
+                    'ហាមដាក់ទូរស័ព្ទចុះ',
+                    'ឱ្យផ្ទេរប្រាក់ទៅ "គណនីសុវត្ថិភាព" ដើម្បីត្រួតពិនិត្យ'
+                ],
+                solution: 'ប៉ូលីស/ចៅក្រម មិនធ្វើការសវនាការតាមការហៅវីដេអូផ្ទាល់ខ្លួនទេ។ ដាក់ទូរស័ព្ទចុះ ហើយទៅប៉ុស្តិ៍ប៉ូលីសដែលនៅជិតបំផុត។'
+            }
+        }
+    },
     terms: {
-        title: 'Terms & Privacy',
-        subtitle: 'Please review and accept our policies to continue',
-        termsTitle: 'Terms of Service',
-        privacyTitle: 'Privacy Policy',
-        agreeLabel: 'I agree to the Terms of Service and Privacy Policy',
-        continue: 'Continue',
-        readMore: 'Read Full Policy',
-        intro: 'By using Safety SHIELD, you agree to protect yourself and others.',
-        termsContent: 'Safety SHIELD is provided "as is" to help you analyze links. We do not guarantee 100% detection of all threats. You are responsible for your own actions when browsing the web. We are not liable for any damages arising from the use of this app.',
-        privacyContent: 'Your data stays on your device. We do not collect your browsing history, personal information, or Safety PIN. All link analysis is performed locally on your phone. We do not share any data with third parties.',
+        title: 'លក្ខខណ្ឌ & ឯកជនភាព',
+        subtitle: 'សូមពិនិត្យមើល និងទទួលយកគោលការណ៍របស់យើងដើម្បីបន្ត',
+        termsTitle: 'លក្ខខណ្ឌនៃសេវាកម្ម',
+        privacyTitle: 'គោលការណ៍​ឯកជនភាព',
+        agreeLabel: 'ខ្ញុំយល់ព្រមតាមលក្ខខណ្ឌនៃសេវាកម្ម និងគោលការណ៍ឯកជនភាព',
+        continue: 'បន្ត',
+        readMore: 'អានគោលការណ៍ពេញលេញ',
+        intro: 'ដោយប្រើ Safety SHIELD អ្នកយល់ព្រមការពារខ្លួនអ្នក និងអ្នកដទៃ។',
+        termsContent: 'Safety SHIELD ត្រូវបានផ្តល់ជូន "ដូចដែលមាន" ដើម្បីជួយអ្នកវិភាគតំណ។ យើងមិនធានា 100% ក្នុងការរកឃើញការគំរាមកំហែងទាំងអស់ទេ។ អ្នកទទួលខុសត្រូវចំពោះសកម្មភាពរបស់អ្នកនៅពេលរុករកគេហទំព័រ។ យើងមិនទទួលខុសត្រូវចំពោះការខូចខាតណាមួយដែលកើតឡើងពីការប្រើប្រាស់កម្មវិធីនេះទេ។',
+        privacyContent: 'ទិន្ន័យរបស់អ្នកស្ថិតនៅលើឧបករណ៍របស់អ្នក។ យើងមិនប្រមូលប្រវត្តិរុករក ព័ត៌មានផ្ទាល់ខ្លួន ឬ PIN សុវត្ថិភាពរបស់អ្នកទេ។ ការវិភាគតំណទាំងអស់ត្រូវបានធ្វើឡើងក្នុងមូលដ្ឋាននៅលើទូរស័ព្ទរបស់អ្នក។ យើងមិនចែករំលែកទិន្នន័យណាមួយជាមួយភាគីទីបីទេ។',
     },
     finalOnboarding: {
-        title: 'Almost Done!',
-        subtitle: 'Two important things to keep you safe',
-        panicTitle: 'Panic Mode',
-        panicDesc: 'In an emergency, use Panic Mode to block all unknown links instantly.',
-        defaultTitle: 'Set as Default',
-        defaultDesc: 'Safety SHIELD works best when it handles all your links. Make it your default browser app.',
-        finishButton: 'Got it, let\'s go!',
+        title: 'ជិតរួចរាល់ហើយ!',
+        subtitle: 'រឿងសំខាន់ពីរដើម្បីរក្សាសុវត្ថិភាពរបស់អ្នក',
+        panicTitle: 'របៀបសង្គ្រោះបន្ទាន់',
+        panicDesc: 'ក្នុងករណីមានអាសន្ន សូមប្រើរបៀបសង្គ្រោះបន្ទាន់ដើម្បីទប់ស្កាត់តំណដែលមិនស្គាល់ទាំងអស់ភ្លាមៗ។',
+        defaultTitle: 'កំណត់ជាលំនាំដើម',
+        defaultDesc: 'Safety SHIELD ដំណើរការល្អបំផុតនៅពេលវាដោះស្រាយតំណរបស់អ្នកទាំងអស់។ ធ្វើឱ្យវាក្លាយជាកម្មវិធីអ៊ីនធឺណិតលំនាំដើមរបស់អ្នក។',
+        finishButton: 'យល់ហើយ តោះទៅ!',
     },
     homeGuide: {
-        welcome: 'Turn on Protection',
-        clickEnable: 'Please enter the Security Layer to activate the application.',
-        dismiss: 'Dismiss',
-        successTitle: 'You are Protected!',
-        successDesc: 'Great job! The app is now active.',
-        panicTitle: 'Maximum Security',
-        panicDesc: 'Enable Panic Mode to block EVERYTHING except trusted sites. Highly recommended!',
-        next: 'Next',
+        welcome: 'បើកការការពារ',
+        clickEnable: 'សូមបញ្ចូលស្រទាប់សុវត្ថិភាពដើម្បីបើកដំណើរការកម្មវិធី។',
+        dismiss: 'បិទ',
+        successTitle: 'អ្នកត្រូវបានការពារ!',
+        successDesc: 'ធ្វើបានល្អ! កម្មវិធីឥឡូវនេះសកម្មហើយ។',
+        panicTitle: 'សុវត្ថិភាពអតិបរមា',
+        panicDesc: 'បើករបៀបសង្គ្រោះបន្ទាន់ដើម្បីទប់ស្កាត់អ្វីៗទាំងអស់លើកលែងតែគេហទំព័រដែលគួរឱ្យទុកចិត្ត។ ណែនាំយ៉ាងខ្លាំង!',
+        next: 'បន្ទាប់',
     },
     news: {
-        title: 'Latest Security News',
-        noNews: 'No news available at the moment.',
-        readMore: 'Read full article',
+        title: 'ព័ត៌មានសុវត្ថិភាពចុងក្រោយ',
+        noNews: 'មិនមានព័ត៌មាននៅពេលនេះទេ។',
+        readMore: 'អានអត្ថបទពេញ',
     },
 };

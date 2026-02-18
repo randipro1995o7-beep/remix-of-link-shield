@@ -25,16 +25,22 @@ export const ja: TranslationKeys = {
         panicModeActiveDesc: 'Blocking all unknown links for maximum safety.',
         panicModeInactiveDesc: 'Turn on to block everything except trusted sites.',
         togglePanicMode: 'Toggle Panic Mode',
+        scamEducationTitle: 'Know all types of online scams',
+        scamEducationDesc: 'Complete guide to recognizing signs & solutions',
     },
 
     safety: {
-        title: '保護設定',
-        enabled: '保護機能はオンです',
-        disabled: '保護機能はオフです',
-        enableSafety: '保護機能をオンにする',
+        title: 'セキュリティ設定',
+        enabled: '保護機能は有効です',
+        disabled: '保護機能は無効です',
+        enableSafety: '保護機能を有効にする',
         disableSafety: '保護機能を一時停止',
         permissionsNeeded: 'いくつかの権限が必要です',
-        grantPermissions: '権限を許可する',
+        grantPermissions: '権限を付与',
+        setDefaultFirst: 'Set as default first',
+        setAsDefault: 'Set as Default Link Handler',
+        defaultHandlerSet: 'App is set as default link handler',
+        defaultHandlerNotSet: 'App is not set as default link handler',
     },
 
     settings: {
@@ -59,7 +65,21 @@ export const ja: TranslationKeys = {
         premium: 'プレミアム機能',
         premiumDesc: '履歴の拡張、ファミリーモードなど',
         whitelist: '信頼できるサイト',
-        whitelistDesc: '保護チェックをスキップするサイトを管理',
+        whitelistDesc: '安全性チェックをスキップするサイトを管理',
+        changePin: 'Change Safety PIN',
+        changePinDesc: 'Change PIN for link verification',
+        recovery: 'Password Recovery',
+        recoveryDesc: 'Set email & phone for PIN reset',
+        securityLogs: 'Security Logs',
+        securityLogsDesc: 'View security activity & audit trail',
+        selectLanguage: 'Select application language',
+        findAnswers: 'Find answers or get in touch',
+        faq: 'FAQ',
+        faq1: 'How does Safety SHIELD work?',
+        faq1Desc: 'Safety SHIELD helps you pause before opening links. This gives you time to consider link safety.',
+        faq2: 'Is my data safe?',
+        faq2Desc: 'Yes! All data is stored locally on your device. Nothing is sent to servers.',
+        contactUs: 'Contact Us',
     },
 
     biometrics: {
@@ -301,6 +321,81 @@ export const ja: TranslationKeys = {
         show: '表示',
         hide: '非表示',
         close: '閉じる',
+        next: '次へ',
+        previous: '前へ',
+        more: 'もっと見る',
+        email: 'メール',
+        twitter: 'Twitter / X',
+    },
+    a11y: {
+        close: '閉じる',
+        previousSlide: '前のスライド',
+        nextSlide: '次のスライド',
+        morePages: '他のページ',
+        more: 'もっと見る',
+    },
+    stats: {
+        safe: '安全',
+        risky: '危険',
+    },
+    recovery: {
+        saved: '保存しました',
+    },
+    premium: {
+        currTitle: 'プレミアム',
+    },
+    tutorial: {
+        online: 'オンライン',
+    },
+    languageSelection: {
+        notFound: '言語が見つかりません',
+    },
+    securityDashboard: {
+        title: 'セキュリティダッシュボード',
+        metrics: {
+            authAttempts: '認証試行回数',
+            failedLogins: 'ログイン失敗',
+            rootDetected: 'Root検出',
+            activeLocks: 'アクティブなロック',
+            last24h: '過去24時間',
+            current: '現在',
+        },
+        filters: {
+            eventType: 'イベントタイプ:',
+            severity: '重要度:',
+            allTypes: 'すべてのタイプ',
+            authSuccess: '認証成功',
+            authFailure: '認証失敗',
+            accountLocked: 'アカウントロック',
+            otpGenerated: 'OTP生成',
+            otpVerified: 'OTP確認済み',
+            otpFailed: 'OTP失敗',
+            rootDetected: 'Root検出',
+            allSeverities: 'すべてのレベル',
+            info: '情報',
+            warning: '警告',
+            critical: '重大',
+        },
+        empty: 'セキュリティイベントは見つかりませんでした',
+        loading: 'セキュリティデータを読み込み中...',
+    },
+    privacyDetails: {
+        technicalTitle: '技術詳細',
+        storedEncrypted: 'セーフティPINはAndroidの暗号化を使用して保存されます',
+        localHistory: 'リンク履歴はデバイス内にのみ保存されます',
+        noNetwork: 'リンク分析のためのネットワークリクエストはありません',
+        noThirdParty: '分析や広告のためのサードパーティSDKはありません',
+    },
+    aboutDetails: {
+        whatWeDo: 'Safety SHIELDができること',
+        pauseLinks: '外部リンクを開く前に一時停止を追加します',
+        basicInfo: 'リンク先に関する基本情報を表示します',
+        thinkFirst: '未知のリンクをクリックする前に考えるのを助けます',
+        privateHistory: 'リンク履歴をデバイス内で非公開に保ちます',
+    },
+    notFound: {
+        title: '404',
+        message: 'おっと！ページが見つかりません',
     },
     // Missing keys added to prevent crash
     safetyTips: [
@@ -324,40 +419,127 @@ export const ja: TranslationKeys = {
         thankYou: 'Thanks for your report!',
         noReports: 'No community reports yet',
     },
+
+    scamEducation: {
+        title: '詐欺の手口を知る',
+        subtitle: '一般的なオンラインの脅威について学ぶ',
+        readMore: 'タップして続きを読む...',
+        signs: '警告サイン:',
+        solution: '対策と解決策:',
+        scams: {
+            phishing: {
+                title: 'フィッシング (情報盗取)',
+                desc: '詐欺師は、パスワードやPINを盗むために、公式（銀行など）に見せかけた偽のメールやメッセージを送信します。',
+                signs: [
+                    'フリーメールの使用 (gmail.com)',
+                    '行動を急かす ("アカウントが停止されます！")',
+                    '奇妙なリンク (bit.ly)',
+                    'PIN/パスワードの要求'
+                ],
+                solution: '不審なメッセージのリンクは絶対にクリックしないでください。銀行に直接連絡してください。'
+            },
+            jobs: {
+                title: '偽の求人',
+                desc: '簡単な作業（動画への「いいね」など）で高収入を謳いますが、先に「手数料」等の支払いを求められます。',
+                signs: [
+                    '非現実的な高収入',
+                    '「仕事開始」のために送金が必要',
+                    'Telegram/WhatsAppのみでの連絡',
+                    '公式な面接がない'
+                ],
+                solution: '覚えておいてください：働くためにお金を払う必要がある場合、それは詐欺です。送金しないでください。'
+            },
+            apk: {
+                title: 'APKファイル詐欺',
+                desc: '「結婚式の招待状」や「荷物の写真」と称して、有害なアプリファイル（.apk）を送りつけます。',
+                signs: [
+                    'ファイルが .apk で終わる',
+                    '宅配業者や旧友を名乗る',
+                    'ファイルを開くよう急かす',
+                    'ファイルアイコンがおかしい'
+                ],
+                solution: 'チャットから .apk ファイルを絶対にインストール/開かないでください。OTPを盗み、口座から資金を抜き取る可能性があります。'
+            },
+            giveaway: {
+                title: '偽の当選通知',
+                desc: '賞金が当たったと通知されますが、先に「手数料」や「税金」を支払う必要があります。',
+                signs: [
+                    'コンテストに参加した覚えがない',
+                    '前払いを要求される',
+                    '賞品の受け取りを急かされる',
+                    '偽の証言/レビュー'
+                ],
+                solution: '本物の賞品で前払いを求められることはありません。税金は賞品から差し引かれます。'
+            },
+            love_scam: {
+                title: 'ロマンス詐欺',
+                desc: 'オンラインで恋愛関係を築き、「緊急事態」を理由にお金を借りようとします。',
+                signs: [
+                    '関係の進展が早すぎる',
+                    '海外在住/富裕層/軍人を名乗る',
+                    '常にお金を借りる理由がある',
+                    'ビデオ通話を拒否する'
+                ],
+                solution: '直接会ったことのない人に送金しないでください。お金を貸してと言われたらすぐにブロックしてください。'
+            },
+            quishing: {
+                title: 'クイッシング (QRフィッシング)',
+                desc: '公共の場の正規のQRコードの上に偽物を貼り付けます。スキャンすると偽サイトに誘導されます。',
+                signs: [
+                    'QRステッカーが重ねて貼られている',
+                    '出所不明のQRコードが送られてくる',
+                    'サイトで個人情報を求められる',
+                    'URLがおかしい'
+                ],
+                solution: 'QRステッカーをよく確認してください。Safety SHIELDでスキャンして、URLを事前に確認してください。'
+            },
+            digital_arrest: {
+                title: 'デジタル逮捕状詐欺',
+                desc: '警察や裁判官を装い、ビデオ通話で犯罪への関与を主張し、「オンライン尋問」を命じます。',
+                signs: [
+                    '制服を着用（背景が合成の場合が多い）',
+                    '現場で身分証が見つかったと主張',
+                    '通話を切らせない',
+                    '「安全な口座」への送金を要求'
+                ],
+                solution: '警察や裁判所が個人のビデオ通話で尋問することはありません。電話を切り、最寄りの警察署へ行ってください。'
+            }
+        }
+    },
     terms: {
-        title: 'Terms & Privacy',
-        subtitle: 'Please review and accept our policies to continue',
-        termsTitle: 'Terms of Service',
-        privacyTitle: 'Privacy Policy',
-        agreeLabel: 'I agree to the Terms of Service and Privacy Policy',
-        continue: 'Continue',
-        readMore: 'Read Full Policy',
-        intro: 'By using Safety SHIELD, you agree to protect yourself and others.',
-        termsContent: 'Safety SHIELD is provided "as is" to help you analyze links. We do not guarantee 100% detection of all threats. You are responsible for your own actions when browsing the web. We are not liable for any damages arising from the use of this app.',
-        privacyContent: 'Your data stays on your device. We do not collect your browsing history, personal information, or Safety PIN. All link analysis is performed locally on your phone. We do not share any data with third parties.',
+        title: '利用規約とプライバシー',
+        subtitle: '続行するには、ポリシーを確認して同意してください',
+        termsTitle: '利用規約',
+        privacyTitle: 'プライバシーポリシー',
+        agreeLabel: '利用規約とプライバシーポリシーに同意します',
+        continue: '続ける',
+        readMore: 'ポリシー全文を読む',
+        intro: 'Safety SHIELDを使用することで、自分自身と他人を守ることに同意したことになります。',
+        termsContent: 'Safety SHIELDはリンクの分析を支援するために「現状のまま」提供されます。すべての脅威を100%検出することを保証するものではありません。ウェブ閲覧時の行動はご自身の責任となります。本アプリの使用から生じるいかなる損害についても責任を負いません。',
+        privacyContent: 'データはお使いのデバイスに残ります。閲覧履歴、個人情報、セーフティPINを収集することはありません。すべてのリンク分析はお使いの携帯電話でローカルに実行されます。データを第三者と共有することはありません。',
     },
     finalOnboarding: {
-        title: 'Almost Done!',
-        subtitle: 'Two important things to keep you safe',
-        panicTitle: 'Panic Mode',
-        panicDesc: 'In an emergency, use Panic Mode to block all unknown links instantly.',
-        defaultTitle: 'Set as Default',
-        defaultDesc: 'Safety SHIELD works best when it handles all your links. Make it your default browser app.',
-        finishButton: 'Got it, let\'s go!',
+        title: 'あと少しです！',
+        subtitle: '安全を保つための2つの重要なこと',
+        panicTitle: 'パニックモード',
+        panicDesc: '緊急時には、パニックモードを使用して不明なリンクをすべて即座にブロックします。',
+        defaultTitle: 'デフォルトに設定',
+        defaultDesc: 'Safety SHIELDはすべてのリンクを処理するときに最適に機能します。デフォルトのブラウザアプリに設定してください。',
+        finishButton: '了解、さあ始めましょう！',
     },
     homeGuide: {
-        welcome: 'Turn on Protection',
-        clickEnable: 'Please enter the Security Layer to activate the application.',
-        dismiss: 'Dismiss',
-        successTitle: 'You are Protected!',
-        successDesc: 'Great job! The app is now active.',
-        panicTitle: 'Maximum Security',
-        panicDesc: 'Enable Panic Mode to block EVERYTHING except trusted sites. Highly recommended!',
-        next: 'Next',
+        welcome: '保護をオンにする',
+        clickEnable: 'アプリケーションを有効にするには、セキュリティレイヤーを入力してください。',
+        dismiss: '閉じる',
+        successTitle: '保護されています！',
+        successDesc: 'よくできました！アプリは現在アクティブです。',
+        panicTitle: '最高レベルのセキュリティ',
+        panicDesc: 'パニックモードを有効にして、信頼できるサイト以外すべてをブロックします。強くお勧めします！',
+        next: '次へ',
     },
     news: {
-        title: 'Latest Security News',
-        noNews: 'No news available at the moment.',
-        readMore: 'Read full article',
+        title: '最新のセキュリティニュース',
+        noNews: '現在利用可能なニュースはありません。',
+        readMore: '記事全文を読む',
     },
 };

@@ -254,8 +254,8 @@ export default function Settings() {
 
         <SettingsItem
           icon={Lock}
-          title={state.language === 'id' ? 'Ubah PIN Keamanan' : 'Change Safety PIN'}
-          subtitle={state.language === 'id' ? 'Ganti PIN untuk verifikasi link' : 'Change PIN for link verification'}
+          title={t.settings.changePin}
+          subtitle={t.settings.changePinDesc}
           onClick={() => setShowChangePin(true)}
         />
 
@@ -294,15 +294,15 @@ export default function Settings() {
 
         <SettingsItem
           icon={Shield}
-          title={state.language === 'id' ? 'Opsi Pemulihan PIN' : 'Password Recovery'}
-          subtitle={state.language === 'id' ? 'Atur email & no HP untuk reset PIN' : 'Set email & phone for PIN reset'}
+          title={t.settings.recovery}
+          subtitle={t.settings.recoveryDesc}
           onClick={() => setShowRecoveryOptions(true)}
         />
 
         <SettingsItem
           icon={Activity}
-          title={state.language === 'id' ? 'Log Keamanan' : 'Security Logs'}
-          subtitle={state.language === 'id' ? 'Lihat aktivitas keamanan & audit' : 'View security activity & audit trail'}
+          title={t.settings.securityLogs}
+          subtitle={t.settings.securityLogsDesc}
           onClick={() => navigate('/security-dashboard')}
           badge="new"
         />
@@ -374,9 +374,7 @@ export default function Settings() {
           <SheetHeader className="text-left pb-4 flex-shrink-0">
             <SheetTitle className="text-xl">{t.settings.language}</SheetTitle>
             <SheetDescription>
-              {state.language === 'id'
-                ? 'Pilih bahasa aplikasi'
-                : 'Select application language'}
+              {t.settings.selectLanguage}
             </SheetDescription>
           </SheetHeader>
 
@@ -419,9 +417,7 @@ export default function Settings() {
           <SheetHeader className="text-left pb-4">
             <SheetTitle className="text-xl">{t.settings.help}</SheetTitle>
             <SheetDescription>
-              {state.language === 'id'
-                ? 'Temukan jawaban atau hubungi kami'
-                : 'Find answers or get in touch'}
+              {t.settings.findAnswers}
             </SheetDescription>
           </SheetHeader>
 
@@ -429,33 +425,25 @@ export default function Settings() {
             {/* FAQ Section */}
             <div className="space-y-2">
               <h3 className="text-sm font-medium text-muted-foreground uppercase tracking-wide">
-                {state.language === 'id' ? 'Pertanyaan Umum' : 'FAQ'}
+                {t.settings.faq}
               </h3>
 
               <div className="space-y-2">
                 <div className="p-3 bg-muted/50 rounded-xl">
                   <p className="font-medium text-sm">
-                    {state.language === 'id'
-                      ? 'Bagaimana cara kerja Safety SHIELD?'
-                      : 'How does Safety SHIELD work?'}
+                    {t.settings.faq1}
                   </p>
                   <p className="text-sm text-muted-foreground mt-1">
-                    {state.language === 'id'
-                      ? 'Safety SHIELD membantu Anda berhenti sejenak sebelum membuka tautan. Ini memberi waktu untuk mempertimbangkan keamanan tautan.'
-                      : 'Safety SHIELD helps you pause before opening links. This gives you time to consider link safety.'}
+                    {t.settings.faq1Desc}
                   </p>
                 </div>
 
                 <div className="p-3 bg-muted/50 rounded-xl">
                   <p className="font-medium text-sm">
-                    {state.language === 'id'
-                      ? 'Apakah data saya aman?'
-                      : 'Is my data safe?'}
+                    {t.settings.faq2}
                   </p>
                   <p className="text-sm text-muted-foreground mt-1">
-                    {state.language === 'id'
-                      ? 'Ya! Semua data disimpan secara lokal di perangkat Anda. Tidak ada yang dikirim ke server.'
-                      : 'Yes! All data is stored locally on your device. Nothing is sent to servers.'}
+                    {t.settings.faq2Desc}
                   </p>
                 </div>
               </div>
@@ -464,7 +452,7 @@ export default function Settings() {
             {/* Contact Section */}
             <div className="space-y-2 pt-4">
               <h3 className="text-sm font-medium text-muted-foreground uppercase tracking-wide">
-                {state.language === 'id' ? 'Hubungi Kami' : 'Contact Us'}
+                {t.settings.contactUs}
               </h3>
 
               <button

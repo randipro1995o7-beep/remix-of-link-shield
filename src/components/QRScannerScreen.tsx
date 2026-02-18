@@ -1,17 +1,18 @@
 import { useState, useEffect, useCallback } from 'react';
 import { BarcodeScanner, ScanResult } from '@capacitor-community/barcode-scanner';
-import { X, QrCode, AlertTriangle, Camera, Shield, Wallet, Banknote } from 'lucide-react';
+import { X, QrCode, AlertTriangle, Camera, Shield, Wallet, Banknote, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { useApp } from '@/contexts/AppContext';
 import { useLinkInterception } from '@/contexts/LinkInterceptionContext';
 import { toast } from 'sonner';
+import { UrlResolver } from '@/lib/services/UrlResolver';
 
 interface QRScannerScreenProps {
     onClose: () => void;
 }
 
-type ScanState = 'ready' | 'scanning' | 'reviewing' | 'error' | 'qris_detected';
+type ScanState = 'ready' | 'scanning' | 'resolving' | 'reviewing' | 'error' | 'qris_detected';
 
 export function QRScannerScreen({ onClose }: QRScannerScreenProps) {
     const { state } = useApp();
@@ -26,6 +27,7 @@ export function QRScannerScreen({ onClose }: QRScannerScreenProps) {
         subtitle: isIndonesian ? 'Arahkan kamera ke QR Code' : 'Point camera at QR Code',
         startScan: isIndonesian ? 'Mulai Scan' : 'Start Scan',
         scanning: isIndonesian ? 'Scanning...' : 'Scanning...',
+        resolving: isIndonesian ? 'Memuat URL asli...' : 'Resolving URL...',
         cancel: isIndonesian ? 'Batal' : 'Cancel',
         permissionDenied: isIndonesian
             ? 'Izin kamera diperlukan untuk scan QR'
@@ -138,7 +140,7 @@ export function QRScannerScreen({ onClose }: QRScannerScreenProps) {
         return content.startsWith('000201');
     };
 
-    const handleScanResult = useCallback((content: string) => {
+    const handleScanResult = useCallback(async (content: string) => {
         // Check for QRIS first
         if (isQRIS(content)) {
             setScanState('qris_detected');
@@ -146,12 +148,43 @@ export function QRScannerScreen({ onClose }: QRScannerScreenProps) {
         }
 
         // Check if it's a valid URL
-        const urlPattern = /^(https?:\/\/|www\.)/i;
+        // We use a set of regexes to be inclusive of various URL formats
 
-        if (urlPattern.test(content)) {
-            const url = content.startsWith('www.') ? `https://${content}` : content;
-            setScannedUrl(url);
-            setScanState('reviewing');
+        // Strict domain regex (no protocol prefix allowed)
+        const domainRegex = /^([a-zA-Z0-9]([a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z]{2,}(:\d+)?(\/.*)?$/;
+        // Strict IP regex
+        const ipRegex = /^(\d{1,3}\.){3}\d{1,3}(:\d+)?(\/.*)?$/;
+        // Strict localhost regex
+        const localhostRegex = /^localhost(:\d+)?(\/.*)?$/;
+        // Scheme regex (must start with letter, followed by permitted chars, then colon)
+        const schemeRegex = /^[a-zA-Z][a-zA-Z0-9+.-]*:/;
+
+        let isValid = false;
+        let urlToCheck = content;
+
+        // Logic: Check "needs protocol" cases FIRST
+        if (domainRegex.test(content) || ipRegex.test(content) || localhostRegex.test(content)) {
+            isValid = true;
+            urlToCheck = `https://${content}`;
+        } else if (schemeRegex.test(content)) {
+            isValid = true;
+            // Leave url as is
+        }
+
+        if (isValid) {
+            setScanState('resolving');
+
+            try {
+                // Resolve the final URL (unshorten)
+                const { finalUrl } = await UrlResolver.resolveWithChain(urlToCheck);
+                setScannedUrl(finalUrl);
+                setScanState('reviewing');
+            } catch (error) {
+                console.error('Failed to resolve URL:', error);
+                // Fallback to original URL on error
+                setScannedUrl(urlToCheck);
+                setScanState('reviewing');
+            }
         } else {
             // Not a URL
             toast.error(lang.notUrl);
@@ -262,6 +295,17 @@ export function QRScannerScreen({ onClose }: QRScannerScreenProps) {
                             <Camera className="w-5 h-5 mr-2" />
                             {lang.grantPermission}
                         </Button>
+                    </div>
+                )}
+
+                {scanState === 'resolving' && (
+                    <div className="text-center animate-fade-in">
+                        <div className="w-24 h-24 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-6">
+                            <Loader2 className="w-12 h-12 text-primary animate-spin" />
+                        </div>
+                        <h2 className="text-xl font-semibold text-foreground mb-2">
+                            {lang.resolving}
+                        </h2>
                     </div>
                 )}
 

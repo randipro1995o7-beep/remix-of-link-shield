@@ -115,9 +115,7 @@ export default function Protection() {
                 </p>
               ) : !state.isDefaultHandler ? (
                 <p className="text-sm text-warning mt-1">
-                  {state.language === 'id'
-                    ? 'Atur sebagai default terlebih dahulu'
-                    : 'Set as default first'}
+                  {t.safety.setDefaultFirst}
                 </p>
               ) : null
             )}
@@ -160,7 +158,7 @@ export default function Protection() {
             )}
           >
             <ExternalLink className="w-4 h-4" />
-            {state.language === 'id' ? 'Atur sebagai Default' : 'Set as Default Link Handler'}
+            {t.safety.setAsDefault}
           </Button>
 
           {/* Default Handler Status Note */}
@@ -172,18 +170,14 @@ export default function Protection() {
               <>
                 <CheckCircle className="w-4 h-4" />
                 <span>
-                  {state.language === 'id'
-                    ? 'Aplikasi sudah diatur sebagai default'
-                    : 'App is set as default link handler'}
+                  {t.safety.defaultHandlerSet}
                 </span>
               </>
             ) : (
               <>
                 <AlertTriangle className="w-4 h-4" />
                 <span>
-                  {state.language === 'id'
-                    ? 'Anda belum mengatur aplikasi sebagai default'
-                    : 'App is not set as default link handler'}
+                  {t.safety.defaultHandlerNotSet}
                 </span>
               </>
             )}

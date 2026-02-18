@@ -36,16 +36,22 @@ export const zh: TranslationKeys = {
         panicMode: '恐慌模式',
         panicModeActiveDesc: '为了最大限度的安全，拦截所有未知链接。',
         panicModeInactiveDesc: '开启以拦截除受信任网站以外的所有内容。',
-        togglePanicMode: '切换恐慌模式',
+        togglePanicMode: 'Toggle Panic Mode',
+        scamEducationTitle: 'Know all types of online scams',
+        scamEducationDesc: 'Complete guide to recognizing signs & solutions',
     },
     safety: {
-        title: '安全中心',
-        enabled: '启用',
-        disabled: '禁用',
-        enableSafety: '启用保护',
-        disableSafety: '禁用保护',
-        permissionsNeeded: '需​​要权限',
+        title: '安全设置',
+        enabled: '安全步骤已开启',
+        disabled: '安全步骤已关闭',
+        enableSafety: '开启安全步骤',
+        disableSafety: '暂停安全步骤',
+        permissionsNeeded: '我们需要一些权限',
         grantPermissions: '授予权限',
+        setDefaultFirst: 'Set as default first',
+        setAsDefault: 'Set as Default Link Handler',
+        defaultHandlerSet: 'App is set as default link handler',
+        defaultHandlerNotSet: 'App is not set as default link handler',
     },
     settings: {
         title: '设置',
@@ -68,8 +74,22 @@ export const zh: TranslationKeys = {
         familyModeDesc: '家长控制保护',
         premium: '高级版',
         premiumDesc: '解锁高级功能',
-        whitelist: '白名单',
-        whitelistDesc: '管理受信任的网站',
+        whitelist: '受信任的网站',
+        whitelistDesc: '管理跳过安全检查的网站',
+        changePin: 'Change Safety PIN',
+        changePinDesc: 'Change PIN for link verification',
+        recovery: 'Password Recovery',
+        recoveryDesc: 'Set email & phone for PIN reset',
+        securityLogs: 'Security Logs',
+        securityLogsDesc: 'View security activity & audit trail',
+        selectLanguage: 'Select application language',
+        findAnswers: 'Find answers or get in touch',
+        faq: 'FAQ',
+        faq1: 'How does Safety SHIELD work?',
+        faq1Desc: 'Safety SHIELD helps you pause before opening links. This gives you time to consider link safety.',
+        faq2: 'Is my data safe?',
+        faq2Desc: 'Yes! All data is stored locally on your device. Nothing is sent to servers.',
+        contactUs: 'Contact Us',
     },
     biometrics: {
         touchId: 'Touch ID',
@@ -178,6 +198,93 @@ export const zh: TranslationKeys = {
         thankYou: '感谢您的报告！',
         noReports: '暂无社区报告',
     },
+
+    scamEducation: {
+        title: '了解诈骗手段',
+        subtitle: '学习常见的网络威胁',
+        readMore: '点击阅读更多...',
+        signs: '警告信号:',
+        solution: '预防与解决方案:',
+        scams: {
+            phishing: {
+                title: '网络钓鱼 (数据窃取)',
+                desc: '骗子发送看似官方（如银行）的虚假邮件/信息，以窃取密码或 PIN 码。',
+                signs: [
+                    '使用免费邮箱 (gmail.com)',
+                    '催促采取行动 (“账户将被冻结！”)',
+                    '奇怪的链接 (bit.ly)',
+                    '要求提供 PIN 码/密码'
+                ],
+                solution: '切勿点击可疑信息中的链接。直接联系银行。'
+            },
+            jobs: {
+                title: '虚假招聘',
+                desc: '简单任务（如给视频点赞）高收入，但要求先付款。',
+                signs: [
+                    '不切实际的高收入',
+                    '要求支付“入职费”',
+                    '仅通过 Telegram/WhatsApp 沟通',
+                    '没有正式面试'
+                ],
+                solution: '请记住：如果工作需要先付款，那就是诈骗。切勿转账。'
+            },
+            apk: {
+                title: 'APK 文件诈骗',
+                desc: '发送恶意应用程序文件 (.apk)，谎称是“婚礼请柬”或“包裹照片”。',
+                signs: [
+                    '文件以 .apk 结尾',
+                    '自称是快递员或老朋友',
+                    '催促打开文件',
+                    '文件图标看起来很奇怪'
+                ],
+                solution: '切勿安装/打开聊天中的 .apk 文件。它们可能会窃取密码并清空账户资金。'
+            },
+            giveaway: {
+                title: '虚假赠品',
+                desc: '通知您中奖，但必须先支付“手续费”或“税款”。',
+                signs: [
+                    '未参加任何比赛',
+                    '要求预先付款',
+                    '催促领取奖品',
+                    '虚假证明/评论'
+                ],
+                solution: '真正的奖品不需要预付款。税款会从奖金中扣除。'
+            },
+            love_scam: {
+                title: '杀猪盘 (浪漫诈骗)',
+                desc: '在网上建立恋爱关系，然后因“紧急情况”借钱。',
+                signs: [
+                    '关系发展太快',
+                    '自称在国外/富有/军人',
+                    '总有理由借钱',
+                    '拒绝视频通话'
+                ],
+                solution: '切勿给从未见过面的人汇款。如果对方要钱，立即拉黑。'
+            },
+            quishing: {
+                title: 'Quishing (QR 钓鱼)',
+                desc: '在公共场所的真实二维码上覆盖假的二维码。扫描后会进入假网站。',
+                signs: [
+                    '二维码贴纸覆盖在另一个上面',
+                    '发送的二维码来源不明',
+                    '网站要求提供个人信息',
+                    '即使 URL 看起来很奇怪'
+                ],
+                solution: '仔细检查二维码贴纸。使用 Safety SHIELD 扫描并先验证 URL。'
+            },
+            digital_arrest: {
+                title: '数字逮捕',
+                desc: '通过视频通话冒充警察/法官，声称您卷入犯罪并命令进行“在线审讯”。',
+                signs: [
+                    '身穿制服（通常背景是假的）',
+                    '声称在犯罪现场发现了您的身份证',
+                    '禁止挂断电话',
+                    '要求转账到“安全账户”'
+                ],
+                solution: '警察/法院不会通过个人视频通话进行审讯。挂断电话并前往最近的派出所。'
+            }
+        }
+    },
     blocked: {
         title: '已拦截',
         dangerTitle: '危险链接',
@@ -252,34 +359,34 @@ export const zh: TranslationKeys = {
         guardianPinDesc: '请输入家长 PIN 码以批准访问。',
     },
     terms: {
-        title: '条款与隐私',
-        subtitle: '请查看并接受我们的政策以继续',
+        title: '条款和隐私',
+        subtitle: '请查阅并接受我们的政策以继续',
         termsTitle: '服务条款',
         privacyTitle: '隐私政策',
         agreeLabel: '我同意服务条款和隐私政策',
         continue: '继续',
         readMore: '阅读完整政策',
-        intro: '使用 Safety SHIELD 即表示您同意保护自己和他人。',
-        termsContent: 'Safety SHIELD 按“原样”提供，以帮助您分析链接。我们不保证 100% 检测到所有威胁。您在浏览网络时对自己的行为负责。我们不对因使用此应用程序而造成的任何损失负责。',
-        privacyContent: '您的数据保留在您的设备上。我们不收集您的浏览历史记录、个人信息或安全 PIN 码。所有链接分析均在您的手机上本地执行。我们不与第三方共享任何数据。',
+        intro: '使用 Safety SHIELD，即表示您同意保护自己和他人。',
+        termsContent: 'Safety SHIELD 按“原样”提供，以帮助您分析链接。我们不保证 100% 检测到所有威胁。您在浏览网络时需对自己的行为负责。我们不对因使用此应用程序而造成的任何损害承担责任。',
+        privacyContent: '您的数据保留在您的设备上。我们不收集您的浏览历史记录、个人信息或安全 PIN。所有链接分析均在您的手机上本地执行。我们不与第三方共享任何数据。',
     },
     finalOnboarding: {
-        title: '快完成了！',
+        title: '几乎完成！',
         subtitle: '两件保护您安全的重要事情',
         panicTitle: '恐慌模式',
-        panicDesc: '在紧急情况下，使用恐慌模式立即拦截所有未知链接。',
+        panicDesc: '在紧急情况下，使用恐慌模式立即阻止所有未知链接。',
         defaultTitle: '设为默认',
-        defaultDesc: '当 Safety SHIELD 处理您的所有链接时，效果最佳。将其设为您的默认浏览器应用。',
-        finishButton: '明白了，开始吧！',
+        defaultDesc: '当 Safety SHIELD 处理您的所有链接时效果最佳。将其设为您的默认浏览器应用。',
+        finishButton: '明白了，走吧！',
     },
     homeGuide: {
         welcome: '开启保护',
-        clickEnable: '请输入安全层以激活应用程序。',
+        clickEnable: '请点击启用安全层以激活应用程序。',
         dismiss: '忽略',
-        successTitle: '您已受到保护！',
-        successDesc: '太棒了！应用程序现已激活。',
+        successTitle: '您已受保护！',
+        successDesc: '做得好！应用程序现已激活。',
         panicTitle: '最高安全性',
-        panicDesc: '启用恐慌模式以拦截除受信任网站之外的的所有内容。强烈推荐！',
+        panicDesc: '启用恐慌模式以阻止除受信任网站以外的所有内容。强烈推荐！',
         next: '下一步',
     },
     privacy: {
@@ -340,5 +447,80 @@ export const zh: TranslationKeys = {
         show: '显示',
         hide: '隐藏',
         close: '关闭',
+        next: '下一步',
+        previous: '上一步',
+        more: '更多',
+        email: '电子邮件',
+        twitter: 'Twitter / X',
+    },
+    a11y: {
+        close: '关闭',
+        previousSlide: '上一张幻灯片',
+        nextSlide: '下一张幻灯片',
+        morePages: '更多页面',
+        more: '更多',
+    },
+    stats: {
+        safe: '安全',
+        risky: '风险',
+    },
+    recovery: {
+        saved: '已保存',
+    },
+    premium: {
+        currTitle: '高级版',
+    },
+    tutorial: {
+        online: '在线',
+    },
+    languageSelection: {
+        notFound: '未找到语言',
+    },
+    securityDashboard: {
+        title: '安全仪表板',
+        metrics: {
+            authAttempts: '验证尝试',
+            failedLogins: '登录失败',
+            rootDetected: '检测到 Root',
+            activeLocks: '活动锁定',
+            last24h: '过去 24 小时',
+            current: '当前',
+        },
+        filters: {
+            eventType: '事件类型:',
+            severity: '严重性:',
+            allTypes: '所有类型',
+            authSuccess: '验证成功',
+            authFailure: '验证失败',
+            accountLocked: '帐户已锁定',
+            otpGenerated: '已生成 OTP',
+            otpVerified: '已验证 OTP',
+            otpFailed: 'OTP 失败',
+            rootDetected: '检测到 Root',
+            allSeverities: '所有级别',
+            info: '信息',
+            warning: '警告',
+            critical: '严重',
+        },
+        empty: '未找到安全事件',
+        loading: '正在加载安全数据...',
+    },
+    privacyDetails: {
+        technicalTitle: '技术细节',
+        storedEncrypted: '使用 Android 加密存储安全 PIN',
+        localHistory: '链接历史记录通过本地存储在设备上',
+        noNetwork: '没有用于链接分析的网络请求',
+        noThirdParty: '没有用于分析或广告的第三方 SDK',
+    },
+    aboutDetails: {
+        whatWeDo: 'Safety SHIELD 做什么',
+        pauseLinks: '在打开外部链接之前添加暂停',
+        basicInfo: '显示有关链接目标的基本信息',
+        thinkFirst: '帮助您在点击未知链接之前思考',
+        privateHistory: '将您的链接历史记录保密在您的设备上',
+    },
+    notFound: {
+        title: '404',
+        message: '哎呀！页面未找到',
     },
 };

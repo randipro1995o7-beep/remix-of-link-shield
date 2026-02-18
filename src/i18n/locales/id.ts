@@ -39,6 +39,8 @@ export const id: TranslationKeys = {
         panicModeActiveDesc: 'Memblokir semua tautan tidak dikenal demi keamanan maksimal.',
         panicModeInactiveDesc: 'Aktifkan untuk memblokir semuanya kecuali situs terpercaya.',
         togglePanicMode: 'Beralih Mode Panik',
+        scamEducationTitle: 'Kenali segala jenis penipuan online',
+        scamEducationDesc: 'Panduan lengkap mengenali ciri-ciri & solusi penipuan',
     },
 
     safety: {
@@ -49,6 +51,10 @@ export const id: TranslationKeys = {
         disableSafety: 'Jeda Langkah Keamanan',
         permissionsNeeded: 'Kami perlu beberapa izin dulu',
         grantPermissions: 'Berikan Izin',
+        setDefaultFirst: 'Atur sebagai default terlebih dahulu',
+        setAsDefault: 'Atur sebagai Default',
+        defaultHandlerSet: 'Aplikasi sudah diatur sebagai default',
+        defaultHandlerNotSet: 'Anda belum mengatur aplikasi sebagai default',
     },
 
     settings: {
@@ -74,6 +80,20 @@ export const id: TranslationKeys = {
         premiumDesc: 'Riwayat lengkap, Mode Keluarga & lainnya',
         whitelist: 'Situs Terpercaya',
         whitelistDesc: 'Kelola situs yang melewati pemeriksaan',
+        changePin: 'Ubah PIN Keamanan',
+        changePinDesc: 'Ganti PIN untuk verifikasi link',
+        recovery: 'Opsi Pemulihan PIN',
+        recoveryDesc: 'Atur email & no HP untuk reset PIN',
+        securityLogs: 'Log Keamanan',
+        securityLogsDesc: 'Lihat aktivitas keamanan & audit',
+        selectLanguage: 'Pilih bahasa aplikasi',
+        findAnswers: 'Temukan jawaban atau hubungi kami',
+        faq: 'Pertanyaan Umum',
+        faq1: 'Bagaimana cara kerja Safety SHIELD?',
+        faq1Desc: 'Safety SHIELD membantu Anda berhenti sejenak sebelum membuka tautan. Ini memberi waktu untuk mempertimbangkan keamanan tautan.',
+        faq2: 'Apakah data saya aman?',
+        faq2Desc: 'Ya! Semua data disimpan secara lokal di perangkat Anda. Tidak ada yang dikirim ke server.',
+        contactUs: 'Hubungi Kami',
     },
 
     biometrics: {
@@ -189,6 +209,93 @@ export const id: TranslationKeys = {
         voteSuspicious: 'Lapor Mencurigakan',
         thankYou: 'Terima kasih atas laporan Anda!',
         noReports: 'Belum ada laporan komunitas',
+    },
+
+    scamEducation: {
+        title: 'Kenali Jenis Penipuan',
+        subtitle: 'Pelajari modus-modus ancaman online',
+        readMore: 'Tap untuk baca selengkapnya...',
+        signs: 'Tanda-tanda Bahaya:',
+        solution: 'Solusi & Pencegahan:',
+        scams: {
+            phishing: {
+                title: 'Phishing (Pencurian Data)',
+                desc: 'Penipu mengirim email/pesan palsu yang terlihat resmi (seperti dari bank atau kurir) untuk mencuri password atau PIN Anda.',
+                signs: [
+                    'Pengirim menggunakan email gratisan (gmail.com)',
+                    'Mendesak Anda untuk segera bertindak ("Akun akan diblokir!")',
+                    'Link yang aneh atau disingkat (bit.ly, tinyurl)',
+                    'Meminta data pribadi seperti PIN atau password'
+                ],
+                solution: 'Jangan pernah klik link dari pesan mencurigakan. Hubungi bank/instansi resmi melalui nomor telepon yang tertera di kartu ATM atau website resmi mereka.'
+            },
+            jobs: {
+                title: 'Lowongan Kerja Palsu',
+                desc: 'Tawaran kerja dengan gaji tinggi tapi tugas sangat mudah (hanya like/subscribe), namun Anda diminta deposit uang terlebih dahulu.',
+                signs: [
+                    'Gaji tidak masuk akal untuk tugas sepele',
+                    'Diminta deposit uang untuk "membuka task"',
+                    'Komunikasi hanya lewat Telegram/WhatsApp pribadi',
+                    'Tidak ada proses wawancara resmi'
+                ],
+                solution: 'Ingat: Jika Anda yang harus membayar untuk bekerja, itu PASTI penipuan. Jangan pernah transfer uang ke "perusahaan" yang merekrut Anda.'
+            },
+            apk: {
+                title: 'Modus File APK',
+                desc: 'Penipu mengirim file aplikasi (.apk) dengan nama samaran seperti "Surat Undangan.apk" atau "Foto Paket.apk" di WhatsApp.',
+                signs: [
+                    'File yang dikirim berakhiran .apk',
+                    'Pengirim mengaku kurir paket atau teman lama',
+                    'Meminta Anda menginstall aplikasi tersebut',
+                    'Tampilan icon file tidak seperti foto biasa'
+                ],
+                solution: 'JANGAN PERNAH install/buka file .apk dari WhatsApp. File ini bisa mencuri SMS OTP bank Anda dan menguras rekening dalam sekejap.'
+            },
+            giveaway: {
+                title: 'Hadiah & Giveaway Palsu',
+                desc: 'Anda diberitahu menang undian atau hadiah uang tunai, tapi harus membayar "pajak" atau biaya admin duluan.',
+                signs: [
+                    'Anda merasa tidak pernah ikut undian',
+                    'Diminta transfer biaya admin/pajak pemenang',
+                    'Batas waktu pengambilan hadiah sangat singkat',
+                    'Testimoni pemenang terlihat palsu/editan'
+                ],
+                solution: 'Pajak undian resmi SELALU ditanggung penyelenggara atau dipotong dari hadiah. Jangan pernah transfer uang untuk klaim hadiah.'
+            },
+            love_scam: {
+                title: 'Love Scam / Penipuan Asmara',
+                desc: 'Penipu mendekati korban lewat media sosial/dating app, menjalin hubungan romantis, lalu meminjam uang dengan alasan darurat.',
+                signs: [
+                    'Mengaku orang kaya/aparat tapi sedang tertimpa musibah',
+                    'Hubungan berkembang sangat cepat (langsung panggil sayang/cinta)',
+                    'Selalu punya alasan untuk meminjam uang',
+                    'Menolak diajak video call atau bertemu langsung'
+                ],
+                solution: 'Jangan pernah kirim uang ke orang yang belum pernah Anda temui secara fisik, seberapa manis pun janji mereka. Blokir segera jika mulai meminta uang.'
+            },
+            quishing: {
+                title: 'Quishing (QR Code Phishing)',
+                desc: 'Penipu menempelkan stiker QR Code palsu di tempat umum (parkir, resto) atau mengirimnya lewat email/WA. Saat discan, QR ini membawa ke situs web palsu.',
+                signs: [
+                    'Stiker QR Code tertumpuk di atas stiker asli',
+                    'QR Code dikirim lewat email/chat tanpa konteks jelas',
+                    'Situs web meminta data sensitif setelah scan',
+                    'URL terlihat aneh saat discan (bukan domain resmi)'
+                ],
+                solution: 'Selalu cek fisik stiker QR Code (pastikan tidak ditumpuk). Gunakan Safety SHIELD untuk scan agar URL diperiksa dulu sebelum dibuka.'
+            },
+            digital_arrest: {
+                title: 'Digital Arrest (Penangkapan Digital)',
+                desc: 'Penipu menyamar sebagai polisi/jaksa lewat Video Call. Mereka mengklaim Anda terlibat pencucian uang/narkoba dan melakukan "sidang/penahanan online".',
+                signs: [
+                    'Penelpon memakai seragam polisi/jaksa (seringkali backdrop palsu)',
+                    'Mengklaim rekening Anda dipakai kejahatan',
+                    'Melarang Anda mematikan telepon atau menghubungi orang lain',
+                    'Meminta transfer uang ke "rekening aman" untuk audit'
+                ],
+                solution: 'Polisi/Jaksa TIDAK PERNAH melakukan pemeriksaan lewat Video Call pribadi. Tutup telepon dan datangi kantor polisi terdekat untuk konfirmasi.'
+            }
+        }
     },
 
     blocked: {
@@ -365,5 +472,90 @@ export const id: TranslationKeys = {
         show: 'Tampilkan',
         hide: 'Sembunyikan',
         close: 'Tutup',
+        next: 'Lanjut',
+        previous: 'Sebelumnya',
+        more: 'Lainnya',
+        email: 'Email',
+        twitter: 'Twitter / X',
+    },
+
+    a11y: {
+        close: 'Tutup',
+        previousSlide: 'Slide sebelumnya',
+        nextSlide: 'Slide berikutnya',
+        morePages: 'Halaman lainnya',
+        more: 'Lainnya',
+    },
+
+    stats: {
+        safe: 'Aman',
+        risky: 'Berisiko',
+    },
+
+    recovery: {
+        saved: 'Tersimpan',
+    },
+
+    premium: {
+        currTitle: 'Premium',
+    },
+
+    tutorial: {
+        online: 'Online',
+    },
+
+    languageSelection: {
+        notFound: 'Bahasa tidak ditemukan',
+    },
+
+    securityDashboard: {
+        title: 'Dasbor Keamanan',
+        metrics: {
+            authAttempts: 'Percobaan Masuk',
+            failedLogins: 'Gagal Masuk',
+            rootDetected: 'Root Terdeteksi',
+            activeLocks: 'Kunci Aktif',
+            last24h: '24j Terakhir',
+            current: 'Saat Ini',
+        },
+        filters: {
+            eventType: 'Jenis Acara:',
+            severity: 'Keparahan:',
+            allTypes: 'Semua Jenis',
+            authSuccess: 'Masuk Berhasil',
+            authFailure: 'Masuk Gagal',
+            accountLocked: 'Akun Terkunci',
+            otpGenerated: 'OTP Dibuat',
+            otpVerified: 'OTP Diverifikasi',
+            otpFailed: 'OTP Gagal',
+            rootDetected: 'Root Terdeteksi',
+            allSeverities: 'Semua Tingkat',
+            info: 'Info',
+            warning: 'Peringatan',
+            critical: 'Kritis',
+        },
+        empty: 'Tidak ada peristiwa keamanan',
+        loading: 'Memuat data keamanan...',
+    },
+
+    privacyDetails: {
+        technicalTitle: 'Detail Teknis',
+        storedEncrypted: 'PIN Keamanan disimpan menggunakan enkripsi Android',
+        localHistory: 'Riwayat tautan hanya disimpan di perangkat',
+        noNetwork: 'Tidak ada permintaan jaringan untuk analisis tautan',
+        noThirdParty: 'Tidak ada SDK pihak ketiga untuk analitik atau iklan',
+    },
+
+    aboutDetails: {
+        whatWeDo: 'Apa yang Dilakukan Safety SHIELD',
+        pauseLinks: 'Menambahkan jeda sebelum membuka tautan eksternal',
+        basicInfo: 'Menampilkan informasi dasar tentang tujuan tautan',
+        thinkFirst: 'Membantu Anda berpikir sebelum mengklik tautan asing',
+        privateHistory: 'Menjaga riwayat tautan Anda tetap pribadi di perangkat',
+    },
+
+    notFound: {
+        title: '404',
+        message: 'Ups! Halaman tidak ditemukan',
     },
 };

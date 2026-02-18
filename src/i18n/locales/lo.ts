@@ -25,6 +25,8 @@ export const lo: TranslationKeys = {
         panicModeActiveDesc: 'Blocking all unknown links for maximum safety.',
         panicModeInactiveDesc: 'Turn on to block everything except trusted sites.',
         togglePanicMode: 'Toggle Panic Mode',
+        scamEducationTitle: 'Know all types of online scams',
+        scamEducationDesc: 'Complete guide to recognizing signs & solutions',
     },
 
     safety: {
@@ -34,7 +36,11 @@ export const lo: TranslationKeys = {
         enableSafety: 'ເປີດຂັ້ນຕອນຄວາມປອດໄພ',
         disableSafety: 'ຢຸດຂັ້ນຕອນຄວາມປອດໄພຊົ່ວຄາວ',
         permissionsNeeded: 'ພວກເຮົາຕ້ອງການການອະນຸຍາດບາງຢ່າງກ່ອນ',
-        grantPermissions: 'ໃຫ້ການອະນຸຍາດ',
+        grantPermissions: 'ອະນຸຍາດ',
+        setDefaultFirst: 'Set as default first',
+        setAsDefault: 'Set as Default Link Handler',
+        defaultHandlerSet: 'App is set as default link handler',
+        defaultHandlerNotSet: 'App is not set as default link handler',
     },
 
     settings: {
@@ -60,6 +66,20 @@ export const lo: TranslationKeys = {
         premiumDesc: 'ປະຫວັດເພີ່ມເຕີມ, ໂຫມດຄອບຄົວ ແລະ ອື່ນໆ',
         whitelist: 'ເວັບໄຊທີ່ເຊື່ອຖືໄດ້',
         whitelistDesc: 'ຈັດການເວັບໄຊທີ່ຂ້າມການກວດສອບຄວາມປອດໄພ',
+        changePin: 'Change Safety PIN',
+        changePinDesc: 'Change PIN for link verification',
+        recovery: 'Password Recovery',
+        recoveryDesc: 'Set email & phone for PIN reset',
+        securityLogs: 'Security Logs',
+        securityLogsDesc: 'View security activity & audit trail',
+        selectLanguage: 'Select application language',
+        findAnswers: 'Find answers or get in touch',
+        faq: 'FAQ',
+        faq1: 'How does Safety SHIELD work?',
+        faq1Desc: 'Safety SHIELD helps you pause before opening links. This gives you time to consider link safety.',
+        faq2: 'Is my data safe?',
+        faq2Desc: 'Yes! All data is stored locally on your device. Nothing is sent to servers.',
+        contactUs: 'Contact Us',
     },
 
     biometrics: {
@@ -301,6 +321,81 @@ export const lo: TranslationKeys = {
         show: 'ສະແດງ',
         hide: 'ເຊື່ອງ',
         close: 'ປິດ',
+        next: 'ຕໍ່ໄປ',
+        previous: 'ກ່ອນໜ້າ',
+        more: 'ເພີ່ມເຕີມ',
+        email: 'ອີເມວ',
+        twitter: 'Twitter / X',
+    },
+    a11y: {
+        close: 'ປິດ',
+        previousSlide: 'ສະໄລ້ກ່ອນໜ້າ',
+        nextSlide: 'ສະໄລ້ຕໍ່ໄປ',
+        morePages: 'ໜ້າເພີ່ມເຕີມ',
+        more: 'ເພີ່ມເຕີມ',
+    },
+    stats: {
+        safe: 'ປອດໄພ',
+        risky: 'ມີຄວາມສ່ຽງ',
+    },
+    recovery: {
+        saved: 'ບັນທຶກແລ້ວ',
+    },
+    premium: {
+        currTitle: 'ພຣີມຽມ',
+    },
+    tutorial: {
+        online: 'ອອນລາຍ',
+    },
+    languageSelection: {
+        notFound: 'ບໍ່ພົບພາສາ',
+    },
+    securityDashboard: {
+        title: 'ກະດານຄວາມປອດໄພ',
+        metrics: {
+            authAttempts: 'ຄວາມພະຍາຍາມເຂົ້າສູ່ລະບົບ',
+            failedLogins: 'ເຂົ້າສູ່ລະບົບລົ້ມເຫຼວ',
+            rootDetected: 'ກວດພົບ Root',
+            activeLocks: 'ການລັອກທີ່ຍັງມີຜົນ',
+            last24h: '24 ຊົ່ວໂມງຜ່ານມາ',
+            current: 'ປະຈຸບັນ',
+        },
+        filters: {
+            eventType: 'ປະເພດເຫດການ:',
+            severity: 'ຄວາມຮຸນແຮງ:',
+            allTypes: 'ທຸກປະເພດ',
+            authSuccess: 'ເຂົ້າສູ່ລະບົບສຳເລັດ',
+            authFailure: 'ເຂົ້າສູ່ລະບົບລົ້ມເຫຼວ',
+            accountLocked: 'ບັນຊີຖືກລັອກ',
+            otpGenerated: 'ສ້າງ OTP ແລ້ວ',
+            otpVerified: 'ຢືນຢັນ OTP ແລ້ວ',
+            otpFailed: 'OTP ລົ້ມເຫຼວ',
+            rootDetected: 'ກວດພົບ Root',
+            allSeverities: 'ທຸກລະດັບ',
+            info: 'ຂໍ້ມູນ',
+            warning: 'ຄຳເຕືອນ',
+            critical: 'ວິກິດ',
+        },
+        empty: 'ບໍ່ພົບເຫດການຄວາມປອດໄພ',
+        loading: 'ກຳລັງໂຫລດຂໍ້ມູນຄວາມປອດໄພ...',
+    },
+    privacyDetails: {
+        technicalTitle: 'ລາຍລະອຽດທາງເຕັກນິກ',
+        storedEncrypted: 'PIN ຄວາມປອດໄພຖືກເກັບຮັກສາດ້ວຍການເຂົ້າລະຫັດ Android',
+        localHistory: 'ປະຫວັດລິ້ງຖືກເກັບຮັກສາໄວ້ໃນອຸປະກອນເທົ່ານັ້ນ',
+        noNetwork: 'ບໍ່ມີການຮ້ອງຂໍເຄືອຂ່າຍສຳລັບການວິເຄາະລິ້ງ',
+        noThirdParty: 'ບໍ່ມີ SDK ຂອງບຸກຄົນທີສາມສຳລັບການວິເຄາະ ຫຼື ໂຄສະນາ',
+    },
+    aboutDetails: {
+        whatWeDo: 'Safety SHIELD ເຮັດຫຍັງ',
+        pauseLinks: 'ເພີ່ມການຢຸດຊົ່ວຄາວກ່ອນເປີດລິ້ງພາຍນອກ',
+        basicInfo: 'ສະແດງຂໍ້ມູນພື້ນຖານກ່ຽວກັບປາຍທາງຂອງລິ້ງ',
+        thinkFirst: 'ຊ່ວຍໃຫ້ທ່ານຄິດກ່ອນກົດລິ້ງທີ່ບໍ່ຮູ້ຈັກ',
+        privateHistory: 'ຮັກສາປະຫວັດລິ້ງຂອງທ່ານໃຫ້ເປັນສ່ວນຕົວໃນອຸປະກອນຂອງທ່ານ',
+    },
+    notFound: {
+        title: '404',
+        message: 'ອຸ້ຍ! ບໍ່ພົບຫນ້າ',
     },
     // Missing keys added to prevent crash
     safetyTips: [
@@ -324,40 +419,127 @@ export const lo: TranslationKeys = {
         thankYou: 'Thanks for your report!',
         noReports: 'No community reports yet',
     },
+
+    scamEducation: {
+        title: 'ຮູ້ທັນກົນໂກງ',
+        subtitle: 'ຮຽນຮູ້ໄພຂົ່ມຂູ່ອອນລາຍ',
+        readMore: 'ແຕະເພື່ອອ່ານເພີ່ມເຕີມ...',
+        signs: 'ສັນຍານເຕືອນ:',
+        solution: 'ການປ້ອງກັນ ແລະ ແກ້ໄຂ:',
+        scams: {
+            phishing: {
+                title: 'Phishing (ລັກຂໍ້ມູນ)',
+                desc: 'ສົ່ງອີເມວ/ຂໍ້ຄວາມປອມທີ່ເບິ່ງຄືຈິງ (ເຊັ່ນ: ທະນາຄານ) ເພື່ອລັກລະຫັດຜ່ານ ຫຼື PIN',
+                signs: [
+                    'ໃຊ້ອີເມວຟຣີ (gmail.com)',
+                    'ເລັ່ງໃຫ້ຮີບເຮັດ ("ບັນຊີຈະຖືກລະງັບ!")',
+                    'ລິ້ງແປກໆ (bit.ly)',
+                    'ຂໍ PIN/ລະຫັດຜ່ານ'
+                ],
+                solution: 'ຫ້າມກົດລິ້ງຈາກຂໍ້ຄວາມທີ່ໜ້າສົງໄສ ຕິດຕໍ່ທະນາຄານໂດຍກົງ'
+            },
+            jobs: {
+                title: 'ວຽກປອມ',
+                desc: 'ລາຍໄດ້ສູງສຳລັບວຽກງ່າຍໆ (ເຊັ່ນ: ກົດໄລ້) ແຕ່ຕ້ອງໂອນເງິນກ່ອນ',
+                signs: [
+                    'ລາຍໄດ້ສູງເກີນຈິງ',
+                    'ຕ້ອງໂອນເງິນເພື່ອ "ເລີ່ມວຽກ"',
+                    'ລົມຜ່ານ Telegram/WhatsApp ເທົ່ານັ້ນ',
+                    'ບໍ່ມີການສຳພາດເປັນທາງການ'
+                ],
+                solution: 'ຈື່ໄວ້: ຖ້າຕ້ອງຈ່າຍເງິນເພື່ອເຮັດວຽກ ນັ້ນຄືການໂກງ ຢ່າໂອນເງິນເດັດຂາດ'
+            },
+            apk: {
+                title: 'ຫຼອກຕິດຕັ້ງ APK',
+                desc: 'ສົ່ງໄຟລ໌ແອັບອັນຕະລາຍ (.apk) ອ້າງວ່າເປັນ "ບັດເຊີນດອງ" ຫຼື "ຮູບເຄື່ອງ"',
+                signs: [
+                    'ໄຟລ໌ລົງທ້າຍດ້ວຍ .apk',
+                    'ອ້າງວ່າເປັນຂົນສົ່ງ ຫຼື ໝູ່ເກົ່າ',
+                    'ເລັ່ງໃຫ້ເປີດໄຟລ໌',
+                    'ໄອຄອນໄຟລ໌ເບິ່ງແປກໆ'
+                ],
+                solution: 'ຫ້າມຕິດຕັ້ງ/ເປີດໄຟລ໌ .apk ຈາກແຊັດເດັດຂາດ ມັນສາມາດລັກ OTP ແລະ ດູດເງິນໝົດບັນຊີ'
+            },
+            giveaway: {
+                title: 'ລາງວັນປອມ',
+                desc: 'ແຈ້ງວ່າທ່ານໄດ້ຮັບລາງວັນແຕ່ຕ້ອງຈ່າຍ "ຄ່າທຳນຽມ" ຫຼື "ພາສີ" ກ່ອນ',
+                signs: [
+                    'ທ່ານບໍ່ເຄີຍຮ່ວມກິດຈະກຳ',
+                    'ຂໍໃຫ້ໂອນເງິນກ່ອນ',
+                    'ເລັ່ງໃຫ້ຮີບຮັບລາງວັນ',
+                    'ຣີວິວປອມ'
+                ],
+                solution: 'ລາງວັນຈິງບໍ່ຕ້ອງຈ່າຍກ່ອນ ພາສີຈະຫັກຈາກລາງວັນ'
+            },
+            love_scam: {
+                title: 'Romance Scam',
+                desc: 'ສ້າງຄວາມສຳພັນອອນລາຍ ແລ້ວຫຼອກຢືມເງິນເພາະ "ສຸກເສີນ"',
+                signs: [
+                    'ຄວາມສຳພັນໄວໂພດ',
+                    'ອ້າງວ່າຢູ່ຕ່າງປະເທດ/ລວຍ/ເປັນທະຫານ',
+                    'ມີເຫດຜົນຂໍຢືມເງິນສະເໝີ',
+                    'ບໍ່ຍອມວິດີໂອຄໍ'
+                ],
+                solution: 'ຢ່າໂອນເງິນໃຫ້ຄົນທີ່ຍັງບໍ່ເຄີຍເຫັນຕົວຈິງ ບລັອກທັນທີຖ້າຂໍຢືມເງິນ'
+            },
+            quishing: {
+                title: 'Quishing (QR Phishing)',
+                desc: 'ຕິດ QR Code ປອມທັບຂອງຈິງໃນທີ່ສາທາລະນະ ເມື່ອສະແກນຈະໄປເວັບປອມ',
+                signs: [
+                    'ມີສະຕິກເກີ QR ຕິດທັບ',
+                    'QR ສົ່ງມາແບບບໍ່ມີທີ່ມາ',
+                    'ເວັບຂໍຂໍ້ມູນສ່ວນຕົວ',
+                    'URL ເບິ່ງແປກໆ'
+                ],
+                solution: 'ກວດສອບສະຕິກເກີ QR ໃຫ້ດີ ໃຊ້ Safety SHIELD ສະແກນເພື່ອກວດສອບ URL ກ່ອນ'
+            },
+            digital_arrest: {
+                title: 'Digital Arrest',
+                desc: 'ປອມເປັນຕຳຫຼວດ/ສານ ວິດີໂອຄໍຫາ ອ້າງວ່າທ່ານພົວພັນຄະດີ ແລະ ສັ່ງ "ໄຕ່ສວນອອນລາຍ"',
+                signs: [
+                    'ໃສ່ເຄື່ອງແບບ (ມັກເປັນສາກຫຼັງປອມ)',
+                    'ອ້າງວ່າພົບບັດປະຊາຊົນໃນທີ່ເກີດເຫດ',
+                    'ຫ້າມວາງສາຍ',
+                    'ໃຫ້ໂອນເງິນໄປ "ບັນຊີປອດໄພ" ເພື່ອກວດສອບ'
+                ],
+                solution: 'ຕຳຫຼວດ/ສານ ບໍ່ມີການໄຕ່ສວນຜ່ານວິດີໂອຄໍສ່ວນຕົວ ວາງສາຍ ແລະ ໄປສະຖານີຕຳຫຼວດໃກ້ບ້ານ'
+            }
+        }
+    },
     terms: {
-        title: 'Terms & Privacy',
-        subtitle: 'Please review and accept our policies to continue',
-        termsTitle: 'Terms of Service',
-        privacyTitle: 'Privacy Policy',
-        agreeLabel: 'I agree to the Terms of Service and Privacy Policy',
-        continue: 'Continue',
-        readMore: 'Read Full Policy',
-        intro: 'By using Safety SHIELD, you agree to protect yourself and others.',
-        termsContent: 'Safety SHIELD is provided "as is" to help you analyze links. We do not guarantee 100% detection of all threats. You are responsible for your own actions when browsing the web. We are not liable for any damages arising from the use of this app.',
-        privacyContent: 'Your data stays on your device. We do not collect your browsing history, personal information, or Safety PIN. All link analysis is performed locally on your phone. We do not share any data with third parties.',
+        title: 'ເງື່ອນໄຂ & ຄວາມເປັນສ່ວນຕົວ',
+        subtitle: 'ກະລຸນາກວດສອບ ແລະ ຍອມຮັບນະໂຍບາຍຂອງພວກເຮົາເພື່ອດຳເນີນການຕໍ່',
+        termsTitle: 'ເງື່ອນໄຂການໃຫ້ບໍລິການ',
+        privacyTitle: 'ນະໂຍບາຍຄວາມເປັນສ່ວນຕົວ',
+        agreeLabel: 'ຂ້າພະເຈົ້າຍອມຮັບເງື່ອນໄຂການໃຫ້ບໍລິການ ແລະ ນະໂຍບາຍຄວາມເປັນສ່ວນຕົວ',
+        continue: 'ດຳເນີນການຕໍ່',
+        readMore: 'ອ່ານນະໂຍບາຍເຕັມ',
+        intro: 'ໂດຍການນຳໃຊ້ Safety SHIELD, ທ່ານຕົກລົງທີ່ຈະປົກປ້ອງຕົວທ່ານເອງ ແລະ ຜູ້ອື່ນ.',
+        termsContent: 'Safety SHIELD ຖືກຈັດໃຫ້ "ຕາມສະພາບ" ເພື່ອຊ່ວຍທ່ານວິເຄາະລິ້ງ. ພວກເຮົາບໍ່ຮັບປະກັນການກວດພົບໄພຂົ່ມຂູ່ທັງໝົດ 100%. ທ່ານຮັບຜິດຊອບຕໍ່ການກະທຳຂອງທ່ານເອງເມື່ອທ່ອງເວັບ. ພວກເຮົາບໍ່ຮັບຜິດຊອບຕໍ່ຄວາມເສຍຫາຍໃດໆທີ່ເກີດຈາກການນຳໃຊ້ແອັບນີ້.',
+        privacyContent: 'ຂໍ້ມູນຂອງທ່ານຢູ່ໃນອຸປະກອນຂອງທ່ານ. ພວກເຮົາບໍ່ເກັບກຳປະຫວັດການທ່ອງເວັບ, ຂໍ້ມູນສ່ວນຕົວ, ຫຼື PIN ຄວາມປອດໄພຂອງທ່ານ. ການວິເຄາະລິ້ງທັງໝົດແມ່ນເຮັດຢູ່ໃນໂທລະສັບຂອງທ່ານ. ພວກເຮົາບໍ່ແບ່ງປັນຂໍ້ມູນໃດໆກັບບຸກຄົນທີສາມ.',
     },
     finalOnboarding: {
-        title: 'Almost Done!',
-        subtitle: 'Two important things to keep you safe',
-        panicTitle: 'Panic Mode',
-        panicDesc: 'In an emergency, use Panic Mode to block all unknown links instantly.',
-        defaultTitle: 'Set as Default',
-        defaultDesc: 'Safety SHIELD works best when it handles all your links. Make it your default browser app.',
-        finishButton: 'Got it, let\'s go!',
+        title: 'ເກືອບສຳເລັດແລ້ວ!',
+        subtitle: 'ສອງຢ່າງສຳຄັນເພື່ອຄວາມປອດໄພຂອງທ່ານ',
+        panicTitle: 'ໂໝດຕື່ນຕົກໃຈ',
+        panicDesc: 'ໃນກໍລະນີສຸກເສີນ, ໃຊ້ໂໝດຕື່ນຕົກໃຈເພື່ອບລັອກລິ້ງທີ່ບໍ່ຮູ້ຈັກທັງໝົດທັນທີ.',
+        defaultTitle: 'ຕັ້ງເປັນຄ່າເລີ່ມຕົ້ນ',
+        defaultDesc: 'Safety SHIELD ເຮັດວຽກໄດ້ດີທີ່ສຸດເມື່ອມັນຈັດການລິ້ງທັງໝົດຂອງທ່ານ. ຕັ້ງມັນເປັນແອັບບຣາວເຊີເລີ່ມຕົ້ນຂອງທ່ານ.',
+        finishButton: 'ເຂົ້າໃຈແລ້ວ, ໄປກັນເລີຍ!',
     },
     homeGuide: {
-        welcome: 'Turn on Protection',
-        clickEnable: 'Please enter the Security Layer to activate the application.',
-        dismiss: 'Dismiss',
-        successTitle: 'You are Protected!',
-        successDesc: 'Great job! The app is now active.',
-        panicTitle: 'Maximum Security',
-        panicDesc: 'Enable Panic Mode to block EVERYTHING except trusted sites. Highly recommended!',
-        next: 'Next',
+        welcome: 'ເປີດການປ້ອງກັນ',
+        clickEnable: 'ກະລຸນາເຂົ້າໄປທີ່ຊັ້ນຄວາມປອດໄພເພື່ອເປີດໃຊ້ງານແອັບພລິເຄຊັນ.',
+        dismiss: 'ປິດ',
+        successTitle: 'ທ່ານໄດ້ຮັບການປ້ອງກັນແລ້ວ!',
+        successDesc: 'ເຮັດໄດ້ດີ! ແອັບຕອນນີ້ເຮັດວຽກຢູ່.',
+        panicTitle: 'ຄວາມປອດໄພສູງສຸດ',
+        panicDesc: 'ເປີດໂໝດຕື່ນຕົກໃຈເພື່ອບລັອກທຸກຢ່າງຍົກເວັ້ນເວັບໄຊທີ່ເຊື່ອຖືໄດ້. ແນະນຳຢ່າງຍິ່ງ!',
+        next: 'ຕໍ່ໄປ',
     },
     news: {
-        title: 'Latest Security News',
-        noNews: 'No news available at the moment.',
-        readMore: 'Read full article',
+        title: 'ຂ່າວຄວາມປອດໄພລ່າສຸດ',
+        noNews: 'ບໍ່ມີຂ່າວໃນເວລານີ້.',
+        readMore: 'ອ່ານບົດຄວາມເຕັມ',
     },
 };

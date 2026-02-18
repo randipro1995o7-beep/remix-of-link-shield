@@ -24,17 +24,23 @@ export const ko: TranslationKeys = {
         panicMode: '패닉 모드',
         panicModeActiveDesc: '최대 안전을 위해 모든 알 수 없는 링크 차단.',
         panicModeInactiveDesc: '신뢰할 수 있는 사이트를 제외한 모든 것을 차단하려면 켜세요.',
-        togglePanicMode: '패닉 모드 전환',
+        togglePanicMode: 'Toggle Panic Mode',
+        scamEducationTitle: 'Know all types of online scams',
+        scamEducationDesc: 'Complete guide to recognizing signs & solutions',
     },
 
     safety: {
-        title: '안전 설정',
-        enabled: '안전 단계 켜짐',
-        disabled: '안전 단계 꺼짐',
-        enableSafety: '안전 단계 활성화',
-        disableSafety: '안전 단계 일시 중지',
+        title: '보안 설정',
+        enabled: '보안 단계가 켜져 있습니다',
+        disabled: '보안 단계가 꺼져 있습니다',
+        enableSafety: '보안 단계 켜기',
+        disableSafety: '보안 단계 일시 중지',
         permissionsNeeded: '먼저 몇 가지 권한이 필요합니다',
         grantPermissions: '권한 허용',
+        setDefaultFirst: 'Set as default first',
+        setAsDefault: 'Set as Default Link Handler',
+        defaultHandlerSet: 'App is set as default link handler',
+        defaultHandlerNotSet: 'App is not set as default link handler',
     },
 
     settings: {
@@ -59,7 +65,21 @@ export const ko: TranslationKeys = {
         premium: '프리미엄 기능',
         premiumDesc: '추가 기록, 가족 모드 등',
         whitelist: '신뢰할 수 있는 사이트',
-        whitelistDesc: '안전 검사를 건너뛰는 사이트 관리',
+        whitelistDesc: '보안 검사를 건너뛰는 사이트 관리',
+        changePin: 'Change Safety PIN',
+        changePinDesc: 'Change PIN for link verification',
+        recovery: 'Password Recovery',
+        recoveryDesc: 'Set email & phone for PIN reset',
+        securityLogs: 'Security Logs',
+        securityLogsDesc: 'View security activity & audit trail',
+        selectLanguage: 'Select application language',
+        findAnswers: 'Find answers or get in touch',
+        faq: 'FAQ',
+        faq1: 'How does Safety SHIELD work?',
+        faq1Desc: 'Safety SHIELD helps you pause before opening links. This gives you time to consider link safety.',
+        faq2: 'Is my data safe?',
+        faq2Desc: 'Yes! All data is stored locally on your device. Nothing is sent to servers.',
+        contactUs: 'Contact Us',
     },
 
     biometrics: {
@@ -301,6 +321,81 @@ export const ko: TranslationKeys = {
         show: '표시',
         hide: '숨기기',
         close: '닫기',
+        next: '다음',
+        previous: '이전',
+        more: '더보기',
+        email: '이메일',
+        twitter: 'Twitter / X',
+    },
+    a11y: {
+        close: '닫기',
+        previousSlide: '이전 슬라이드',
+        nextSlide: '다음 슬라이드',
+        morePages: '더 많은 페이지',
+        more: '더보기',
+    },
+    stats: {
+        safe: '안전',
+        risky: '위험',
+    },
+    recovery: {
+        saved: '저장됨',
+    },
+    premium: {
+        currTitle: '프리미엄',
+    },
+    tutorial: {
+        online: '온라인',
+    },
+    languageSelection: {
+        notFound: '언어를 찾을 수 없음',
+    },
+    securityDashboard: {
+        title: '보안 대시보드',
+        metrics: {
+            authAttempts: '인증 시도',
+            failedLogins: '로그인 실패',
+            rootDetected: '루팅 감지됨',
+            activeLocks: '활성 잠금',
+            last24h: '지난 24시간',
+            current: '현재',
+        },
+        filters: {
+            eventType: '이벤트 유형:',
+            severity: '심각도:',
+            allTypes: '모든 유형',
+            authSuccess: '인증 성공',
+            authFailure: '인증 실패',
+            accountLocked: '계정 잠김',
+            otpGenerated: 'OTP 생성됨',
+            otpVerified: 'OTP 확인됨',
+            otpFailed: 'OTP 실패',
+            rootDetected: '루팅 감지됨',
+            allSeverities: '모든 수준',
+            info: '정보',
+            warning: '경고',
+            critical: '심각',
+        },
+        empty: '보안 이벤트를 찾을 수 없습니다',
+        loading: '보안 데이터를 불러오는 중...',
+    },
+    privacyDetails: {
+        technicalTitle: '기술 세부 정보',
+        storedEncrypted: '안전 PIN은 Android 암호화를 사용하여 저장됩니다',
+        localHistory: '링크 기록은 장치에 로컬로만 저장됩니다',
+        noNetwork: '링크 분석을 위한 네트워크 요청이 없습니다',
+        noThirdParty: '분석 또는 광고를 위한 타사 SDK가 없습니다',
+    },
+    aboutDetails: {
+        whatWeDo: 'Safety SHIELD가 하는 일',
+        pauseLinks: '외부 링크를 열기 전에 일시 중지를 추가합니다',
+        basicInfo: '링크 대상에 대한 기본 정보를 표시합니다',
+        thinkFirst: '알 수 없는 링크를 클릭하기 전에 생각하도록 도와줍니다',
+        privateHistory: '링크 기록을 장치에 비공개로 유지합니다',
+    },
+    notFound: {
+        title: '404',
+        message: '앗! 페이지를 찾을 수 없습니다',
     },
     // Missing keys added to prevent crash
     safetyTips: [
@@ -324,40 +419,127 @@ export const ko: TranslationKeys = {
         thankYou: 'Thanks for your report!',
         noReports: 'No community reports yet',
     },
+
+    scamEducation: {
+        title: '사기 유형 알아보기',
+        subtitle: '일반적인 온라인 위협에 대해 배우기',
+        readMore: '더 읽으려면 탭하세요...',
+        signs: '경고 신호:',
+        solution: '예방 및 해결책:',
+        scams: {
+            phishing: {
+                title: '피싱 (데이터 탈취)',
+                desc: '사기꾼은 비밀번호나 PIN을 훔치기 위해 공식적인 것(예: 은행)처럼 보이는 가짜 이메일/메시지를 보냅니다.',
+                signs: [
+                    '무료 이메일 사용 (gmail.com)',
+                    '행동을 재촉함 ("계정이 정지됩니다!")',
+                    '이상한 링크 (bit.ly)',
+                    'PIN/비밀번호 요구'
+                ],
+                solution: '의심스러운 메시지의 링크는 절대 클릭하지 마세요. 은행에 직접 문의하세요.'
+            },
+            jobs: {
+                title: '가짜 구인',
+                desc: '쉬운 업무(영상 좋아요 등)에 고수익을 약속하지만, 먼저 돈을 입금해야 합니다.',
+                signs: [
+                    '비현실적인 고수익',
+                    ' "업무 시작"을 위한 송금 요구',
+                    '텔레그램/왓츠앱으로만 소통',
+                    '공식 인터뷰 없음'
+                ],
+                solution: '기억하세요: 일하기 위해 돈을 내야 한다면, 그것은 사기입니다. 절대 송금하지 마세요.'
+            },
+            apk: {
+                title: 'APK 파일 사기',
+                desc: '"청첩장" 또는 "택배 사진"이라며 악성 앱 파일(.apk)을 보냅니다.',
+                signs: [
+                    '파일이 .apk로 끝남',
+                    '택배 기사나 옛 친구라고 주장',
+                    '파일을 열도록 재촉함',
+                    '파일 아이콘이 이상함'
+                ],
+                solution: '절대 채팅에서 .apk 파일을 설치/열지 마세요. OTP를 훔쳐 계좌를 비울 수 있습니다.'
+            },
+            giveaway: {
+                title: '가짜 경품',
+                desc: '경품에 당첨되었다고 알리지만 먼저 "수수료"나 "세금"을 내야 합니다.',
+                signs: [
+                    '응모한 적 없음',
+                    '선입금 요구',
+                    '경품 수령을 재촉함',
+                    '가짜 후기'
+                ],
+                solution: '진짜 경품은 선입금을 요구하지 않습니다. 세금은 경품에서 공제됩니다.'
+            },
+            love_scam: {
+                title: '로맨스 스캠',
+                desc: '온라인에서 연인 관계를 맺은 뒤 "비상 상황"이라며 돈을 빌려달라고 합니다.',
+                signs: [
+                    '관계가 너무 빨리 진전됨',
+                    '해외 거주/부자/군인이라고 주장',
+                    '항상 돈을 빌릴 이유가 있음',
+                    '영상 통화를 거부함'
+                ],
+                solution: '직접 만난 적 없는 사람에게 절대 송금하지 마세요. 돈을 요구하면 즉시 차단하세요.'
+            },
+            quishing: {
+                title: '큐싱 (QR 피싱)',
+                desc: '공공장소의 진짜 QR 코드 위에 가짜를 덧붙입니다. 스캔하면 가짜 사이트로 이동합니다.',
+                signs: [
+                    'QR 스티커가 덧붙여져 있음',
+                    '출처 없이 전송된 QR',
+                    '사이트에서 개인정보 요구',
+                    'URL이 이상함'
+                ],
+                solution: 'QR 스티커를 주의 깊게 확인하세요. Safety SHIELD로 스캔하여 URL을 미리 확인하세요.'
+            },
+            digital_arrest: {
+                title: '디지털 체포 (Digital Arrest)',
+                desc: '경찰/판사를 사칭해 영상 통화로 범죄 연루를 주장하며 "온라인 심문"을 명령합니다.',
+                signs: [
+                    '제복 착용 (종종 가짜 배경)',
+                    '범죄 현장에서 신분증 발견 주장',
+                    '전화를 끊지 못하게 함',
+                    '"안전 계좌"로 이체 요구'
+                ],
+                solution: '경찰/법원은 개인 영상 통화로 심문하지 않습니다. 전화를 끊고 가까운 경찰서로 가세요.'
+            }
+        }
+    },
     terms: {
-        title: 'Terms & Privacy',
-        subtitle: 'Please review and accept our policies to continue',
-        termsTitle: 'Terms of Service',
-        privacyTitle: 'Privacy Policy',
-        agreeLabel: 'I agree to the Terms of Service and Privacy Policy',
-        continue: 'Continue',
-        readMore: 'Read Full Policy',
-        intro: 'By using Safety SHIELD, you agree to protect yourself and others.',
-        termsContent: 'Safety SHIELD is provided "as is" to help you analyze links. We do not guarantee 100% detection of all threats. You are responsible for your own actions when browsing the web. We are not liable for any damages arising from the use of this app.',
-        privacyContent: 'Your data stays on your device. We do not collect your browsing history, personal information, or Safety PIN. All link analysis is performed locally on your phone. We do not share any data with third parties.',
+        title: '약관 및 개인정보 보호',
+        subtitle: '계속하려면 정책을 검토하고 동의해 주세요',
+        termsTitle: '서비스 약관',
+        privacyTitle: '개인정보 처리방침',
+        agreeLabel: '서비스 약관 및 개인정보 처리방침에 동의합니다',
+        continue: '계속',
+        readMore: '전체 정책 읽기',
+        intro: 'Safety SHIELD를 사용함으로써 귀하는 자신과 타인을 보호하는 데 동의하게 됩니다.',
+        termsContent: 'Safety SHIELD는 링크 분석을 돕기 위해 "있는 그대로" 제공됩니다. 모든 위협의 100% 감지를 보장하지 않습니다. 웹 검색 시 귀하의 행동에 대한 책임은 귀하에게 있습니다. 당사는 이 앱 사용으로 인해 발생하는 어떠한 손해에 대해서도 책임을 지지 않습니다.',
+        privacyContent: '귀하의 데이터는 기기에 유지됩니다. 당사는 귀하의 검색 기록, 개인 정보 또는 안전 PIN을 수집하지 않습니다. 모든 링크 분석은 귀하의 휴대폰에서 로컬로 수행됩니다. 당사는 제3자와 데이터를 공유하지 않습니다.',
     },
     finalOnboarding: {
-        title: 'Almost Done!',
-        subtitle: 'Two important things to keep you safe',
-        panicTitle: 'Panic Mode',
-        panicDesc: 'In an emergency, use Panic Mode to block all unknown links instantly.',
-        defaultTitle: 'Set as Default',
-        defaultDesc: 'Safety SHIELD works best when it handles all your links. Make it your default browser app.',
-        finishButton: 'Got it, let\'s go!',
+        title: '거의 다 됐습니다!',
+        subtitle: '안전을 유지하기 위한 두 가지 중요한 사항',
+        panicTitle: '패닉 모드',
+        panicDesc: '비상 시 패닉 모드를 사용하여 알 수 없는 모든 링크를 즉시 차단하세요.',
+        defaultTitle: '기본으로 설정',
+        defaultDesc: 'Safety SHIELD는 모든 링크를 처리할 때 가장 잘 작동합니다. 기본 브라우저 앱으로 설정하세요.',
+        finishButton: '알겠습니다, 시작합시다!',
     },
     homeGuide: {
-        welcome: 'Turn on Protection',
-        clickEnable: 'Please enter the Security Layer to activate the application.',
-        dismiss: 'Dismiss',
-        successTitle: 'You are Protected!',
-        successDesc: 'Great job! The app is now active.',
-        panicTitle: 'Maximum Security',
-        panicDesc: 'Enable Panic Mode to block EVERYTHING except trusted sites. Highly recommended!',
-        next: 'Next',
+        welcome: '보호 켜기',
+        clickEnable: '애플리케이션을 활성화하려면 보안 레이어를 입력하세요.',
+        dismiss: '닫기',
+        successTitle: '보호받고 있습니다!',
+        successDesc: '잘하셨습니다! 앱이 이제 활성화되었습니다.',
+        panicTitle: '최대 보안',
+        panicDesc: '패닉 모드를 활성화하여 신뢰할 수 있는 사이트를 제외한 모든 것을 차단하세요. 강력 추천!',
+        next: '다음',
     },
     news: {
-        title: 'Latest Security News',
-        noNews: 'No news available at the moment.',
-        readMore: 'Read full article',
+        title: '최신 보안 뉴스',
+        noNews: '현재 사용 가능한 뉴스가 없습니다.',
+        readMore: '전체 기사 읽기',
     },
 };

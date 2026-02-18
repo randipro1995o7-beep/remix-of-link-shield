@@ -25,6 +25,8 @@ export const my: TranslationKeys = {
         panicModeActiveDesc: 'Blocking all unknown links for maximum safety.',
         panicModeInactiveDesc: 'Turn on to block everything except trusted sites.',
         togglePanicMode: 'Toggle Panic Mode',
+        scamEducationTitle: 'Know all types of online scams',
+        scamEducationDesc: 'Complete guide to recognizing signs & solutions',
     },
 
     safety: {
@@ -35,6 +37,10 @@ export const my: TranslationKeys = {
         disableSafety: 'လုံခြုံရေးအဆင့်များ ခေတ္တရပ်ရန်',
         permissionsNeeded: 'ခွင့်ပြုချက်အချို့ ဦးစွာလိုအပ်ပါသည်',
         grantPermissions: 'ခွင့်ပြုချက် ပေးရန်',
+        setDefaultFirst: 'Set as default first',
+        setAsDefault: 'Set as Default Link Handler',
+        defaultHandlerSet: 'App is set as default link handler',
+        defaultHandlerNotSet: 'App is not set as default link handler',
     },
 
     settings: {
@@ -60,6 +66,20 @@ export const my: TranslationKeys = {
         premiumDesc: 'မှတ်တမ်းအပြည့်အစုံ၊ မိသားစုမုဒ် နှင့် အခြားအရာများ',
         whitelist: 'ယုံကြည်စိတ်ချရသော ဝဘ်ဆိုက်များ',
         whitelistDesc: 'လုံခြုံရေးစစ်ဆေးမှု ကျော်လွှားမည့် ဝဘ်ဆိုက်များကို စီမံပါ',
+        changePin: 'Change Safety PIN',
+        changePinDesc: 'Change PIN for link verification',
+        recovery: 'Password Recovery',
+        recoveryDesc: 'Set email & phone for PIN reset',
+        securityLogs: 'Security Logs',
+        securityLogsDesc: 'View security activity & audit trail',
+        selectLanguage: 'Select application language',
+        findAnswers: 'Find answers or get in touch',
+        faq: 'FAQ',
+        faq1: 'How does Safety SHIELD work?',
+        faq1Desc: 'Safety SHIELD helps you pause before opening links. This gives you time to consider link safety.',
+        faq2: 'Is my data safe?',
+        faq2Desc: 'Yes! All data is stored locally on your device. Nothing is sent to servers.',
+        contactUs: 'Contact Us',
     },
 
     biometrics: {
@@ -301,6 +321,81 @@ export const my: TranslationKeys = {
         show: 'ပြရန်',
         hide: 'ဖျောက်ရန်',
         close: 'ပိတ်ရန်',
+        next: 'ရှေ့သို့',
+        previous: 'နောက်သို့',
+        more: 'ပိုမို',
+        email: 'အီးမေးလ်',
+        twitter: 'Twitter / X',
+    },
+    a11y: {
+        close: 'ပိတ်ရန်',
+        previousSlide: 'ယခင် စလိုက်',
+        nextSlide: 'နောက် စလိုက်',
+        morePages: 'နောက်ထပ် စာမျက်နှာများ',
+        more: 'ပိုမို',
+    },
+    stats: {
+        safe: 'လုံခြုံသည်',
+        risky: 'အန္တရာယ်ရှိသည်',
+    },
+    recovery: {
+        saved: 'သိမ်းဆည်းပြီး',
+    },
+    premium: {
+        currTitle: 'ပရီမီယံ',
+    },
+    tutorial: {
+        online: 'အွန်လိုင်း',
+    },
+    languageSelection: {
+        notFound: 'ဘာသာစကား ရှာမတွေ့ပါ',
+    },
+    securityDashboard: {
+        title: 'လုံခြုံရေး ဒက်ရှ်ဘုတ်',
+        metrics: {
+            authAttempts: 'ဝင်ရောက်ရန် ကြိုးပမ်းမှုများ',
+            failedLogins: 'ဝင်ရောက်မှု မအောင်မြင်ပါ',
+            rootDetected: 'Root တွေ့ရှိသည်',
+            activeLocks: 'Active Locks',
+            last24h: 'လွန်ခဲ့သော ၂၄ နာရီ',
+            current: 'လက်ရှိ',
+        },
+        filters: {
+            eventType: 'ဖြစ်ရပ် အမျိုးအစား:',
+            severity: 'ပြင်းထန်မှု:',
+            allTypes: 'အားလုံး',
+            authSuccess: 'ဝင်ရောက်မှု အောင်မြင်သည်',
+            authFailure: 'ဝင်ရောက်မှု မအောင်မြင်ပါ',
+            accountLocked: 'အကောင့် ပိတ်ထားသည်',
+            otpGenerated: 'OTP ထုတ်ပေးပြီး',
+            otpVerified: 'OTP အတည်ပြုပြီး',
+            otpFailed: 'OTP မအောင်မြင်ပါ',
+            rootDetected: 'Root တွေ့ရှိသည်',
+            allSeverities: 'အဆင့်အားလုံး',
+            info: 'အချက်အလက်',
+            warning: 'သတိပေးချက်',
+            critical: 'အရေးကြီးသည်',
+        },
+        empty: 'လုံခြုံရေး ဖြစ်ရပ်များ မရှိပါ',
+        loading: 'လုံခြုံရေး ဒေတာများကို ဖွင့်နေသည်...',
+    },
+    privacyDetails: {
+        technicalTitle: 'နည်းပညာဆိုင်ရာ အသေးစိတ်',
+        storedEncrypted: 'လုံခြုံရေး PIN ကို Android encryption ဖြင့် သိမ်းဆည်းထားသည်',
+        localHistory: 'လင့်ခ်မှတ်တမ်းကို စက်ထဲတွင်သာ သိမ်းဆည်းထားသည်',
+        noNetwork: 'လင့်ခ်ခွဲခြမ်းစိတ်ဖြာရန် အင်တာနက် မလိုအပ်ပါ',
+        noThirdParty: 'ခွဲခြမ်းစိတ်ဖြာခြင်း သို့မဟုတ် ကြော်ငြာအတွက် ပြင်ပ SDK မရှိပါ',
+    },
+    aboutDetails: {
+        whatWeDo: 'Safety SHIELD ဘာလုပ်သလဲ',
+        pauseLinks: 'ပြင်ပလင့်ခ်များ မဖွင့်မီ ခေတ္တရပ်ပေးသည်',
+        basicInfo: 'လင့်ခ်သွားမည့်နေရာနှင့် ပတ်သက်သော အခြေခံအချက်အလက်များကို ပြသသည်',
+        thinkFirst: 'မသိသောလင့်ခ်များကို မနှိပ်မီ စဉ်းစားရန် ကူညီပေးသည်',
+        privateHistory: 'သင့်လင့်ခ်မှတ်တမ်းကို သင့်စက်ထဲတွင်သာ လုံခြုံစွာထားသည်',
+    },
+    notFound: {
+        title: '404',
+        message: 'Oh! စာမျက်နှာ ရှာမတွေ့ပါ',
     },
     // Missing keys added to prevent crash
     safetyTips: [
@@ -324,40 +419,127 @@ export const my: TranslationKeys = {
         thankYou: 'Thanks for your report!',
         noReports: 'No community reports yet',
     },
+
+    scamEducation: {
+        title: 'လိမ်လည်မှုများကို သိရှိပါ',
+        subtitle: 'အွန်လိုင်းအန္တရာယ်များအကြောင်း လေ့လာပါ',
+        readMore: 'ပိုမိုဖတ်ရှုရန် နှိပ်ပါ...',
+        signs: 'သတိပေး လက္ခဏာများ:',
+        solution: 'ကာကွယ်နည်းနှင့် ဖြေရှင်းနည်း:',
+        scams: {
+            phishing: {
+                title: 'Phishing (ဒေတာခိုးယူခြင်း)',
+                desc: 'လိမ်လည်သူများသည် စကားဝှက် သို့မဟုတ် PIN ကို ခိုးယူရန် တရားဝင်ပုံပေါက်သော (ဘဏ်ကဲ့သို့) အီးမေးလ်/မက်ဆေ့ခ်ျအတုများ ပေးပို့သည်။',
+                signs: [
+                    'အခမဲ့အီးမေးလ်အသုံးပြုခြင်း (gmail.com)',
+                    'အရေးတကြီး လုပ်ဆောင်ရန် လိုအပ်သည် ("အကောင့်ပိတ်သိမ်းခံရမည်!")',
+                    'ဆန်းကြယ်သော လင့်ခ်များ (bit.ly)',
+                    'PIN/စကားဝှက် တောင်းခံခြင်း'
+                ],
+                solution: 'သံသယဖြစ်ဖွယ် မက်ဆေ့ခ်ျများမှ လင့်ခ်များကို မနှိပ်ပါနှင့်။ ဘဏ်သို့ တိုက်ရိုက်ဆက်သွယ်ပါ။'
+            },
+            jobs: {
+                title: 'အလုပ်အကိုင် အတု',
+                desc: 'လွယ်ကူသောအလုပ် (ဥပမာ ဗီဒီယို Like လုပ်ခြင်း) အတွက် ဝင်ငွေများသော်လည်း ငွေကြိုသွင်းရန် လိုအပ်သည်။',
+                signs: [
+                    'ဝင်ငွေ လွန်စွာများခြင်း',
+                    'အလုပ်စရန် ငွေကြိုသွင်းခိုင်းခြင်း',
+                    'Telegram/WhatsApp ဖြင့်သာ ဆက်သွယ်ခြင်း',
+                    'တရားဝင် အင်တာဗျူး မရှိခြင်း'
+                ],
+                solution: 'သတိပြုပါ - အလုပ်လုပ်ရန် ငွေပေးရလျှင် ၎င်းသည် လိမ်လည်မှုဖြစ်သည်။ ငွေမလွှဲပါနှင့်။'
+            },
+            apk: {
+                title: 'APK ဖိုင် လိမ်လည်မှု',
+                desc: '"မင်္ဂလာဆောင်ဖိတ်စာ" သို့မဟုတ် "ပါဆယ်ဓာတ်ပုံ" ဟုဆိုကာ အန္တရာယ်ရှိသော အက်ပ်ဖိုင် (.apk) ကို ပေးပို့သည်။',
+                signs: [
+                    'ဖိုင်သည် .apk ဖြင့်ဆုံးသည်',
+                    'ပို့ဆောင်သူ သို့မဟုတ် သူငယ်ချင်းဟောင်းဟု ပြောဆိုသည်',
+                    'ဖိုင်ဖွင့်ရန် တိုက်တွန်းသည်',
+                    'ဖိုင်အိုင်ကွန် ထူးဆန်းသည်'
+                ],
+                solution: 'ဖိုင်များကို မထည့်သွင်းပါနှင့်/မဖွင့်ပါနှင့်။ ၎င်းသည် OTP ခိုးယူပြီး ဘဏ်ငွေများ ခိုးယူနိုင်သည်။'
+            },
+            giveaway: {
+                title: 'ဆုမဲ အတု',
+                desc: 'ဆုမဲပေါက်သည်ဟု ပြောသော်လည်း "ဝန်ဆောင်ခ" သို့မဟုတ် "အခွန်" ကြိုပေးရမည်။',
+                signs: [
+                    'သင် ပြိုင်ပွဲမဝင်ခဲ့ပါ',
+                    'ငွေကြိုပေးရန် တောင်းဆိုသည်',
+                    'ဆုယူရန် အချိန်ကန့်သတ်သည်',
+                    'သက်သေအထောက်အထား အတုများ'
+                ],
+                solution: 'ဆုအစစ်သည် ငွေကြိုတောင်းလေ့မရှိပါ။ အခွန်ကို ဆုကြေးမှ နှုတ်ယူပါမည်။'
+            },
+            love_scam: {
+                title: 'Romance Scam',
+                desc: 'အွန်လိုင်းမှ အချစ်ရေး တည်ဆောက်ပြီးနောက် "အရေးပေါ်" ဟုဆိုကာ ငွေချေးသည်။',
+                signs: [
+                    'ဆက်ဆံရေး အလွန်မြန်ဆန်သည်',
+                    'နိုင်ငံခြား/ချမ်းသာသူ/စစ်သား ဟု ပြောဆိုသည်',
+                    'ငွေချေးရန် အကြောင်းပြချက် အမြဲရှိသည်',
+                    'ဗီဒီယိုကော ခေါ်ဆိုရန် ငြင်းဆန်သည်'
+                ],
+                solution: 'လူချင်းမတွေ့ဖူးသူကို ငွေမလွှဲပါနှင့်။ ငွေချေးပါက ချက်ချင်း Block ပါ။'
+            },
+            quishing: {
+                title: 'Quishing (QR Phishing)',
+                desc: 'အများပြည်သူနေရာများတွင် QR Code အစစ်ပေါ် အတုကပ်ထားသည်။ စကင်န်ဖတ်ပါက ဝဘ်ဆိုက်အတုသို့ ရောက်ရှိမည်။',
+                signs: [
+                    'QR စတစ်ကာ ထပ်ကပ်ထားသည်',
+                    'အရင်းအမြစ်မရှိဘဲ ပို့လာသော QR',
+                    'ဝဘ်ဆိုက်က ကိုယ်ရေးအချက်အလက် တောင်းသည်',
+                    'URL ထူးဆန်းသည်'
+                ],
+                solution: 'QR စတစ်ကာကို သေချာစစ်ဆေးပါ။ URL ကို ကြိုတင်စစ်ဆေးရန် Safety SHIELD ဖြင့် စကင်န်ဖတ်ပါ။'
+            },
+            digital_arrest: {
+                title: 'Digital Arrest',
+                desc: 'ရဲ/တရားသူကြီး အဖြစ် ဗီဒီယိုကောခေါ်ပြီး ရာဇဝတ်မှုနှင့် ပတ်သက်နေသည်ဟုဆိုကာ "အွန်လိုင်းကြားနာမှု" ပြုလုပ်သည်။',
+                signs: [
+                    'ယူနီဖောင်း ဝတ်ထားသည် (နောက်ခံ အတုဖြစ်လေ့ရှိသည်)',
+                    'အခင်းဖြစ်ပွားရာတွင် မှတ်ပုံတင် တွေ့သည်ဟု ပြောသည်',
+                    'ဖုန်းမချရန် တားမြစ်သည်',
+                    '"လုံခြုံသော အကောင့်" သို့ ငွေလွှဲခိုင်းသည်'
+                ],
+                solution: 'ရဲ/တရားသူကြီး သည် ဗီဒီယိုကောဖြင့် ကြားနာလေ့မရှိပါ။ ဖုန်းချပြီး နီးစပ်ရာ ရဲစခန်းသို့ သွားရောက်ပါ။'
+            }
+        }
+    },
     terms: {
-        title: 'Terms & Privacy',
-        subtitle: 'Please review and accept our policies to continue',
-        termsTitle: 'Terms of Service',
-        privacyTitle: 'Privacy Policy',
-        agreeLabel: 'I agree to the Terms of Service and Privacy Policy',
-        continue: 'Continue',
-        readMore: 'Read Full Policy',
-        intro: 'By using Safety SHIELD, you agree to protect yourself and others.',
-        termsContent: 'Safety SHIELD is provided "as is" to help you analyze links. We do not guarantee 100% detection of all threats. You are responsible for your own actions when browsing the web. We are not liable for any damages arising from the use of this app.',
-        privacyContent: 'Your data stays on your device. We do not collect your browsing history, personal information, or Safety PIN. All link analysis is performed locally on your phone. We do not share any data with third parties.',
+        title: 'စည်းမျဉ်းများနှင့် ကိုယ်ရေးအချက်အလက်',
+        subtitle: 'ရှေ့ဆက်ရန် ကျွနု်ပ်တို့၏ မူဝါဒများကို ဖတ်ရှုလက်ခံပါ',
+        termsTitle: 'ဝန်ဆောင်မှု စည်းမျဉ်းများ',
+        privacyTitle: 'ကိုယ်ရေးအချက်အလက် မူဝါဒ',
+        agreeLabel: 'ဝန်ဆောင်မှု စည်းမျဉ်းများနှင့် ကိုယ်ရေးအချက်အလက် မူဝါဒကို သဘောတူပါသည်',
+        continue: 'ဆက်လုပ်မည်',
+        readMore: 'မူဝါဒအပြည့်အစုံ ဖတ်ရန်',
+        intro: 'Safety SHIELD ကို အသုံးပြုခြင်းဖြင့် သင်သည် ကိုယ်တိုင်နှင့် အခြားသူများကို ကာကွယ်ရန် သဘောတူပါသည်။',
+        termsContent: 'Safety SHIELD ကို လင့်ခ်များ ခွဲခြမ်းစိတ်ဖြာရန် ကူညီပေးသည့် "အတိုင်း" ပံ့ပိုးပေးထားပါသည်။ ခြိမ်းခြောက်မှုအားလုံးကို ၁၀၀% တွေ့ရှိနိုင်မည်ဟု အာမမခံနိုင်ပါ။ ဝဘ်ကြည့်ရှုရာတွင် သင့်လုပ်ဆောင်ချက်များအတွက် သင့်တွင် တာဝန်ရှိပါသည်။ ဤအက်ပ်ကို အသုံးပြုခြင်းကြောင့် ဖြစ်ပေါ်လာသော ပျက်စီးဆုံးရှုံးမှုများအတွက် ကျွန်ုပ်တို့ တာဝန်မယူပါ။',
+        privacyContent: 'သင့်ဒေတာများသည် သင့်စက်ထဲတွင်သာ ရှိနေပါသည်။ ကျွန်ုပ်တို့သည် သင့်ကြည့်ရှုမှုမှတ်တမ်း၊ ကိုယ်ရေးအချက်အလက် သို့မဟုတ် လုံခြုံရေး PIN ကို မကောက်ယူပါ။ လင့်ခ်ခွဲခြမ်းစိတ်ဖြာမှုအားလုံးကို သင့်ဖုန်းတွင်သာ ပြုလုပ်ပါသည်။ ကျွန်ုပ်တို့သည် မည်သည့်ဒေတာကိုမျှ ပြင်ပအဖွဲ့အစည်းများနှင့် မျှဝေခြင်းမရှိပါ။',
     },
     finalOnboarding: {
-        title: 'Almost Done!',
-        subtitle: 'Two important things to keep you safe',
-        panicTitle: 'Panic Mode',
-        panicDesc: 'In an emergency, use Panic Mode to block all unknown links instantly.',
-        defaultTitle: 'Set as Default',
-        defaultDesc: 'Safety SHIELD works best when it handles all your links. Make it your default browser app.',
-        finishButton: 'Got it, let\'s go!',
+        title: 'ပြီးခါနီးပါပြီ!',
+        subtitle: 'သင့်လုံခြုံရေးအတွက် အရေးကြီးသော အချက်နှစ်ချက်',
+        panicTitle: 'ထိတ်လန့်မှု မုဒ်',
+        panicDesc: 'အရေးပေါ်အခြေအနေတွင် မသိသောလင့်ခ်များအားလုံးကို ချက်ချင်းပိတ်ပင်ရန် ထိတ်လန့်မှု မုဒ်ကို အသုံးပြုပါ။',
+        defaultTitle: 'မူလအဖြစ် သတ်မှတ်ရန်',
+        defaultDesc: 'Safety SHIELD သည် သင့်လင့်ခ်အားလုံးကို ကိုင်တွယ်သောအခါ အကောင်းဆုံး အလုပ်လုပ်သည်။ ၎င်းကို သင့်မူလ ဘရောက်ဆာအက်ပ်အဖြစ် သတ်မှတ်ပါ။',
+        finishButton: 'ရပြီ၊ သွားကြစို့!',
     },
     homeGuide: {
-        welcome: 'Turn on Protection',
-        clickEnable: 'Please enter the Security Layer to activate the application.',
-        dismiss: 'Dismiss',
-        successTitle: 'You are Protected!',
-        successDesc: 'Great job! The app is now active.',
-        panicTitle: 'Maximum Security',
-        panicDesc: 'Enable Panic Mode to block EVERYTHING except trusted sites. Highly recommended!',
-        next: 'Next',
+        welcome: 'ကာကွယ်မှု ဖွင့်ရန်',
+        clickEnable: 'အက်ပ်လီကေးရှင်းကို ဖွင့်ရန် လုံခြုံရေးအလွှာကို ထည့်သွင်းပါ။',
+        dismiss: 'ပိတ်ရန်',
+        successTitle: 'သင့်ကို ကာကွယ်ထားပါပြီ!',
+        successDesc: 'ကောင်းပါတယ်! အက်ပ်သည် ယခု အလုပ်လုပ်နေပါပြီ။',
+        panicTitle: 'အမြင့်ဆုံး လုံခြုံရေး',
+        panicDesc: 'ယုံကြည်စိတ်ချရသော ဝဘ်ဆိုက်များမှလွဲ၍ အားလုံးကို ပိတ်ပင်ရန် ထိတ်လန့်မှု မုဒ်ကို ဖွင့်ပါ။ အထူးအကြံပြုပါသည်!',
+        next: 'ရှေ့သို့',
     },
     news: {
-        title: 'Latest Security News',
-        noNews: 'No news available at the moment.',
-        readMore: 'Read full article',
+        title: 'နောက်ဆုံးရ လုံခြုံရေး သတင်းများ',
+        noNews: 'လောလောဆယ် သတင်းမရှိပါ။',
+        readMore: 'ဆောင်းပါးအပြည့်အစုံ ဖတ်ရန်',
     },
 };

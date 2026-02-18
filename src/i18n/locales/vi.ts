@@ -25,16 +25,22 @@ export const vi: TranslationKeys = {
         panicModeActiveDesc: 'Blocking all unknown links for maximum safety.',
         panicModeInactiveDesc: 'Turn on to block everything except trusted sites.',
         togglePanicMode: 'Toggle Panic Mode',
+        scamEducationTitle: 'Know all types of online scams',
+        scamEducationDesc: 'Complete guide to recognizing signs & solutions',
     },
 
     safety: {
-        title: 'Cài Đặt An Toàn',
+        title: 'Cài đặt An toàn',
         enabled: 'Các bước an toàn đang bật',
         disabled: 'Các bước an toàn đang tắt',
-        enableSafety: 'Bật Các Bước An Toàn',
-        disableSafety: 'Tạm Dừng Các Bước An Toàn',
+        enableSafety: 'Bật Các bước An toàn',
+        disableSafety: 'Tạm dừng Các bước An toàn',
         permissionsNeeded: 'Chúng tôi cần một số quyền trước',
         grantPermissions: 'Cấp Quyền',
+        setDefaultFirst: 'Set as default first',
+        setAsDefault: 'Set as Default Link Handler',
+        defaultHandlerSet: 'App is set as default link handler',
+        defaultHandlerNotSet: 'App is not set as default link handler',
     },
 
     settings: {
@@ -60,6 +66,20 @@ export const vi: TranslationKeys = {
         premiumDesc: 'Lịch sử mở rộng, Chế độ Gia đình & nhiều hơn nữa',
         whitelist: 'Trang web Tin cậy',
         whitelistDesc: 'Quản lý các trang web bỏ qua kiểm tra an toàn',
+        changePin: 'Change Safety PIN',
+        changePinDesc: 'Change PIN for link verification',
+        recovery: 'Password Recovery',
+        recoveryDesc: 'Set email & phone for PIN reset',
+        securityLogs: 'Security Logs',
+        securityLogsDesc: 'View security activity & audit trail',
+        selectLanguage: 'Select application language',
+        findAnswers: 'Find answers or get in touch',
+        faq: 'FAQ',
+        faq1: 'How does Safety SHIELD work?',
+        faq1Desc: 'Safety SHIELD helps you pause before opening links. This gives you time to consider link safety.',
+        faq2: 'Is my data safe?',
+        faq2Desc: 'Yes! All data is stored locally on your device. Nothing is sent to servers.',
+        contactUs: 'Contact Us',
     },
 
     biometrics: {
@@ -301,6 +321,11 @@ export const vi: TranslationKeys = {
         show: 'Hiện',
         hide: 'Ẩn',
         close: 'Đóng',
+        next: 'Tiếp theo',
+        previous: 'Trước',
+        more: 'Thêm',
+        email: 'Email',
+        twitter: 'Twitter / X',
     },
     // Missing keys added to prevent crash
     safetyTips: [
@@ -316,48 +341,206 @@ export const vi: TranslationKeys = {
         'Report suspicious activity to your service provider.',
     ],
     communityReputation: {
-        title: 'Community Trust',
-        description: 'users trust this website',
-        votes: 'votes',
-        voteSafe: 'Mark as Safe',
-        voteSuspicious: 'Report Suspicious',
-        thankYou: 'Thanks for your report!',
-        noReports: 'No community reports yet',
+        title: 'Độ Tin Cậy Cộng Đồng',
+        description: 'người dùng tin tưởng trang web này',
+        votes: 'phiếu bầu',
+        voteSafe: 'Đánh dấu An toàn',
+        voteSuspicious: 'Báo cáo Đáng ngờ',
+        thankYou: 'Cảm ơn báo cáo của bạn!',
+        noReports: 'Chưa có báo cáo cộng đồng',
+    },
+
+    scamEducation: {
+        title: 'Nhận biết Lừa đảo',
+        subtitle: 'Tìm hiểu về các mối đe dọa trực tuyến',
+        readMore: 'Nhấn để đọc thêm...',
+        signs: 'Dấu hiệu Cảnh báo:',
+        solution: 'Phòng ngừa & Giải pháp:',
+        scams: {
+            phishing: {
+                title: 'Phishing (Đánh cắp dữ liệu)',
+                desc: 'Kẻ lừa đảo gửi email/tin nhắn giả mạo trông giống chính thức (ngân hàng/chuyển phát) để đánh cắp mật khẩu hoặc PIN.',
+                signs: [
+                    'Gửi từ email miễn phí (gmail.com)',
+                    'Yêu cầu hành động gấp ("Tài khoản sẽ bị khóa!")',
+                    'Liên kết lạ hoặc rút gọn (bit.ly)',
+                    'Yêu cầu cung cấp PIN/mật khẩu'
+                ],
+                solution: 'Không bao giờ nhấp vào liên kết lạ. Liên hệ trực tiếp với ngân hàng/tổ chức.'
+            },
+            jobs: {
+                title: 'Việc làm giả mạo',
+                desc: 'Mức lương cao cho nhiệm vụ đơn giản (như like video), nhưng yêu cầu bạn nạp tiền trước.',
+                signs: [
+                    'Lương quá cao vô lý',
+                    'Yêu cầu nạp tiền để "mở khóa nhiệm vụ"',
+                    'Chỉ liên lạc qua Telegram/WhatsApp',
+                    'Không phỏng vấn chính thức'
+                ],
+                solution: 'Hãy nhớ: Nếu bạn phải trả tiền để được làm việc, đó là LỪA ĐẢO. Không chuyển tiền.'
+            },
+            apk: {
+                title: 'Lừa đảo tệp APK',
+                desc: 'Gửi tệp ứng dụng độc hại (.apk) giả dạng "Thiệp cưới" hoặc "Ảnh đơn hàng".',
+                signs: [
+                    'Tệp có đuôi .apk',
+                    'Tự xưng là shipper hoặc bạn cũ',
+                    'Hối thúc bạn mở tệp',
+                    'Biểu tượng tệp lạ'
+                ],
+                solution: 'KHÔNG BAO GIỜ cài đặt/mở tệp .apk từ tin nhắn. Nó có thể đánh cắp mã OTP và rút sạch tiền ngân hàng.'
+            },
+            giveaway: {
+                title: 'Giải thưởng giả mạo',
+                desc: 'Thông báo bạn trúng thưởng nhưng phải nộp "phí hồ sơ" hoặc "thuế" trước.',
+                signs: [
+                    'Bạn chưa từng tham gia cuộc thi nào',
+                    'Yêu cầu chuyển phí trước',
+                    'Hối thúc nhận thưởng gấp',
+                    'Lời chứng thực giả'
+                ],
+                solution: 'Giải thưởng thật không yêu cầu phí trước. Thuế sẽ trừ vào giải thưởng.'
+            },
+            love_scam: {
+                title: 'Lừa đảo tình cảm',
+                desc: 'Xây dựng mối quan hệ tình cảm online vội vàng, sau đó hỏi vay tiền vì "khẩn cấp".',
+                signs: [
+                    'Mối quan hệ tiến triển quá nhanh',
+                    'Tự xưng là người nước ngoài/quân nhân/giàu có',
+                    'Luôn có lý do để mượn tiền',
+                    'Từ chối gọi video'
+                ],
+                solution: 'Không chuyển tiền cho người chưa gặp mặt. Chặn ngay nếu hỏi mượn tiền.'
+            },
+            quishing: {
+                title: 'Quishing (Lừa đảo QR)',
+                desc: 'Dán mã QR giả đè lên mã thật ở nơi công cộng. Quét mã sẽ dẫn đến trang web giả mạo.',
+                signs: [
+                    'Mã QR bị dán đè lên',
+                    'QR gửi không có ngữ cảnh',
+                    'Trang web yêu cầu thông tin cá nhân',
+                    'URL trông lạ'
+                ],
+                solution: 'Kiểm tra kỹ mã QR. Sử dụng Safety SHIELD để quét và kiểm tra URL trước.'
+            },
+            digital_arrest: {
+                title: 'Bắt giữ kỹ thuật số',
+                desc: 'Giả danh công an/viện kiểm sát gọi Video, dọa bạn dính líu vụ án và đòi "phiên tòa online".',
+                signs: [
+                    'Mặc cảnh phục (thường là phông nền giả)',
+                    'Dọa giấy tờ của bạn liên quan tội phạm',
+                    'Cấm cúp máy',
+                    'Đòi chuyển tiền vào "tài khoản an toàn" để kiểm tra'
+                ],
+                solution: 'Công an KHÔNG BAO GIỜ làm việc qua Video Call cá nhân. Cúp máy và đến trụ sở công an gần nhất xác minh.'
+            }
+        }
     },
     terms: {
-        title: 'Terms & Privacy',
-        subtitle: 'Please review and accept our policies to continue',
-        termsTitle: 'Terms of Service',
-        privacyTitle: 'Privacy Policy',
-        agreeLabel: 'I agree to the Terms of Service and Privacy Policy',
-        continue: 'Continue',
-        readMore: 'Read Full Policy',
-        intro: 'By using Safety SHIELD, you agree to protect yourself and others.',
-        termsContent: 'Safety SHIELD is provided "as is" to help you analyze links. We do not guarantee 100% detection of all threats. You are responsible for your own actions when browsing the web. We are not liable for any damages arising from the use of this app.',
-        privacyContent: 'Your data stays on your device. We do not collect your browsing history, personal information, or Safety PIN. All link analysis is performed locally on your phone. We do not share any data with third parties.',
+        title: 'Điều khoản & Quyền riêng tư',
+        subtitle: 'Vui lòng xem và chấp nhận các chính sách của chúng tôi để tiếp tục',
+        termsTitle: 'Điều khoản Dịch vụ',
+        privacyTitle: 'Chính sách Quyền riêng tư',
+        agreeLabel: 'Tôi đồng ý với Điều khoản Dịch vụ và Chính sách Quyền riêng tư',
+        continue: 'Tiếp tục',
+        readMore: 'Đọc toàn bộ chính sách',
+        intro: 'Bằng cách sử dụng Safety SHIELD, bạn đồng ý bảo vệ bản thân và những người khác.',
+        termsContent: 'Safety SHIELD được cung cấp "nguyên trạng" để giúp bạn phân tích các liên kết. Chúng tôi không đảm bảo phát hiện 100% các mối đe dọa. Bạn chịu trách nhiệm về hành động của mình khi duyệt web. Chúng tôi không chịu trách nhiệm về bất kỳ thiệt hại nào phát sinh từ việc sử dụng ứng dụng này.',
+        privacyContent: 'Dữ liệu của bạn ở lại trên thiết bị của bạn. Chúng tôi không thu thập lịch sử duyệt web, thông tin cá nhân hoặc Mã PIN An toàn của bạn. Mọi phân tích liên kết được thực hiện cục bộ trên điện thoại của bạn. Chúng tôi không chia sẻ bất kỳ dữ liệu nào với bên thứ ba.',
     },
     finalOnboarding: {
-        title: 'Almost Done!',
-        subtitle: 'Two important things to keep you safe',
-        panicTitle: 'Panic Mode',
-        panicDesc: 'In an emergency, use Panic Mode to block all unknown links instantly.',
-        defaultTitle: 'Set as Default',
-        defaultDesc: 'Safety SHIELD works best when it handles all your links. Make it your default browser app.',
-        finishButton: 'Got it, let\'s go!',
+        title: 'Gần xong rồi!',
+        subtitle: 'Hai điều quan trọng để giữ an toàn cho bạn',
+        panicTitle: 'Chế độ Khẩn cấp',
+        panicDesc: 'Trong trường hợp khẩn cấp, hãy sử dụng Chế độ Khẩn cấp để chặn tất cả các liên kết không xác định ngay lập tức.',
+        defaultTitle: 'Đặt làm Mặc định',
+        defaultDesc: 'Safety SHIELD hoạt động tốt nhất khi xử lý tất cả các liên kết của bạn. Hãy đặt nó làm ứng dụng trình duyệt mặc định của bạn.',
+        finishButton: 'Đã hiểu, đi thôi!',
     },
     homeGuide: {
-        welcome: 'Turn on Protection',
-        clickEnable: 'Please enter the Security Layer to activate the application.',
-        dismiss: 'Dismiss',
-        successTitle: 'You are Protected!',
-        successDesc: 'Great job! The app is now active.',
-        panicTitle: 'Maximum Security',
-        panicDesc: 'Enable Panic Mode to block EVERYTHING except trusted sites. Highly recommended!',
-        next: 'Next',
+        welcome: 'Bật Bảo vệ',
+        clickEnable: 'Vui lòng nhập Lớp Bảo mật để kích hoạt ứng dụng.',
+        dismiss: 'Bỏ qua',
+        successTitle: 'Bạn đã được Bảo vệ!',
+        successDesc: 'Làm tốt lắm! Ứng dụng hiện đã hoạt động.',
+        panicTitle: 'Bảo mật Tối đa',
+        panicDesc: 'Bật Chế độ Khẩn cấp để chặn MỌI THỨ ngoại trừ các trang web tin cậy. Rất khuyến khích!',
+        next: 'Tiếp theo',
     },
     news: {
-        title: 'Latest Security News',
-        noNews: 'No news available at the moment.',
-        readMore: 'Read full article',
+        title: 'Tin tức Bảo mật Mới nhất',
+        noNews: 'Hiện không có tin tức nào.',
+        readMore: 'Đọc bài viết đầy đủ',
+    },
+
+    a11y: {
+        close: 'Đóng',
+        previousSlide: 'Slide trước',
+        nextSlide: 'Slide tiếp theo',
+        morePages: 'Thêm trang',
+        more: 'Thêm',
+    },
+    stats: {
+        safe: 'An toàn',
+        risky: 'Rủi ro',
+    },
+    recovery: {
+        saved: 'Đã lưu',
+    },
+    premium: {
+        currTitle: 'Premium',
+    },
+    tutorial: {
+        online: 'Trực tuyến',
+    },
+    languageSelection: {
+        notFound: 'Không tìm thấy ngôn ngữ',
+    },
+    securityDashboard: {
+        title: 'Bảng điều khiển Bảo mật',
+        metrics: {
+            authAttempts: 'Nỗ lực Đăng nhập',
+            failedLogins: 'Đăng nhập Thất bại',
+            rootDetected: 'Phát hiện Root',
+            activeLocks: 'Khóa Đang hoạt động',
+            last24h: '24g qua',
+            current: 'Hiện tại',
+        },
+        filters: {
+            eventType: 'Loại sự kiện:',
+            severity: 'Mức độ:',
+            allTypes: 'Tất cả loại',
+            authSuccess: 'Đăng nhập Thành công',
+            authFailure: 'Đăng nhập Thất bại',
+            accountLocked: 'Tài khoản bị khóa',
+            otpGenerated: 'Đã tạo OTP',
+            otpVerified: 'Đã xác minh OTP',
+            otpFailed: 'OTP Thất bại',
+            rootDetected: 'Phát hiện Root',
+            allSeverities: 'Tất cả mức độ',
+            info: 'Thông tin',
+            warning: 'Cảnh báo',
+            critical: 'Nghiêm trọng',
+        },
+        empty: 'Không tìm thấy sự kiện bảo mật',
+        loading: 'Đang tải dữ liệu bảo mật...',
+    },
+    privacyDetails: {
+        technicalTitle: 'Chi tiết Kỹ thuật',
+        storedEncrypted: 'Mã PIN An toàn được lưu trữ bằng mã hóa Android',
+        localHistory: 'Lịch sử liên kết chỉ được lưu trữ trên thiết bị',
+        noNetwork: 'Không có yêu cầu mạng nào được thực hiện để phân tích liên kết',
+        noThirdParty: 'Không có SDK bên thứ ba để phân tích hoặc quảng cáo',
+    },
+    aboutDetails: {
+        whatWeDo: 'Safety SHIELD Làm gì',
+        pauseLinks: 'Thêm một khoảng dừng trước khi mở liên kết bên ngoài',
+        basicInfo: 'Hiển thị thông tin cơ bản về đích đến của liên kết',
+        thinkFirst: 'Giúp bạn suy nghĩ trước khi nhấp vào liên kết lạ',
+        privateHistory: 'Giữ lịch sử liên kết của bạn riêng tư trên thiết bị',
+    },
+    notFound: {
+        title: '404',
+        message: 'Rất tiếc! Không tìm thấy trang',
     },
 };

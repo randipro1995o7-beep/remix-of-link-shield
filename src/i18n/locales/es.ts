@@ -24,7 +24,9 @@ export const es: TranslationKeys = {
         panicMode: 'Panic Mode',
         panicModeActiveDesc: 'Bloqueando todos los enlaces desconocidos para máxima seguridad.',
         panicModeInactiveDesc: 'Activar para bloquear todo excepto sitios de confianza.',
-        togglePanicMode: 'Alternar Panic Mode',
+        togglePanicMode: 'Alternar Modo Pánico',
+        scamEducationTitle: 'Know all types of online scams',
+        scamEducationDesc: 'Complete guide to recognizing signs & solutions',
     },
 
     safety: {
@@ -34,7 +36,11 @@ export const es: TranslationKeys = {
         enableSafety: 'Habilitar pasos de seguridad',
         disableSafety: 'Pausar pasos de seguridad',
         permissionsNeeded: 'Necesitamos algunos permisos primero',
-        grantPermissions: 'Conceder permisos',
+        grantPermissions: 'Conceder Permisos',
+        setDefaultFirst: 'Set as default first',
+        setAsDefault: 'Set as Default Link Handler',
+        defaultHandlerSet: 'App is set as default link handler',
+        defaultHandlerNotSet: 'App is not set as default link handler',
     },
 
     settings: {
@@ -59,7 +65,21 @@ export const es: TranslationKeys = {
         premium: 'Funciones Premium',
         premiumDesc: 'Más historial, modo familiar y más',
         whitelist: 'Sitios de confianza',
-        whitelistDesc: 'Gestione los sitios que omiten las comprobaciones de seguridad',
+        whitelistDesc: 'Administrar sitios que omiten las comprobaciones de seguridad',
+        changePin: 'Change Safety PIN',
+        changePinDesc: 'Change PIN for link verification',
+        recovery: 'Password Recovery',
+        recoveryDesc: 'Set email & phone for PIN reset',
+        securityLogs: 'Security Logs',
+        securityLogsDesc: 'View security activity & audit trail',
+        selectLanguage: 'Select application language',
+        findAnswers: 'Find answers or get in touch',
+        faq: 'FAQ',
+        faq1: 'How does Safety SHIELD work?',
+        faq1Desc: 'Safety SHIELD helps you pause before opening links. This gives you time to consider link safety.',
+        faq2: 'Is my data safe?',
+        faq2Desc: 'Yes! All data is stored locally on your device. Nothing is sent to servers.',
+        contactUs: 'Contact Us',
     },
 
     biometrics: {
@@ -301,6 +321,81 @@ export const es: TranslationKeys = {
         show: 'Mostrar',
         hide: 'Ocultar',
         close: 'Cerrar',
+        next: 'Siguiente',
+        previous: 'Anterior',
+        more: 'Más',
+        email: 'Correo',
+        twitter: 'Twitter / X',
+    },
+    a11y: {
+        close: 'Cerrar',
+        previousSlide: 'Diapositiva anterior',
+        nextSlide: 'Siguiente diapositiva',
+        morePages: 'Más páginas',
+        more: 'Más',
+    },
+    stats: {
+        safe: 'Seguro',
+        risky: 'Arriesgado',
+    },
+    recovery: {
+        saved: 'Guardado',
+    },
+    premium: {
+        currTitle: 'Premium',
+    },
+    tutorial: {
+        online: 'En línea',
+    },
+    languageSelection: {
+        notFound: 'Idioma no encontrado',
+    },
+    securityDashboard: {
+        title: 'Panel de Seguridad',
+        metrics: {
+            authAttempts: 'Intentos de Auth',
+            failedLogins: 'Logins Fallidos',
+            rootDetected: 'Root Detectado',
+            activeLocks: 'Bloqueos Activos',
+            last24h: 'Últimas 24h',
+            current: 'Actual',
+        },
+        filters: {
+            eventType: 'Tipo de Evento:',
+            severity: 'Gravedad:',
+            allTypes: 'Todos los Tipos',
+            authSuccess: 'Auth Exitosa',
+            authFailure: 'Fallo de Auth',
+            accountLocked: 'Cuenta Bloqueada',
+            otpGenerated: 'OTP Generado',
+            otpVerified: 'OTP Verificado',
+            otpFailed: 'OTP Fallido',
+            rootDetected: 'Root Detectado',
+            allSeverities: 'Todos los Niveles',
+            info: 'Info',
+            warning: 'Advertencia',
+            critical: 'Crítico',
+        },
+        empty: 'No se encontraron eventos de seguridad',
+        loading: 'Cargando datos de seguridad...',
+    },
+    privacyDetails: {
+        technicalTitle: 'Detalles Técnicos',
+        storedEncrypted: 'El PIN de seguridad se almacena usando encriptación de Android',
+        localHistory: 'El historial de enlaces se almacena localmente en el dispositivo solamente',
+        noNetwork: 'No hay solicitudes de red para el análisis de enlaces',
+        noThirdParty: 'No hay SDKs de terceros para análisis o publicidad',
+    },
+    aboutDetails: {
+        whatWeDo: 'Qué hace Safety SHIELD',
+        pauseLinks: 'Añade una pausa antes de abrir enlaces externos',
+        basicInfo: 'Muestra información básica sobre el destino del enlace',
+        thinkFirst: 'Le ayuda a pensar antes de hacer clic en un enlace desconocido',
+        privateHistory: 'Mantiene su historial de enlaces privado en su dispositivo',
+    },
+    notFound: {
+        title: '404',
+        message: '¡Uy! Página no encontrada',
     },
     // Missing keys added to prevent crash
     safetyTips: [
@@ -324,40 +419,127 @@ export const es: TranslationKeys = {
         thankYou: 'Thanks for your report!',
         noReports: 'No community reports yet',
     },
+
+    scamEducation: {
+        title: 'Conozca las Estafas',
+        subtitle: 'Aprenda sobre amenazas comunes en línea',
+        readMore: 'Toque para leer más...',
+        signs: 'Señales de advertencia:',
+        solution: 'Prevención y solución:',
+        scams: {
+            phishing: {
+                title: 'Phishing (Robo de datos)',
+                desc: 'Los estafadores envían correos/mensajes falsos que parecen oficiales (ej. banco) para robar contraseñas o PINs.',
+                signs: [
+                    'Uso de correo gratuito (gmail.com)',
+                    'Urgencia para actuar ("¡Cuenta suspendida!")',
+                    'Enlaces extraños (bit.ly)',
+                    'Solicitud de PIN/contraseña'
+                ],
+                solution: 'Nunca haga clic en enlaces de mensajes sospechosos. Contacte al banco directamente.'
+            },
+            jobs: {
+                title: 'Trabajos falsos',
+                desc: 'Altos ingresos por tareas simples (ej. dar like a videos) pero requiere pago previo.',
+                signs: [
+                    'Ingresos irrealmente altos',
+                    'Solicitud de pago para "empezar a trabajar"',
+                    'Comunicación solo por Telegram/WhatsApp',
+                    'Sin entrevista oficial'
+                ],
+                solution: 'Recuerde: si tiene que pagar para trabajar, es una estafa. No envíe dinero.'
+            },
+            apk: {
+                title: 'Estafa de archivos APK',
+                desc: 'Envío de archivo de aplicación malicioso (.apk) fingiendo ser "invitación de boda" o "foto de paquete".',
+                signs: [
+                    'Archivo termina en .apk',
+                    'Se hace pasar por mensajero o amigo',
+                    'Presiona para abrir el archivo',
+                    'Icono del archivo se ve extraño'
+                ],
+                solution: 'Nunca instale/abra archivos .apk de chats. Pueden robar contraseñas y vaciar cuentas.'
+            },
+            giveaway: {
+                title: 'Sorteos falsos',
+                desc: 'Aviso de que ganó un premio pero debe pagar "tarifas" o "impuestos" primero.',
+                signs: [
+                    'No participó en ningún concurso',
+                    'Solicitud de pago por adelantado',
+                    'Urgencia para reclamar el premio',
+                    'Testimonios falsos'
+                ],
+                solution: 'Los premios reales no piden pago por adelantado. Los impuestos se deducen del premio.'
+            },
+            love_scam: {
+                title: 'Estafa romántica',
+                desc: 'Construir una relación en línea y luego pedir dinero por una "emergencia".',
+                signs: [
+                    'Relación avanza muy rápido',
+                    'Dice estar en el extranjero/rico/militar',
+                    'Siempre tiene razón para pedir dinero',
+                    'Rechaza videollamadas'
+                ],
+                solution: 'No envíe dinero a quien nunca ha visto en persona. Bloquee inmediatamente si piden dinero.'
+            },
+            quishing: {
+                title: 'Quishing (Phishing por QR)',
+                desc: 'Pegar código QR falso sobre el real en lugares públicos. Al escanear lleva a sitio falso.',
+                signs: [
+                    'Adhesivo QR sobre otro',
+                    'QR enviado sin fuente',
+                    'Sitio pide datos personales',
+                    'URL se ve extraña'
+                ],
+                solution: 'Revise bien el adhesivo QR. Use Safety SHIELD para escanear y verificar la URL antes.'
+            },
+            digital_arrest: {
+                title: 'Arresto Digital',
+                desc: 'Se hace pasar por policía/juez por videollamada, alega implicación en crimen y ordena "interrogatorio en línea".',
+                signs: [
+                    'Usa uniforme (fondo falso a menudo)',
+                    'Dice haber encontrado su ID en escena del crimen',
+                    'Prohíbe colgar la llamada',
+                    'Pide transferencia a "cuenta segura"'
+                ],
+                solution: 'Policía/Juzgado no interrogan por videollamada personal. Cuelgue y vaya a la estación más cercana.'
+            }
+        }
+    },
     terms: {
-        title: 'Terms & Privacy',
-        subtitle: 'Please review and accept our policies to continue',
-        termsTitle: 'Terms of Service',
-        privacyTitle: 'Privacy Policy',
-        agreeLabel: 'I agree to the Terms of Service and Privacy Policy',
-        continue: 'Continue',
-        readMore: 'Read Full Policy',
-        intro: 'By using Safety SHIELD, you agree to protect yourself and others.',
-        termsContent: 'Safety SHIELD is provided "as is" to help you analyze links. We do not guarantee 100% detection of all threats. You are responsible for your own actions when browsing the web. We are not liable for any damages arising from the use of this app.',
-        privacyContent: 'Your data stays on your device. We do not collect your browsing history, personal information, or Safety PIN. All link analysis is performed locally on your phone. We do not share any data with third parties.',
+        title: 'Términos y Privacidad',
+        subtitle: 'Por favor revise y acepte nuestras políticas para continuar',
+        termsTitle: 'Términos de Servicio',
+        privacyTitle: 'Política de Privacidad',
+        agreeLabel: 'Estoy de acuerdo con los Términos de Servicio y la Política de Privacidad',
+        continue: 'Continuar',
+        readMore: 'Leer Política Completa',
+        intro: 'Al usar Safety SHIELD, acepta protegerse a sí mismo y a los demás.',
+        termsContent: 'Safety SHIELD se proporciona "tal cual" para ayudarle a analizar enlaces. No garantizamos la detección del 100% de todas las amenazas. Usted es responsable de sus propias acciones al navegar por la web. No somos responsables de ningún daño derivado del uso de esta aplicación.',
+        privacyContent: 'Sus datos permanecen en su dispositivo. No recopilamos su historial de navegación, información personal o PIN de seguridad. Todo el análisis de enlaces se realiza localmente en su teléfono. No compartimos ningún dato con terceros.',
     },
     finalOnboarding: {
-        title: 'Almost Done!',
-        subtitle: 'Two important things to keep you safe',
-        panicTitle: 'Panic Mode',
-        panicDesc: 'In an emergency, use Panic Mode to block all unknown links instantly.',
-        defaultTitle: 'Set as Default',
-        defaultDesc: 'Safety SHIELD works best when it handles all your links. Make it your default browser app.',
-        finishButton: 'Got it, let\'s go!',
+        title: '¡Casi Listo!',
+        subtitle: 'Dos cosas importantes para mantenerle seguro',
+        panicTitle: 'Modo Pánico',
+        panicDesc: 'En una emergencia, use el Modo Pánico para bloquear todos los enlaces desconocidos al instante.',
+        defaultTitle: 'Establecer como predeterminado',
+        defaultDesc: 'Safety SHIELD funciona mejor cuando maneja todos sus enlaces. Húgalo su navegador predeterminado.',
+        finishButton: '¡Entendido, vamos!',
     },
     homeGuide: {
-        welcome: 'Turn on Protection',
-        clickEnable: 'Please enter the Security Layer to activate the application.',
-        dismiss: 'Dismiss',
-        successTitle: 'You are Protected!',
-        successDesc: 'Great job! The app is now active.',
-        panicTitle: 'Maximum Security',
-        panicDesc: 'Enable Panic Mode to block EVERYTHING except trusted sites. Highly recommended!',
-        next: 'Next',
+        welcome: 'Activar Protección',
+        clickEnable: 'Por favor ingrese a la Capa de Seguridad para activar la aplicación.',
+        dismiss: 'Descartar',
+        successTitle: '¡Está Protegido!',
+        successDesc: '¡Buen trabajo! La aplicación está activa ahora.',
+        panicTitle: 'Máxima Seguridad',
+        panicDesc: 'Habilite el Modo Pánico para bloquear TODO excepto sitios de confianza. ¡Muy recomendado!',
+        next: 'Siguiente',
     },
     news: {
-        title: 'Latest Security News',
-        noNews: 'No news available at the moment.',
-        readMore: 'Read full article',
+        title: 'Últimas Noticias de Seguridad',
+        noNews: 'No hay noticias disponibles en este momento.',
+        readMore: 'Leer artículo completo',
     },
 };
