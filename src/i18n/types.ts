@@ -33,6 +33,9 @@ export interface TranslationKeys {
         togglePanicMode: string;
         scamEducationTitle: string;
         scamEducationDesc: string;
+        ocrTitle?: string;
+        ocrDesc?: string;
+        protectionPausedWarning?: string;
     };
 
     // Safety screen
@@ -68,6 +71,10 @@ export interface TranslationKeys {
         resetSafetyPinDesc: string;
         safetyHistory: string;
         safetyHistoryDesc: string;
+        smsFilter: string;
+        smsFilterDesc: string;
+        accessibilityService: string;
+        accessibilityServiceDesc: string;
         familyMode: string;
         familyModeDesc: string;
         premium: string;

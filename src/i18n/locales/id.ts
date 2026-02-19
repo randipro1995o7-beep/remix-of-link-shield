@@ -41,6 +41,9 @@ export const id: TranslationKeys = {
         togglePanicMode: 'Beralih Mode Panik',
         scamEducationTitle: 'Kenali segala jenis penipuan online',
         scamEducationDesc: 'Panduan lengkap mengenali ciri-ciri & solusi penipuan',
+        ocrTitle: 'Pemindai Tangkapan Layar',
+        ocrDesc: 'Pindai gambar untuk mendeteksi teks penipuan',
+        protectionPausedWarning: 'Proteksi Tertunda: Jadikan Default Browser',
     },
 
     safety: {
@@ -74,6 +77,10 @@ export const id: TranslationKeys = {
         resetSafetyPinDesc: 'Buat PIN Keamanan 4 digit baru',
         safetyHistory: 'Riwayat Keamanan',
         safetyHistoryDesc: 'Lihat aktivitas peninjauan tautan Anda',
+        smsFilter: 'Filter SMS Penipuan',
+        smsFilterDesc: 'Pindai pesan masuk untuk tautan berbahaya',
+        accessibilityService: 'Proteksi Overlay Aplikasi',
+        accessibilityServiceDesc: 'Pindai tautan di aplikasi lain (seperti WhatsApp)',
         familyMode: 'Mode Keluarga',
         familyModeDesc: 'Tambahkan langkah ekstra untuk perangkat bersama',
         premium: 'Fitur Premium',

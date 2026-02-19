@@ -39,16 +39,16 @@ describe('On-Device ML Phishing Detection', () => {
 
     describe('Phishing Model Inference', () => {
         // We verify that the model returns a number between 0 and 1
-        it('should return a valid probability score', () => {
-            const prob = PhishingModel.predict('https://google.com');
+        it('should return a valid probability score', async () => {
+            const prob = await PhishingModel.predict('https://google.com');
             expect(prob).toBeGreaterThanOrEqual(0);
             expect(prob).toBeLessThanOrEqual(1);
         });
 
         // Test specific trees logic by constructing features manually if needed,
         // but for integration testing, we just ensure it runs without error.
-        it('should handle complex URLs without crashing', () => {
-            const prob = PhishingModel.predict('https://secure-login.update-billing.com/verify?user=123');
+        it('should handle complex URLs without crashing', async () => {
+            const prob = await PhishingModel.predict('https://secure-login.update-billing.com/verify?user=123');
             expect(typeof prob).toBe('number');
         });
     });

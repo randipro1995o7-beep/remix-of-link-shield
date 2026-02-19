@@ -5,4 +5,5 @@
     <string name="package_name">com.safeguard.app</string>
     <string name="custom_url_scheme">com.safeguard.app</string>
     <string name="server_client_id">507578257201-0q919hibo7n20426aj2n0bcl32qaif4v.apps.googleusercontent.com</string>
+    <string name="accessibility_service_description">Safety SHIELD monitors screen content to detect and warn you about suspicious links in other apps.</string>
 </resources>

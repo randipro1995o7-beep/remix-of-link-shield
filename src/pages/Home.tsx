@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { StatusCard } from '@/components/StatusCard';
 import { StatsDisplay } from '@/components/StatsDisplay';
 import { DemoLinkButton } from '@/components/DemoLinkButton';
@@ -7,7 +8,8 @@ import { useApp } from '@/contexts/AppContext';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Switch } from '@/components/ui/switch';
-import { QrCode, Lock, Unlock, ShieldAlert } from 'lucide-react';
+import LinkShield from '@/plugins/LinkShield';
+import { QrCode, Lock, Unlock, ShieldAlert, MessageCircle, Activity } from 'lucide-react';
 import { QRScannerScreen } from '@/components/QRScannerScreen';
 import { HomeGuideOverlay } from '@/components/home/HomeGuideOverlay';
 import { ScamEducationScreen } from '@/components/education/ScamEducationScreen';
@@ -22,7 +24,8 @@ import { BookOpen } from 'lucide-react';
  * No absolute security claims.
  */
 export default function Home() {
-  const { t, state, setPanicMode } = useApp();
+  const { state, dispatch, t, setProtectionEnabled, setPanicMode, grantPermission } = useApp();
+  const navigate = useNavigate();
   const [showQRScanner, setShowQRScanner] = useState(false);
   const [showEducation, setShowEducation] = useState(false);
 
@@ -100,6 +103,93 @@ export default function Home() {
         </div>
       </Card>
 
+      {/* Warning if enabled but not default handler */}
+      {state.isProtectionEnabled && !state.isDefaultHandler && (
+        <div
+          className="col-span-2 bg-yellow-500/10 border border-yellow-500/20 rounded-lg p-3 flex items-center gap-3 cursor-pointer"
+          onClick={() => LinkShield.openAppLinkSettings()}
+        >
+          <ShieldAlert className="w-5 h-5 text-yellow-500 shrink-0" />
+          <div className="flex-1">
+            <p className="text-xs font-medium text-yellow-500">
+              {t.home.protectionPausedWarning || "Protection Paused: Simple Set as Default Browser"}
+            </p>
+          </div>
+        </div>
+      )}
+
+      {/* Advanced Protection Status */}
+      <div className="grid grid-cols-2 gap-4">
+        {/* SMS Filter Status */}
+        <Card
+          className={cn(
+            "p-4 flex flex-col items-center justify-center text-center gap-2 relative overflow-hidden transition-all cursor-pointer active:scale-95 hover:bg-muted/50"
+          )}
+          onClick={async () => {
+            try {
+              // Directly request SMS permission via native dialog
+              const res = await LinkShield.requestSmsPermission();
+              if (res.granted) {
+                grantPermission('sms');
+                alert('SMS Filter berhasil diaktifkan! ✅');
+              } else {
+                // Denied — guide user manually
+                alert(
+                  'Izin SMS ditolak.\n\n' +
+                  'Untuk mengaktifkan:\n' +
+                  '1. Buka Pengaturan HP\n' +
+                  '2. Pilih Aplikasi → Safety SHIELD\n' +
+                  '3. Pilih Izin\n' +
+                  '4. Aktifkan SMS'
+                );
+              }
+            } catch (error: any) {
+              console.error('SMS permission error:', error);
+              alert('Error: ' + (error?.message || error?.errorMessage || JSON.stringify(error)));
+            }
+          }}
+        >
+          <div className={cn(
+            "p-3 rounded-full mb-1 transition-colors",
+            state.permissions.sms ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground"
+          )}>
+            <MessageCircle className="w-6 h-6" />
+          </div>
+          <h3 className="font-semibold text-sm">SMS Filter</h3>
+          <p className={cn(
+            "text-xs",
+            state.permissions.sms ? "text-primary font-medium" : "text-muted-foreground"
+          )}>
+            {state.permissions.sms ? "Active" : "Enable"}
+          </p>
+        </Card>
+
+        {/* Accessibility Status */}
+        <Card
+          className={cn(
+            "p-4 flex flex-col items-center justify-center text-center gap-2 transition-all cursor-pointer active:scale-95 hover:bg-muted/50"
+          )}
+          onClick={async () => {
+            await LinkShield.openAccessibilitySettings();
+            // We rely on app resume check for update
+          }}
+        >
+          <div className={cn(
+            "p-3 rounded-full mb-1 transition-colors",
+            state.permissions.accessibility ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground"
+          )}>
+            <Activity className="w-6 h-6" />
+          </div>
+          <h3 className="font-semibold text-sm">Overlay</h3>
+          <p className={cn(
+            "text-xs",
+            state.permissions.accessibility ? "text-primary font-medium" : "text-muted-foreground"
+          )}>
+            {state.permissions.accessibility ? "Active" : "Enable"}
+          </p>
+        </Card>
+      </div>
+
       {/* Scam Education Button */}
       <Card
         className="p-4 border-l-4 border-l-primary bg-primary/5 hover:bg-primary/10 transition-colors cursor-pointer active:scale-98"
@@ -115,6 +205,26 @@ export default function Home() {
             </h3>
             <p className="text-xs text-muted-foreground">
               {t.home.scamEducationDesc}
+            </p>
+          </div>
+        </div>
+      </Card>
+
+      {/* OCR Scanner Button */}
+      <Card
+        className="p-4 border-l-4 border-l-secondary bg-secondary/5 hover:bg-secondary/10 transition-colors cursor-pointer active:scale-98 mt-4"
+        onClick={() => navigate('/scan-image')}
+      >
+        <div className="flex items-center gap-3">
+          <div className="p-2.5 rounded-full bg-secondary/10 text-secondary-foreground flex-shrink-0">
+            <ShieldAlert className="w-5 h-5" />
+          </div>
+          <div className="flex-1">
+            <h3 className="font-semibold text-foreground">
+              {t.home.ocrTitle || 'Run Screenshot Analysis'}
+            </h3>
+            <p className="text-xs text-muted-foreground">
+              {t.home.ocrDesc || 'Scan screenshots for potential scams or phishing attempts'}
             </p>
           </div>
         </div>
@@ -136,24 +246,26 @@ export default function Home() {
       </section>
 
       {/* Demo Section - only shown for testing */}
-      {state.isProtectionEnabled && (
-        <Card className="p-4 card-elevated animate-scale-in">
-          <h3 className="font-medium text-foreground mb-3">
-            {t.home.testSafety}
-          </h3>
-          <p className="text-sm text-muted-foreground mb-4">
-            {t.home.testSafetyDesc}
-          </p>
-          <DemoLinkButton
-            url="https://suspicious-site.example.com/claim-prize"
-            source="SMS"
-            label={t.home.simulateLink}
-          />
-        </Card>
-      )}
+      {
+        state.isProtectionEnabled && (
+          <Card className="p-4 card-elevated animate-scale-in">
+            <h3 className="font-medium text-foreground mb-3">
+              {t.home.testSafety}
+            </h3>
+            <p className="text-sm text-muted-foreground mb-4">
+              {t.home.testSafetyDesc}
+            </p>
+            <DemoLinkButton
+              url="https://suspicious-site.example.com/claim-prize"
+              source="SMS"
+              label={t.home.simulateLink}
+            />
+          </Card>
+        )
+      }
 
       {/* Interactive Onboarding Guide */}
       <HomeGuideOverlay />
-    </div>
+    </div >
   );
 }

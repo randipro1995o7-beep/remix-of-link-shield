@@ -11,13 +11,29 @@ import { QRScannerScreen } from '@/components/QRScannerScreen';
 
 export default function Protection() {
 
-  const { state, t, setProtectionEnabled, grantPermission, checkDefaultHandler } = useApp();
+  const { state, t, setProtectionEnabled, grantPermission, checkDefaultHandler, checkPermissions } = useApp();
   const [showQRScanner, setShowQRScanner] = useState(false);
 
-  // Re-check default status when entering this screen
-  useEffect(() => {
+  // Re-check default status and permissions when entering this screen and on resume
+  const checkStatus = useCallback(() => {
     checkDefaultHandler();
-  }, [checkDefaultHandler]);
+    // Use the context method to update global state immediately
+    checkPermissions();
+  }, [checkDefaultHandler, checkPermissions]);
+
+  useEffect(() => {
+    checkStatus();
+
+    const listener = App.addListener('appStateChange', ({ isActive }) => {
+      if (isActive) {
+        checkStatus();
+      }
+    });
+
+    return () => {
+      listener.then(l => l.remove());
+    };
+  }, [checkStatus]);
 
   const allPermissionsGranted =
     state.permissions.accessibility &&
@@ -34,10 +50,22 @@ export default function Protection() {
     }
   };
 
-  const handleGrantPermission = (key: keyof typeof state.permissions) => {
-    // In a real Android app, this would open system settings
-    // For now, we simulate granting the permission
-    grantPermission(key);
+  const handleGrantPermission = async (key: keyof typeof state.permissions) => {
+    try {
+      if (key === 'accessibility') {
+        await LinkShield.openAccessibilitySettings();
+      } else if (key === 'overlay') {
+        await LinkShield.openOverlaySettings();
+      } else if (key === 'notifications') {
+        const res = await LinkShield.requestNotificationPermission();
+        if (res.granted) {
+          grantPermission('notifications');
+        }
+      }
+      // For SMS, we use requestSmsPermission usually
+    } catch (error) {
+      console.error("Failed to open settings:", error);
+    }
   };
 
   const handleOpenAppLinkSettings = async () => {

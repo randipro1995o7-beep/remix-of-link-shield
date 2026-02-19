@@ -53,7 +53,7 @@ class SafeLinkHeuristicService {
      * Check if a URL is heuristically safe (can bypass review).
      * ALL signals must pass for the link to be considered safe.
      */
-    check(url: string, domain: string): SafetyHeuristicResult {
+    async check(url: string, domain: string): Promise<SafetyHeuristicResult> {
         const signals = {
             isTrustedDomain: false,
             isHttps: false,
@@ -93,7 +93,7 @@ class SafeLinkHeuristicService {
         signals.hasGoodReputation = reputation.isKnown;
 
         // Signal 6: PhishGuard score (quick check)
-        const phishResult = PhishGuard.analyzeUrl(url);
+        const phishResult = await PhishGuard.analyzeUrl(url);
         signals.hasLowPhishScore = phishResult.score < 20;
         if (!signals.hasLowPhishScore) {
             return this.result(false, `PhishGuard score too high: ${phishResult.score}`, signals);

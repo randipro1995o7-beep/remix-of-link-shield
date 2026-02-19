@@ -91,24 +91,37 @@ export function SafetyReviewScreen({ url, source, onCancel, onProceed, safeBrows
   };
 
   // Determine if Panic Mode blocking applies
-  const isPanicBlocked = (() => {
-    if (!state.isPanicMode) return false;
+  const [isPanicBlocked, setIsPanicBlocked] = useState(false);
+  const [isPanicChecking, setIsPanicChecking] = useState(true);
 
-    try {
-      const domain = new URL(url).hostname || url;
-      // Check if it's whitelisted (Trusted System Domain OR Auto-Trusted by User)
-      const heuristic = SafeLinkHeuristic.check(url, domain);
-
-      // If it is a Trusted Domain (System) or Auto-Trusted (User), we ALLOW it (no block)
-      if (heuristic.signals.isTrustedDomain) {
-        return false;
+  useEffect(() => {
+    const checkPanicMode = async () => {
+      if (!state.isPanicMode) {
+        setIsPanicBlocked(false);
+        setIsPanicChecking(false);
+        return;
       }
 
-      return true; // Block everything else
-    } catch {
-      return true; // Block on error
-    }
-  })();
+      try {
+        const domain = new URL(url).hostname || url;
+        // Check if it's whitelisted (Trusted System Domain OR Auto-Trusted by User)
+        const heuristic = await SafeLinkHeuristic.check(url, domain);
+
+        // If it is a Trusted Domain (System) or Auto-Trusted (User), we ALLOW it (no block)
+        if (heuristic.signals.isTrustedDomain) {
+          setIsPanicBlocked(false);
+        } else {
+          setIsPanicBlocked(true);
+        }
+      } catch {
+        setIsPanicBlocked(true); // Block on error
+      } finally {
+        setIsPanicChecking(false);
+      }
+    };
+
+    checkPanicMode();
+  }, [url, state.isPanicMode]);
 
   useEffect(() => {
     const init = async () => {
@@ -295,7 +308,7 @@ export function SafetyReviewScreen({ url, source, onCancel, onProceed, safeBrows
     );
   }
 
-  if (isAnalyzing || !review) {
+  if (isPanicChecking || isAnalyzing || !review) {
     return (
       <div
         className="fixed inset-0 z-50 bg-background flex flex-col items-center justify-center animate-fade-in"

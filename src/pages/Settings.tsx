@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { useSafetyPin } from '@/contexts/SafetyPinContext';
 import { Card } from '@/components/ui/card';
 import { Switch } from '@/components/ui/switch';
+import LinkShield from '@/plugins/LinkShield';
 import { Language } from '@/i18n/translations';
 import { SafetyHistoryScreen } from '@/components/SafetyHistoryScreen';
 import { FamilyModeSetup } from '@/components/FamilyModeSetup';
@@ -119,7 +120,7 @@ function SettingsItem({ icon: Icon, title, subtitle, onClick, rightElement, badg
 }
 
 export default function Settings() {
-  const { state, t, setLanguage, dispatch } = useApp();
+  const { state, t, setLanguage, dispatch, grantPermission } = useApp();
   const { biometricAvailable, biometricEnabled, setBiometricEnabled, biometricType } = useSafetyPin();
   const navigate = useNavigate();
   const [showHistory, setShowHistory] = useState(false);
@@ -242,6 +243,34 @@ export default function Settings() {
           title={t.settings.whitelist}
           subtitle={t.settings.whitelistDesc}
           onClick={() => setShowWhitelist(true)}
+        />
+
+        <SettingsItem
+          icon={MessageCircle}
+          title={t.settings.smsFilter}
+          subtitle={t.settings.smsFilterDesc}
+          onClick={async () => {
+            // Request permission or open settings
+            const res = await LinkShield.requestSmsPermission();
+            if (res.granted) {
+              grantPermission('sms');
+            } else {
+              // If not granted, maybe open app settings
+              await LinkShield.openAppLinkSettings();
+            }
+          }}
+          badge="new"
+        />
+
+        <SettingsItem
+          icon={Activity}
+          title={t.settings.accessibilityService}
+          subtitle={t.settings.accessibilityServiceDesc}
+          onClick={async () => {
+            await LinkShield.openAccessibilitySettings();
+            grantPermission('accessibility');
+          }}
+          badge="new"
         />
 
         <SettingsItem

@@ -9,10 +9,11 @@ import { RecoveryOptionsScreen } from '@/components/RecoveryOptionsScreen';
 import { useApp } from '@/contexts/AppContext';
 import { useSafetyPin } from '@/contexts/SafetyPinContext';
 import { Language } from '@/i18n/translations';
+import { AdvancedProtectionSetup } from './AdvancedProtectionSetup';
 
 const ONBOARDING_COMPLETE_KEY = 'safetyshield_onboarding_complete';
 
-type OnboardingStep = 'language' | 'terms' | 'tutorial' | 'pin' | 'recovery' | 'final' | 'complete';
+type OnboardingStep = 'language' | 'terms' | 'tutorial' | 'advanced-protection' | 'pin' | 'recovery' | 'final' | 'complete';
 
 interface OnboardingFlowProps {
     children: React.ReactNode;
@@ -73,7 +74,7 @@ export function OnboardingFlow({ children }: OnboardingFlowProps) {
     };
 
     const handleTutorialComplete = () => {
-        setStep('pin');
+        setStep('advanced-protection');
     };
 
     const handlePinComplete = async (pin: string) => {
@@ -145,6 +146,16 @@ export function OnboardingFlow({ children }: OnboardingFlowProps) {
             <InteractiveTutorial
                 onComplete={handleTutorialComplete}
                 onSkip={handleTutorialComplete}
+            />
+        );
+    }
+
+    // Step 3.5: Advanced Protection Setup
+    if (step === 'advanced-protection') {
+        return (
+            <AdvancedProtectionSetup
+                isOnboarding
+                onComplete={() => setStep('pin')}
             />
         );
     }

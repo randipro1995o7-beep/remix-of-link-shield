@@ -493,7 +493,7 @@ class PhishGuardService {
         return { score: Math.min(score, PhishGuardService.PATH_SCORE_MAX), reasons };
     }
 
-    public analyzeUrl(urlStr: string): PhishGuardResult {
+    public async analyzeUrl(urlStr: string): Promise<PhishGuardResult> {
         let score = 0;
         const reasons: string[] = [];
         let domain = '';
@@ -663,7 +663,7 @@ class PhishGuardService {
         // Uses lightweight Random Forest model to predict phishing probability
         let mlScore = 0;
         try {
-            const mlProbability = PhishingModel.predict(urlStr);
+            const mlProbability = await PhishingModel.predict(urlStr);
             if (mlProbability > 0.7) {
                 mlScore = 20;
                 reasons.push(`Machine Learning model detected high phishing probability (${(mlProbability * 100).toFixed(0)}%)`);

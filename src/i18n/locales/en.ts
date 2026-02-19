@@ -41,6 +41,9 @@ export const en: TranslationKeys = {
         togglePanicMode: 'Toggle Panic Mode',
         scamEducationTitle: 'Know all types of online scams',
         scamEducationDesc: 'Complete guide to recognizing signs & solutions',
+        ocrTitle: 'Screenshot Scanner',
+        ocrDesc: 'Scan images for scam text',
+        protectionPausedWarning: 'Protection Paused: Set as Default Browser',
     },
 
     safety: {
@@ -74,6 +77,10 @@ export const en: TranslationKeys = {
         resetSafetyPinDesc: 'Create a new 4-digit Safety PIN',
         safetyHistory: 'Safety History',
         safetyHistoryDesc: 'See your link review activity',
+        smsFilter: 'SMS Scam Filter',
+        smsFilterDesc: 'Scan incoming messages for dangerous links',
+        accessibilityService: 'App Overlay Protection',
+        accessibilityServiceDesc: 'Scan links in other apps (like WhatsApp)',
         familyMode: 'Family Mode',
         familyModeDesc: 'Add extra steps for shared devices',
         premium: 'Premium Features',

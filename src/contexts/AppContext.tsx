@@ -16,6 +16,7 @@ interface PermissionStatus {
   accessibility: boolean;
   overlay: boolean;
   notifications: boolean;
+  sms: boolean;
 }
 
 interface AppState {
@@ -71,6 +72,7 @@ const initialState: AppState = {
     accessibility: false,
     overlay: false,
     notifications: false,
+    sms: false,
   },
   language: 'en',
   notificationsEnabled: true,
@@ -166,6 +168,7 @@ interface AppContextType {
   refreshStats: () => Promise<void>;
   setPanicMode: (enabled: boolean) => void;
   checkDefaultHandler: () => Promise<void>;
+  checkPermissions: () => Promise<void>;
 }
 
 // Create Context
@@ -227,12 +230,37 @@ export function AppProvider({ children }: AppProviderProps) {
     }
   }, []);
 
-  // Effect to handle Auto-OFF logic when isDefaultHandler changes or is initially checked
+  // Check permissions status
+  const checkPermissions = useCallback(async () => {
+    try {
+      const perms = await LinkShield.checkPermissions();
+      dispatch({
+        type: 'SET_PERMISSION',
+        payload: { key: 'sms', value: perms.sms }
+      });
+      dispatch({
+        type: 'SET_PERMISSION',
+        payload: { key: 'accessibility', value: perms.accessibility }
+      });
+      dispatch({
+        type: 'SET_PERMISSION',
+        payload: { key: 'overlay', value: perms.overlay }
+      });
+      dispatch({
+        type: 'SET_PERMISSION',
+        payload: { key: 'notifications', value: perms.notifications }
+      });
+    } catch (e) {
+      console.error('Failed to check permissions:', e);
+    }
+  }, []);
+
+  // Auto-OFF: disable protection if user changes default browser to another app
   useEffect(() => {
     if (state.isInitialized && state.isProtectionEnabled && !state.isDefaultHandler) {
-      console.log('App is no longer default handler. Disabling protection.');
+      console.warn('App is no longer default handler. Auto-disabling protection.');
       dispatch({ type: 'SET_PROTECTION_ENABLED', payload: false });
-      dispatch({ type: 'SET_PANIC_MODE', payload: false }); // Also disable panic mode
+      dispatch({ type: 'SET_PANIC_MODE', payload: false });
     }
   }, [state.isDefaultHandler, state.isProtectionEnabled, state.isInitialized]);
 
@@ -240,18 +268,20 @@ export function AppProvider({ children }: AppProviderProps) {
   useEffect(() => {
     // Check on mount
     checkDefaultHandler();
+    checkPermissions();
 
     // Check on resume
     const listener = App.addListener('appStateChange', ({ isActive }) => {
       if (isActive) {
         checkDefaultHandler();
+        checkPermissions();
       }
     });
 
     return () => {
       listener.then(l => l.remove());
     };
-  }, [checkDefaultHandler]);
+  }, [checkDefaultHandler, checkPermissions]);
 
   // Load persisted state on mount
   useEffect(() => {
@@ -293,6 +323,7 @@ export function AppProvider({ children }: AppProviderProps) {
               accessibility: parsed.permissions.accessibility === true,
               overlay: parsed.permissions.overlay === true,
               notifications: parsed.permissions.notifications === true,
+              sms: parsed.permissions.sms === true,
             };
             console.log('Loaded permissions:', loadedState.permissions);
           }
@@ -418,6 +449,7 @@ export function AppProvider({ children }: AppProviderProps) {
     refreshStats,
     setPanicMode,
     checkDefaultHandler,
+    checkPermissions,
   };
 
   // Initial stats load
