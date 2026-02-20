@@ -1,7 +1,6 @@
 import { Shield, ShieldOff } from 'lucide-react';
 import { useApp } from '@/contexts/AppContext';
 import { cn } from '@/lib/utils';
-import { Switch } from '@/components/ui/switch';
 import LinkShield from '@/plugins/LinkShield';
 import { useState } from 'react';
 
@@ -10,28 +9,24 @@ import { useState } from 'react';
  * 
  * Uses assistive language, not absolute security claims.
  * "Active" rather than "Protected" to avoid overclaiming.
+ * Shield icon acts as on/off toggle button.
  */
 export function StatusCard() {
   const { state, t, setProtectionEnabled, setPanicMode } = useApp();
   const isActive = state.isProtectionEnabled;
   const [isToggling, setIsToggling] = useState(false);
 
-  const handleToggle = async (checked: boolean) => {
+  const handleToggle = async () => {
     if (isToggling) return;
     setIsToggling(true);
 
     try {
-      if (checked) {
+      if (!isActive) {
         // ACTIVATION SEQUENCE
-        // 1. Enable native component first (CRITICAL for Default App detection)
         console.log('Enabling protection component...');
         await LinkShield.setProtectionEnabled({ enabled: true });
-
-        // 2. Update local state
         setProtectionEnabled(true);
 
-        // 3. Guide user to settings to set as Default
-        // Small delay to ensure system registers the enabled component
         setTimeout(async () => {
           await LinkShield.openAppLinkSettings();
         }, 500);
@@ -44,7 +39,6 @@ export function StatusCard() {
       }
     } catch (error) {
       console.error('Failed to toggle protection:', error);
-      // Revert state on error if needed, though simpler to just log for now
     } finally {
       setIsToggling(false);
     }
@@ -70,21 +64,28 @@ export function StatusCard() {
 
       {/* Content */}
       <div className="relative z-10 flex items-center gap-4">
-        {/* Icon */}
-        <div
+        {/* Shield Icon — acts as ON/OFF toggle */}
+        <button
+          onClick={handleToggle}
+          disabled={isToggling}
           className={cn(
             "w-16 h-16 rounded-full flex items-center justify-center",
-            "bg-white/20 backdrop-blur-sm",
-            isActive && "animate-gentle-pulse"
+            "backdrop-blur-sm transition-all duration-300",
+            "cursor-pointer active:scale-90",
+            "focus:outline-none focus-visible:ring-2 focus-visible:ring-white",
+            isActive
+              ? "bg-white/30 ring-2 ring-white/50 shadow-lg shadow-white/20 animate-gentle-pulse"
+              : "bg-white/20 hover:bg-white/30",
+            isToggling && "opacity-50 pointer-events-none"
           )}
-          aria-hidden="true"
+          aria-label={isActive ? t.home.statusActive : t.home.statusPaused}
         >
           {isActive ? (
-            <Shield className="w-8 h-8 text-white" />
+            <Shield className="w-8 h-8 text-white drop-shadow-md" />
           ) : (
-            <ShieldOff className="w-8 h-8 text-white" />
+            <ShieldOff className="w-8 h-8 text-white/80" />
           )}
-        </div>
+        </button>
 
         {/* Text - Using assistive language */}
         <div className="flex-1">
@@ -95,14 +96,6 @@ export function StatusCard() {
             {isActive ? t.home.statusActiveDesc : t.home.statusPausedDesc}
           </p>
         </div>
-
-        {/* Master Switch */}
-        <Switch
-          checked={isActive}
-          onCheckedChange={handleToggle}
-          disabled={isToggling}
-          className="data-[state=checked]:bg-white/30 data-[state=unchecked]:bg-black/20"
-        />
       </div>
     </div>
   );

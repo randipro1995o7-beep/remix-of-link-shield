@@ -13,6 +13,7 @@ import {
     InputOTPGroup,
     InputOTPSlot,
 } from "@/components/ui/input-otp";
+import { supabase } from '@/lib/supabase/client';
 
 interface ForgotPinScreenProps {
     onBack: () => void;
@@ -173,22 +174,29 @@ export function ForgotPinScreen({ onBack, onSuccess }: ForgotPinScreenProps) {
                 toast.error(isIndonesian ? 'Metode ini sedang dinonaktifkan sementara.' : 'This method is temporarily disabled.');
                 setIsLoading(false);
             } else {
-                // Email: generate OTP locally, send via SendGrid/EmailJS
+                // Email: Send via Supabase Edge Function (SendGrid)
                 setIsPhoneMethod(false);
-                const code = EmailService.generateOTP();
-                setGeneratedOtp(code);
 
-                const result = await EmailService.sendOTP(target, code);
+                // No client-side generation!
+                // const code = EmailService.generateOTP(); 
+                // setGeneratedOtp(code);
 
-                if (result.success) {
+                const { data, error } = await supabase.functions.invoke('send-reset-otp', {
+                    body: { email: target }
+                });
+
+                if (!error && (data?.success || data?.message === 'OTP sent')) {
                     toast.success(isIndonesian ? 'Kode OTP terkirim ke email!' : 'OTP sent to email!');
                     setStep('otp');
                 } else {
-                    toast.error(isIndonesian ? 'Gagal mengirim OTP: ' + result.error : 'Failed to send OTP: ' + result.error);
+                    console.error('Send OTP Error:', error || data);
+                    const errorMsg = error?.message || data?.error || 'Unknown error';
+                    toast.error(isIndonesian ? 'Gagal mengirim OTP: ' + errorMsg : 'Failed to send OTP: ' + errorMsg);
                 }
             }
-        } catch (e) {
-            toast.error('Error sending OTP');
+        } catch (e: any) {
+            console.error('Send OTP Exception:', e);
+            toast.error('Error sending OTP: ' + e.message);
         } finally {
             setIsLoading(false);
         }
@@ -201,16 +209,31 @@ export function ForgotPinScreen({ onBack, onSuccess }: ForgotPinScreenProps) {
                 // Should not happen
                 toast.error("Phone verification disabled");
             } else {
-                // Verify locally for email OTP
-                if (otp === generatedOtp) {
+                // Verify via Supabase Edge Function
+                const target = selectedMethod === 'phone' ? rawPhone : rawEmail;
+
+                if (!target) {
+                    toast.error("No email found to verify against");
+                    setIsLoading(false);
+                    return;
+                }
+
+                const { data, error } = await supabase.functions.invoke('verify-reset-otp', {
+                    body: { email: target, otp }
+                });
+
+
+                if (!error && data?.success) {
                     toast.success(isIndonesian ? 'Verifikasi berhasil!' : 'Verification successful!');
                     setStep('new-pin');
                 } else {
+                    console.error('Verify OTP Error:', error || data);
                     toast.error(t.invalidOtp);
                     setOtp('');
                 }
             }
         } catch (e) {
+            console.error('Verify OTP Exception:', e);
             toast.error(t.invalidOtp);
             setOtp('');
         } finally {
